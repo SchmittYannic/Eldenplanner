@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Eldenplanner MERN project",
-  "main": "server.ts",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server",
