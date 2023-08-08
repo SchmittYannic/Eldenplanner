@@ -1,3 +1,5 @@
+import React from "react";
+import { ReactElement } from "react";
 import { useGetUsersQuery } from "./usersApiSlice";
 import User from "./User";
 
@@ -10,7 +12,7 @@ const UsersList = () => {
         error     
     } = useGetUsersQuery();
 
-    let content;
+    let content: ReactElement = (<></>);
 
     if (isError) {
         let errorMsg = "";
