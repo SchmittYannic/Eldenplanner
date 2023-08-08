@@ -59,6 +59,7 @@ const UsersList = () => {
                             <th scope="col" className="table__th user__validated">validated</th>
                             <th scope="col" className="table__th user__createdAt">CreatedAt</th>
                             <th scope="col" className="table__th user__updatedAt">UpdatedAt</th>
+                            <th scope="col" className="table__th user__edit">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
