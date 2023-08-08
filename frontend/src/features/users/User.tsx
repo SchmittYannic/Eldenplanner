@@ -1,7 +1,7 @@
-import React from 'react'
-import { UserType } from './usersApiSlice'
+import React, { ReactElement } from "react";
+import { UserType } from "./usersApiSlice";
 
-const User = ({ user }: { user: UserType}) => {
+const User = ({ user }: { user: UserType}): ReactElement => {
 
     console.log(user.active)
 
@@ -23,7 +23,7 @@ const User = ({ user }: { user: UserType}) => {
                 </td>
             </tr>
         )
-    } else return null
-}
+    } else return <></>
+};
 
-export default User
+export default User;
