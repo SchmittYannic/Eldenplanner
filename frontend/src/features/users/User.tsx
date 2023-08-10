@@ -1,14 +1,20 @@
-import React, { ReactElement } from "react";
-import { UserType } from "./usersApiSlice";
+import { ReactElement } from "react";
+import { EntityId } from "@reduxjs/toolkit";
+import { UserType, useGetUsersQuery } from "./usersApiSlice";
 
-const User = ({ user }: { user: UserType}): ReactElement => {
+const User = ({ userId }: { userId: EntityId}): ReactElement => {
 
-    console.log(user.active)
-
-    const createdAt = new Date(user.createdAt);
-    const updatedAt = new Date(user.updatedAt);
+    const data = useGetUsersQuery( "usersList", {
+        selectFromResult: ({ data }) => ({
+            user: data?.entities[userId]
+        }),
+    })
+    
+    const user = data.user as UserType
 
     if (user) {
+        const createdAt = new Date(user.createdAt);
+        const updatedAt = new Date(user.updatedAt);
         return (
             <tr className="table__row user">
                 <td className={`table__cell`}>{user.username}</td>

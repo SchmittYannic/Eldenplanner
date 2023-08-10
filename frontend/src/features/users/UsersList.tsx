@@ -43,9 +43,9 @@ const UsersList = () => {
     }
 
     if (isSuccess) {
-        console.log(users)
+        const { ids } = users;
 
-        const tableContent = users.map((user) => <User key={user.id} user={user}/>)
+        const tableContent = ids?.length && ids.map((userId) => <User key={userId} userId={userId}/>)
 
         content = (
             <main>

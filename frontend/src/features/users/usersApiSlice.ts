@@ -1,12 +1,14 @@
-// import {
-//     createSelector,
-//     createEntityAdapter
-// } from "@reduxjs/toolkit";
+import {
+    createSelector,
+    createEntityAdapter,
+    EntityState
+} from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice"
+import { RootState } from "../../app/store";
 
-//const usersAdapter = createEntityAdapter({})
+const usersAdapter = createEntityAdapter({})
 
-//const initialState = usersAdapter.getInitialState()
+const initialState = usersAdapter.getInitialState()
 
 export type UserType = {
     _id?: number
@@ -20,11 +22,9 @@ export type UserType = {
     updatedAt: string
 }
 
-type UserResponse = UserType[]
-
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getUsers: builder.query<UserResponse, void>({
+        getUsers: builder.query<EntityState<unknown>, string>({
             query: () => ({
                 url: '/users',
                 validateStatus: (response, result) => {
@@ -33,19 +33,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
             transformResponse: (responseData: UserType[]) => {
-                const loadedUsers: UserType[] = responseData.map(user => {
-                    const { _id, ...rest } = user;
-                    rest.id = user._id;
-
-                    return rest
-                })
-
-                return loadedUsers             
+                const loadedUsers = responseData.map(user => {
+                    user.id = user._id
+                    return user
+                });
+                return usersAdapter.setAll(initialState, loadedUsers)         
             },
             providesTags: (result) =>
                 result
                 ? [
-                    ...result.map(({ id }) => ({ type: 'User' as const, id })),
+                    ...result.ids.map(( id ) => ({ type: 'User' as const, id })),
                     { type: 'User', id: 'LIST' },
                     ]
                 : [{ type: 'User', id: 'LIST' }],
@@ -70,7 +67,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     ...initialUserData,
                 }
             }),
-            invalidatesTags: (result, error, arg) => [
+            invalidatesTags: (arg) => [
                 { type: 'User', id: arg.id }
             ]
         }),
@@ -80,7 +77,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { id }
             }),
-            invalidatesTags: (result, error, arg) => [
+            invalidatesTags: (arg) => [
                 { type: 'User', id: arg.id }
             ]
         }),
@@ -95,18 +92,18 @@ export const {
 } = usersApiSlice
 
 // returns the query result object
-export const selectUsersResult = usersApiSlice.endpoints.getUsers.select()
+export const selectUsersResult = usersApiSlice.endpoints.getUsers.select("")
 
-// creates memoized selector
-// const selectUsersData = createSelector(
-//     selectUsersResult,
-//     usersResult => usersResult.data // normalized state object with ids & entities
-// )
+//creates memoized selector
+const selectUsersData = createSelector(
+    selectUsersResult,
+    usersResult => usersResult.data // normalized state object with ids & entities
+)
 
-// getSelectors creates these selectors and we rename them with aliases using destructuring
-// export const {
-//     selectAll: selectAllUsers,
-//     selectById: selectUserById,
-//     selectIds: selectUserIds
-//     // Pass in a selector that returns the users slice of state
-// } = usersAdapter.getSelectors(state => selectUsersData(state) ?? initialState)
+//getSelectors creates these selectors and we rename them with aliases using destructuring
+export const {
+    selectAll: selectAllUsers,
+    selectById: selectUserById,
+    selectIds: selectUserIds
+    // Pass in a selector that returns the users slice of state
+} = usersAdapter.getSelectors((state: RootState) => selectUsersData(state) ?? initialState)
