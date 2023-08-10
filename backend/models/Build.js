@@ -7,54 +7,58 @@ const buildSchema = new mongoose.Schema(
             required: true,
             ref: "User",
         },
-        name: {
-            type: String,
-            required: true,
+        general: {
+            charactername: {
+                type: String,
+                required: true,
+            },
+            startingclass: {
+                type: String,
+                required: true,
+            },
+            greatrune: {
+                type: String,
+                default: "",
+            },
+            greatruneactive: {
+                type: Boolean,
+                required: true,
+            },
         },
-        startingclass: {
-            type: String,
-            required: true,
-        },
-        greatrune: {
-            type: String,
-            required: true,
-        },
-        greatruneactive: {
-            type: Boolean,
-            required: true,
-        },
-        vigor: {
-            type: Number,
-            required: true,
-        },
-        mind: {
-            type: Number,
-            required: true,
-        },
-        endurance: {
-            type: Number,
-            required: true,
-        },
-        strength: {
-            type: Number,
-            required: true,
-        },
-        dexterity: {
-            type: Number,
-            required: true,
-        },
-        intelligence: {
-            type: Number,
-            required: true,
-        },
-        faith: {
-            type: Number,
-            required: true,
-        },
-        arcane: {
-            type: Number,
-            required: true,
-        },
+        stats: {
+            vigor: {
+                type: Number,
+                required: true,
+            },
+            mind: {
+                type: Number,
+                required: true,
+            },
+            endurance: {
+                type: Number,
+                required: true,
+            },
+            strength: {
+                type: Number,
+                required: true,
+            },
+            dexterity: {
+                type: Number,
+                required: true,
+            },
+            intelligence: {
+                type: Number,
+                required: true,
+            },
+            faith: {
+                type: Number,
+                required: true,
+            },
+            arcane: {
+                type: Number,
+                required: true,
+            },
+        }
     },
     {
         timestamps: true
