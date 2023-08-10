@@ -6,6 +6,7 @@ import Login from "./features/auth/Login";
 import Header from "./components/Header";
 import Charplanner from "./features/charplanner/Charplanner";
 import UsersList from "./features/users/UsersList";
+import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
 
                 <Route path="users">
                     <Route index element={<><Header/><UsersList/></>} />
+                    <Route path=":userId" element={<EditUser />} />
                 </Route>
 
                 {/* if route doesnt exist redirect back to frontpage */}

@@ -1,16 +1,21 @@
 import { ReactElement } from "react";
 import { EntityId } from "@reduxjs/toolkit";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
+import { useNavigate } from "react-router-dom";
 
 const User = ({ userId }: { userId: EntityId}): ReactElement => {
 
-    const data = useGetUsersQuery( "usersList", {
+    const data = useGetUsersQuery("usersList", {
         selectFromResult: ({ data }) => ({
             user: data?.entities[userId]
         }),
-    })
+    });
+
+    const navigate = useNavigate()
     
     const user = data.user as UserType
+
+    const handleEditClick = () => navigate(`/users/${userId}`);
 
     if (user) {
         const createdAt = new Date(user.createdAt);
@@ -25,7 +30,9 @@ const User = ({ userId }: { userId: EntityId}): ReactElement => {
                 <td className={`table__cell`}>{createdAt.toLocaleString()}</td>
                 <td className={`table__cell`}>{updatedAt.toLocaleString()}</td>
                 <td className={`table__cell`}>
-                    EDIT
+                    <button onClick={handleEditClick}>
+                        EDIT
+                    </button>
                 </td>
             </tr>
         )

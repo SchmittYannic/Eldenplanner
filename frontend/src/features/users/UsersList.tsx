@@ -10,7 +10,7 @@ const UsersList = () => {
         isSuccess,
         isError,
         error     
-    } = useGetUsersQuery();
+    } = useGetUsersQuery("usersList");
 
     let content: ReactElement = (<></>);
 
