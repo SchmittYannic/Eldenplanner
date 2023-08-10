@@ -12,6 +12,7 @@ import connectDB from "./config/dbConn.js";
 import mongoose from "mongoose";
 import rootRoute from "./routes/root.js";
 import userRoutes from "./routes/userRoutes.js";
+import buildRoutes from "./routes/buildRoutes.js";
 
 /* Configurations */
 dotenv.config();
@@ -35,6 +36,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 /* ROUTES */
 app.use("/", rootRoute);
 app.use("/users", userRoutes);
+app.use("/builds", buildRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes
