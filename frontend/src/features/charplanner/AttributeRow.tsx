@@ -13,6 +13,7 @@ import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { StatsType } from "../../../data/StartingClassData";
 import { RootState } from "../../app/store";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import useTotalstats from "../../hooks/useTotalstats";
 
 
 type PropsType = {
@@ -23,6 +24,8 @@ type PropsType = {
 }
 
 const AttributeRow = ({ keyName, minStat, statSelector, statAction }: PropsType): ReactElement => {
+
+    const totalStat = useTotalstats(keyName);
     
     const dispatch = useDispatch();
     const statValue = useSelector(statSelector);
@@ -139,8 +142,7 @@ const AttributeRow = ({ keyName, minStat, statSelector, statAction }: PropsType)
                 onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
             />
-            {/* <span>{totalStats[keyName]}</span> */}
-            <span>{statValue}</span>
+            <span>{typeof totalStat === "number" && totalStat}</span>
             <span>
                 <button
                     onClick={(e) => handleArrowButton(e, -1)}
