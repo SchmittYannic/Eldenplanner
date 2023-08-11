@@ -170,3 +170,53 @@
         }
     }
 }
+
+/* ARDisplay */
+
+.ARDisplay {
+    width: 100%;
+    position: relative;
+    padding-bottom: v.$FormPaddingBottom;
+    padding-left: v.$FormPaddingLeft;
+    padding-right: v.$FormPaddingRight;
+    font-size: v.$font-size-small;
+    color: v.$default-label-font-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .redText {
+        div:not(.Tooltip) {
+            color: #f44336;
+        }
+
+        .Tooltip {
+            background-color: #f44336;
+        }
+    }
+
+    .Tooltip {
+        display: none;
+        position: absolute;
+        top: 20px;
+        left: 0px;
+        right: 0px;
+        z-index: 3;
+        background-color: v.$default-focus-label-font-color;
+        padding: 10px;
+        font-size: 1rem;
+        color: black;
+        border-radius: 2px;
+        line-height: 80%;
+        white-space: pre-wrap;
+    }
+
+    div:hover + .Tooltip {
+        display: block;
+    }
+};
+
+.Invisible {
+    opacity: 0;
+}

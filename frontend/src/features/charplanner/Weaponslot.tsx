@@ -3,6 +3,7 @@ import WeaponSelect from "./WeaponSelect";
 import AowSelect from "./AowSelect";
 import UpgradeSelect from "./UpgradeSelect";
 import AffinitySelect from "./AffinitySelect";
+import ARDisplay from "./ARDisplay";
 
 type PropsType = {
     label: string
@@ -15,6 +16,7 @@ const Weaponslot = ({ label }: PropsType): ReactElement  => {
     return (
         <div>
             <WeaponSelect id={id} label={label} />
+            <ARDisplay id={id} />
             <div style={{ paddingLeft: ".7em", paddingRight: ".7em" }}>
                 <AowSelect id={id} />
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>

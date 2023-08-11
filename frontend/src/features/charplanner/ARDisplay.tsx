@@ -1,0 +1,78 @@
+import { ReactElement } from "react";
+import { useSelector } from "react-redux";
+import {
+    armamentSelectorMap,
+    ArmamentSelectorMapType,
+    selectTwohand,
+    StatsStateType
+} from "./charplannerSlice";
+import useTotalstats from "../../hooks/useTotalstats";
+import { WeaponsData } from "../../../data/WeaponsData";
+import calcWeaponAttackRating from "../../utils/ARCalculation";
+
+type PropsType = {
+    id: string
+}
+
+const ARDisplay = ({ id }: PropsType): ReactElement => {
+
+    const totalStats = useTotalstats() as StatsStateType;
+
+    const idWeapon = id + "Weapon";
+    const idUpgrade = id + "Upgrade";
+    const idAffinity = id + "Affinity";
+    
+    const weapon = useSelector(armamentSelectorMap[(idWeapon) as keyof ArmamentSelectorMapType]);
+    const upgrade = useSelector(armamentSelectorMap[(idUpgrade) as keyof ArmamentSelectorMapType]);
+    const affinity = useSelector(armamentSelectorMap[(idAffinity) as keyof ArmamentSelectorMapType]);
+    const twohand = useSelector(selectTwohand);
+
+    const reqStr: number = weapon ? WeaponsData[weapon]["Required (Str)"] as number : 0;
+    const reqDex = weapon ? WeaponsData[weapon]["Required (Dex)"] as number : 0;
+    const reqInt = weapon ? WeaponsData[weapon]["Required (Int)"] as number : 0;
+    const reqFai = weapon ? WeaponsData[weapon]["Required (Fai)"] as number : 0;
+    const reqArc = weapon ? WeaponsData[weapon]["Required (Arc)"] as number : 0;
+
+    const text = weapon ? "Req: " + reqStr + "/" + reqDex + "/" + reqInt + "/" + reqFai + "/" + reqArc : "disabled";
+    const tooltipText = weapon ? "Weapon\xa0Requirements:\n\n" 
+        + "\xa0\xa0Strength:\xa0" + reqStr + "\n\n"
+        + "\xa0\xa0Dexterity:\xa0" + reqDex + "\n\n"
+        + "\xa0\xa0Intelligence:\xa0" + reqInt + "\n\n"
+        + "\xa0\xa0Faith:\xa0" + reqFai + "\n\n"
+        + "\xa0\xa0Arcane:\xa0" + reqArc
+        : ""
+    ;
+
+    let isFulfilled = true;
+    if (
+        totalStats["dexterity"] < reqDex
+        || totalStats["intelligence"] < reqInt
+        || totalStats["faith"] < reqFai
+        || totalStats["arcane"] < reqArc
+    ) {
+        isFulfilled = false;
+    } else {
+        if (twohand && 1.5 * totalStats["strength"] < reqStr) {
+            isFulfilled = false;
+        } else if (!twohand && totalStats["strength"] < reqStr) {
+            isFulfilled = false;
+        }
+    }
+
+    const ARCalculation = weapon ? calcWeaponAttackRating(weapon, upgrade, affinity, totalStats, twohand) : "disabled";
+
+    return (
+        <div className={weapon ? "ARDisplay" : "ARDisplay Invisible"}>
+            <span className={isFulfilled ? "" : "redText"}>
+                <div>{text}</div>
+                <div className="Tooltip">{tooltipText}</div>
+            </span>
+            <span className={isFulfilled ? "" : "Invisible"}>
+                <div>{ARCalculation[0]}</div>
+                <div className="Tooltip">{ARCalculation[1]}</div>
+            </span>
+        </div>
+    )
+}
+
+export default ARDisplay
