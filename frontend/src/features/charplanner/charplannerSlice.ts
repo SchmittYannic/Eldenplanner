@@ -6,7 +6,14 @@ export type TalismanStateType = {
     talisman2: string,
     talisman3: string,
     talisman4: string,
-}
+};
+
+export type ArmorStateType = {
+    head: string,
+    chest: string,
+    legs: string,
+    hands: string,
+};
 
 const initialState = {
     general: {
@@ -226,6 +233,21 @@ export const charplannerSlice = createSlice({
         changeTalisman4: (state, action) => {
             state.talisman.talisman4 = action.payload;
         },
+
+        /* Armor */
+
+        changeHead: (state, action) => {
+            state.armor.head = action.payload;
+        },
+        changeChest: (state, action) => {
+            state.armor.chest = action.payload;
+        },
+        changeHands: (state, action) => {
+            state.armor.hands = action.payload;
+        },
+        changeLegs: (state, action) => {
+            state.armor.legs = action.payload;
+        },
     }
 });
 
@@ -283,6 +305,12 @@ export const selectTalisman1 = (state: RootState) => state.charplanner.talisman.
 export const selectTalisman2 = (state: RootState) => state.charplanner.talisman.talisman2;
 export const selectTalisman3 = (state: RootState) => state.charplanner.talisman.talisman3;
 export const selectTalisman4 = (state: RootState) => state.charplanner.talisman.talisman4;
+
+export const selectArmor = (state: RootState) => state.charplanner.armor;
+export const selectHead = (state: RootState) => state.charplanner.armor.head;
+export const selectChest = (state: RootState) => state.charplanner.armor.chest;
+export const selectHands = (state: RootState) => state.charplanner.armor.hands;
+export const selectLegs = (state: RootState) => state.charplanner.armor.legs;
 
 export const statSelectorsMap = {
     vigor: selectVigor,
@@ -390,7 +418,11 @@ export const {
     changeTalisman1,
     changeTalisman2,
     changeTalisman3,
-    changeTalisman4
+    changeTalisman4,
+    changeHead,
+    changeChest,
+    changeHands,
+    changeLegs
 } = charplannerSlice.actions;
 
 export const statReduceractionsMap = {
@@ -463,13 +495,27 @@ export type TalismanReduceractionsMapType = {
     talisman2: ActionCreatorWithPayload<any, string>,
     talisman3: ActionCreatorWithPayload<any, string>,
     talisman4: ActionCreatorWithPayload<any, string>,
-}
+};
 
 export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
     talisman1: changeTalisman1,
     talisman2: changeTalisman2,
     talisman3: changeTalisman3,
     talisman4: changeTalisman4,
-}
+};
+
+export type ArmorReduceractionsMapType = {
+    head: ActionCreatorWithPayload<any, string>,
+    chest: ActionCreatorWithPayload<any, string>,
+    hands: ActionCreatorWithPayload<any, string>,
+    legs: ActionCreatorWithPayload<any, string>,
+};
+
+export const armorReduceractionsMap: ArmorReduceractionsMapType = {
+    head: changeHead,
+    chest: changeChest,
+    hands: changeHands,
+    legs: changeLegs,
+};
 
 export default charplannerSlice.reducer;
