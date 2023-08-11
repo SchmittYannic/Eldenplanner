@@ -15,6 +15,10 @@ const WeaponsSubSection = (): ReactElement => {
         <div className="WeaponsSubSection">
             <Weaponslot label={"Left Hand 1"} />
             <Weaponslot label={"Right Hand 1"} />
+            <Weaponslot label={"Left Hand 2"} />
+            <Weaponslot label={"Right Hand 2"} />
+            <Weaponslot label={"Left Hand 3"} />
+            <Weaponslot label={"Right Hand 3"} />
             <Checkbox label="Two Hand" checked={twohand} setChecked={setTwohand} />
         </div>
     )

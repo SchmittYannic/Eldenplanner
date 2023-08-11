@@ -130,6 +130,36 @@ export const charplannerSlice = createSlice({
         changeLefthand1Affinity: (state, action) => {
             state.armament.lefthand1.affinity = action.payload;
         },
+
+
+        changeLefthand2Weapon: (state, action) => {
+            state.armament.lefthand2.weapon = action.payload;
+        },
+        changeLefthand2Aow: (state, action) => {
+            state.armament.lefthand2.aow = action.payload;
+        },
+        changeLefthand2Upgrade: (state, action) => {
+            state.armament.lefthand2.upgrade = action.payload;
+        },
+        changeLefthand2Affinity: (state, action) => {
+            state.armament.lefthand2.affinity = action.payload;
+        },
+
+
+        changeLefthand3Weapon: (state, action) => {
+            state.armament.lefthand3.weapon = action.payload;
+        },
+        changeLefthand3Aow: (state, action) => {
+            state.armament.lefthand3.aow = action.payload;
+        },
+        changeLefthand3Upgrade: (state, action) => {
+            state.armament.lefthand3.upgrade = action.payload;
+        },
+        changeLefthand3Affinity: (state, action) => {
+            state.armament.lefthand3.affinity = action.payload;
+        },
+
+
         changeRighthand1Weapon: (state, action) => {
             state.armament.righthand1.weapon = action.payload;
         },
@@ -142,6 +172,35 @@ export const charplannerSlice = createSlice({
         changeRighthand1Affinity: (state, action) => {
             state.armament.righthand1.affinity = action.payload;
         },
+
+
+        changeRighthand2Weapon: (state, action) => {
+            state.armament.righthand2.weapon = action.payload;
+        },
+        changeRighthand2Aow: (state, action) => {
+            state.armament.righthand2.aow = action.payload;
+        },
+        changeRighthand2Upgrade: (state, action) => {
+            state.armament.righthand2.upgrade = action.payload;
+        },
+        changeRighthand2Affinity: (state, action) => {
+            state.armament.righthand2.affinity = action.payload;
+        },
+
+
+        changeRighthand3Weapon: (state, action) => {
+            state.armament.righthand3.weapon = action.payload;
+        },
+        changeRighthand3Aow: (state, action) => {
+            state.armament.righthand3.aow = action.payload;
+        },
+        changeRighthand3Upgrade: (state, action) => {
+            state.armament.righthand3.upgrade = action.payload;
+        },
+        changeRighthand3Affinity: (state, action) => {
+            state.armament.righthand3.affinity = action.payload;
+        },
+
         changeTwohand: (state, action) => {
             state.armament.twohand = action.payload;
         }
@@ -153,6 +212,7 @@ export const selectStartingclass = (state: RootState) => state.charplanner.gener
 export const selectGreatrune = (state: RootState) => state.charplanner.general.greatrune;
 export const selectGreatruneactive = (state: RootState) => state.charplanner.general.greatruneactive;
 
+
 export const selectVigor = (state: RootState) => state.charplanner.stats.vigor;
 export const selectMind = (state: RootState) => state.charplanner.stats.mind;
 export const selectEndurance = (state: RootState) => state.charplanner.stats.endurance;
@@ -162,14 +222,37 @@ export const selectIntelligence = (state: RootState) => state.charplanner.stats.
 export const selectFaith = (state: RootState) => state.charplanner.stats.faith;
 export const selectArcane = (state: RootState) => state.charplanner.stats.arcane;
 
+
 export const selectLefthand1Weapon = (state: RootState) => state.charplanner.armament.lefthand1.weapon;
 export const selectLefthand1Aow = (state: RootState) => state.charplanner.armament.lefthand1.aow;
 export const selectLefthand1Upgrade = (state: RootState) => state.charplanner.armament.lefthand1.upgrade;
 export const selectLefthand1Affinity = (state: RootState) => state.charplanner.armament.lefthand1.affinity;
+
+export const selectLefthand2Weapon = (state: RootState) => state.charplanner.armament.lefthand2.weapon;
+export const selectLefthand2Aow = (state: RootState) => state.charplanner.armament.lefthand2.aow;
+export const selectLefthand2Upgrade = (state: RootState) => state.charplanner.armament.lefthand2.upgrade;
+export const selectLefthand2Affinity = (state: RootState) => state.charplanner.armament.lefthand2.affinity;
+
+export const selectLefthand3Weapon = (state: RootState) => state.charplanner.armament.lefthand3.weapon;
+export const selectLefthand3Aow = (state: RootState) => state.charplanner.armament.lefthand3.aow;
+export const selectLefthand3Upgrade = (state: RootState) => state.charplanner.armament.lefthand3.upgrade;
+export const selectLefthand3Affinity = (state: RootState) => state.charplanner.armament.lefthand3.affinity;
+
 export const selectRighthand1Weapon = (state: RootState) => state.charplanner.armament.righthand1.weapon;
 export const selectRighthand1Aow = (state: RootState) => state.charplanner.armament.righthand1.aow;
 export const selectRighthand1Upgrade = (state: RootState) => state.charplanner.armament.righthand1.upgrade;
 export const selectRighthand1Affinity = (state: RootState) => state.charplanner.armament.righthand1.affinity;
+
+export const selectRighthand2Weapon = (state: RootState) => state.charplanner.armament.righthand2.weapon;
+export const selectRighthand2Aow = (state: RootState) => state.charplanner.armament.righthand2.aow;
+export const selectRighthand2Upgrade = (state: RootState) => state.charplanner.armament.righthand2.upgrade;
+export const selectRighthand2Affinity = (state: RootState) => state.charplanner.armament.righthand2.affinity;
+
+export const selectRighthand3Weapon = (state: RootState) => state.charplanner.armament.righthand3.weapon;
+export const selectRighthand3Aow = (state: RootState) => state.charplanner.armament.righthand3.aow;
+export const selectRighthand3Upgrade = (state: RootState) => state.charplanner.armament.righthand3.upgrade;
+export const selectRighthand3Affinity = (state: RootState) => state.charplanner.armament.righthand3.affinity;
+
 export const selectTwohand = (state: RootState) => state.charplanner.armament.twohand;
 
 export const statSelectorsMap = {
@@ -188,10 +271,26 @@ export type ArmamentSelectorMapType = {
     lefthand1Aow: (state: RootState) => string,
     lefthand1Upgrade: (state: RootState) => string,
     lefthand1Affinity: (state: RootState) => string,
+    lefthand2Weapon: (state: RootState) => string,
+    lefthand2Aow: (state: RootState) => string,
+    lefthand2Upgrade: (state: RootState) => string,
+    lefthand2Affinity: (state: RootState) => string,
+    lefthand3Weapon: (state: RootState) => string,
+    lefthand3Aow: (state: RootState) => string,
+    lefthand3Upgrade: (state: RootState) => string,
+    lefthand3Affinity: (state: RootState) => string,
     righthand1Weapon: (state: RootState) => string,
     righthand1Aow: (state: RootState) => string,
     righthand1Upgrade: (state: RootState) => string,
     righthand1Affinity: (state: RootState) => string,
+    righthand2Weapon: (state: RootState) => string,
+    righthand2Aow: (state: RootState) => string,
+    righthand2Upgrade: (state: RootState) => string,
+    righthand2Affinity: (state: RootState) => string,
+    righthand3Weapon: (state: RootState) => string,
+    righthand3Aow: (state: RootState) => string,
+    righthand3Upgrade: (state: RootState) => string,
+    righthand3Affinity: (state: RootState) => string,
 };
 
 export const armamentSelectorMap: ArmamentSelectorMapType = {
@@ -199,10 +298,26 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
     lefthand1Aow: selectLefthand1Aow,
     lefthand1Upgrade: selectLefthand1Upgrade,
     lefthand1Affinity: selectLefthand1Affinity,
+    lefthand2Weapon: selectLefthand2Weapon,
+    lefthand2Aow: selectLefthand2Aow,
+    lefthand2Upgrade: selectLefthand2Upgrade,
+    lefthand2Affinity: selectLefthand2Affinity,
+    lefthand3Weapon: selectLefthand3Weapon,
+    lefthand3Aow: selectLefthand3Aow,
+    lefthand3Upgrade: selectLefthand3Upgrade,
+    lefthand3Affinity: selectLefthand3Affinity,
     righthand1Weapon: selectRighthand1Weapon,
     righthand1Aow: selectRighthand1Aow,
     righthand1Upgrade: selectRighthand1Upgrade,
     righthand1Affinity: selectRighthand1Affinity,
+    righthand2Weapon: selectRighthand2Weapon,
+    righthand2Aow: selectRighthand2Aow,
+    righthand2Upgrade: selectRighthand2Upgrade,
+    righthand2Affinity: selectRighthand2Affinity,
+    righthand3Weapon: selectRighthand3Weapon,
+    righthand3Aow: selectRighthand3Aow,
+    righthand3Upgrade: selectRighthand3Upgrade,
+    righthand3Affinity: selectRighthand3Affinity,
 };
 
 export const { 
@@ -222,10 +337,26 @@ export const {
     changeLefthand1Aow,
     changeLefthand1Upgrade,
     changeLefthand1Affinity,
+    changeLefthand2Weapon,
+    changeLefthand2Aow,
+    changeLefthand2Upgrade,
+    changeLefthand2Affinity,
+    changeLefthand3Weapon,
+    changeLefthand3Aow,
+    changeLefthand3Upgrade,
+    changeLefthand3Affinity,
     changeRighthand1Weapon,
     changeRighthand1Aow,
     changeRighthand1Upgrade,
     changeRighthand1Affinity,
+    changeRighthand2Weapon,
+    changeRighthand2Aow,
+    changeRighthand2Upgrade,
+    changeRighthand2Affinity,
+    changeRighthand3Weapon,
+    changeRighthand3Aow,
+    changeRighthand3Upgrade,
+    changeRighthand3Affinity,
     changeTwohand
 } = charplannerSlice.actions;
 
@@ -245,10 +376,26 @@ export type ArmamentReduceractionsMapType = {
     lefthand1Aow: ActionCreatorWithPayload<any, string>,
     lefthand1Upgrade: ActionCreatorWithPayload<any, string>,
     lefthand1Affinity: ActionCreatorWithPayload<any, string>,
+    lefthand2Weapon: ActionCreatorWithPayload<any, string>,
+    lefthand2Aow: ActionCreatorWithPayload<any, string>,
+    lefthand2Upgrade: ActionCreatorWithPayload<any, string>,
+    lefthand2Affinity: ActionCreatorWithPayload<any, string>,
+    lefthand3Weapon: ActionCreatorWithPayload<any, string>,
+    lefthand3Aow: ActionCreatorWithPayload<any, string>,
+    lefthand3Upgrade: ActionCreatorWithPayload<any, string>,
+    lefthand3Affinity: ActionCreatorWithPayload<any, string>,
     righthand1Weapon: ActionCreatorWithPayload<any, string>,
     righthand1Aow: ActionCreatorWithPayload<any, string>,
     righthand1Upgrade: ActionCreatorWithPayload<any, string>,
     righthand1Affinity: ActionCreatorWithPayload<any, string>,
+    righthand2Weapon: ActionCreatorWithPayload<any, string>,
+    righthand2Aow: ActionCreatorWithPayload<any, string>,
+    righthand2Upgrade: ActionCreatorWithPayload<any, string>,
+    righthand2Affinity: ActionCreatorWithPayload<any, string>,
+    righthand3Weapon: ActionCreatorWithPayload<any, string>,
+    righthand3Aow: ActionCreatorWithPayload<any, string>,
+    righthand3Upgrade: ActionCreatorWithPayload<any, string>,
+    righthand3Affinity: ActionCreatorWithPayload<any, string>,
 };
 
 export const armamentReduceractionsMap: ArmamentReduceractionsMapType = {
@@ -256,10 +403,26 @@ export const armamentReduceractionsMap: ArmamentReduceractionsMapType = {
     lefthand1Aow: changeLefthand1Aow,
     lefthand1Upgrade: changeLefthand1Upgrade,
     lefthand1Affinity: changeLefthand1Affinity,
+    lefthand2Weapon: changeLefthand2Weapon,
+    lefthand2Aow: changeLefthand2Aow,
+    lefthand2Upgrade: changeLefthand2Upgrade,
+    lefthand2Affinity: changeLefthand2Affinity,
+    lefthand3Weapon: changeLefthand3Weapon,
+    lefthand3Aow: changeLefthand3Aow,
+    lefthand3Upgrade: changeLefthand3Upgrade,
+    lefthand3Affinity: changeLefthand3Affinity,
     righthand1Weapon: changeRighthand1Weapon,
     righthand1Aow: changeRighthand1Aow,
     righthand1Upgrade: changeRighthand1Upgrade,
     righthand1Affinity: changeRighthand1Affinity,
+    righthand2Weapon: changeRighthand2Weapon,
+    righthand2Aow: changeRighthand2Aow,
+    righthand2Upgrade: changeRighthand2Upgrade,
+    righthand2Affinity: changeRighthand2Affinity,
+    righthand3Weapon: changeRighthand3Weapon,
+    righthand3Aow: changeRighthand3Aow,
+    righthand3Upgrade: changeRighthand3Upgrade,
+    righthand3Affinity: changeRighthand3Affinity,
 };
 
 export default charplannerSlice.reducer;
