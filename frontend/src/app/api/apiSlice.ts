@@ -5,7 +5,7 @@ interface CustomError {
         message: string,
     },
     status: number
-}
+};
 
 export const isCustomError = (object: any): object is CustomError => {
     if (typeof object !== "object") return false
@@ -16,10 +16,10 @@ export const isCustomError = (object: any): object is CustomError => {
     if (!("message" in object.data)) return false
     if (typeof object.data.message !== "string") return false
     return true
-}
+};
 
 export const apiSlice = createApi({
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3500" }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
+    baseQuery: fetchBaseQuery({ baseUrl: process.env.API_BASEURL }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
     tagTypes: ["User", "Build"],
     endpoints: builder => ({})
 });
