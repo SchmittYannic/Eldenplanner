@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import CustomSelectLogic from "./CustomSelectLogic";
-//import "./CustomSelect.scss";
+import "./CustomSelect.scss";
 
 type PropsType = {
     id: string,

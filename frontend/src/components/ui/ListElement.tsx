@@ -1,5 +1,5 @@
 import { useState, useEffect, MouseEvent } from "react";
-// import "./ListElement.scss";
+import "./ListElement.scss";
 
 type PropsType = {
     options: string[],

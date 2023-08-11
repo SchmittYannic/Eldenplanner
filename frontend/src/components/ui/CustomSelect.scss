@@ -1,0 +1,206 @@
+@use "../../Variables" as v;
+
+.CustomSelect {
+    position: relative;
+    padding: v.$FormPadding;
+    pointer-events: all;
+
+    label:hover {
+        color: v.$default-hover-label-font-color; 
+
+        input {
+            color: v.$default-hover-font-color;
+            border-color: v.$default-hover-border-color;
+        }
+    }
+
+    label {
+        position: relative;
+        color: v.$default-label-font-color;
+        font-size: v.$default-label-font-size;
+        background-color: v.$default-label-background-color; 
+        cursor: v.$default-label-cursor;
+
+        p {
+            position: absolute;
+            left: v.$default-label-x-offset;
+            top: v.$default-label-y-offset;
+        }
+
+        input {
+            width: 100%;
+            height: v.$InputHeight;
+            padding: v.$InputPadding;
+            caret-color: v.$default-focus-label-font-color;
+    
+            color: v.$default-font-color;
+            font-family: v.$default-font-family;
+            font-size: v.$default-font-size;
+            background-color: v.$default-background-color;
+            border-style: v.$default-border-style;
+            border-width: v.$default-border-width;
+            border-color: v.$default-border-color;
+            border-radius: v.$default-border-radius;
+
+            &:read-only {
+                cursor: pointer;
+            }
+
+            &:focus {
+                border-style: v.$default-focus-border-style;
+                border-width: v.$default-focus-border-width;
+                border-color: v.$default-focus-border-color;
+                border-radius: v.$default-focus-border-radius;
+            }
+
+            &:not(:placeholder-shown) + p,
+            &:focus + p {
+                font-size: v.$default-focus-label-font-size;
+                top: v.$default-focus-label-y-offset;
+                left: v.$default-focus-label-x-offset;
+                cursor: v.$default-focus-label-cursor;
+            }
+
+            &:focus + p {
+                color: v.$default-focus-label-font-color;
+            }
+
+            &:focus ~ button {
+                color: v.$default-focus-label-font-color;
+            }
+    
+            &:placeholder-shown:focus ~ button {
+                transform: rotate(180deg);
+            }
+        }
+
+        button {
+            top:0;
+            right: 0;
+            height: 21px;
+            width: 21px;
+            color: inherit;
+            border: none;
+            background: transparent;
+            position: absolute;
+            cursor: pointer;
+
+            .ddBtn {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: auto;
+            }
+
+            &:focus {
+                border-radius: 50%;
+                color: v.$default-hover-label-font-color;
+                background-color: rgba(255, 255, 255, 0.432);
+            }
+        }
+    }
+
+    .OptionsList {
+        left: calc(1em);
+        right: calc(1em);
+        top: calc(v.$InputHeight + v.$InputPaddingTop + v.$InputPaddingBottom + v.$InputContainerGap);
+        max-height: 200px;
+        position: absolute;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        z-index: 70;
+    
+        li {
+            list-style: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background-color: blue;
+    
+            p {
+                user-select: none;
+            }
+        }
+    
+        li:not(.FocusedOption) p:not(.SelectedOption) {
+            padding: v.$OptionPadding;
+            background-color: v.$default-option-background-color;
+            color: v.$default-option-font-color;
+        }
+    
+        .FocusedOption p:not(.SelectedOption) {
+            padding: v.$OptionPadding;
+            background-color: #666666;
+            color: v.$default-option-font-color;
+        }
+    
+        li:not(.FocusedOption) p:not(.SelectedOption):hover {
+            background-color: #525252;
+        }
+    
+        .FocusedOption p:not(.SelectedOption):hover {
+            background-color: #7b7b7b;
+        }
+    
+        .SelectedOption {
+            padding: v.$OptionPadding;
+            background-color: #544320;
+            color:#ffba27;
+        }
+    
+        .FocusedOption .SelectedOption {
+            background-color: #665020;
+        }
+    
+        .SelectedOption:hover {
+            background-color: #372b11;
+        }
+    
+        .FocusedOption .SelectedOption:hover {
+            background-color: #7b6027;
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+
+        label input {
+            color: v.$InputDisabledColor; //v.$default-label-font-color;
+        }
+    }
+}
+
+// CustomStyles
+.CustomSelect.style1 {
+    padding-top: .1em;
+    padding-bottom: .1em;
+    padding-right: 0;
+    padding-left: 0;
+
+    label {
+        p {
+            left: calc(v.$default-label-x-offset + 1em);
+        }
+
+        input {
+            background-color: #1e1e1e;
+            border-color: transparent;
+            border-radius: 5px;
+            padding-top: 1.3em;
+            padding-bottom: 1.3em;
+            padding-left: 1em;
+            padding-right: 1em;
+
+            &:not(:placeholder-shown) + p,
+            &:focus + p {
+                display: none;
+            }
+        }
+
+        button {
+            right: 1em;
+        }
+    }
+}

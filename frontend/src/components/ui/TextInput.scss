@@ -1,0 +1,64 @@
+@use "../../Variables" as v;
+
+.InputForm {
+    position: relative;
+    padding: v.$FormPadding;
+
+    label:hover {
+        color: v.$default-hover-label-font-color; 
+
+        input {
+            color: v.$default-hover-font-color;
+            border-color: v.$default-hover-border-color;
+        }
+    }
+
+    label {
+        position: relative;
+        color: v.$default-label-font-color;
+        font-size: v.$default-label-font-size;
+        background-color: v.$default-label-background-color; 
+        cursor: v.$default-label-cursor;
+
+        p {
+            position: absolute;
+            left: v.$default-label-x-offset;
+            top: v.$default-label-y-offset;
+        }
+
+        input {
+            width: 100%;
+            height: v.$InputHeight;
+            padding: v.$InputPadding;
+            caret-color: v.$default-focus-label-font-color;
+    
+            color: v.$default-font-color;
+            font-family: v.$default-font-family;
+            font-size: v.$default-font-size;
+            background-color: v.$default-background-color;
+            border-style: v.$default-border-style;
+            border-width: v.$default-border-width;
+            border-color: v.$default-border-color;
+            border-radius: v.$default-border-radius;
+
+            &:focus {
+                border-style: v.$default-focus-border-style;
+                border-width: v.$default-focus-border-width;
+                border-color: v.$default-focus-border-color;
+                border-radius: v.$default-focus-border-radius;
+            }
+
+            &:not(:placeholder-shown) + p,
+            &:focus + p {
+                font-size: v.$default-focus-label-font-size;
+                top: v.$default-focus-label-y-offset;
+                left: v.$default-focus-label-x-offset;
+                cursor: v.$default-focus-label-cursor;
+            }
+
+            &:focus + p {
+                color: v.$default-focus-label-font-color;
+            }
+        }
+    }
+}

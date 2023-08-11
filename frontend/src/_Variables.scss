@@ -1,0 +1,67 @@
+$FormPaddingTop: 1.3em;
+$FormPaddingRight: .7em;
+$FormPaddingBottom: .7em;
+$FormPaddingLeft: .7em;
+$FormPadding: $FormPaddingTop $FormPaddingRight $FormPaddingBottom $FormPaddingLeft;
+
+$InputHeight: 15px;
+$InputPaddingTop: 1em;
+$InputPaddingBottom: 1em;
+$InputPaddingLeft: .5em;
+$InputPaddingRight: .5em;
+$InputPadding: $InputPaddingTop $InputPaddingRight $InputPaddingBottom $InputPaddingLeft;
+$InputContainerGap: .5em;
+$InputDisabledColor: #8f8f8f;
+$OptionPadding: .2em .5em;
+
+$font-size-normal: 1rem;
+$font-size-small: 0.8rem;
+
+
+$default-font-color: white;
+$default-font-size: $font-size-normal;
+$default-font-family: "proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+$default-background-color: hsla(40, 6.81%, 17.255%, 1);
+$default-border-style: none none solid none;
+$default-border-width: 1px;
+$default-border-color: #bcbcbc; //gray;
+$default-border-radius: 0px;
+$default-label-font-color: #bcbcbc; //gray;
+$default-label-font-size: $font-size-normal;
+$default-label-background-color: transparent;
+$default-label-y-offset: 0px;
+$default-label-x-offset: 0px;
+$default-label-cursor: text;
+$default-option-font-color: white;
+$default-option-background-color: rgb(67, 65, 59);
+
+$default-hover-font-color: white;
+$default-hover-label-font-color: white;
+$default-hover-border-color: white;
+
+$default-focus-border-style: none none solid none;
+$default-focus-border-width: 1px;
+$default-focus-border-color: hsla(46.6, 39.13%, 68.43%, 1);
+$default-focus-border-radius: 0px;
+$default-focus-label-font-color: hsla(46.6, 39.13%, 68.43%, 1);
+$default-focus-label-font-size: $font-size-small;
+$default-focus-label-y-offset: -22px;
+$default-focus-label-x-offset: 0px;
+$default-focus-label-cursor: default;
+$default-focus-button-background-color: #ffffff3b;
+
+
+@keyframes ripple-effect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(10);
+        opacity: 0.375;
+    }
+    100% {
+        transform: scale(35);
+        opacity: 0;
+    }
+}

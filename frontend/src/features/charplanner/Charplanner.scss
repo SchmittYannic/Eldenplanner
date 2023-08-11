@@ -1,0 +1,71 @@
+@use "../../Variables" as v;
+
+.Charplanner {
+    background-color: v.$default-background-color;
+    color: v.$default-font-color;
+    font-family: v.$default-font-family;
+    font-size: v.$default-font-size;
+
+    .text-left {
+        text-align: left;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .WeaponsSubSection, .TalismanSubSection, .ArmorSubSection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .DetailSubSection {
+        line-height: 1.5;
+        padding: v.$FormPadding;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .DefenseSubSection, .ResistanceSubSection {
+        line-height: 1.5;
+        padding: v.$FormPadding;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.NameSubSection .Row {
+    display: flex;
+
+    .CustomSelect {
+        flex-grow: 1;
+    }
+
+    .Checkbox {
+        padding-top: v.$FormPaddingTop;
+        padding-bottom: v.$FormPaddingBottom;
+        padding-right: v.$FormPaddingRight;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .Charplanner {
+        min-height: 1100px;
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: 3fr 4fr 2fr;
+        justify-items: center;
+
+        .CharacterSection {
+            max-width: 400px;
+        }
+
+        .EquipmentSection {
+            max-width: 500px;
+        }
+
+        .InfoSection {
+            max-width: 300px;
+        }
+    }
+}

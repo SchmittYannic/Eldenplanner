@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@use "../../Variables" as v;
+
+.Checkbox {
+    label {
+        pointer-events: none; // without it you can change the checkbox by clicking the label
+        height: calc(v.$InputHeight + v.$InputPaddingBottom + v.$InputPaddingTop); //height: 100%;
+        display: flex;
+        align-items: center;
+
+        .CheckboxWrapper {
+            height: 100%;
+            width: calc(v.$InputPaddingLeft + v.$InputPaddingRight + 33px);//width: 33px;
+            border-radius: 50%;
+            border: none;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            input[type="checkbox"] {
+                pointer-events: all; //enable here again
+                -webkit-appearance: none;
+                appearance: none;
+                width: 20px; //1.6em;
+                height: 20px; //1.6em;
+                border-radius: 0.15em;
+                
+                border: 0.15em solid v.$default-font-color;
+                outline: none;
+                cursor: pointer;
+
+                &:checked {   
+                    border-color: v.$default-focus-label-font-color;       
+                    background-color: v.$default-focus-label-font-color;
+                    position: relative;
+
+                    &::before{
+                        content: "\2713";
+                        font-size: 1.5em;
+                        color: v.$default-background-color;
+                        position: absolute;
+                        right: 0px;
+                        top: -6px;
+                    }
+                }
+                
+                &:focus, &:hover {
+                    &:checked {
+                        box-shadow: 0 0 20px v.$default-focus-label-font-color;
+                    }
+
+                    &:not(:checked) {
+                        box-shadow: 0 0 20px v.$default-font-color;
+                        background-color: v.$default-focus-button-background-color;
+                    }
+                }
+            }
+
+            .CheckboxRipple {
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                display: block;
+                content: "";
+                border-radius: 9999px;
+                opacity: 1;
+                animation: 0.9s ease 1 forwards ripple-effect;
+            }
+
+            &:not(.Checked) .CheckboxRipple {
+                background-color: v.$default-font-color;
+            }
+
+            &.Checked .CheckboxRipple {
+                background-color: v.$default-focus-label-font-color;
+            }
+        }
+
+        p {
+            color: v.$default-font-color;
+        }
+    }
+}

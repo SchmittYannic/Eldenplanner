@@ -4,6 +4,8 @@ import CharacterSection from "./CharacterSection";
 import EquipmentSection from "./EquipmentSection";
 import InfoSection from "./InfoSection";
 
+import "./Charplanner.scss";
+
 const Charplanner = () => {
     const [addNewBuild, {
         isLoading,
@@ -19,7 +21,7 @@ const Charplanner = () => {
     }
 
     return (
-        <main className="charplanner">
+        <main className="Charplanner">
             <CharacterSection />
             <EquipmentSection />
             <InfoSection />

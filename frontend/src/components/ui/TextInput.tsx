@@ -1,5 +1,5 @@
 import { ReactElement, ChangeEvent } from "react"
-// import "./TextInput.scss";
+import "./TextInput.scss";
 
 type PropsType = {
     inputText: string,
@@ -20,13 +20,13 @@ const TextInput = ({ inputText, setInputText, label }: PropsType): ReactElement 
             onSubmit={(e) => e.preventDefault()}
         >
             <label>
-                <p>{label}</p>
                 <input
                     type="text"
                     placeholder=" "
                     value={inputText}
                     onChange={(e) => handleInputChange(e)}
                 />
+                <p>{label}</p>
             </label>
         </form>
     )

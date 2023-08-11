@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState } from "react";
-// import "./Checkbox.scss";
+import "./Checkbox.scss";
 
 type PropsType = {
     label: string,
