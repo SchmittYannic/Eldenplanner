@@ -1,6 +1,17 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
+export type StatsStateType = {
+    vigor: number,
+    mind: number,
+    endurance: number,
+    strength: number,
+    dexterity: number,
+    intelligence: number,
+    faith: number,
+    arcane: number,
+}
+
 export type TalismanStateType = {
     talisman1: string,
     talisman2: string,
@@ -257,6 +268,7 @@ export const selectGreatrune = (state: RootState) => state.charplanner.general.g
 export const selectGreatruneactive = (state: RootState) => state.charplanner.general.greatruneactive;
 
 
+export const selectStats = (state: RootState) => state.charplanner.stats;
 export const selectVigor = (state: RootState) => state.charplanner.stats.vigor;
 export const selectMind = (state: RootState) => state.charplanner.stats.mind;
 export const selectEndurance = (state: RootState) => state.charplanner.stats.endurance;
@@ -312,7 +324,18 @@ export const selectChest = (state: RootState) => state.charplanner.armor.chest;
 export const selectHands = (state: RootState) => state.charplanner.armor.hands;
 export const selectLegs = (state: RootState) => state.charplanner.armor.legs;
 
-export const statSelectorsMap = {
+export type statSelectorMapType = {
+    vigor: (state: RootState) => number,
+    mind: (state: RootState) => number,
+    endurance: (state: RootState) => number,
+    strength: (state: RootState) => number,
+    dexterity: (state: RootState) => number,
+    intelligence: (state: RootState) => number,
+    faith: (state: RootState) => number,
+    arcane: (state: RootState) => number,
+}
+
+export const statSelectorsMap: statSelectorMapType = {
     vigor: selectVigor,
     mind: selectMind,
     endurance: selectEndurance,
