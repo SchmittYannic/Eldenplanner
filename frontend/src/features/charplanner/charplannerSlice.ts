@@ -1,6 +1,13 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
+export type TalismanStateType = {
+    talisman1: string,
+    talisman2: string,
+    talisman3: string,
+    talisman4: string,
+}
+
 const initialState = {
     general: {
         charactername: "Tarnished",
@@ -203,7 +210,22 @@ export const charplannerSlice = createSlice({
 
         changeTwohand: (state, action) => {
             state.armament.twohand = action.payload;
-        }
+        },
+
+        /* Talisman */
+
+        changeTalisman1: (state, action) => {
+            state.talisman.talisman1 = action.payload;
+        },
+        changeTalisman2: (state, action) => {
+            state.talisman.talisman2 = action.payload;
+        },
+        changeTalisman3: (state, action) => {
+            state.talisman.talisman3 = action.payload;
+        },
+        changeTalisman4: (state, action) => {
+            state.talisman.talisman4 = action.payload;
+        },
     }
 });
 
@@ -254,6 +276,13 @@ export const selectRighthand3Upgrade = (state: RootState) => state.charplanner.a
 export const selectRighthand3Affinity = (state: RootState) => state.charplanner.armament.righthand3.affinity;
 
 export const selectTwohand = (state: RootState) => state.charplanner.armament.twohand;
+
+
+export const selectTalisman = (state: RootState) => state.charplanner.talisman;
+export const selectTalisman1 = (state: RootState) => state.charplanner.talisman.talisman1;
+export const selectTalisman2 = (state: RootState) => state.charplanner.talisman.talisman2;
+export const selectTalisman3 = (state: RootState) => state.charplanner.talisman.talisman3;
+export const selectTalisman4 = (state: RootState) => state.charplanner.talisman.talisman4;
 
 export const statSelectorsMap = {
     vigor: selectVigor,
@@ -357,7 +386,11 @@ export const {
     changeRighthand3Aow,
     changeRighthand3Upgrade,
     changeRighthand3Affinity,
-    changeTwohand
+    changeTwohand,
+    changeTalisman1,
+    changeTalisman2,
+    changeTalisman3,
+    changeTalisman4
 } = charplannerSlice.actions;
 
 export const statReduceractionsMap = {
@@ -424,5 +457,19 @@ export const armamentReduceractionsMap: ArmamentReduceractionsMapType = {
     righthand3Upgrade: changeRighthand3Upgrade,
     righthand3Affinity: changeRighthand3Affinity,
 };
+
+export type TalismanReduceractionsMapType = {
+    talisman1: ActionCreatorWithPayload<any, string>,
+    talisman2: ActionCreatorWithPayload<any, string>,
+    talisman3: ActionCreatorWithPayload<any, string>,
+    talisman4: ActionCreatorWithPayload<any, string>,
+}
+
+export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
+    talisman1: changeTalisman1,
+    talisman2: changeTalisman2,
+    talisman3: changeTalisman3,
+    talisman4: changeTalisman4,
+}
 
 export default charplannerSlice.reducer;
