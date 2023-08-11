@@ -1,8 +1,14 @@
-import React from 'react'
+import { ReactElement } from "react";
+import WeaponsSubSection from "./WeaponsSubSection";
 
-const EquipmentSection = () => {
+const EquipmentSection = (): ReactElement => {
     return (
-        <div>EquipmentSection</div>
+        <section className="EquipmentSection">
+            <WeaponsSubSection />
+            {/* <TalismanSubSection />
+            <ArmorSubSection />
+            <CollapsibleList heading={"Active Effects"} items={activeEffects} /> */}
+        </section>
     )
 }
 

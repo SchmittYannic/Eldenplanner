@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { useAddNewBuildMutation } from "./charplannerApiSlice";
 
 import CharacterSection from "./CharacterSection";
@@ -6,13 +7,13 @@ import InfoSection from "./InfoSection";
 
 import "./Charplanner.scss";
 
-const Charplanner = () => {
+const Charplanner = (): ReactElement => {
     const [addNewBuild, {
         isLoading,
         isSuccess,
         isError,
         error
-    }] = useAddNewBuildMutation()
+    }] = useAddNewBuildMutation();
 
     console.log(error)
 
