@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 const initialState = {
@@ -18,6 +18,45 @@ const initialState = {
         faith: 8,
         arcane: 11
     },
+    armament: {
+        lefthand1: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        lefthand2: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        lefthand3: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        righthand1: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        righthand2: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        righthand3: {
+            weapon: "",
+            aow: "",
+            affinity: "",
+            upgrade: "",
+        },
+        twohand: false,
+    },
     armor: {
         head: "",
         chest: "",
@@ -36,6 +75,7 @@ export const charplannerSlice = createSlice({
     name: "charplanner",
     initialState,
     reducers: {
+        /* general */
         changeCharactername: (state, action) => {
             state.general.charactername = action.payload;
         },
@@ -48,6 +88,9 @@ export const charplannerSlice = createSlice({
         changeGreatruneactive: (state, action) => {
             state.general.greatruneactive = action.payload;
         },
+
+        /* stats */
+
         changeVigor: (state, action) => {
             state.stats.vigor = action.payload;
         },
@@ -72,6 +115,36 @@ export const charplannerSlice = createSlice({
         changeArcane: (state, action) => {
             state.stats.arcane = action.payload;
         },
+
+        /* armament */
+
+        changeLefthand1Weapon: (state, action) => {
+            state.armament.lefthand1.weapon = action.payload;
+        },
+        changeLefthand1Aow: (state, action) => {
+            state.armament.lefthand1.aow = action.payload;
+        },
+        changeLefthand1Upgrade: (state, action) => {
+            state.armament.lefthand1.upgrade = action.payload;
+        },
+        changeLefthand1Affinity: (state, action) => {
+            state.armament.lefthand1.affinity = action.payload;
+        },
+        changeRighthand1Weapon: (state, action) => {
+            state.armament.righthand1.weapon = action.payload;
+        },
+        changeRighthand1Aow: (state, action) => {
+            state.armament.righthand1.aow = action.payload;
+        },
+        changeRighthand1Upgrade: (state, action) => {
+            state.armament.righthand1.upgrade = action.payload;
+        },
+        changeRighthand1Affinity: (state, action) => {
+            state.armament.righthand1.affinity = action.payload;
+        },
+        changeTwohand: (state, action) => {
+            state.armament.twohand = action.payload;
+        }
     }
 });
 
@@ -89,7 +162,17 @@ export const selectIntelligence = (state: RootState) => state.charplanner.stats.
 export const selectFaith = (state: RootState) => state.charplanner.stats.faith;
 export const selectArcane = (state: RootState) => state.charplanner.stats.arcane;
 
-export const selectorsMap = {
+export const selectLefthand1Weapon = (state: RootState) => state.charplanner.armament.lefthand1.weapon;
+export const selectLefthand1Aow = (state: RootState) => state.charplanner.armament.lefthand1.aow;
+export const selectLefthand1Upgrade = (state: RootState) => state.charplanner.armament.lefthand1.upgrade;
+export const selectLefthand1Affinity = (state: RootState) => state.charplanner.armament.lefthand1.affinity;
+export const selectRighthand1Weapon = (state: RootState) => state.charplanner.armament.righthand1.weapon;
+export const selectRighthand1Aow = (state: RootState) => state.charplanner.armament.righthand1.aow;
+export const selectRighthand1Upgrade = (state: RootState) => state.charplanner.armament.righthand1.upgrade;
+export const selectRighthand1Affinity = (state: RootState) => state.charplanner.armament.righthand1.affinity;
+export const selectTwohand = (state: RootState) => state.charplanner.armament.twohand;
+
+export const statSelectorsMap = {
     vigor: selectVigor,
     mind: selectMind,
     endurance: selectEndurance,
@@ -98,6 +181,28 @@ export const selectorsMap = {
     intelligence: selectIntelligence,
     faith: selectFaith,
     arcane: selectArcane
+};
+
+export type ArmamentSelectorMapType = {
+    lefthand1Weapon: (state: RootState) => string,
+    lefthand1Aow: (state: RootState) => string,
+    lefthand1Upgrade: (state: RootState) => string,
+    lefthand1Affinity: (state: RootState) => string,
+    righthand1Weapon: (state: RootState) => string,
+    righthand1Aow: (state: RootState) => string,
+    righthand1Upgrade: (state: RootState) => string,
+    righthand1Affinity: (state: RootState) => string,
+};
+
+export const armamentSelectorMap: ArmamentSelectorMapType = {
+    lefthand1Weapon: selectLefthand1Weapon,
+    lefthand1Aow: selectLefthand1Aow,
+    lefthand1Upgrade: selectLefthand1Upgrade,
+    lefthand1Affinity: selectLefthand1Affinity,
+    righthand1Weapon: selectRighthand1Weapon,
+    righthand1Aow: selectRighthand1Aow,
+    righthand1Upgrade: selectRighthand1Upgrade,
+    righthand1Affinity: selectRighthand1Affinity,
 };
 
 export const { 
@@ -112,10 +217,19 @@ export const {
     changeDexterity,
     changeIntelligence,
     changeFaith,
-    changeArcane
+    changeArcane,
+    changeLefthand1Weapon,
+    changeLefthand1Aow,
+    changeLefthand1Upgrade,
+    changeLefthand1Affinity,
+    changeRighthand1Weapon,
+    changeRighthand1Aow,
+    changeRighthand1Upgrade,
+    changeRighthand1Affinity,
+    changeTwohand
 } = charplannerSlice.actions;
 
-export const reduceractionsMap = {
+export const statReduceractionsMap = {
     vigor: changeVigor,
     mind: changeMind,
     endurance: changeEndurance,
@@ -124,6 +238,28 @@ export const reduceractionsMap = {
     intelligence: changeIntelligence,
     faith: changeFaith,
     arcane: changeArcane
+};
+
+export type ArmamentReduceractionsMapType = {
+    lefthand1Weapon: ActionCreatorWithPayload<any, string>,
+    lefthand1Aow: ActionCreatorWithPayload<any, string>,
+    lefthand1Upgrade: ActionCreatorWithPayload<any, string>,
+    lefthand1Affinity: ActionCreatorWithPayload<any, string>,
+    righthand1Weapon: ActionCreatorWithPayload<any, string>,
+    righthand1Aow: ActionCreatorWithPayload<any, string>,
+    righthand1Upgrade: ActionCreatorWithPayload<any, string>,
+    righthand1Affinity: ActionCreatorWithPayload<any, string>,
+};
+
+export const armamentReduceractionsMap: ArmamentReduceractionsMapType = {
+    lefthand1Weapon: changeLefthand1Weapon,
+    lefthand1Aow: changeLefthand1Aow,
+    lefthand1Upgrade: changeLefthand1Upgrade,
+    lefthand1Affinity: changeLefthand1Affinity,
+    righthand1Weapon: changeRighthand1Weapon,
+    righthand1Aow: changeRighthand1Aow,
+    righthand1Upgrade: changeRighthand1Upgrade,
+    righthand1Affinity: changeRighthand1Affinity,
 };
 
 export default charplannerSlice.reducer;
