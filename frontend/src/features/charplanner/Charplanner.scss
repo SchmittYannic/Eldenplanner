@@ -69,3 +69,104 @@
         }
     }
 }
+
+
+/* AttributesSubSection */
+
+.AttributesSubSection {
+    .RuneLevel {
+        padding-left: v.$FormPaddingLeft;
+        padding-right: v.$FormPaddingRight;
+        padding-top: .2em;
+        padding-bottom: .2em;
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+
+        span:last-of-type {
+            text-align: center;
+        }
+    }
+
+
+    .AttributeRow {
+        padding-left: v.$FormPaddingLeft;
+        padding-right: v.$FormPaddingRight;
+        padding-top: .2em;
+        padding-bottom: .2em;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        align-items: center;
+    
+        &:nth-of-type(2) {
+            padding-top: .8em;
+            padding-bottom: .8em;
+            color: v.$default-label-font-color;
+        }
+        
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    
+        /* Firefox */
+        input[type=text] {
+            margin: auto;
+            -moz-appearance: textfield;
+            appearance: textfield;
+            text-align: center;
+            color: inherit;
+            font-family: inherit;
+            font-size: inherit;
+            background-color: inherit;
+            width: 50px;
+            border-color: v.$default-focus-label-font-color;
+            border-radius: 5px;
+            padding: .2em;
+            outline: none;
+        }
+    
+        span:not(:first-of-type) {
+            text-align: center;
+        }
+    
+        span:last-of-type {
+            display: flex;
+            justify-content: space-evenly;
+        }
+    
+        button {
+            display: flex;
+            align-items: center;
+            background-color: inherit;
+            border: none;
+            color: v.$default-font-color;
+            transform: scale(2);
+    
+            &:focus {
+                background-color: v.$default-focus-button-background-color;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .RuneCost div {
+        padding-left: v.$FormPaddingLeft;
+        padding-right: v.$FormPaddingRight;
+        padding-top: .7em;
+        padding-bottom: .7em;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+
+        span:first-of-type {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        span:last-of-type {
+            grid-column-start: 3;
+            grid-column-end: 6;
+        }
+    }
+}
