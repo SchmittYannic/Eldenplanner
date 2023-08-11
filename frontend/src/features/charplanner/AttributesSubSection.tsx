@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { StatsType, StartingClassData } from "../../../data/StartingClassData";
 import {
     selectStartingclass,
-    selectorsMap,
-    reduceractionsMap
+    statSelectorsMap,
+    statReduceractionsMap
 } from "./charplannerSlice";
 import AttributeRow from "./AttributeRow";
 import RuneDisplayWrapper from "./RuneDisplayWrapper";
@@ -31,8 +31,8 @@ const AttributesSubSection = (): ReactElement => {
                             key={idx} 
                             keyName={keyName as keyof StatsType}
                             minStat={minStats[keyName as keyof StatsType]}
-                            statSelector={selectorsMap[keyName as keyof StatsType]}
-                            statAction={reduceractionsMap[keyName as keyof StatsType]}
+                            statSelector={statSelectorsMap[keyName as keyof StatsType]}
+                            statAction={statReduceractionsMap[keyName as keyof StatsType]}
                         />
                     ))}
                 </>
