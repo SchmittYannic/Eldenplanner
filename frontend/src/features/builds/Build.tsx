@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { EntityId } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
 import { UserType, selectUserById } from "../users/usersApiSlice";
 import { RootState } from "../../app/store";
@@ -31,7 +32,11 @@ const Build = ({ buildId }: PropsType): ReactElement => {
         const updatedAt = new Date(build.updatedAt);
         return (
             <tr className="table__row user">
-                <td className={`table__cell`}>{build.general.charactername}</td>
+                <td className={`table__cell`}>
+                    <Link to={`/charplanner/${build.id}`}>
+                        {build.general.charactername}
+                    </Link>
+                </td>
                 <td className={`table__cell`}>{user ? user.username : "Unknown"}</td>
                 <td className={`table__cell`}>{runelevel}</td>
                 <td className={`table__cell`}>0</td>
