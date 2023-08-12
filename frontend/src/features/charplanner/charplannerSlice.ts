@@ -1,6 +1,13 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
+type GeneralStateType = {
+    charactername: string,
+    startingclass: string,
+    greatrune: string,
+    greatruneactive: boolean,
+};
+
 const statsStateKeys = [
     "vigor", "mind", "endurance", "strength", "dexterity", "intelligence", "faith", "arcane"
 ] as const;
@@ -25,7 +32,32 @@ export type ArmorStateType = {
     hands: string,
 };
 
-const initialState = {
+type WeaponStateType = {
+    weapon: string,
+    aow: string,
+    affinity: string,
+    upgrade: string,
+};
+
+type ArmamentStateType = {
+    lefthand1: WeaponStateType,
+    lefthand2: WeaponStateType,
+    lefthand3: WeaponStateType,
+    righthand1: WeaponStateType,
+    righthand2: WeaponStateType,
+    righthand3: WeaponStateType,
+    twohand: boolean,
+}
+
+type CharplannerStateType = {
+    general: GeneralStateType,
+    stats: StatsStateType,
+    armament: ArmamentStateType,
+    armor: ArmorStateType,
+    talisman: TalismanStateType
+};
+
+const initialState: CharplannerStateType = {
     general: {
         charactername: "Tarnished",
         startingclass: "Hero",
@@ -261,67 +293,67 @@ export const charplannerSlice = createSlice({
     }
 });
 
-export const selectCharactername = (state: RootState) => state.charplanner.general.charactername;
-export const selectStartingclass = (state: RootState) => state.charplanner.general.startingclass;
-export const selectGreatrune = (state: RootState) => state.charplanner.general.greatrune;
-export const selectGreatruneactive = (state: RootState) => state.charplanner.general.greatruneactive;
+export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
+export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
+export const selectGreatrune = (state: RootState): string => state.charplanner.general.greatrune;
+export const selectGreatruneactive = (state: RootState): boolean => state.charplanner.general.greatruneactive;
 
 
-export const selectStats = (state: RootState) => state.charplanner.stats;
-export const selectVigor = (state: RootState) => state.charplanner.stats.vigor;
-export const selectMind = (state: RootState) => state.charplanner.stats.mind;
-export const selectEndurance = (state: RootState) => state.charplanner.stats.endurance;
-export const selectStrength = (state: RootState) => state.charplanner.stats.strength;
-export const selectDexterity = (state: RootState) => state.charplanner.stats.dexterity;
-export const selectIntelligence = (state: RootState) => state.charplanner.stats.intelligence;
-export const selectFaith = (state: RootState) => state.charplanner.stats.faith;
-export const selectArcane = (state: RootState) => state.charplanner.stats.arcane;
+export const selectStats = (state: RootState): StatsStateType => state.charplanner.stats;
+export const selectVigor = (state: RootState): number => state.charplanner.stats.vigor;
+export const selectMind = (state: RootState): number => state.charplanner.stats.mind;
+export const selectEndurance = (state: RootState): number => state.charplanner.stats.endurance;
+export const selectStrength = (state: RootState): number => state.charplanner.stats.strength;
+export const selectDexterity = (state: RootState): number => state.charplanner.stats.dexterity;
+export const selectIntelligence = (state: RootState): number => state.charplanner.stats.intelligence;
+export const selectFaith = (state: RootState): number => state.charplanner.stats.faith;
+export const selectArcane = (state: RootState): number => state.charplanner.stats.arcane;
 
 
-export const selectLefthand1Weapon = (state: RootState) => state.charplanner.armament.lefthand1.weapon;
-export const selectLefthand1Aow = (state: RootState) => state.charplanner.armament.lefthand1.aow;
-export const selectLefthand1Upgrade = (state: RootState) => state.charplanner.armament.lefthand1.upgrade;
-export const selectLefthand1Affinity = (state: RootState) => state.charplanner.armament.lefthand1.affinity;
+export const selectLefthand1Weapon = (state: RootState): string => state.charplanner.armament.lefthand1.weapon;
+export const selectLefthand1Aow = (state: RootState): string => state.charplanner.armament.lefthand1.aow;
+export const selectLefthand1Upgrade = (state: RootState): string => state.charplanner.armament.lefthand1.upgrade;
+export const selectLefthand1Affinity = (state: RootState): string => state.charplanner.armament.lefthand1.affinity;
 
-export const selectLefthand2Weapon = (state: RootState) => state.charplanner.armament.lefthand2.weapon;
-export const selectLefthand2Aow = (state: RootState) => state.charplanner.armament.lefthand2.aow;
-export const selectLefthand2Upgrade = (state: RootState) => state.charplanner.armament.lefthand2.upgrade;
-export const selectLefthand2Affinity = (state: RootState) => state.charplanner.armament.lefthand2.affinity;
+export const selectLefthand2Weapon = (state: RootState): string => state.charplanner.armament.lefthand2.weapon;
+export const selectLefthand2Aow = (state: RootState): string => state.charplanner.armament.lefthand2.aow;
+export const selectLefthand2Upgrade = (state: RootState): string => state.charplanner.armament.lefthand2.upgrade;
+export const selectLefthand2Affinity = (state: RootState): string => state.charplanner.armament.lefthand2.affinity;
 
-export const selectLefthand3Weapon = (state: RootState) => state.charplanner.armament.lefthand3.weapon;
-export const selectLefthand3Aow = (state: RootState) => state.charplanner.armament.lefthand3.aow;
-export const selectLefthand3Upgrade = (state: RootState) => state.charplanner.armament.lefthand3.upgrade;
-export const selectLefthand3Affinity = (state: RootState) => state.charplanner.armament.lefthand3.affinity;
+export const selectLefthand3Weapon = (state: RootState): string => state.charplanner.armament.lefthand3.weapon;
+export const selectLefthand3Aow = (state: RootState): string => state.charplanner.armament.lefthand3.aow;
+export const selectLefthand3Upgrade = (state: RootState): string => state.charplanner.armament.lefthand3.upgrade;
+export const selectLefthand3Affinity = (state: RootState): string => state.charplanner.armament.lefthand3.affinity;
 
-export const selectRighthand1Weapon = (state: RootState) => state.charplanner.armament.righthand1.weapon;
-export const selectRighthand1Aow = (state: RootState) => state.charplanner.armament.righthand1.aow;
-export const selectRighthand1Upgrade = (state: RootState) => state.charplanner.armament.righthand1.upgrade;
-export const selectRighthand1Affinity = (state: RootState) => state.charplanner.armament.righthand1.affinity;
+export const selectRighthand1Weapon = (state: RootState): string => state.charplanner.armament.righthand1.weapon;
+export const selectRighthand1Aow = (state: RootState): string => state.charplanner.armament.righthand1.aow;
+export const selectRighthand1Upgrade = (state: RootState): string => state.charplanner.armament.righthand1.upgrade;
+export const selectRighthand1Affinity = (state: RootState): string => state.charplanner.armament.righthand1.affinity;
 
-export const selectRighthand2Weapon = (state: RootState) => state.charplanner.armament.righthand2.weapon;
-export const selectRighthand2Aow = (state: RootState) => state.charplanner.armament.righthand2.aow;
-export const selectRighthand2Upgrade = (state: RootState) => state.charplanner.armament.righthand2.upgrade;
-export const selectRighthand2Affinity = (state: RootState) => state.charplanner.armament.righthand2.affinity;
+export const selectRighthand2Weapon = (state: RootState): string => state.charplanner.armament.righthand2.weapon;
+export const selectRighthand2Aow = (state: RootState): string => state.charplanner.armament.righthand2.aow;
+export const selectRighthand2Upgrade = (state: RootState): string => state.charplanner.armament.righthand2.upgrade;
+export const selectRighthand2Affinity = (state: RootState): string => state.charplanner.armament.righthand2.affinity;
 
-export const selectRighthand3Weapon = (state: RootState) => state.charplanner.armament.righthand3.weapon;
-export const selectRighthand3Aow = (state: RootState) => state.charplanner.armament.righthand3.aow;
-export const selectRighthand3Upgrade = (state: RootState) => state.charplanner.armament.righthand3.upgrade;
-export const selectRighthand3Affinity = (state: RootState) => state.charplanner.armament.righthand3.affinity;
+export const selectRighthand3Weapon = (state: RootState): string => state.charplanner.armament.righthand3.weapon;
+export const selectRighthand3Aow = (state: RootState): string => state.charplanner.armament.righthand3.aow;
+export const selectRighthand3Upgrade = (state: RootState): string => state.charplanner.armament.righthand3.upgrade;
+export const selectRighthand3Affinity = (state: RootState): string => state.charplanner.armament.righthand3.affinity;
 
-export const selectTwohand = (state: RootState) => state.charplanner.armament.twohand;
+export const selectTwohand = (state: RootState): boolean => state.charplanner.armament.twohand;
 
 
-export const selectTalisman = (state: RootState) => state.charplanner.talisman;
-export const selectTalisman1 = (state: RootState) => state.charplanner.talisman.talisman1;
-export const selectTalisman2 = (state: RootState) => state.charplanner.talisman.talisman2;
-export const selectTalisman3 = (state: RootState) => state.charplanner.talisman.talisman3;
-export const selectTalisman4 = (state: RootState) => state.charplanner.talisman.talisman4;
+export const selectTalisman = (state: RootState): TalismanStateType => state.charplanner.talisman;
+export const selectTalisman1 = (state: RootState): string => state.charplanner.talisman.talisman1;
+export const selectTalisman2 = (state: RootState): string => state.charplanner.talisman.talisman2;
+export const selectTalisman3 = (state: RootState): string => state.charplanner.talisman.talisman3;
+export const selectTalisman4 = (state: RootState): string => state.charplanner.talisman.talisman4;
 
-export const selectArmor = (state: RootState) => state.charplanner.armor;
-export const selectHead = (state: RootState) => state.charplanner.armor.head;
-export const selectChest = (state: RootState) => state.charplanner.armor.chest;
-export const selectHands = (state: RootState) => state.charplanner.armor.hands;
-export const selectLegs = (state: RootState) => state.charplanner.armor.legs;
+export const selectArmor = (state: RootState): ArmorStateType => state.charplanner.armor;
+export const selectHead = (state: RootState): string => state.charplanner.armor.head;
+export const selectChest = (state: RootState): string => state.charplanner.armor.chest;
+export const selectHands = (state: RootState): string => state.charplanner.armor.hands;
+export const selectLegs = (state: RootState): string => state.charplanner.armor.legs;
 
 export type statSelectorMapType = {
     [key in StatsStateKeysType as key]: (state: RootState) => number
