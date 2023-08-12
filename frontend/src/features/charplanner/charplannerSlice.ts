@@ -49,7 +49,7 @@ export type ArmamentStateType = {
     twohand: boolean,
 }
 
-type CharplannerStateType = {
+export type CharplannerStateType = {
     general: GeneralStateType,
     stats: StatsStateType,
     armament: ArmamentStateType,
@@ -131,7 +131,17 @@ export const charplannerSlice = createSlice({
     name: "charplanner",
     initialState,
     reducers: {
+        loadBuild: (state, action) => {
+            const { general, stats, armament, talisman, armor } = action.payload;
+            state.general = general;
+            state.stats = stats;
+            state.armament = armament;
+            state.talisman = talisman;
+            state.armor = armor;
+        },
+
         /* general */
+        
         changeCharactername: (state, action) => {
             state.general.charactername = action.payload;
         },
@@ -415,6 +425,7 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
 };
 
 export const { 
+    loadBuild,
     changeCharactername,
     changeStartingclass,
     changeGreatrune,
