@@ -293,6 +293,8 @@ export const charplannerSlice = createSlice({
     }
 });
 
+export const selectCharplannerData = (state: RootState): CharplannerStateType => state.charplanner;
+
 export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
 export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
 export const selectGreatrune = (state: RootState): string => state.charplanner.general.greatrune;
