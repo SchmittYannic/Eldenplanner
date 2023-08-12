@@ -8,6 +8,7 @@ import Charplanner from "./features/charplanner/Charplanner";
 import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
+import Prefetch from "./features/auth/Prefetch";
 
 const App = (): ReactElement => {
 
@@ -18,13 +19,15 @@ const App = (): ReactElement => {
                 <Route path="login" element={<Login />} />
                 <Route path="charplanner" element={<><Header/><Charplanner/></>} />
 
-                <Route path="builds">
-                    <Route index element={<><Header/><BuildsList/></>} />
-                </Route>
+                <Route element={<Prefetch />}>
+                    <Route path="builds">
+                        <Route index element={<><Header/><BuildsList/></>} />
+                    </Route>
 
-                <Route path="users">
-                    <Route index element={<><Header/><UsersList/></>} />
-                    <Route path=":userId" element={<EditUser />} />
+                    <Route path="users">
+                        <Route index element={<><Header/><UsersList/></>} />
+                        <Route path=":userId" element={<EditUser />} />
+                    </Route>
                 </Route>
 
                 {/* if route doesnt exist redirect back to frontpage */}
