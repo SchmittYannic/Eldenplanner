@@ -1,9 +1,13 @@
-import { useState, ChangeEvent } from 'react';
-import { UserType, useUpdateUserMutation } from './usersApiSlice';
-import { ROLES } from '../../config/roles';
-import { isCustomError } from '../../app/api/apiSlice';
+import { useState, ChangeEvent, ReactElement } from "react";
+import { UserType, useUpdateUserMutation } from "./usersApiSlice";
+import { ROLES } from "../../config/roles";
+import { isCustomError } from "../../app/api/apiSlice";
 
-const EditUserForm = ({ user }: { user: UserType }) => {
+type PropsType = {
+    user: UserType
+}
+
+const EditUserForm = ({ user }: PropsType): ReactElement => {
     
     const [updateUser, {
         isLoading,

@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     selectCharactername,
@@ -12,7 +13,7 @@ import {
 import { TextInput, Checkbox, CustomSelect } from "../../components/ui";
 import StartingClassData from "../../../data/StartingClassData";
 
-const NameSubSection = () => {
+const NameSubSection = (): ReactElement => {
     const dispatch = useDispatch();
 
     const charactername = useSelector(selectCharactername);

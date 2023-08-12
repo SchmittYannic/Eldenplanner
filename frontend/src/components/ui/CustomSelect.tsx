@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, ReactElement } from "react";
 import CustomSelectLogic from "./CustomSelectLogic";
 import "./CustomSelect.scss";
 
@@ -24,7 +24,7 @@ const CustomSelect = ({
     label="", 
     enableDelete=false, 
     searchable=false
-}: PropsType) => {
+}: PropsType): ReactElement => {
     const [filteredOptions, setFilteredOptions] = useState(options);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

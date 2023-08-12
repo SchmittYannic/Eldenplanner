@@ -1,6 +1,6 @@
-import React from 'react'
+import { ReactElement} from "react";
 
-const InfoSection = () => {
+const InfoSection = (): ReactElement => {
     return (
         <div>InfoSection</div>
     )

@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import ListElement from "./ListElement";
 
 type PropsType = {
@@ -14,7 +15,7 @@ const OptionsList = ({
     focusedOption, 
     optionContainer, 
     handleSelection 
-}: PropsType) => {
+}: PropsType): ReactElement => {
     return (
         <ul className="OptionsList">
             {options.map((option, idx) => {

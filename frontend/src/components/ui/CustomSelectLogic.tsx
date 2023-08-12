@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, KeyboardEvent, ChangeEvent } from "react";
+import { useState, useRef, useEffect, KeyboardEvent, ChangeEvent, ReactElement } from "react";
 import { MdClose, MdExpandMore } from "react-icons/md";
 import OptionsList from "./OptionsList";
 
@@ -24,7 +24,7 @@ const CustomSelectLogic = ({
     searchable,
     onChange,
     onSelect
-}: PropsType) => {
+}: PropsType): ReactElement => {
     const [inputValue, setInputValue] = useState(currentSelectedOption);
     const [showOptionsList, setShowOptionsList] = useState(false);
     const [focusedOption, setFocusedOption] = useState(-1);

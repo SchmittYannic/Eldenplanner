@@ -3,7 +3,11 @@ import { EntityId } from "@reduxjs/toolkit";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
 import { useNavigate } from "react-router-dom";
 
-const User = ({ userId }: { userId: EntityId}): ReactElement => {
+type PropsType = {
+    userId: EntityId
+}
+
+const User = ({ userId }: PropsType): ReactElement => {
 
     const data = useGetUsersQuery("usersList", {
         selectFromResult: ({ data }) => ({

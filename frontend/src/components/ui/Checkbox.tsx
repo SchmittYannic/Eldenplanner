@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useState, ReactElement } from "react";
 import "./Checkbox.scss";
 
 type PropsType = {
@@ -8,7 +8,7 @@ type PropsType = {
 }
 
 /* https://blog.logrocket.com/building-custom-checkbox-react/ */
-const Checkbox = ({ label, checked, setChecked }: PropsType) => {
+const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
     const [isRippling, setIsRippling] = useState(false);
 
     const onKeyDown = (e: KeyboardEvent) => {

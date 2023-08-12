@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent, ReactElement } from "react";
 import "./ListElement.scss";
 
 type PropsType = {
@@ -19,7 +19,7 @@ const ListElement = ({
     focusedOption, 
     optionContainer, 
     handleSelection 
-}: PropsType) => {
+}: PropsType): ReactElement => {
     /* ripple effect from https://www.30secondsofcode.org/react/s/ripple-button/ */
     const [coords, setCoords] = useState({ x: -1, y: -1 });
     const [isRippling, setIsRippling] = useState(false);

@@ -1,4 +1,4 @@
-import { ReactElement, ChangeEvent } from "react"
+import { ReactElement, ChangeEvent } from "react";
 import "./TextInput.scss";
 
 type PropsType = {

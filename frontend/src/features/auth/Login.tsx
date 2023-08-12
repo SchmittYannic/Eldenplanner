@@ -1,6 +1,6 @@
-import React from 'react';
+import { ReactElement } from "react";
 
-const Login = () => {
+const Login = (): ReactElement => {
     return (
         <h1>Login</h1>
     )

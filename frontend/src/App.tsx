@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Frontpage from "./components/Frontpage";
@@ -8,7 +9,7 @@ import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
 
-const App = () => {
+const App = (): ReactElement => {
 
     return (
         <Routes>

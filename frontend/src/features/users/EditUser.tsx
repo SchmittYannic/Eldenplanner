@@ -1,8 +1,9 @@
+import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
 import EditUserForm from "./EditUserForm";
 
-const EditUser = () => {
+const EditUser = (): ReactElement => {
     const { userId } = useParams();
     
     const { user } = useGetUsersQuery("usersList", {

@@ -19,7 +19,11 @@ import {
 } from "./charplannerSlice";
 import StartingClassData from "../../../data/StartingClassData";
 
-const RuneDisplayWrapper = ({ children }: {children: ReactElement[]}) => {
+type PropsType = {
+    children: ReactElement[]
+}
+
+const RuneDisplayWrapper = ({ children }: PropsType): ReactElement => {
 
     const startingclass = useSelector(selectStartingclass);
 

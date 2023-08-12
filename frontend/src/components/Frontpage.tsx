@@ -1,7 +1,7 @@
-import React from "react";
+import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
-const Frontpage = () => {
+const Frontpage = (): ReactElement => {
     return (
         <main className="frontpage">
             <h1>This is the Frontpage</h1>

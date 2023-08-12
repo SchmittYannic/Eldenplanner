@@ -1,6 +1,6 @@
-import React from 'react'
+import { ReactElement } from "react";
 
-const Header = () => {
+const Header = (): ReactElement => {
     return (
         <header>
             <h3>This is the header</h3>
