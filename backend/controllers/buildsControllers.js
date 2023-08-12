@@ -1,4 +1,3 @@
-import { min } from "date-fns";
 import Build from "../models/Build.js";
 import User from "../models/User.js";
 
@@ -6,7 +5,13 @@ import User from "../models/User.js";
 // @route GET /builds
 // @access Public
 const getAllBuilds = async (req, res) => {
-
+    // select all builds
+    // when not calling any methods like save later on and only want to get the data add a lean()
+    const builds = await Build.find().lean().exec();
+    if (!builds?.length) {
+        return res.status(400).json({ message: "No builds found" });
+    }
+    res.json(builds);
 };
 
 // @desc Create new build
