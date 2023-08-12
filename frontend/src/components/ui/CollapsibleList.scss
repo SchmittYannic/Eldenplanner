@@ -1,0 +1,59 @@
+@use "../../Variables" as v;
+
+.CollapsibleList {
+    padding-left: v.$FormPaddingLeft;
+    padding-right: v.$FormPaddingRight;
+
+    .CollButton {
+        margin-top: .5em;
+        width: 100%;
+        padding: calc(.5em + 5px);
+        background-color: v.$default-option-background-color;
+        color: v.$default-font-color;
+        font-size: v.$font-size-normal;
+        text-align: left;
+        cursor: pointer;
+        border: none;
+        border-top-left-radius: .5em;
+        border-top-right-radius: .5em;
+        border-bottom-left-radius: .5em;
+        border-bottom-right-radius: .5em;
+        outline: none;
+        transition: border-bottom-right-radius 0.2s ease-out, border-bottom-left-radius 0.2s ease-out;
+
+        &:after {
+            content: "\002B";
+            color: v.$default-font-color;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        &.Active{
+            border-bottom-left-radius: 0em;
+            border-bottom-right-radius: 0em;
+
+            &:after {
+                content: "\2212";
+            }
+        }
+
+        &:hover, &:focus {
+            background-color: v.$default-focus-button-background-color;
+        }
+    }
+
+    .CollContent {
+        padding: 0 18px;
+        border-bottom-left-radius: .5em;
+        border-bottom-right-radius: .5em;
+        transition: max-height 0.2s ease-out;
+        background-color: v.$default-option-background-color;
+
+        li {  
+            margin-left: .5em;
+            padding: calc((.5em + 5px)/2);
+            font-size: v.$font-size-normal;
+        }
+    }
+}
