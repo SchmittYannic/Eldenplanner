@@ -27,13 +27,15 @@ const Charplanner = (): ReactElement => {
             <EquipmentSection />
             <InfoSection />
             
-            {/*
-            <button
-                type="button"
-                onClick={onSaveClicked}
-            >
-                Savebutton
-            </button> */}
+            <section className="Charplanner__actionscontainer">
+                <button
+                    className="Charplanner__Save btn"
+                    type="button"
+                    onClick={onSaveClicked}
+                >
+                    Save
+                </button>
+            </section>
         </main>
     )
 };

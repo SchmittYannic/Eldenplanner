@@ -220,3 +220,15 @@
 .Invisible {
     opacity: 0;
 }
+
+
+/* Charplanner__actionscontainer */
+
+.Charplanner__actionscontainer {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
