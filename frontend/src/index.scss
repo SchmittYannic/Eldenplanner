@@ -66,6 +66,14 @@ tr {
     gap: 0.1em;
 }
 
+.table--users {
+    grid-template-columns: 2fr 2fr 2fr 1fr 1fr 3fr 3fr 1fr;
+}
+
+.table--builds {
+    grid-template-columns: repeat(6, 1fr);
+}
+
 .table__button {
     padding: 0.25em;
     font-size: 1.5rem;
@@ -86,7 +94,7 @@ tr {
     padding: 0.5em;
 }
 
-.table__cell:last-child {
+.table--users .table__cell:last-child {
     display: grid;
     place-content: center;
 }
