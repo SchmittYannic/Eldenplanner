@@ -1,7 +1,7 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-type GeneralStateType = {
+export type GeneralStateType = {
     charactername: string,
     startingclass: string,
     greatrune: string,
@@ -32,14 +32,14 @@ export type ArmorStateType = {
     hands: string,
 };
 
-type WeaponStateType = {
+export type WeaponStateType = {
     weapon: string,
     aow: string,
     affinity: string,
     upgrade: string,
 };
 
-type ArmamentStateType = {
+export type ArmamentStateType = {
     lefthand1: WeaponStateType,
     lefthand2: WeaponStateType,
     lefthand3: WeaponStateType,
