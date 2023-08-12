@@ -26,7 +26,7 @@ const Build = ({ buildId }: PropsType): ReactElement => {
 
         const sumStats = calcSumObjectValues(build.stats);
 
-        const runelevel = sumStats - 80;
+        const runelevel = sumStats - 79;
 
         const createdAt = new Date(build.createdAt);
         const updatedAt = new Date(build.updatedAt);
