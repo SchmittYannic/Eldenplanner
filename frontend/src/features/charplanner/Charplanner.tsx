@@ -1,41 +1,17 @@
 import { ReactElement } from "react";
-import { useAddNewBuildMutation } from "./charplannerApiSlice";
-
 import CharacterSection from "./CharacterSection";
 import EquipmentSection from "./EquipmentSection";
 import InfoSection from "./InfoSection";
-
+import ActionsSection from "./ActionsSection";
 import "./Charplanner.scss";
 
 const Charplanner = (): ReactElement => {
-    const [addNewBuild, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    }] = useAddNewBuildMutation();
-
-    console.log(error)
-
-    const onSaveClicked = async () => {
-        await addNewBuild({  })
-    }
-
     return (
         <main className="Charplanner">
             <CharacterSection />
             <EquipmentSection />
             <InfoSection />
-            
-            <section className="Charplanner__actionscontainer">
-                <button
-                    className="Charplanner__Save btn"
-                    type="button"
-                    onClick={onSaveClicked}
-                >
-                    Save
-                </button>
-            </section>
+            <ActionsSection />
         </main>
     )
 };
