@@ -58,7 +58,157 @@ const buildSchema = new mongoose.Schema(
                 type: Number,
                 required: true,
             },
-        }
+        },
+        armament: {
+            lefthand1: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            lefthand2: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            lefthand3: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            righthand1: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            righthand2: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            righthand3: {
+                weapon: {
+                    type: String,
+                    default: "",
+                },
+                aow: {
+                    type: String,
+                    default: "",
+                },
+                upgrade: {
+                    type: String,
+                    default: "",
+                },
+                affinity: {
+                    type: String,
+                    default: "",
+                }
+            },
+            twohand: {
+                type: Boolean,
+                required: true,
+            },
+        },
+        talisman: {
+            talisman1: {
+                type: String,
+                default: "",
+            },
+            talisman2: {
+                type: String,
+                default: "",
+            },
+            talisman3: {
+                type: String,
+                default: "",
+            },
+            talisman4: {
+                type: String,
+                default: "",
+            },
+        },
+        armor: {
+            head: {
+                type: String,
+                default: "",
+            },
+            chest: {
+                type: String,
+                default: "",
+            },
+            hands: {
+                type: String,
+                default: "",
+            },
+            legs: {
+                type: String,
+                default: "",
+            },
+        },
     },
     {
         timestamps: true
