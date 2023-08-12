@@ -17,9 +17,11 @@ const App = (): ReactElement => {
             <Route path="/" element={<Layout />} >
                 <Route index element={<><Header/><Frontpage /></>} />
                 <Route path="login" element={<Login />} />
-                <Route path="charplanner" element={<><Header/><Charplanner/></>} />
 
                 <Route element={<Prefetch />}>
+
+                    <Route path="charplanner/:buildId?" element={<><Header/><Charplanner/></>} />
+                
                     <Route path="builds">
                         <Route index element={<><Header/><BuildsList/></>} />
                     </Route>
