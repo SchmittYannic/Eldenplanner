@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import WeaponsSubSection from "./WeaponsSubSection";
 import TalismanSubSection from "./TalismanSubSection";
 import ArmorSubSection from "./ArmorSubSection";
+import EffectDisplay from "./EffectDisplay";
 
 const EquipmentSection = (): ReactElement => {
     return (
@@ -9,7 +10,7 @@ const EquipmentSection = (): ReactElement => {
             <WeaponsSubSection />
             <TalismanSubSection />
             <ArmorSubSection />
-            {/*<CollapsibleList heading={"Active Effects"} items={activeEffects} /> */}
+            <EffectDisplay />
         </section>
     )
 }
