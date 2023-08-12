@@ -1,16 +1,15 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
+const statsStateKeys = [
+    "vigor", "mind", "endurance", "strength", "dexterity", "intelligence", "faith", "arcane"
+] as const;
+
+export type StatsStateKeysType = typeof statsStateKeys[number];
+
 export type StatsStateType = {
-    vigor: number,
-    mind: number,
-    endurance: number,
-    strength: number,
-    dexterity: number,
-    intelligence: number,
-    faith: number,
-    arcane: number,
-}
+    [key in StatsStateKeysType as key]: number
+};
 
 export type TalismanStateType = {
     talisman1: string,
@@ -325,15 +324,8 @@ export const selectHands = (state: RootState) => state.charplanner.armor.hands;
 export const selectLegs = (state: RootState) => state.charplanner.armor.legs;
 
 export type statSelectorMapType = {
-    vigor: (state: RootState) => number,
-    mind: (state: RootState) => number,
-    endurance: (state: RootState) => number,
-    strength: (state: RootState) => number,
-    dexterity: (state: RootState) => number,
-    intelligence: (state: RootState) => number,
-    faith: (state: RootState) => number,
-    arcane: (state: RootState) => number,
-}
+    [key in StatsStateKeysType as key]: (state: RootState) => number
+};
 
 export const statSelectorsMap: statSelectorMapType = {
     vigor: selectVigor,
@@ -346,31 +338,19 @@ export const statSelectorsMap: statSelectorMapType = {
     arcane: selectArcane
 };
 
+const armamentMapKeys = [
+    "lefthand1Weapon", "lefthand1Aow" , "lefthand1Upgrade", "lefthand1Affinity",
+    "lefthand2Weapon", "lefthand2Aow" , "lefthand2Upgrade", "lefthand2Affinity",
+    "lefthand3Weapon", "lefthand3Aow" , "lefthand3Upgrade", "lefthand3Affinity",
+    "righthand1Weapon", "righthand1Aow" , "righthand1Upgrade", "righthand1Affinity",
+    "righthand2Weapon", "righthand2Aow" , "righthand2Upgrade", "righthand2Affinity",
+    "righthand3Weapon", "righthand3Aow" , "righthand3Upgrade", "righthand3Affinity",
+] as const;
+
+type armamentMapKeysType = typeof armamentMapKeys[number];
+
 export type ArmamentSelectorMapType = {
-    lefthand1Weapon: (state: RootState) => string,
-    lefthand1Aow: (state: RootState) => string,
-    lefthand1Upgrade: (state: RootState) => string,
-    lefthand1Affinity: (state: RootState) => string,
-    lefthand2Weapon: (state: RootState) => string,
-    lefthand2Aow: (state: RootState) => string,
-    lefthand2Upgrade: (state: RootState) => string,
-    lefthand2Affinity: (state: RootState) => string,
-    lefthand3Weapon: (state: RootState) => string,
-    lefthand3Aow: (state: RootState) => string,
-    lefthand3Upgrade: (state: RootState) => string,
-    lefthand3Affinity: (state: RootState) => string,
-    righthand1Weapon: (state: RootState) => string,
-    righthand1Aow: (state: RootState) => string,
-    righthand1Upgrade: (state: RootState) => string,
-    righthand1Affinity: (state: RootState) => string,
-    righthand2Weapon: (state: RootState) => string,
-    righthand2Aow: (state: RootState) => string,
-    righthand2Upgrade: (state: RootState) => string,
-    righthand2Affinity: (state: RootState) => string,
-    righthand3Weapon: (state: RootState) => string,
-    righthand3Aow: (state: RootState) => string,
-    righthand3Upgrade: (state: RootState) => string,
-    righthand3Affinity: (state: RootState) => string,
+    [key in armamentMapKeysType as key]: (state: RootState) => string
 };
 
 export const armamentSelectorMap: ArmamentSelectorMapType = {
@@ -448,7 +428,11 @@ export const {
     changeLegs
 } = charplannerSlice.actions;
 
-export const statReduceractionsMap = {
+type StatReduceractionsMapType = {
+    [key in StatsStateKeysType as key]: ActionCreatorWithPayload<any, string>
+};
+
+export const statReduceractionsMap: StatReduceractionsMapType = {
     vigor: changeVigor,
     mind: changeMind,
     endurance: changeEndurance,
@@ -460,30 +444,7 @@ export const statReduceractionsMap = {
 };
 
 export type ArmamentReduceractionsMapType = {
-    lefthand1Weapon: ActionCreatorWithPayload<any, string>,
-    lefthand1Aow: ActionCreatorWithPayload<any, string>,
-    lefthand1Upgrade: ActionCreatorWithPayload<any, string>,
-    lefthand1Affinity: ActionCreatorWithPayload<any, string>,
-    lefthand2Weapon: ActionCreatorWithPayload<any, string>,
-    lefthand2Aow: ActionCreatorWithPayload<any, string>,
-    lefthand2Upgrade: ActionCreatorWithPayload<any, string>,
-    lefthand2Affinity: ActionCreatorWithPayload<any, string>,
-    lefthand3Weapon: ActionCreatorWithPayload<any, string>,
-    lefthand3Aow: ActionCreatorWithPayload<any, string>,
-    lefthand3Upgrade: ActionCreatorWithPayload<any, string>,
-    lefthand3Affinity: ActionCreatorWithPayload<any, string>,
-    righthand1Weapon: ActionCreatorWithPayload<any, string>,
-    righthand1Aow: ActionCreatorWithPayload<any, string>,
-    righthand1Upgrade: ActionCreatorWithPayload<any, string>,
-    righthand1Affinity: ActionCreatorWithPayload<any, string>,
-    righthand2Weapon: ActionCreatorWithPayload<any, string>,
-    righthand2Aow: ActionCreatorWithPayload<any, string>,
-    righthand2Upgrade: ActionCreatorWithPayload<any, string>,
-    righthand2Affinity: ActionCreatorWithPayload<any, string>,
-    righthand3Weapon: ActionCreatorWithPayload<any, string>,
-    righthand3Aow: ActionCreatorWithPayload<any, string>,
-    righthand3Upgrade: ActionCreatorWithPayload<any, string>,
-    righthand3Affinity: ActionCreatorWithPayload<any, string>,
+    [key in armamentMapKeysType as key]: ActionCreatorWithPayload<any, string>
 };
 
 export const armamentReduceractionsMap: ArmamentReduceractionsMapType = {
