@@ -46,6 +46,10 @@ const capitalizeFirstLetter = (string: string): string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+const calcSumObjectValues = (obj: {[key: string]: number}): number => {
+    return Object.values(obj).reduce((a, b) => a + b, 0);
+};
+
 const calcStatChange = (
     statName: string,
     talismans: TalismanStateType,
@@ -262,5 +266,6 @@ export {
     calcTotalRunesSpend,
     addThousandsSeperator,
     capitalizeFirstLetter,
-    calcStatChange
+    calcSumObjectValues,
+    calcStatChange,
 }
