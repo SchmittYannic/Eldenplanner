@@ -49,11 +49,13 @@ const Charplanner = (): ReactElement => {
     }, [buildRef.current]);
 
     return (
-        <main className="Charplanner">
-            <CharacterSection />
-            <EquipmentSection />
-            <InfoSection />
-            <ActionsSection />
+        <main>
+            <div className="Charplanner">
+                <CharacterSection />
+                <EquipmentSection />
+                <InfoSection />
+                <ActionsSection />
+            </div>
         </main>
     )
 };

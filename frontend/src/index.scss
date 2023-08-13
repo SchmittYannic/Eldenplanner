@@ -35,6 +35,10 @@ main, header {
 
 main {
     margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 header {
@@ -141,4 +145,23 @@ tr {
     background: radial-gradient(190.82% 190.82% at 50% 100%, rgba(254, 173, 15, 1) 0%, rgba(168, 112, 64, 0.62) 18.09%);
     opacity: .2;
     filter: blur(2px);
+}
+
+
+/* Signup */
+
+.form--signup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.errmsg {
+    background-color: transparent;
+    color: red;
+}
+
+.succmsg {
+    background-color: transparent;
+    color: green;
 }
