@@ -22,6 +22,11 @@ const Header = (): ReactElement => {
                             Charplanner
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/signup">
+                            Sign Up
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </header>
