@@ -150,7 +150,8 @@ tr {
 
 /* Signup */
 
-.form--signup {
+.form--signup,
+.form--login {
     display: flex;
     flex-direction: column;
     gap: 1rem;
