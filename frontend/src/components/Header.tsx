@@ -27,6 +27,11 @@ const Header = (): ReactElement => {
                             Sign Up
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/login">
+                            Login
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </header>
