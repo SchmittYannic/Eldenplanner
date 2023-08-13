@@ -1,33 +1,40 @@
-import { ReactElement, ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
-    StatsStateType,
-    selectStartingclass,
-    statReduceractionsMap,
-    statSelectorsMap
-} from "./charplannerSlice";
-import useTotalstats from "../../hooks/useTotalstats";
+    ReactElement,
+    ChangeEvent,
+    KeyboardEvent,
+    MouseEvent,
+    useState,
+    useEffect
+} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
+
+import { StatsType } from "../../../data/StartingClassData";
+import { RootState } from "../../app/store";
 import { capitalizeFirstLetter } from "../../utils/functions";
-import StartingClassData from "../../../data/StartingClassData";
+import useTotalstats from "../../hooks/useTotalstats";
+
 
 type PropsType = {
-    keyName: string
-};
+    keyName: keyof StatsType,
+    minStat: number,
+    statSelector: (stat: RootState) => number,
+    statAction: ActionCreatorWithPayload<any, string>,
+}
 
-const AttributeRow = ({ keyName }: PropsType): ReactElement => {
+const AttributeRow = ({ keyName, minStat, statSelector, statAction }: PropsType): ReactElement => {
 
-    const dispatch = useDispatch();
+    const totalStat = useTotalstats(keyName);
     
-    const totalStat = useTotalstats(keyName as keyof StatsStateType);
-    const startingclass = useSelector(selectStartingclass);
-    const minStat = StartingClassData[startingclass][keyName as keyof StatsStateType];
-    const statValue = useSelector(statSelectorsMap[keyName as keyof StatsStateType]);
+    const dispatch = useDispatch();
+    const statValue = useSelector(statSelector);
 
     /*
         input can be string or number to allow user to empty out the input field 
         without it displaying NaN.
     */
-    const [inputValue, setInputValue] = useState<number | string>(statValue);
+    const [inputValue, setInputValue] = useState<string | number>(statValue);
 
     /*
         ResetInput will set the value of the input element back to the stat minimum.
@@ -35,7 +42,7 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
     */
     const resetInput = (): void => {
         setInputValue(minStat);
-        dispatch(statReduceractionsMap[keyName as keyof StatsStateType](minStat));
+        dispatch(statAction(minStat));
     };
 
     /*
@@ -50,8 +57,9 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
         }
 
         setInputValue(value);
-        dispatch(statReduceractionsMap[keyName as keyof StatsStateType](value));
+        dispatch(statAction(value));
     };
+
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setInputValue(e.target.value);
@@ -91,12 +99,33 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
         }
     };
 
+    const handleArrowButton = (e: KeyboardEvent<HTMLButtonElement> | MouseEvent<HTMLButtonElement>, action: number) => {
+        const eventType = e.type
+        if (eventType === "click") {
+            if (action === 1) {
+                setStatInState(inputValue as number + 1)
+            } else if (action === -1) {
+                setStatInState(inputValue as number - 1)
+            };
+        } else if (e instanceof KeyboardEvent && eventType === "keydown") {
+            const { key } = e;
+            if (key === "Enter") {
+                e.preventDefault();
+                if (action === 1) {
+                    setStatInState(inputValue as number + 1);
+                } else if (action === -1) {
+                    setStatInState(inputValue as number - 1);
+                };
+            }
+        }
+    };
+
     /*
         whenever minStat prop changes by changing the startingclass
         make sure the current inputValue isnt below the new stat minimum.
     */
     useEffect(() => {
-        if(typeof inputValue === "string" || minStat > statValue ) {
+        if(typeof inputValue === "string" || minStat > inputValue ) {
             resetInput();
         }
     }, [minStat]);
@@ -120,6 +149,20 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
                 onBlur={handleBlur}
             />
             <span>{typeof totalStat === "number" && totalStat}</span>
+            <span>
+                <button
+                    onClick={(e) => handleArrowButton(e, -1)}
+                    onKeyDown={(e) => handleArrowButton(e, -1)}
+                >
+                    <MdExpandMore />
+                </button>
+                <button
+                    onClick={(e) => handleArrowButton(e, 1)}
+                    onKeyDown={(e) => handleArrowButton(e, 1)}
+                >
+                    <MdExpandLess />
+                </button>
+            </span>
         </div>
     )
 }

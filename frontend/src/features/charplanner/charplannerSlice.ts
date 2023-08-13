@@ -8,7 +8,7 @@ export type GeneralStateType = {
     greatruneactive: boolean,
 };
 
-const statsStateKeys = [
+export const statsStateKeys = [
     "vigor", "mind", "endurance", "strength", "dexterity", "intelligence", "faith", "arcane"
 ] as const;
 
