@@ -1,5 +1,13 @@
-import { ReactElement, ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import {
+    ReactElement,
+    ChangeEvent,
+    KeyboardEvent,
+    MouseEvent,
+    useEffect,
+    useState
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import {
     StatsStateType,
     selectStartingclass,
@@ -71,6 +79,27 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
         }
     };
 
+    const handleArrowButton = (e: KeyboardEvent<HTMLButtonElement> | MouseEvent<HTMLButtonElement>, action: number) => {
+        const eventType = e.type
+        if (eventType === "click") {
+            if (action === 1) {
+                setStatInState(inputValue as number + 1)
+            } else if (action === -1) {
+                setStatInState(inputValue as number - 1)
+            };
+        } else if (e instanceof KeyboardEvent && eventType === "keydown") {
+            const { key } = e;
+            if (key === "Enter") {
+                e.preventDefault();
+                if (action === 1) {
+                    setStatInState(inputValue as number + 1);
+                } else if (action === -1) {
+                    setStatInState(inputValue as number - 1);
+                };
+            }
+        }
+    };
+
     /*
         Checks the value of the input element. 
         Parses it to a number if necessary.
@@ -120,6 +149,20 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
                 onBlur={handleBlur}
             />
             <span>{typeof totalStat === "number" && totalStat}</span>
+            <span>
+                <button
+                    onClick={(e) => handleArrowButton(e, -1)}
+                    onKeyDown={(e) => handleArrowButton(e, -1)}
+                >
+                    <MdExpandMore />
+                </button>
+                <button
+                    onClick={(e) => handleArrowButton(e, 1)}
+                    onKeyDown={(e) => handleArrowButton(e, 1)}
+                >
+                    <MdExpandLess />
+                </button>
+            </span>
         </div>
     )
 }
