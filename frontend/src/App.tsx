@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Frontpage from "./components/Frontpage";
 import Login from "./features/auth/Login";
-import Header from "./components/Header";
+import Signup from "./features/auth/Signup";
 import Charplanner from "./features/charplanner/Charplanner";
 import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
@@ -15,19 +15,20 @@ const App = (): ReactElement => {
     return (
         <Routes>
             <Route path="/" element={<Layout />} >
-                <Route index element={<><Header/><Frontpage /></>} />
+                <Route index element={<><Frontpage /></>} />
                 <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
 
                 <Route element={<Prefetch />}>
 
-                    <Route path="charplanner/:buildId?" element={<><Header/><Charplanner/></>} />
+                    <Route path="charplanner/:buildId?" element={<><Charplanner/></>} />
                 
                     <Route path="builds">
-                        <Route index element={<><Header/><BuildsList/></>} />
+                        <Route index element={<><BuildsList/></>} />
                     </Route>
 
                     <Route path="users">
-                        <Route index element={<><Header/><UsersList/></>} />
+                        <Route index element={<><UsersList/></>} />
                         <Route path=":userId" element={<EditUser />} />
                     </Route>
                 </Route>
