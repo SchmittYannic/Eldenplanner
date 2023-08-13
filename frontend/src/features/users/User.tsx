@@ -24,6 +24,7 @@ const User = ({ userId }: PropsType): ReactElement => {
     if (user) {
         const createdAt = new Date(user.createdAt);
         const updatedAt = new Date(user.updatedAt);
+        const isDateEqual = user.createdAt === user.updatedAt;
         return (
             <tr className="table__row user">
                 <td className={`table__cell`}>{user.username}</td>
@@ -32,7 +33,7 @@ const User = ({ userId }: PropsType): ReactElement => {
                 <td className={`table__cell`}>{user.active.toString()}</td>
                 <td className={`table__cell`}>{user.validated.toString()}</td>
                 <td className={`table__cell`}>{createdAt.toLocaleString()}</td>
-                <td className={`table__cell`}>{updatedAt.toLocaleString()}</td>
+                <td className={`table__cell`}>{!isDateEqual ? updatedAt.toLocaleString() : ""}</td>
                 <td className={`table__cell`}>
                     <button onClick={handleEditClick}>
                         EDIT

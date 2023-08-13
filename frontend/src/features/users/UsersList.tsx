@@ -56,8 +56,8 @@ const UsersList = (): ReactElement => {
                             <th scope="col" className="table__th user__roles">Roles</th>
                             <th scope="col" className="table__th user__active">active</th>
                             <th scope="col" className="table__th user__validated">validated</th>
-                            <th scope="col" className="table__th user__createdAt">CreatedAt</th>
-                            <th scope="col" className="table__th user__updatedAt">UpdatedAt</th>
+                            <th scope="col" className="table__th user__createdAt">Created</th>
+                            <th scope="col" className="table__th user__updatedAt">Modified</th>
                             <th scope="col" className="table__th user__edit">Edit</th>
                         </tr>
                     </thead>

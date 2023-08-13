@@ -30,6 +30,8 @@ const Build = ({ buildId }: PropsType): ReactElement => {
 
         const createdAt = new Date(build.createdAt);
         const updatedAt = new Date(build.updatedAt);
+        const isDateEqual = build.createdAt === build.updatedAt;
+
         return (
             <tr className="table__row user">
                 <td className={`table__cell`}>
@@ -40,8 +42,8 @@ const Build = ({ buildId }: PropsType): ReactElement => {
                 <td className={`table__cell`}>{user ? user.username : "Unknown"}</td>
                 <td className={`table__cell`}>{runelevel}</td>
                 <td className={`table__cell`}>0</td>
-                <td className={`table__cell`}>{createdAt.toLocaleString()}</td>
-                <td className={`table__cell`}>{updatedAt.toLocaleString()}</td>
+                <td className={`table__cell`}>{createdAt.toLocaleDateString()}</td>
+                <td className={`table__cell`}>{!isDateEqual ? updatedAt.toLocaleDateString() : ""}</td>
             </tr>
         )
     } else return <></>
