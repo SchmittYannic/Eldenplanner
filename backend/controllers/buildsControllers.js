@@ -18,92 +18,16 @@ const getAllBuilds = async (req, res) => {
 // @route POST /builds
 // @access Private
 const createNewBuild = async(req, res) => {
-    /* confirm data from request body */
+    /* the data objects validity gets checked beforehand by the middleware checkBuildData */
     const { userId, data } = req.body;
 
-    if (!userId || !data) {
+    if (!userId) {
         return res.status(400).json({ message: "Missing entries in received request body" });
     }
 
     const { general, stats, armament, talisman, armor } = data;
 
-    if (!general || !stats || !armament || !talisman || !armor) {
-        return res.status(400).json({ message: "Missing entries in received data object" });
-    }
-
-    const { charactername, startingclass, greatrune, greatruneactive } = general;
-
-    if (charactername === undefined, !startingclass, greatrune === undefined, greatruneactive === undefined) {
-        return res.status(400).json({ message: "Missing entries in received general data object" });
-    }
-
-    const { vigor, mind, endurance, strength, dexterity, intelligence, faith, arcane } = stats;
-
-    if (!vigor || !mind || !endurance || !strength || !dexterity || !intelligence || !faith || !arcane) {
-        return res.status(400).json({ message: "Missing entries in received stats data object" });
-    }
-
-    const { lefthand1, lefthand2, lefthand3, righthand1, righthand2, righthand3, twohand } = armament;
-
-    if (!lefthand1 || !lefthand2 || !lefthand3 || !righthand1 || !righthand2 || !righthand3 || twohand === undefined) {
-        return res.status(400).json({ message: "Missing entries in received armament data object" });
-    }
-
-    if (lefthand1.weapon === undefined 
-        || lefthand1.aow === undefined 
-        || lefthand1.upgrade === undefined 
-        || lefthand1.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received lefthand1 data object" });
-    }
-
-    if (lefthand2.weapon === undefined 
-        || lefthand2.aow === undefined 
-        || lefthand2.upgrade === undefined 
-        || lefthand2.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received lefthand2 data object" });
-    }
-
-    if (lefthand3.weapon === undefined 
-        || lefthand3.aow === undefined 
-        || lefthand3.upgrade === undefined 
-        || lefthand3.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received lefthand3 data object" });
-    }
-
-    if (righthand1.weapon === undefined 
-        || righthand1.aow === undefined 
-        || righthand1.upgrade === undefined 
-        || righthand1.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received righthand1 data object" });
-    }
-
-    if (righthand2.weapon === undefined 
-        || righthand2.aow === undefined 
-        || righthand2.upgrade === undefined 
-        || righthand2.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received righthand2 data object" });
-    }
-
-    if (righthand3.weapon === undefined 
-        || righthand3.aow === undefined 
-        || righthand3.upgrade === undefined 
-        || righthand3.affinity === undefined) {
-            return res.status(400).json({ message: "Missing entries in received righthand3 data object" });
-    }
-
-    if (talisman.talisman1 === undefined 
-        || talisman.talisman2 === undefined 
-        || talisman.talisman3 === undefined 
-        || talisman.talisman4 === undefined) {
-            return res.status(400).json({ message: "Missing entries in received talisman data object" });
-    }
-
-    if (armor.head === undefined 
-        || armor.chest === undefined 
-        || armor.hands === undefined 
-        || armor.legs === undefined) {
-            return res.status(400).json({ message: "Missing entries in received armor data object" });
-    }
+    const { charactername } = general;
 
     const user = await User.findById(userId).lean().exec();
 
@@ -148,14 +72,70 @@ const createNewBuild = async(req, res) => {
 // @route PATCH /builds
 // @access Private
 const updateBuild = async (req, res) => {
+    /* the data objects validity gets checked beforehand by the middleware checkBuildData */
+    const { buildId, userId, data } = req.body;
 
+    if (!userId || !buildId) {
+        return res.status(400).json({ message: "Missing entries in received request body" });
+    }
+
+    const build = await Build.findById(buildId).exec();
+
+    if (!build) {
+        return res.status(400).json({ message: "Build not found" });
+    }
+
+    /* check for empty charactername */
+    if (data.general.charactername === "") {
+        build.general = {
+            charactername: "Tarnished",
+            startingclass: data.general.startingclass,
+            greatrune: data.general.greatrune,
+            greatruneactive: data.general.greatruneactive
+        }
+    } else {
+        build.general = data.general;
+    }
+
+    build.stats = data.stats;
+    build.armament = data.armament;
+    build.talisman = data.talisman;
+    build.armor = data.armor;
+
+    const updatedBuild = await build.save();
+
+    if (updatedBuild) {
+        res.json({ message: `Build ${updatedBuild._id} updated`});
+    } else {
+        res.status(400).json({ message: "Failed to write changes into database" });
+    }
 };
 
 // @desc Delete a build
 // @route DELETE /builds
 // @access Private
 const deleteBuild = async (req, res) => {
+    const { buildId } = req.body;
 
+    if (!buildId) {
+        return res.status(400).json({ message: "Build ID Required" });
+    }
+
+    // Check if user has Builds attached to him in the future.
+
+    const build = await Build.findById(buildId).exec();
+
+    if (!build) {
+        return res.status(400).json({ message: "Build not found" });
+    }
+
+    const result = await build.deleteOne();
+
+    if (result) {
+        res.json(`Build ${result._id} deleted`);
+    } else {
+        return res.status(400).json({ message: "Failed to delete Build from database" });
+    }
 };
 
 export {
