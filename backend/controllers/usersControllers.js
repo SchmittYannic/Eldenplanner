@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import * as EmailValidator from "email-validator";
 
 // @desc Get all users
 // @route GET /users
@@ -38,6 +39,10 @@ const createNewUser = async (req, res) => {
 
     if (duplicateEmail) {
         return res.status(409).json({ message: "Duplicate email" });
+    }
+
+    if (!EmailValidator.validate(email)) {
+        return res.status(400).json({ message: "Invalid email address received" });
     }
 
     /* Hash password */
@@ -84,6 +89,10 @@ const updateUser = async (req, res) => {
     
     if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
         return res.status(409).json({ message: "Duplicate email" });
+    }
+
+    if (!EmailValidator.validate(email)) {
+        return res.status(400).json({ message: "Invalid email address received" });
     }
 
     user.username = username;
