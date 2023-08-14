@@ -11,6 +11,7 @@ import corsOptions from "./config/corsOptions.js";
 import connectDB from "./config/dbConn.js";
 import mongoose from "mongoose";
 import rootRoute from "./routes/root.js";
+import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import buildRoutes from "./routes/buildRoutes.js";
 
@@ -35,6 +36,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 /* ROUTES */
 app.use("/", rootRoute);
+app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/builds", buildRoutes);
 
