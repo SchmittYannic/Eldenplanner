@@ -1,4 +1,8 @@
 import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "./authApiSlice";
+import { setCredentials } from "./authSlice";
 
 const Login = (): ReactElement => {
 
@@ -7,14 +11,35 @@ const Login = (): ReactElement => {
 
     const [responseMsg, setResponseMsg] = useState("");
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [login, { isLoading }] = useLoginMutation();
+
     const onUserChange = (e: ChangeEvent<HTMLInputElement>) => setUser(e.target.value);
     const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
-    const onSubmitClicked = (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
+    const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
-    };
+        try {
+            const { accessToken } = await login({ user, password }).unwrap();
 
-    const responseMsgClass = "";
+            dispatch(setCredentials({ accessToken }));
+            setUser("");
+            setPassword("");
+            navigate("/charplanner");
+        } catch (err: any) {
+            if (!err.status) {
+                setResponseMsg("No Server Response");
+            } else if (err.status === 400) {
+                setResponseMsg(err.data?.message);
+            } else if (err.status === 401) {
+                setResponseMsg(err.data?.message);
+            } else {
+                setResponseMsg(err.data?.message);
+            }
+        }
+    };
 
     return (
         <main>
@@ -45,7 +70,7 @@ const Login = (): ReactElement => {
                     autoComplete="off"
                 />
 
-                <p className={`msg--login ${responseMsgClass}`}>
+                <p className="msg--login errmsg">
                     {responseMsg}
                 </p>
 
@@ -56,6 +81,8 @@ const Login = (): ReactElement => {
                 >
                     Login
                 </button>
+
+                {isLoading && <p>is Loading...</p>}
             </form>
         </main>
     )
