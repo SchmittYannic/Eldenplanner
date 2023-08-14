@@ -9,6 +9,8 @@ import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
 import Prefetch from "./features/auth/Prefetch";
+import RequireAuth from "./features/auth/RequireAuth";
+import { ROLES } from "./config/roles";
 
 const App = (): ReactElement => {
 
@@ -27,9 +29,11 @@ const App = (): ReactElement => {
                         <Route index element={<><BuildsList/></>} />
                     </Route>
 
-                    <Route path="users">
-                        <Route index element={<><UsersList/></>} />
-                        <Route path=":userId" element={<EditUser />} />
+                    <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
+                        <Route path="users">
+                            <Route index element={<><UsersList/></>} />
+                            <Route path=":userId" element={<EditUser />} />
+                        </Route>
                     </Route>
                 </Route>
 
