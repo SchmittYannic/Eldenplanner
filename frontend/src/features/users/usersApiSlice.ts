@@ -31,7 +31,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            keepUnusedDataFor: 5,
             transformResponse: (responseData: UserType[]) => {
                 const loadedUsers = responseData.map(user => {
                     user.id = user._id
@@ -81,6 +80,28 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 { type: 'User', id: arg.id }
             ]
         }),
+        getUsersAsAdmin: builder.query<EntityState<unknown>, string>({
+            query: () => ({
+                url: '/users/admin',
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            transformResponse: (responseData: UserType[]) => {
+                const loadedUsers = responseData.map(user => {
+                    user.id = user._id
+                    return user
+                });
+                return usersAdapter.setAll(initialState, loadedUsers)         
+            },
+            providesTags: (result) =>
+                result
+                ? [
+                    ...result.ids.map(( id ) => ({ type: 'User' as const, id })),
+                    { type: 'User', id: 'LIST' },
+                    ]
+                : [{ type: 'User', id: 'LIST' }],
+            }),
     }),
 })
 
@@ -89,14 +110,21 @@ export const {
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,
+    useGetUsersAsAdminQuery,
 } = usersApiSlice
 
 // returns the query result object
-export const selectUsersResult = usersApiSlice.endpoints.getUsers.select("usersList")
+export const selectUsersResult = usersApiSlice.endpoints.getUsers.select("usersList");
+export const selectUsersAsAdminResult = usersApiSlice.endpoints.getUsersAsAdmin.select("usersList");
 
 //creates memoized selector
 const selectUsersData = createSelector(
     selectUsersResult,
+    usersResult => usersResult.data // normalized state object with ids & entities
+);
+
+const selectUsersAsAdminData = createSelector(
+    selectUsersAsAdminResult,
     usersResult => usersResult.data // normalized state object with ids & entities
 )
 
@@ -107,3 +135,10 @@ export const {
     selectIds: selectUserIds
     // Pass in a selector that returns the users slice of state
 } = usersAdapter.getSelectors((state: RootState) => selectUsersData(state) ?? initialState)
+
+export const {
+    selectAll: selectAllUsersAsAdmin,
+    selectById: selectUserByIdAsAdmin,
+    selectIds: selectUserIdsAsAdmin
+    // Pass in a selector that returns the users slice of state
+} = usersAdapter.getSelectors((state: RootState) => selectUsersAsAdminData(state) ?? initialState)
