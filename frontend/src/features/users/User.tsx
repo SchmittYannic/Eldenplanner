@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { EntityId } from "@reduxjs/toolkit";
-import { UserType, useGetUsersAsAdminQuery } from "./usersApiSlice";
+import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersApiSlice";
 import { useNavigate } from "react-router-dom";
 
 type PropsType = {
@@ -17,7 +17,7 @@ const User = ({ userId }: PropsType): ReactElement => {
 
     const navigate = useNavigate()
     
-    const user = data.user as UserType
+    const user = data.user as UserAsAdminType
 
     const handleEditClick = () => navigate(`/users/${userId}`);
 
