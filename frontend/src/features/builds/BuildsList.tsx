@@ -1,6 +1,7 @@
 import { ReactElement} from "react";
 import { useGetBuildsQuery } from "./buildsApiSlice";
 import Build from "./Build";
+import { isCustomError } from "../../app/api/apiSlice";
 
 const BuildsList = (): ReactElement => {
     const {
@@ -16,7 +17,7 @@ const BuildsList = (): ReactElement => {
     if (isError) {
         let errorMsg = "";
 
-        if ("data" in error) {
+        if (isCustomError(error)) {
             errorMsg = error?.data?.message;
         } else {
             errorMsg = "An Error occured";
