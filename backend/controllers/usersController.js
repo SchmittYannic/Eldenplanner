@@ -3,15 +3,37 @@ import bcrypt from "bcrypt";
 import * as EmailValidator from "email-validator";
 
 // @desc Get all users
-// @route GET /users
+// @route GET /users/admin
 // @access Private
-const getAllUsers = async (req, res) => {
-    // select all users without password
-    // when not calling any methods like save later on and only want to get the data add a lean()
+const getAllUsersAsAdmin = async (req, res) => {
+
+    const roles = req.roles;
+
+    // If Admin and Demoadmin is not inside the roles Array then request is unauthorized
+    if (!roles.includes("Admin") && !roles.includes("Demoadmin")) {
+        return res.status(401).json({ message: "Unauthorized: only admins and demoadmins" });
+    }
+
+    // select all users username and creation date, who arent admins or demoadmins
     const users = await User.find().select("-password").lean();
     if (!users?.length) {
         return res.status(400).json({ message: "No users found" });
     }
+
+    res.json(users);
+};
+
+// @desc Get all users
+// @route GET /users
+// @access Public
+const getAllUsers = async (req, res) => {
+    // select all users username and creation date, who arent admins or demoadmins
+    // when not calling any methods like save later on and only want to get the data add a lean()
+    const users = await User.find({roles: {$nin: ["Admin", "Demoadmin"]}}).select("username createdAt").lean();
+    if (!users?.length) {
+        return res.status(400).json({ message: "No users found" });
+    }
+
     res.json(users);
 };
 
@@ -137,6 +159,7 @@ const deleteUser = async (req, res) => {
 };
 
 export {
+    getAllUsersAsAdmin,
     getAllUsers,
     createNewUser,
     updateUser,
