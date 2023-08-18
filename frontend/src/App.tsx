@@ -21,9 +21,10 @@ const App = (): ReactElement => {
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
 
-                <Route element={<Prefetch />}>
+                <Route path="charplanner" element={<><Charplanner/></>} />
 
-                    <Route path="charplanner/:buildId?" element={<><Charplanner/></>} />
+                <Route element={<Prefetch />}>
+                    <Route path="charplanner/:buildId" element={<><Charplanner/></>} />
                 
                     <Route path="builds">
                         <Route index element={<><BuildsList/></>} />
