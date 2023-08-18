@@ -131,6 +131,13 @@ export const charplannerSlice = createSlice({
     name: "charplanner",
     initialState,
     reducers: {
+        resetCharplanner: (state) => {
+            state.general = initialState.general;
+            state.stats = initialState.stats;
+            state.armament = initialState.armament;
+            state.talisman = initialState.talisman;
+            state.armor = initialState.armor;
+        },
         loadBuild: (state, action) => {
             const { general, stats, armament, talisman, armor } = action.payload;
             state.general = general;
@@ -425,6 +432,7 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
 };
 
 export const { 
+    resetCharplanner,
     loadBuild,
     changeCharactername,
     changeStartingclass,
