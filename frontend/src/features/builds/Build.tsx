@@ -39,7 +39,11 @@ const Build = ({ buildId }: PropsType): ReactElement => {
                         {build.general.charactername}
                     </Link>
                 </td>
-                <td className={`table__cell`}>{user ? user.username : "Unknown"}</td>
+                <td className={`table__cell`}>
+                    <Link to={`/${user.id}`}>
+                        {user.username}
+                    </Link>
+                </td>
                 <td className={`table__cell`}>{runelevel}</td>
                 <td className={`table__cell`}>0</td>
                 <td className={`table__cell`}>{createdAt.toLocaleDateString()}</td>
