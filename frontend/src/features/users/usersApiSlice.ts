@@ -14,6 +14,13 @@ export type UserType = {
     _id?: number
     id?: number
     username: string
+    createdAt: string
+}
+
+export type UserAsAdminType = {
+    _id?: number
+    id?: number
+    username: string
     email: string
     validated: boolean
     active: boolean
@@ -87,7 +94,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            transformResponse: (responseData: UserType[]) => {
+            transformResponse: (responseData: UserAsAdminType[]) => {
                 const loadedUsers = responseData.map(user => {
                     user.id = user._id
                     return user
