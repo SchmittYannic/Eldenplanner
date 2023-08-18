@@ -8,6 +8,7 @@ import Charplanner from "./features/charplanner/Charplanner";
 import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
+import UserPage from "./features/users/UserPage";
 import Prefetch from "./features/auth/Prefetch";
 import RequireAuth from "./features/auth/RequireAuth";
 import { ROLES } from "./config/roles";
@@ -17,22 +18,24 @@ const App = (): ReactElement => {
     return (
         <Routes>
             <Route path="/" element={<Layout />} >
-                <Route index element={<><Frontpage /></>} />
+                <Route index element={<Frontpage />} />
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
 
-                <Route path="charplanner" element={<><Charplanner/></>} />
+                <Route path="charplanner" element={<Charplanner/>} />
 
                 <Route element={<Prefetch />}>
-                    <Route path="charplanner/:buildId" element={<><Charplanner/></>} />
+                    <Route path="charplanner/:buildId" element={<Charplanner/>} />
                 
                     <Route path="builds">
-                        <Route index element={<><BuildsList/></>} />
+                        <Route index element={<BuildsList/>} />
                     </Route>
+
+                    <Route path=":userId" element={<UserPage/>} />
 
                     <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
                         <Route path="users">
-                            <Route index element={<><UsersList/></>} />
+                            <Route index element={<UsersList/>} />
                             <Route path=":userId" element={<EditUser />} />
                         </Route>
                     </Route>
