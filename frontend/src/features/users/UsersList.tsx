@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
-import { useGetUsersQuery } from "./usersApiSlice";
+import { useGetUsersAsAdminQuery } from "./usersApiSlice";
 import User from "./User";
+import { isCustomError } from "../../app/api/apiSlice";
 
 const UsersList = (): ReactElement => {
     const {
@@ -9,14 +10,16 @@ const UsersList = (): ReactElement => {
         isSuccess,
         isError,
         error     
-    } = useGetUsersQuery("usersList");
+    } = useGetUsersAsAdminQuery("usersList", {
+        pollingInterval: 1000 * 60 // refetching data in 1 minute
+    });
 
     let content: ReactElement = (<></>);
 
     if (isError) {
         let errorMsg = "";
 
-        if ("data" in error) {
+        if (isCustomError(error)) {
             errorMsg = error?.data?.message;
         } else {
             errorMsg = "An Error occured";

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { EntityId } from "@reduxjs/toolkit";
-import { UserType, useGetUsersQuery } from "./usersApiSlice";
+import { UserType, useGetUsersAsAdminQuery } from "./usersApiSlice";
 import { useNavigate } from "react-router-dom";
 
 type PropsType = {
@@ -9,7 +9,7 @@ type PropsType = {
 
 const User = ({ userId }: PropsType): ReactElement => {
 
-    const data = useGetUsersQuery("usersList", {
+    const data = useGetUsersAsAdminQuery("usersList", {
         selectFromResult: ({ data }) => ({
             user: data?.entities[userId]
         }),

@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import { UserType, useGetUsersQuery } from "./usersApiSlice";
+import { UserType, useGetUsersAsAdminQuery } from "./usersApiSlice";
 import EditUserForm from "./EditUserForm";
 
 const EditUser = (): ReactElement => {
     const { userId } = useParams();
     
-    const { user } = useGetUsersQuery("usersList", {
+    const { user } = useGetUsersAsAdminQuery("usersList", {
         selectFromResult: ({ data }) => ({
             user: data?.entities[userId!]
         }),
