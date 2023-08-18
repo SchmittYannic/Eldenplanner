@@ -19,6 +19,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 try {
                     await queryFulfilled;
                     dispatch(logOut());
+                    setTimeout(() => {
+                        //clears out the cache and query subscriptions
+                        dispatch(apiSlice.util.resetApiState());
+                    }, 1000);
                 } catch (err) {
                     console.log(err);
                 }
