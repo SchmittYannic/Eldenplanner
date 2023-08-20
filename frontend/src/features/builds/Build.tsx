@@ -13,16 +13,22 @@ type PropsType = {
 
 const Build = ({ buildId }: PropsType): ReactElement => {
 
-    const data = useGetBuildsQuery("buildsList", {
+    const { build } = useGetBuildsQuery("buildsList", {
         selectFromResult: ({ data }) => ({
-            build: data?.entities[buildId]
+            build: data?.entities[buildId] as BuildType
         }),
     });
 
-    const build = data.build as BuildType;
+    const buildAuthorId = build.user;
+
+    const buildAuthor = useSelector((state: RootState) => {
+        if(buildAuthorId) {
+            return selectUserById(state, buildAuthorId) as UserType
+        }
+        return null
+    })
 
     if (build) {
-        const user = useSelector((state: RootState) => selectUserById(state, build.user as EntityId)) as UserType;
 
         const sumStats = calcSumObjectValues(build.stats);
 
@@ -40,8 +46,8 @@ const Build = ({ buildId }: PropsType): ReactElement => {
                     </Link>
                 </td>
                 <td className={`table__cell`}>
-                    <Link to={`/${user.id}`}>
-                        {user.username}
+                    <Link to={`/${buildAuthor?.id}`}>
+                        {buildAuthor?.username}
                     </Link>
                 </td>
                 <td className={`table__cell`}>{runelevel}</td>
