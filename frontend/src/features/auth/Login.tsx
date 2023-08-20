@@ -38,6 +38,7 @@ const Login = (): ReactElement => {
             } else {
                 setResponseMsg(err.data?.message);
             }
+            setResponseMsg("an error occured");
         }
     };
 
