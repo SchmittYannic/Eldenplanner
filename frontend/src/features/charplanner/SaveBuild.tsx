@@ -1,9 +1,12 @@
-import { ChangeEvent, ReactElement, useState } from "react";
+import { ChangeEvent, ReactElement, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useAddNewBuildMutation } from "./charplannerApiSlice";
+import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
 import { selectCharplannerData } from "./charplannerSlice";
 import { Alert } from "../../components/ui";
 import useAuth from "../../hooks/useAuth";
+import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
+import { RootState } from "../../app/store";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -12,16 +15,32 @@ type PropsType = {
 const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     const { userId } = useAuth();
+    const param = useParams();
     const charplannerData = useSelector(selectCharplannerData);
 
     const [addNewBuild, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
+        isLoading: isSaveLoading,
+        isSuccess: isSaveSuccess,
+        isError: isSaveError,
+        error: saveerror
     }] = useAddNewBuildMutation();
 
-    const [textareaInput, setTextareaInput] = useState("");
+    const [updateBuild, {
+        isLoading: isUpdateLoading,
+        isSuccess: isUpdateSuccess,
+        isError: isUpdateError,
+        error: updateerror
+    }] = useUpdateBuildMutation();
+
+    const build = useSelector((state: RootState) => {
+        if (param?.buildId) {
+            return selectBuildById(state, param.buildId) as BuildType
+        }
+        return null
+    });
+    const isBuildAuthor = userId === build?.user;
+    const initialStateTextarea = isBuildAuthor ? build?.title : "";
+    const [textareaInput, setTextareaInput] = useState(initialStateTextarea);
 
     const onTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setTextareaInput(e.target.value);
@@ -30,6 +49,17 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     const onSaveBuildClicked = async () => {
         await addNewBuild({ userId, title: textareaInput, data: charplannerData })
     };
+
+    const onUpdateBuildClicked = async () => {
+        await updateBuild({ buildId: param.buildId, userId, title: textareaInput, data: charplannerData })
+    };
+
+    useEffect(() => {
+        if(isSaveSuccess || isUpdateSuccess) {
+            setTextareaInput("");
+            setTrigger(false);
+        }
+    }, [isSaveSuccess, isUpdateSuccess]);
 
     return (
         <Alert classes="alert--savebuild" setAlert={setTrigger}>
@@ -49,11 +79,11 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                 <button
                     className="btn"
                     type="button"
-                    onClick={onSaveBuildClicked}
+                    onClick={isBuildAuthor ? onUpdateBuildClicked : onSaveBuildClicked}
                 >
-                    Save
+                    {isBuildAuthor ? "Update" : "Save"}
                 </button>
-                {isLoading &&  <p>is Loading...</p>}
+                {(isSaveLoading || isUpdateLoading) &&  <p>is Loading...</p>}
             </div>
         </Alert>
     )
