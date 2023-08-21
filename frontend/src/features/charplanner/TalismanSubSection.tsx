@@ -15,7 +15,8 @@ const TalismanSubSection = (): ReactElement => {
 
     const talisman = useSelector(selectTalisman);
 
-    const [alert, setAlert] = useState("");
+    const [isConflict, setIsConflict] = useState(false);
+    const [alertContent, setAlertContent] = useState("");
     const TalismanSlots: string[] = ["talisman1", "talisman2", "talisman3", "talisman4"];
 
     const setSelectedTalisman = (value: string, slot: string) => {
@@ -29,13 +30,23 @@ const TalismanSubSection = (): ReactElement => {
         if(!conflicts.includes(value)) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](value));
         } else {
-            setAlert(`\nConflict detected!\n\nThe selected Talisman "${value}" is in conflict with Talisman in different slot.`);
+            setIsConflict(true);
+            setAlertContent(`The selected Talisman "${value}" is in conflict with Talisman in different slot.`);
         }
     };
 
     return (
         <div className="TalismanSubSection">
-            {alert && <Alert alert={alert} setAlert={setAlert} />}
+            {isConflict && (
+                <Alert classes={"alert--conflict"} setAlert={setIsConflict}>
+                    <>
+                        <br />
+                        <p>Conflict detected!</p>
+                        <br />
+                        <p>{alertContent}</p>
+                    </>
+                </Alert>
+            )}
             {TalismanSlots.map((slot, idx) => 
                 <CustomSelect
                     key={idx}
