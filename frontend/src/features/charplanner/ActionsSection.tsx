@@ -14,8 +14,6 @@ const ActionsSection = (): ReactElement => {
         error
     }] = useAddNewBuildMutation();
 
-    console.log(error)
-
     const onSaveClicked = async () => {
         await addNewBuild({ userId: "64d1293a6d56a51cd0f72ac4" , data: charplannerData })
     }
