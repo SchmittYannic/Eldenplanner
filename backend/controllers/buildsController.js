@@ -19,9 +19,9 @@ const getAllBuilds = async (req, res) => {
 // @access Private
 const createNewBuild = async(req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
-    const { userId, data } = req.body;
+    const { userId, title, data } = req.body;
 
-    if (!userId) {
+    if (!userId || !title) {
         return res.status(400).json({ message: "Missing entries in received request body" });
     }
 
@@ -45,6 +45,7 @@ const createNewBuild = async(req, res) => {
     /* create buildObject to send to DB */
     const buildObject = {
         user: userId,
+        title,
         general: {
             charactername: validCharactername,
             startingclass: general.startingclass,
