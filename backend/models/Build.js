@@ -7,6 +7,10 @@ const buildSchema = new mongoose.Schema(
             required: true,
             ref: "User",
         },
+        title: {
+            type: String,
+            required: true,
+        },
         general: {
             charactername: {
                 type: String,
