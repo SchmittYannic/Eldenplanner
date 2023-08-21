@@ -2,19 +2,20 @@ import { useEffect, useRef, KeyboardEvent, ReactElement } from "react";
 import "./Alert.scss";
 
 type PropsType = {
-    alert: string,
-    setAlert: React.Dispatch<React.SetStateAction<string>>
+    setAlert: React.Dispatch<React.SetStateAction<boolean>>,
+    classes?: string
+    children: ReactElement[] | ReactElement
 }
 
-const Alert = ({ alert, setAlert }: PropsType): ReactElement => {
+const Alert = ({ setAlert, classes, children }: PropsType): ReactElement => {
     const ref = useRef<HTMLDivElement | null>(null);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-        const { key } = e;
-        e.preventDefault();
-        if(key === "Tab") {
-            ref.current?.focus(); //ref.current?.firstChild?.focus();
-        }
+        // const { key } = e;
+        // e.preventDefault();
+        // if(key === "Tab") {
+        //     ref.current?.focus(); //ref.current?.firstChild?.focus();
+        // }
     };
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const Alert = ({ alert, setAlert }: PropsType): ReactElement => {
     }, []);
 
     return (
-        <div className="AlertBackground">
+        <div className={`AlertBackground ${classes}`}>
             <div 
                 id="Alert"  
                 tabIndex={0}
@@ -35,12 +36,12 @@ const Alert = ({ alert, setAlert }: PropsType): ReactElement => {
                 <button 
                     className="CloseAlert" 
                     tabIndex={0}
-                    onClick={() => setAlert("")}
-                    onKeyDown={(e) => e.key === "Enter" ? setAlert("") : null}
+                    onClick={() => setAlert(false)}
+                    onKeyDown={(e) => e.key === "Enter" ? setAlert(false) : null}
                 >
                     &times;
                 </button>
-                <p>{alert}</p>
+                { Array.isArray(children) ? { ...children } : children }
             </div>
         </div>
     )
