@@ -12,6 +12,7 @@ export type BuildType = {
     _id?: number
     id?: number   
     user: string
+    title: string
     general: GeneralStateType
     stats: StatsStateType
     armament: ArmamentStateType
