@@ -11,7 +11,8 @@ type PropsType = {
     classes: string,
     label: string,
     enableDelete?: boolean,
-    searchable?: boolean
+    searchable?: boolean,
+    disabled?: boolean,
 }
 
 const CustomSelect = ({ 
@@ -23,7 +24,8 @@ const CustomSelect = ({
     classes="", 
     label="", 
     enableDelete=false, 
-    searchable=false
+    searchable=false,
+    disabled=false,
 }: PropsType): ReactElement => {
     const [filteredOptions, setFilteredOptions] = useState(options);
 
@@ -57,6 +59,7 @@ const CustomSelect = ({
                 label={label}
                 enableDelete={enableDelete}
                 searchable={searchable}
+                disabled={disabled}
                 onChange={handleChange}
                 onSelect={(option: string) => handleSelect(option)}
             />

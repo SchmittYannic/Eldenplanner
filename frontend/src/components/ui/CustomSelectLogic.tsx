@@ -10,6 +10,7 @@ type PropsType = {
     label: string,
     enableDelete: boolean,
     searchable: boolean,
+    disabled: boolean,
     onChange: Function,
     onSelect: Function
 }
@@ -22,6 +23,7 @@ const CustomSelectLogic = ({
     label,
     enableDelete,
     searchable,
+    disabled,
     onChange,
     onSelect
 }: PropsType): ReactElement => {
@@ -165,9 +167,10 @@ const CustomSelectLogic = ({
                     onClick={() => setShowOptionsList(true)}
                     onBlur={handleBlur}
                     readOnly={!searchable}
+                    disabled={disabled}
                 />
                 <p>{label}</p>
-                <button tabIndex={0} onKeyDown={handleButtonKeyDown} >
+                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
                     {enableDelete ? 
                         inputValue === "" ? 
                         <MdExpandMore  className="ddBtn" onClick={handleClickExpandButton} /> : 
