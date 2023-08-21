@@ -1,22 +1,13 @@
-import { ReactElement } from "react";
-import { useSelector } from "react-redux";
-import { useAddNewBuildMutation } from "./charplannerApiSlice";
-import { selectCharplannerData } from "./charplannerSlice";
+import { ReactElement, useState } from "react";
+import SaveBuild from "./SaveBuild";
 
 const ActionsSection = (): ReactElement => {
 
-    const charplannerData = useSelector(selectCharplannerData);
+    const [isSaveTriggered, setIsSaveTriggered] = useState(false);
 
-    const [addNewBuild, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    }] = useAddNewBuildMutation();
-
-    const onSaveClicked = async () => {
-        await addNewBuild({ userId: "64d1293a6d56a51cd0f72ac4" , data: charplannerData })
-    }
+    const onSaveClicked = () => {
+        setIsSaveTriggered(true)
+    };
 
     return (
         <section className="Charplanner__actionscontainer">
@@ -27,7 +18,7 @@ const ActionsSection = (): ReactElement => {
             >
                 Save
             </button>
-            {isLoading &&  <p>is Loading...</p>}
+            {isSaveTriggered && <SaveBuild setTrigger={setIsSaveTriggered} />}
         </section>
     )
 }
