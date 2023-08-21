@@ -20,8 +20,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     await queryFulfilled;
                     dispatch(logOut());
                     setTimeout(() => {
-                        //clears out the cache and query subscriptions
-                        dispatch(apiSlice.util.resetApiState());
+                        // clears out the cache and query subscriptions
+                        // dispatch(apiSlice.util.resetApiState());
+
+                        /*
+                            invalidatesTags to force refetching.
+                            This gets rid of any unwanted data in cache.
+                            A simple resetApiState is not enough since there is no
+                            refetching of data going on.
+                        */ 
+                        dispatch(apiSlice.util.invalidateTags(["User"]));
+                        dispatch(apiSlice.util.invalidateTags(["Build"]));
                     }, 1000);
                 } catch (err) {
                     console.log(err);
