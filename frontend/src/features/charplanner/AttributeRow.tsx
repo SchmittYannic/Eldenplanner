@@ -87,8 +87,8 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
             } else if (action === -1) {
                 setStatInState(inputValue as number - 1)
             };
-        } else if (e instanceof KeyboardEvent && eventType === "keydown") {
-            const { key } = e;
+        } else if (eventType === "keydown") {
+            const { key } = e as KeyboardEvent;
             if (key === "Enter") {
                 e.preventDefault();
                 if (action === 1) {
