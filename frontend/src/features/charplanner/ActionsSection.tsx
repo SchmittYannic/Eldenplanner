@@ -2,7 +2,11 @@ import { ReactElement, useState } from "react";
 import SaveBuild from "./SaveBuild";
 import useAuth from "../../hooks/useAuth";
 
-const ActionsSection = (): ReactElement => {
+type PropsType = {
+    isBuildAuthor: boolean
+};
+
+const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
 
     const { status } = useAuth();
 
@@ -17,15 +21,17 @@ const ActionsSection = (): ReactElement => {
     };
 
     return (
-        <section className="Charplanner__actionscontainer">
+        <section className="Charplanner__actionscontainer">     
             <button
                 className="Charplanner__Save btn"
                 type="button"
                 onClick={onSaveClicked}
             >
-                Save
-            </button>
-            {isSaveTriggered && <SaveBuild setTrigger={setIsSaveTriggered} />}
+                {isBuildAuthor ? "Update" : "Save"}
+            </button>          
+            {isSaveTriggered && 
+                <SaveBuild setTrigger={setIsSaveTriggered} />
+            }
         </section>
     )
 }
