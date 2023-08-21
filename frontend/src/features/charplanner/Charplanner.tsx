@@ -12,12 +12,14 @@ import EquipmentSection from "./EquipmentSection";
 import InfoSection from "./InfoSection";
 import ActionsSection from "./ActionsSection";
 import "./Charplanner.scss";
+import useAuth from "../../hooks/useAuth";
 
 const Charplanner = (): ReactElement => {
 
     const dispatch = useDispatch();
     const param = useParams();
     const buildRef = useRef<CharplannerStateType>();
+    const { userId } = useAuth();
 
     // if param exist select Build through buildId in param
     const build = useSelector((state: RootState) => {
@@ -34,6 +36,9 @@ const Charplanner = (): ReactElement => {
         }
         return null
     });
+
+    // is the logged in the person the one, who created the build
+    const isBuildAuthor = userId === build?.user;
 
     if (build) {
         // if a build was successfully selected save it to the buildRef
@@ -72,7 +77,7 @@ const Charplanner = (): ReactElement => {
                 <CharacterSection />
                 <EquipmentSection />
                 <InfoSection />
-                <ActionsSection />
+                <ActionsSection isBuildAuthor={isBuildAuthor} />
             </div>
         </main>
     )
