@@ -1,12 +1,19 @@
 import { ReactElement, useState } from "react";
 import SaveBuild from "./SaveBuild";
+import useAuth from "../../hooks/useAuth";
 
 const ActionsSection = (): ReactElement => {
+
+    const { status } = useAuth();
 
     const [isSaveTriggered, setIsSaveTriggered] = useState(false);
 
     const onSaveClicked = () => {
-        setIsSaveTriggered(true)
+        if (status !== "Visitor") {
+            setIsSaveTriggered(true);
+        }
+        // else missing for when Visitor presses save
+        // show some errmsg
     };
 
     return (
