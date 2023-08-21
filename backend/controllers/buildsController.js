@@ -74,9 +74,9 @@ const createNewBuild = async(req, res) => {
 // @access Private
 const updateBuild = async (req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
-    const { buildId, userId, data } = req.body;
+    const { buildId, userId, title, data } = req.body;
 
-    if (!userId || !buildId) {
+    if (!userId || !buildId || !title) {
         return res.status(400).json({ message: "Missing entries in received request body" });
     }
 
@@ -85,6 +85,12 @@ const updateBuild = async (req, res) => {
     if (!build) {
         return res.status(400).json({ message: "Build not found" });
     }
+
+    if(!build.user.equals(userId)) {
+        return res.status(401).json({ message: "User unauthorized" });
+    }
+
+    build.title = title;
 
     /* check for empty charactername */
     if (data.general.charactername === "") {
