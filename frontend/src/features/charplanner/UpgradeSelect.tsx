@@ -53,6 +53,7 @@ const UpgradeSelect = ({ id }: PropsType): ReactElement => {
             renderOption={(option: string) => <p className={option === upgrade ? "SelectedOption" : ""}>{option}</p>}
             classes={disableUpgrade ? "CustomSelect style1 disabled" : "CustomSelect style1"}
             label={"0"}
+            disabled={disableUpgrade}
         />
     )
 }

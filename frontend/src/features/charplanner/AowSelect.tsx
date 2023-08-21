@@ -55,6 +55,7 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
             label={"Ash of War"}
             enableDelete={true}
             searchable={true}
+            disabled={disableAow}
         />
     )
 }

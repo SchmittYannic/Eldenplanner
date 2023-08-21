@@ -51,6 +51,7 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
             label={"Imbue"}
             enableDelete={true}
             searchable={true}
+            disabled={disableAffinity}
         />
     )
 }
