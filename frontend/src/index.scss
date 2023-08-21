@@ -82,10 +82,6 @@ tr {
     grid-template-columns: repeat(6, 1fr);
 }
 
-.table--userbuilds {
-    grid-template-columns: repeat(5, 1fr);
-}
-
 .table__button {
     padding: 0.25em;
     font-size: 1.5rem;
@@ -169,4 +165,14 @@ tr {
 .succmsg {
     background-color: transparent;
     color: green;
+}
+
+
+/* UserPage */
+.infobuildswrapper {
+    display: flex;
+}
+
+.table--userbuilds {
+    grid-template-columns: repeat(5, 1fr);
 }
