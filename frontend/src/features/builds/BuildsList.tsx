@@ -56,8 +56,8 @@ const BuildsList = (): ReactElement => {
                             <th scope="col" className="table__th build__user">Author</th>
                             <th scope="col" className="table__th build__runelevel">Level</th>
                             <th scope="col" className="table__th build__stars">Stars</th>
-                            <th scope="col" className="table__th user__createdAt">Created</th>
-                            <th scope="col" className="table__th user__updatedAt">Modified</th>
+                            <th scope="col" className="table__th build__createdAt">Created</th>
+                            <th scope="col" className="table__th build__updatedAt">Modified</th>
                         </tr>
                     </thead>
                     <tbody>
