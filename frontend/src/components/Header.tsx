@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 
 const Header = (): ReactElement => {
 
-    const { username, status, isUser, isDemoadmin, isAdmin } = useAuth();
+    const { userId, username, status, isUser, isDemoadmin, isAdmin } = useAuth();
 
     const [sendLogout, {}] = useSendLogoutMutation();
 
@@ -57,7 +57,9 @@ const Header = (): ReactElement => {
                     )}
                     {(isUser || isDemoadmin || isAdmin) && (
                         <li>
-                            <p>{username}</p>
+                            <Link to={`/${userId}`}>
+                                {username}
+                            </Link>
                         </li>
                     )}
                 </ul>
