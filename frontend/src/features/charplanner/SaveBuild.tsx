@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useAddNewBuildMutation } from "./charplannerApiSlice";
 import { selectCharplannerData } from "./charplannerSlice";
 import { Alert } from "../../components/ui";
+import useAuth from "../../hooks/useAuth";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -10,6 +11,7 @@ type PropsType = {
 
 const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
+    const { userId } = useAuth();
     const charplannerData = useSelector(selectCharplannerData);
 
     const [addNewBuild, {
@@ -26,7 +28,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     };
 
     const onSaveBuildClicked = async () => {
-        await addNewBuild({ userId: "64d1293a6d56a51cd0f72ac4", data: charplannerData })
+        await addNewBuild({ userId, title: textareaInput, data: charplannerData })
     };
 
     return (
@@ -40,6 +42,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     id="buildtitle"
                     cols={30}
                     rows={5}
+                    maxLength={50}
                     value={textareaInput}
                     onChange={onTextareaChange}
                 />
