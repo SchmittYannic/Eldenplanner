@@ -18,10 +18,7 @@ import {
 } from "@tanstack/react-table";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import { DebouncedInput } from "../../components/ui";
-import { useSelector } from "react-redux";
-import { UserType, selectUserById } from "../users/usersApiSlice";
-import { RootState } from "../../app/store";
-import { BuildType, selectBuildById } from "./buildsApiSlice";
+import { BuildListItem } from "../../utils/Types";
 declare module "@tanstack/table-core" {
     interface FilterFns {
         fuzzy: FilterFn<unknown>
@@ -29,15 +26,6 @@ declare module "@tanstack/table-core" {
     interface FilterMeta {
         itemRank: RankingInfo
     }
-}
-
-type BuildListItem = {
-    buildId: number,
-    authorId: string,
-    level: number,
-    stars: number,
-    created: string,
-    modified: string,
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -61,33 +49,21 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
     const columns = useMemo<ColumnDef<BuildListItem, any>[]>(
         () => [
             {
-                accessorFn: row => row.buildId,
+                accessorFn: row => row.title,
                 id: "title",
                 cell: info => {
-                    const buildId = info.getValue();
-                    const build = useSelector((state: RootState) => {
-                        if(buildId) {
-                            return selectBuildById(state, buildId) as BuildType
-                        }
-                        return null
-                    });
-                    return <Link to={`/charplanner/${buildId}`}>{build?.title}</Link>
+                    const buildId = info.row.original.buildId;
+                    return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Title</span>,
                 footer: props => props.column.id,
             },
             {
-                accessorFn: row => row.authorId,
+                accessorFn: row => row.author,
                 id: "author",
                 cell: info => {
-                    const buildAuthorId = info.getValue();
-                    const buildAuthor = useSelector((state: RootState) => {
-                        if(buildAuthorId) {
-                            return selectUserById(state, buildAuthorId) as UserType
-                        }
-                        return null
-                    });
-                    return <Link to={`/${buildAuthorId}`}>{buildAuthor?.username}</Link>
+                    const authorId = info.row.original.authorId;
+                    return <Link to={`/${authorId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Author</span>,
                 footer: props => props.column.id,
