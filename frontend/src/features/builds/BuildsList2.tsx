@@ -158,13 +158,13 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 
     return (
         <main>
-            <table>
-                <thead>
+            <table className="table table--builds">
+                <thead className="table__thead">
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
+                        <tr key={headerGroup.id} className="table__row">
                             {headerGroup.headers.map(header => {
                                 return (
-                                    <th key={header.id} colSpan={header.colSpan}>
+                                    <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
                                         {header.isPlaceholder ? null : (
                                             <>
                                                 <div
@@ -203,7 +203,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         //const buildId: number = row.getValue("title");
                         // onClick={(e) => onRowClicked(e, buildId)}
                         return (
-                            <tr key={row.id}>
+                            <tr key={row.id} className="table__row build">
                                 {row.getVisibleCells().map(cell => {
                                     // const isAuthorColumn = cell.column.id === "author";
                                     
@@ -218,7 +218,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                     //     )
                                     // } else {
                                         return (
-                                            <td key={cell.id}>
+                                            <td key={cell.id} className={`table__cell`}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
@@ -287,7 +287,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         table.setPageSize(Number(e.target.value))
                     }}
                 >
-                    {[2, 10, 20, 30, 40, 50].map(pageSize => (
+                    {[10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
