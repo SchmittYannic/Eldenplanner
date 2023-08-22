@@ -9,8 +9,8 @@ const buildsAdapter = createEntityAdapter({});
 const initialState = buildsAdapter.getInitialState();
 
 export type BuildType = {
-    _id?: number
-    id?: number   
+    _id: number
+    id: number   
     user: string
     title: string
     general: GeneralStateType
