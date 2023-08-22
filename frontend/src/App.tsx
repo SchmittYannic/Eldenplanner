@@ -8,6 +8,8 @@ import Charplanner from "./features/charplanner/Charplanner";
 import UsersList from "./features/users/UsersList";
 import EditUser from "./features/users/EditUser";
 import BuildsList from "./features/builds/BuildsList";
+import BuildsList2 from "./features/builds/BuildsList2";
+import Builds from "./features/builds/Builds";
 import UserPage from "./features/users/UserPage";
 import Prefetch from "./features/auth/Prefetch";
 import RequireAuth from "./features/auth/RequireAuth";
@@ -28,7 +30,7 @@ const App = (): ReactElement => {
                     <Route path="charplanner/:buildId" element={<Charplanner/>} />
                 
                     <Route path="builds">
-                        <Route index element={<BuildsList/>} />
+                        <Route index element={<Builds/>} />
                     </Route>
 
                     <Route path=":userId" element={<UserPage/>} />
