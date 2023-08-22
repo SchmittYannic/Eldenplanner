@@ -11,15 +11,15 @@ const usersAdapter = createEntityAdapter({})
 const initialState = usersAdapter.getInitialState()
 
 export type UserType = {
-    _id?: number
-    id?: number
+    _id: number
+    id: number
     username: string
     createdAt: string
 }
 
 export type UserAsAdminType = {
-    _id?: number
-    id?: number
+    _id: number
+    id: number
     username: string
     email: string
     validated: boolean
