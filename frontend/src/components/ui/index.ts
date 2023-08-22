@@ -3,6 +3,7 @@ import TextInput from "./TextInput";
 import CustomSelect from "./CustomSelect";
 import Alert from "./Alert";
 import CollapsibleList from "./CollapsibleList";
+import DebouncedInput from "./DebouncedInput";
 
 export {
     Checkbox,
@@ -10,4 +11,5 @@ export {
     CustomSelect,
     Alert,
     CollapsibleList,
+    DebouncedInput,
 }
