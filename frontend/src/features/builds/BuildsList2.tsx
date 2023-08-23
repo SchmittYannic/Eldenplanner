@@ -130,6 +130,22 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 
     return (
         <main>
+            <h1>Builds</h1>
+            <div className="divider-2" />
+            <div className="table--filter-wrapper">
+                <div className="table--filter">
+                    {
+                        table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
+                            if(header.column.getCanFilter()) {
+                                return (
+                                    <Filter column={header.column} table={table} />
+                                )
+                            }
+                        }))
+                    }
+                </div>
+                <div className="divider-2" />
+            </div>
             <table className="table table--builds">
                 <thead className="table__thead">
                     {table.getHeaderGroups().map(headerGroup => (
@@ -156,11 +172,11 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                         desc: " 🔽",
                                                     }[header.column.getIsSorted() as string] ?? null}
                                                 </div>
-                                                {header.column.getCanFilter() ? (
+                                                {/* {header.column.getCanFilter() ? (
                                                     <div>
                                                         <Filter column={header.column} table={table} />
                                                     </div>
-                                                ) : null}
+                                                ) : null} */}
                                             </>
                                         )}
                                     </th>
@@ -264,8 +280,8 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         </option>
                     ))}
                 </select>
+                <div>{table.getPrePaginationRowModel().rows.length} Builds Total</div>
             </div>
-            <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
 
             {/* keep for debug purposes */}
             {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
@@ -291,7 +307,11 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
     return typeof firstValue === "number" ? (
         <div>
             <div className="table--filter-number-wrapper">
+                <label htmlFor={column.id + "filterMin"} className="sr-only">
+                    {`filter column ${column.id} minimum`}
+                </label>
                 <DebouncedInput
+                    id={column.id + "filterMin"}
                     type="number"
                     min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
                     max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
@@ -299,30 +319,33 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
                     onChange={value =>
                     column.setFilterValue((old: [number, number]) => [value, old?.[1]])
                     }
-                    placeholder={`Min ${
+                    placeholder={`Min ${column.id} ${
                     column.getFacetedMinMaxValues()?.[0]
                         ? `(${column.getFacetedMinMaxValues()?.[0]})`
                         : ""
                     }`}
                     className="table--filter-number"
                 />
+                <label htmlFor={column.id + "filterMax"} className="sr-only">
+                    {`filter column ${column.id} maximum`}
+                </label>
                 <DebouncedInput
+                    id={column.id + "filterMax"}
                     type="number"
                     min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
                     max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
                     value={(columnFilterValue as [number, number])?.[1] ?? ""}
                     onChange={value =>
-                    column.setFilterValue((old: [number, number]) => [old?.[0], value])
+                        column.setFilterValue((old: [number, number]) => [old?.[0], value])
                     }
-                    placeholder={`Max ${
-                    column.getFacetedMinMaxValues()?.[1]
-                        ? `(${column.getFacetedMinMaxValues()?.[1]})`
-                        : ""
-                    }`}
+                    placeholder={`Max ${column.id} ${
+                            column.getFacetedMinMaxValues()?.[1]
+                                ? `(${column.getFacetedMinMaxValues()?.[1]})`
+                                : ""
+                        }`}
                     className="table--filter-number"
                 />
             </div>
-            <div className="h-1" />
         </div>
     ) : (
         <>
@@ -331,15 +354,18 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
                     <option value={value} key={value} />
                 ))}
             </datalist>
+            <label htmlFor={column.id + "filter"} className="sr-only">
+                {`filter Column ${column.id}`}
+            </label>
             <DebouncedInput
+                id={column.id + "filter"}
                 type="text"
                 value={(columnFilterValue ?? "") as string}
                 onChange={value => column.setFilterValue(value)}
-                placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-                className="table--filter-text"
+                placeholder={`Filter ${column.id} (${column.getFacetedUniqueValues().size})`}
+                className={`table--filter-text ${column.id}`}
                 list={column.id + "list"}
             />
-            <div className="divider-1" />
         </>
     )
 }
