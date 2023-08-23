@@ -5,10 +5,8 @@ import Frontpage from "./components/Frontpage";
 import Login from "./features/auth/Login";
 import Signup from "./features/auth/Signup";
 import Charplanner from "./features/charplanner/Charplanner";
-import UsersList from "./features/users/UsersList";
+import Users from "./features/users/Users";
 import EditUser from "./features/users/EditUser";
-import BuildsList from "./features/builds/BuildsList";
-import BuildsList2 from "./features/builds/BuildsList2";
 import Builds from "./features/builds/Builds";
 import UserPage from "./features/users/UserPage";
 import Prefetch from "./features/auth/Prefetch";
@@ -37,7 +35,7 @@ const App = (): ReactElement => {
 
                     <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
                         <Route path="users">
-                            <Route index element={<UsersList/>} />
+                            <Route index element={<Users/>} />
                             <Route path=":userId" element={<EditUser />} />
                         </Route>
                     </Route>
