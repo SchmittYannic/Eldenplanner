@@ -204,44 +204,44 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     })}
                 </tbody>
             </table>
-            <div className="h-2" />
-            <div className="flex items-center gap-2">
+            <div className="divider-2" />
+            <div className="table--pagination">
                 <button
-                    className="border rounded p-1"
+                    className="button"
                     onClick={() => table.setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}
                 >
                     {"<<"}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className="button"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    {"<"}
+                    {"Previous"}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className="button"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    {">"}
+                    {"Next"}
                 </button>
                 <button
-                    className="border rounded p-1"
+                    className="button"
                     onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                     disabled={!table.getCanNextPage()}
                 >
                     {">>"}
                 </button>
-                <span className="flex items-center gap-1">
+                <span>
                     <div>Page</div>
                     <strong>
                         {table.getState().pagination.pageIndex + 1} of{" "}
                         {table.getPageCount()}
                     </strong>
                 </span>
-                <span className="flex items-center gap-1">
+                <span>
                     | Go to page:
                     <input
                         type="number"
@@ -250,7 +250,6 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)
                         }}
-                        className="border p-1 rounded w-16"
                     />
                 </span>
                 <select
@@ -259,7 +258,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         table.setPageSize(Number(e.target.value))
                     }}
                 >
-                    {[10, 20, 30, 40, 50].map(pageSize => (
+                    {[2, 10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
@@ -291,7 +290,7 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
   
     return typeof firstValue === "number" ? (
         <div>
-            <div className="flex space-x-2">
+            <div className="table--filter-number-wrapper">
                 <DebouncedInput
                     type="number"
                     min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
@@ -305,7 +304,7 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
                         ? `(${column.getFacetedMinMaxValues()?.[0]})`
                         : ""
                     }`}
-                    className="w-24 border shadow rounded"
+                    className="table--filter-number"
                 />
                 <DebouncedInput
                     type="number"
@@ -320,7 +319,7 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
                         ? `(${column.getFacetedMinMaxValues()?.[1]})`
                         : ""
                     }`}
-                    className="w-24 border shadow rounded"
+                    className="table--filter-number"
                 />
             </div>
             <div className="h-1" />
@@ -337,10 +336,10 @@ const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<an
                 value={(columnFilterValue ?? "") as string}
                 onChange={value => column.setFilterValue(value)}
                 placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-                className="w-36 border shadow rounded"
+                className="table--filter-text"
                 list={column.id + "list"}
             />
-            <div className="h-1" />
+            <div className="divider-1" />
         </>
     )
 }

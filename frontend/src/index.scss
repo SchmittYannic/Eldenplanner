@@ -1,4 +1,5 @@
 @use "./Variables" as v;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500&family=Rubik:wght@400;500;700&display=swap');
 
 *, 
 *::after, 
@@ -17,7 +18,7 @@ body {
     position: relative;
     background-color: v.$default-background-color;
     color: white;
-    font-family: system-ui;
+    font-family: "inter",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
 #root {
@@ -59,6 +60,14 @@ nav ul {
 
 textarea {
     resize: none;
+}
+
+.divider-1 {
+    height: 0.25rem;
+}
+
+.divider-2 {
+    height: 0.5rem;
 }
 
 /* || TABLES - GENERAL */
@@ -151,6 +160,38 @@ tr {
     filter: blur(2px);
 }
 
+.button {
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 0.75rem;
+    font-family: inherit;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    color: hsl(v.$dark-muted-foreground);
+    background-color: hsl(v.$dark-background);
+    border-color: hsl(v.$dark-border-color);
+    border-width: 1px;
+    border-radius: calc(v.$border-radius - 2px);
+    cursor: pointer;
+    transition-property: color, background-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .15;
+
+    &:hover {
+        color: hsl(v.$dark-accent-foreground);
+        background-color: hsl(v.$dark-accent);
+    }
+
+    &:disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
 
 /* Signup */
 
@@ -179,4 +220,44 @@ tr {
 
 .table--userbuilds {
     grid-template-columns: repeat(5, 1fr);
+}
+
+
+/* builds */
+.table--filter-text {
+    border-width: 1px;
+    border-radius: 0.25rem;
+    width: 9rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.table--filter-number-wrapper {
+    display: flex;
+    margin-left: 0.5rem;
+}
+
+.table--filter-number {
+    border-width: 1px;
+    border-radius: 0.25rem;
+    width: 6rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.table--pagination {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    input {
+        border-width: 1px;
+        border-radius: 0.25rem;
+        padding: 0.25rem;
+        width: 4rem;
+    }
 }
