@@ -62,7 +62,7 @@ main, header {
 }
 
 main {
-    margin-top: 50px;
+    margin-top: v.$primary-nav-height;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -351,12 +351,14 @@ table a {
 /* Login Page */
 
 .loginpage {
+    max-width: none;
+    width: 100%;
+    min-height: 800px;
+    height: calc(100vh - v.$primary-nav-height);
     display: grid;
     grid-template-columns: repeat(2,minmax(0,1fr));
     justify-content: center;
     align-items: center;
-    height: 800px;
-    width: 100%;
     position: relative;
     margin-right: auto;
     margin-left: auto;
