@@ -358,7 +358,17 @@ table a {
 }
 
 .table--userbuilds {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+}
+
+.table__cell {
+    &.title {
+        place-content: center start;
+    }
+
+    &.level, &.stars, &.created, &.modified {
+        place-content: center;
+    }
 }
 
 
