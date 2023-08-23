@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
@@ -43,48 +43,73 @@ const Login = (): ReactElement => {
     };
 
     return (
-        <main>
-            <h1>Login</h1>
-            <form
-                className="form--login"
-                method="post"
-            >
-                <label htmlFor="signup-user">
-                    Username or Email
-                </label>
-                <input
-                    id="signup-user"
-                    type="text"
-                    value={user}
-                    onChange={onUserChange}
-                    autoComplete="off"
-                />
+        <main className="loginpage">
+            <div>img</div>
+            <div className="loginpage--rightside">
+                <div className="loginpage--wrapper">
+                    <div className="loginpage--form-header">
+                        <h1>Log in to your account</h1>
+                        <p>
+                            <span>Don't have an account? </span>
+                            <Link to={"/signup"}>
+                                Sign Up
+                            </Link>
+                        </p>
+                    </div>
 
-                <label htmlFor="signup-password">
-                    Password
-                </label>
-                <input
-                    id="signup-password"
-                    type="password"
-                    value={password}
-                    onChange={onPasswordChange}
-                    autoComplete="off"
-                />
+                    <div className="loginpage--form-wrapper">
+                        <form
+                            className="loginpage--form"
+                            method="post"
+                        >
+                            <div className="loginpage--input-wrapper username">
+                                <label htmlFor="signup-user">
+                                    Username or Email
+                                </label>
+                                <input
+                                    id="signup-user"
+                                    type="text"
+                                    value={user}
+                                    onChange={onUserChange}
+                                    autoComplete="off"
+                                    placeholder="name@example.com"
+                                />
+                            </div>
+                            <div className="loginpage--input-wrapper password">
+                                <label htmlFor="signup-password">
+                                    Password
+                                </label>
+                                <input
+                                    id="signup-password"
+                                    type="password"
+                                    value={password}
+                                    onChange={onPasswordChange}
+                                    autoComplete="off"
+                                />
+                            </div>
 
-                <p className="msg--login errmsg">
-                    {responseMsg}
-                </p>
+                            <div className="divider-2" />
 
-                <button
-                    className="btn"
-                    type="submit"
-                    onClick={onSubmitClicked}
-                >
-                    Login
-                </button>
+                            <p className="msg--login errmsg">
+                                {responseMsg}
+                            </p>
 
-                {isLoading && <p>is Loading...</p>}
-            </form>
+                            <div className="divider-2" />
+
+                            <button
+                                className="action-btn full"
+                                type="submit"
+                                onClick={onSubmitClicked}
+                            >
+                                Login
+                            </button>
+
+                            {isLoading && <p>is Loading...</p>}
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
         </main>
     )
 };
