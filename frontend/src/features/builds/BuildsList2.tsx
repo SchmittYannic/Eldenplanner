@@ -1,8 +1,6 @@
 import { ReactElement, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
-    Column,
-    Table,
     useReactTable,
     ColumnFiltersState,
     getCoreRowModel,
@@ -16,9 +14,10 @@ import {
     ColumnDef,
     flexRender,
 } from "@tanstack/react-table";
-import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
-import { DebouncedInput } from "../../components/ui";
+import { RankingInfo } from "@tanstack/match-sorter-utils";
+import FuzzyFilter from "../../utils/FuzzyFilter";
 import { BuildListItem } from "../../utils/Types";
+import FilterTable from "../../components/FilterTable";
 declare module "@tanstack/table-core" {
     interface FilterFns {
         fuzzy: FilterFn<unknown>
@@ -27,19 +26,6 @@ declare module "@tanstack/table-core" {
         itemRank: RankingInfo
     }
 }
-
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-    // Rank the item
-    const itemRank = rankItem(row.getValue(columnId), value)
-
-    // Store the itemRank info
-    addMeta({
-        itemRank,
-    })
-
-    // Return if the item should be filtered in/out
-    return itemRank.passed
-};
 
 const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 
@@ -110,7 +96,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
         data,
         columns,
         filterFns: {
-            fuzzy: fuzzyFilter,
+            fuzzy: FuzzyFilter,
         },
         state: {
             columnFilters,
@@ -138,7 +124,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if(header.column.getCanFilter()) {
                                 return (
-                                    <Filter key={`filter` + header.column.id} column={header.column} table={table} />
+                                    <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
                                 )
                             }
                         }))
@@ -286,87 +272,6 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
             {/* keep for debug purposes */}
             {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
         </main>
-    )
-}
-
-const Filter = ({column, table,}: {column: Column<any, unknown>, table: Table<any>}) => {
-    const firstValue = table
-        .getPreFilteredRowModel()
-        .flatRows[0]?.getValue(column.id)
-
-    const columnFilterValue = column.getFilterValue()
-  
-    const sortedUniqueValues = useMemo(
-        () =>
-            typeof firstValue === "number"
-            ? []
-            : Array.from(column.getFacetedUniqueValues().keys()).sort(),
-        [column.getFacetedUniqueValues()]
-    );
-  
-    return typeof firstValue === "number" ? (
-        <div>
-            <div className="table--filter-number-wrapper">
-                <label htmlFor={column.id + "filterMin"} className="sr-only">
-                    {`filter column ${column.id} minimum`}
-                </label>
-                <DebouncedInput
-                    id={column.id + "filterMin"}
-                    type="number"
-                    min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-                    max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
-                    value={(columnFilterValue as [number, number])?.[0] ?? ""}
-                    onChange={value =>
-                    column.setFilterValue((old: [number, number]) => [value, old?.[1]])
-                    }
-                    placeholder={`Min ${column.id} ${
-                    column.getFacetedMinMaxValues()?.[0]
-                        ? `(${column.getFacetedMinMaxValues()?.[0]})`
-                        : ""
-                    }`}
-                    className="table--filter-number"
-                />
-                <label htmlFor={column.id + "filterMax"} className="sr-only">
-                    {`filter column ${column.id} maximum`}
-                </label>
-                <DebouncedInput
-                    id={column.id + "filterMax"}
-                    type="number"
-                    min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-                    max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
-                    value={(columnFilterValue as [number, number])?.[1] ?? ""}
-                    onChange={value =>
-                        column.setFilterValue((old: [number, number]) => [old?.[0], value])
-                    }
-                    placeholder={`Max ${column.id} ${
-                            column.getFacetedMinMaxValues()?.[1]
-                                ? `(${column.getFacetedMinMaxValues()?.[1]})`
-                                : ""
-                        }`}
-                    className="table--filter-number"
-                />
-            </div>
-        </div>
-    ) : (
-        <>
-            <datalist id={column.id + "list"}>
-                {sortedUniqueValues.slice(0, 5000).map((value: any) => (
-                    <option value={value} key={value} />
-                ))}
-            </datalist>
-            <label htmlFor={column.id + "filter"} className="sr-only">
-                {`filter Column ${column.id}`}
-            </label>
-            <DebouncedInput
-                id={column.id + "filter"}
-                type="text"
-                value={(columnFilterValue ?? "") as string}
-                onChange={value => column.setFilterValue(value)}
-                placeholder={`Filter ${column.id} (${column.getFacetedUniqueValues().size})`}
-                className={`table--filter-text ${column.id}`}
-                list={column.id + "list"}
-            />
-        </>
     )
 }
 
