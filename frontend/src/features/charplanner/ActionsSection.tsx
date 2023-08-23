@@ -23,7 +23,7 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
     return (
         <section className="Charplanner__actionscontainer">     
             <button
-                className="Charplanner__Save btn"
+                className="Charplanner__Save action-btn"
                 type="button"
                 onClick={onSaveClicked}
             >

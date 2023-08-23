@@ -82,7 +82,7 @@ const Signup = (): ReactElement => {
                 </p>
 
                 <button
-                    className="btn"
+                    className="action-btn"
                     type="submit"
                     onClick={onSubmitClick}
                 >

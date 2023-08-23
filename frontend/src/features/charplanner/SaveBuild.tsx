@@ -77,7 +77,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     onChange={onTextareaChange}
                 />
                 <button
-                    className="btn"
+                    className="action-btn"
                     type="button"
                     onClick={isBuildAuthor ? onUpdateBuildClicked : onSaveBuildClicked}
                 >
