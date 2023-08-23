@@ -27,15 +27,15 @@ const User = ({ userId }: PropsType): ReactElement => {
         const isDateEqual = user.createdAt === user.updatedAt;
         return (
             <tr className="table__row user">
-                <td className={`table__cell`}>{user.username}</td>
-                <td className={`table__cell`}>{user.email}</td>
-                <td className={`table__cell`}>{user.roles.join(", ")}</td>
-                <td className={`table__cell`}>{user.active.toString()}</td>
-                <td className={`table__cell`}>{user.validated.toString()}</td>
-                <td className={`table__cell`}>{createdAt.toLocaleString()}</td>
-                <td className={`table__cell`}>{!isDateEqual ? updatedAt.toLocaleString() : ""}</td>
-                <td className={`table__cell`}>
-                    <button onClick={handleEditClick}>
+                <td className={`table__cell username`}>{user.username}</td>
+                <td className={`table__cell email`}>{user.email}</td>
+                <td className={`table__cell roles`}>{user.roles.join(", ")}</td>
+                <td className={`table__cell active`}>{user.active.toString()}</td>
+                <td className={`table__cell validated`}>{user.validated.toString()}</td>
+                <td className={`table__cell created`}>{createdAt.toLocaleString()}</td>
+                <td className={`table__cell modified`}>{!isDateEqual ? updatedAt.toLocaleString() : ""}</td>
+                <td className={`table__cell edit`}>
+                    <button className="button" onClick={handleEditClick}>
                         EDIT
                     </button>
                 </td>
