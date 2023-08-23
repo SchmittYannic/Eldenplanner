@@ -113,6 +113,16 @@ textarea {
     height: 0.5rem;
 }
 
+.errmsg {
+    background-color: transparent;
+    color: red;
+}
+
+.succmsg {
+    background-color: transparent;
+    color: green;
+}
+
 /* || TABLES - GENERAL */
 
 thead,
@@ -348,9 +358,10 @@ table a {
 }
 
 
-/* Login Page */
+/* Login Page and Signup Page */
 
-.loginpage {
+.loginpage,
+.signuppage {
     max-width: none;
     width: 100%;
     min-height: 800px;
@@ -363,11 +374,13 @@ table a {
     margin-right: auto;
     margin-left: auto;
 
-    .loginpage--rightside {
+    .loginpage--rightside,
+    .signuppage--rightside {
         padding: 2rem; //only on lg
     }
 
-    .loginpage--wrapper {
+    .loginpage--wrapper,
+    .signuppage--wrapper {
         width: 350px; //min-width 640px
         display: flex;
         flex-direction: column;
@@ -376,7 +389,8 @@ table a {
         margin-left: auto;
     }
 
-    .loginpage--form-header {
+    .loginpage--form-header,
+    .signuppage--form-header {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -397,13 +411,15 @@ table a {
         }
     }
 
-    .loginpage--form-wrapper {
+    .loginpage--form-wrapper,
+    .signuppage--form-wrapper {
         display: grid;
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
 
-    .loginpage--input-wrapper {
+    .loginpage--input-wrapper,
+    .signuppage--input-wrapper {
         display: grid;
         gap: .25rem;
 
@@ -443,29 +459,12 @@ table a {
             }
         }
 
-        &.password {
+        &.password, &.email {
             margin-top: 1rem;
         }
     }
 }
 
-/* Signup */
-
-.form--signup {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.errmsg {
-    background-color: transparent;
-    color: red;
-}
-
-.succmsg {
-    background-color: transparent;
-    color: green;
-}
 
 
 /* UserPage */
