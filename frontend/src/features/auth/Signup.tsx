@@ -39,58 +39,83 @@ const Signup = (): ReactElement => {
     }, [isError]);
 
     return (
-        <main>
-            <form
-                className="form--signup"
-                method="post"
-            >
-                <label htmlFor="signup-username">
-                    Username
-                </label>
-                <input
-                    id="signup-username"
-                    type="text"
-                    value={username}
-                    onChange={onChangeUsername}
-                    autoComplete="off"
-                />
+        <main className="signuppage">
+            <div style={{backgroundColor: "black", height: "100%"}}>img</div>
+            <div className="signuppage--rightside">
+                <div className="signuppage--wrapper">
+                    <div className="signuppage--form-header">
+                        <h1>Create an account</h1>
+                        <p>
+                            <span>Enter your details below to create your account</span>
+                        </p>
+                    </div>
 
-                <label htmlFor="signup-email">
-                    Email
-                </label>
-                <input
-                    id="signup-email"
-                    type="email"
-                    value={email}
-                    onChange={onChangeEmail}
-                    autoComplete="off"
-                />
+                    <div className="signuppage--form-wrapper">
+                        <form
+                            className="signuppage--form"
+                            method="post"
+                        >
+                            <div className="signuppage--input-wrapper username">
+                                <label htmlFor="signup-username">
+                                    Username
+                                </label>
+                                <input
+                                    id="signup-username"
+                                    type="text"
+                                    value={username}
+                                    onChange={onChangeUsername}
+                                    autoComplete="off"
+                                    placeholder="JohnDoe"
+                                />
+                            </div>
+                            <div className="signuppage--input-wrapper email">
+                                <label htmlFor="signup-email">
+                                    Email
+                                </label>
+                                <input
+                                    id="signup-email"
+                                    type="email"
+                                    value={email}
+                                    onChange={onChangeEmail}
+                                    autoComplete="off"
+                                    placeholder="name@example.com"
+                                />
+                            </div>
+                            <div className="signuppage--input-wrapper password">
+                                <label htmlFor="signup-password">
+                                    Password
+                                </label>
+                                <input
+                                    id="signup-password"
+                                    type="password"
+                                    value={password}
+                                    onChange={onChangePassword}
+                                    autoComplete="off"
+                                />
+                            </div>
 
-                <label htmlFor="signup-password">
-                    Password
-                </label>
-                <input
-                    id="signup-password"
-                    type="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    autoComplete="off"
-                />
+                            <div className="divider-2" />
 
-                <p className={`msg--signup ${responseMsgClass}`}>
-                    {responseMsg}
-                </p>
+                            <p className={`msg--signup ${responseMsgClass}`}>
+                                {responseMsg}
+                            </p>
 
-                <button
-                    className="action-btn"
-                    type="submit"
-                    onClick={onSubmitClick}
-                >
-                    Submit
-                </button>
+                            <div className="divider-2" />
 
-                {isLoading && <p>is Loading...</p>}
-            </form>
+                            <button
+                                className="action-btn full"
+                                type="submit"
+                                onClick={onSubmitClick}
+                            >
+                                Submit
+                            </button>
+
+                            {isLoading && <p>is Loading...</p>}
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
         </main>
     )
 }
