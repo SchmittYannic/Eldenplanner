@@ -56,7 +56,6 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Title</span>,
-                footer: props => props.column.id,
             },
             {
                 accessorFn: row => row.author,
@@ -66,35 +65,32 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     return <Link to={`/${authorId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Author</span>,
-                footer: props => props.column.id,
             },
             {
                 accessorFn: row => row.level,
                 id: "level",
                 cell: info => info.getValue(),
                 header: () => <span>Level</span>,
-                footer: props => props.column.id,
             },
             {
                 accessorFn: row => row.stars,
                 id: "stars",
                 cell: info => info.getValue(),
                 header: () => <span>Stars</span>,
-                footer: props => props.column.id,
             },
             {
                 accessorFn: row => row.created,
                 id: "created",
                 cell: info => info.getValue(),
                 header: () => <span>Created</span>,
-                footer: props => props.column.id,
+                enableColumnFilter: false,
             },
             {
                 accessorFn: row => row.modified,
                 id: "modified",
                 cell: info => info.getValue(),
                 header: () => <span>Modified</span>,
-                footer: props => props.column.id,
+                enableColumnFilter: false,
             },
         ], []
     );
