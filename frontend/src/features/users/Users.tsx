@@ -8,7 +8,6 @@ const Users = (): ReactElement => {
         isLoading,
         isSuccess,
         isError,
-        error,
     } = useGetUsersAsAdminQuery("usersList", {
         pollingInterval: 1000 * 60 // refetching data in 1 minute
     });
@@ -28,7 +27,7 @@ const Users = (): ReactElement => {
     if (isError) {
         return (
             <main>
-                <p>isError...</p>
+                <p className="errmsg">an error occured</p>
             </main>
         )
     }
