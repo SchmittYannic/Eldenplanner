@@ -14,6 +14,6 @@ export type BuildListItem = {
     author: string,
     level: number,
     stars: number,
-    created: string,
-    modified: string,
+    createdAt: string,
+    updatedAt: string,
 };

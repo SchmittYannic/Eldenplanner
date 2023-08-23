@@ -65,16 +65,24 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 header: () => <span>Stars</span>,
             },
             {
-                accessorFn: row => row.created,
+                accessorFn: row => row.createdAt,
                 id: "created",
-                cell: info => info.getValue(),
+                cell: info => {
+                    const createdDate = new Date(info.getValue());
+                    return createdDate.toLocaleDateString()
+                },
                 header: () => <span>Created</span>,
                 enableColumnFilter: false,
             },
             {
-                accessorFn: row => row.modified,
+                accessorFn: row => row.updatedAt,
                 id: "modified",
-                cell: info => info.getValue(),
+                cell: info => {
+                    const createdDate = new Date(info.row.original.createdAt);
+                    const modifiedDate = new Date(info.getValue());
+                    const isDateEqual = createdDate.valueOf() === modifiedDate.valueOf();
+                    return !isDateEqual ? modifiedDate.toLocaleDateString() : ""
+                },
                 header: () => <span>Modified</span>,
                 enableColumnFilter: false,
             },

@@ -18,13 +18,6 @@ const Builds = () => {
 
         const runelevel = sumStats - 79;
 
-        const createdAt = new Date(build.createdAt);
-        const updatedAt = new Date(build.updatedAt);
-        const isDateEqual = build.createdAt === build.updatedAt;
-
-        const created = createdAt.toLocaleDateString();
-        const modified = !isDateEqual ? updatedAt.toLocaleDateString() : "";
-
         if(!user) {
             throw new Error("Builds tableData not complete");
         }
@@ -36,8 +29,8 @@ const Builds = () => {
             author: user.username,
             level: runelevel,
             stars: 0,
-            created,
-            modified,
+            createdAt: build.createdAt,
+            updatedAt: build.updatedAt,
         }
     });
 
