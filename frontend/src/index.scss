@@ -188,29 +188,10 @@ table a {
     display: grid;
 }
 
-.table--users {
-    grid-template-columns: 2fr 2fr 2fr 1fr 1fr 3fr 3fr 1fr;
-}
-
-.table__button {
-    padding: 0.25em;
-    font-size: 1.5rem;
-    color: v.$Table-color;
-}
-
 .table__thead {
     position: sticky;
     top: 0;
     z-index: 1;
-}
-
-.table--users .table__cell:last-child {
-    display: grid;
-    place-content: center;
-}
-
-.table__cell--inactive {
-    background-color: v.$Table-inactive-bgColor;
 }
 
 .table--filter-wrapper {
@@ -388,6 +369,21 @@ table a {
 
 .table__cell {
     &.level, &.stars, &.created, &.modified {
+        place-content: center;
+    }
+}
+
+/* users */
+.table--users {
+    grid-template-columns: 2fr 2fr 2fr 1fr 1fr 3fr 3fr 1fr;
+
+    td {
+        padding: .7rem;
+    }
+}
+
+.table__cell {
+    &.active, &.validated, &.created, &.modified, &.edit {
         place-content: center;
     }
 }
