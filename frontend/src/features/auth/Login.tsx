@@ -44,7 +44,7 @@ const Login = (): ReactElement => {
 
     return (
         <main className="loginpage">
-            <div>img</div>
+            <div style={{backgroundColor: "black", height: "100%"}}>img</div>
             <div className="loginpage--rightside">
                 <div className="loginpage--wrapper">
                     <div className="loginpage--form-header">
