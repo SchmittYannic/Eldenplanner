@@ -19,15 +19,15 @@ const UserBuild = ({ build }: PropsType): ReactElement => {
 
     return (
         <tr className="table__row userbuild">
-            <td className={`table__cell`}>
+            <td className={`table__cell title`}>
                 <Link to={`/charplanner/${build.id}`}>
-                    {build.general.charactername}
+                    {build.title}
                 </Link>
             </td>
-            <td className={`table__cell`}>{runelevel}</td>
-            <td className={`table__cell`}>0</td>
-            <td className={`table__cell`}>{createdAt.toLocaleDateString()}</td>
-            <td className={`table__cell`}>{!isDateEqual ? updatedAt.toLocaleDateString() : ""}</td>
+            <td className={`table__cell level`}>{runelevel}</td>
+            <td className={`table__cell stars`}>0</td>
+            <td className={`table__cell created`}>{createdAt.toLocaleDateString()}</td>
+            <td className={`table__cell modified`}>{!isDateEqual ? updatedAt.toLocaleDateString() : ""}</td>
         </tr>
     )
 }

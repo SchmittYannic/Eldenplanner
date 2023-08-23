@@ -19,7 +19,7 @@ const UserBuildList = ({ userId }: PropsType): ReactElement => {
         <table className="table table--userbuilds">
             <thead className="table__thead">
                 <tr className="table__row">
-                    <th scope="col" className="table__th userbuild__charactername">Charactername</th>
+                    <th scope="col" className="table__th userbuild__charactername">Titel</th>
                     <th scope="col" className="table__th userbuild__runelevel">Level</th>
                     <th scope="col" className="table__th userbuild__stars">Stars</th>
                     <th scope="col" className="table__th userbuild__createdAt">Created</th>
