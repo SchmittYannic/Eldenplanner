@@ -368,6 +368,10 @@ table a {
 }
 
 .table__cell {
+    &.title, &.author {
+        place-content: center start;
+    }
+
     &.level, &.stars, &.created, &.modified {
         place-content: center;
     }
@@ -383,6 +387,10 @@ table a {
 }
 
 .table__cell {
+    &.username, &.email, &.roles {
+        place-content: center start;
+    }
+
     &.active, &.validated, &.created, &.modified, &.edit {
         place-content: center;
     }
