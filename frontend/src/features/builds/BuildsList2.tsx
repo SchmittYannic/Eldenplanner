@@ -1,5 +1,5 @@
-import { ReactElement, useState, useMemo, MouseEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { ReactElement, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import {
     Column,
     Table,
@@ -138,7 +138,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if(header.column.getCanFilter()) {
                                 return (
-                                    <Filter column={header.column} table={table} />
+                                    <Filter key={`filter` + header.column.id} column={header.column} table={table} />
                                 )
                             }
                         }))
@@ -206,7 +206,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                     //     )
                                     // } else {
                                         return (
-                                            <td key={cell.id} className={`table__cell`}>
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
