@@ -170,9 +170,9 @@ tr {
     font-size: .875rem;
     font-weight: 500;
     line-height: 1.25rem;
-    color: hsl(v.$dark-muted-foreground);
-    background-color: hsl(v.$dark-background);
-    border-color: hsl(v.$dark-border-color);
+    color: hsl(v.$muted-foreground);
+    background-color: hsl(v.$background);
+    border-color: hsl(v.$border-color);
     border-width: 1px;
     border-radius: calc(v.$border-radius - 2px);
     cursor: pointer;
@@ -181,8 +181,8 @@ tr {
     transition-duration: .15;
 
     &:hover {
-        color: hsl(v.$dark-accent-foreground);
-        background-color: hsl(v.$dark-accent);
+        color: hsl(v.$accent-foreground);
+        background-color: hsl(v.$accent);
     }
 
     &:disabled {
