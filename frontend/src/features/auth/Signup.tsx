@@ -16,12 +16,15 @@ const Signup = (): ReactElement => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const [responseMsg, setResponseMsg] = useState("");
 
     const onChangeUsername = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
     const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+
+    const onShowHideClicked = () => setIsPasswordVisible(!isPasswordVisible);
 
     const onSubmitClick = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -72,6 +75,7 @@ const Signup = (): ReactElement => {
                                 <label htmlFor="signup-username">
                                     Username
                                 </label>
+                                <div className="divider-1" />
                                 <input
                                     id="signup-username"
                                     type="text"
@@ -81,10 +85,14 @@ const Signup = (): ReactElement => {
                                     placeholder="JohnDoe"
                                 />
                             </div>
+
+                            <div className="divider-4" />
+
                             <div className="signuppage--input-wrapper email">
                                 <label htmlFor="signup-email">
                                     Email
                                 </label>
+                                <div className="divider-1" />
                                 <input
                                     id="signup-email"
                                     type="email"
@@ -94,17 +102,30 @@ const Signup = (): ReactElement => {
                                     placeholder="name@example.com"
                                 />
                             </div>
+
+                            <div className="divider-4" />
+
                             <div className="signuppage--input-wrapper password">
                                 <label htmlFor="signup-password">
                                     Password
                                 </label>
-                                <input
-                                    id="signup-password"
-                                    type="password"
-                                    value={password}
-                                    onChange={onChangePassword}
-                                    autoComplete="off"
-                                />
+                                <div className="divider-1" />
+                                <div className="flex">
+                                    <input
+                                        id="signup-password"
+                                        type={isPasswordVisible ? "text" : "password"}
+                                        value={password}
+                                        onChange={onChangePassword}
+                                        autoComplete="off"
+                                    />
+                                    <button
+                                        className="password-toggle button"
+                                        type="button"
+                                        onClick={onShowHideClicked}
+                                    >
+                                        {isPasswordVisible ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="divider-4" />
