@@ -303,26 +303,37 @@ table a {
     transition-property: filter, transform, opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .35s;
-}
 
+    &:hover {
+        filter: brightness(125%);
+        opacity: 1;
+    }
 
-.action-btn:hover {
-    filter: brightness(125%);
-    opacity: 1;
-}
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(190.82% 190.82% at 50% 100%, rgba(254, 173, 15, 1) 0%, rgba(168, 112, 64, 0.62) 18.09%);
+        opacity: .2;
+        filter: blur(2px);
+    }
 
-.action-btn:active {
-    transition: transform .1s;
-    transform: scale(.95);
-}
+    &:disabled {      
+        cursor: default;
+        pointer-events: none;
+        opacity: .5;
+        color: rgb(231, 214, 182);
+        border-color: rgb(231, 214, 182);
 
-.action-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(190.82% 190.82% at 50% 100%, rgba(254, 173, 15, 1) 0%, rgba(168, 112, 64, 0.62) 18.09%);
-    opacity: .2;
-    filter: blur(2px);
+        &::before {
+            background: radial-gradient(190.82% 190.82% at 50% 100%, rgb(252, 230, 186) 0%, rgba(169, 150, 133, 0.62) 18.09%);
+        }
+    }
+
+    &:active {
+        transition: transform .1s;
+        transform: scale(.95);
+    }
 }
 
 .button {
