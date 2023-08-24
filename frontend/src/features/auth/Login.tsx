@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
-import { loginimg } from "../../assets";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Login = (): ReactElement => {
 
@@ -48,8 +48,15 @@ const Login = (): ReactElement => {
             <div className="loginpage--img-wrapper">
                 <img
                     className="loginpage--img"
-                    src={loginimg}
+                    src={loginimg420w}
                     alt="elden ring wallpaper"
+                    srcSet={
+                        `${loginimg420w} 420w,
+                        ${loginimg980w} 980w,
+                        ${loginimg1680w} 1680w,
+                        ${loginimg} 2400w,`
+                    }
+                    sizes="50vw"
                 />
             </div>
             <div className="loginpage--rightside">
