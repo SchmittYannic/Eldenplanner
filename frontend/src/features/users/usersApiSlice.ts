@@ -59,7 +59,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {
                     ...initialUserData,
-                }
+                },
+                validateStatus: (response, result) => {
+                    return response.status === 201 && !result.isError
+                },
             }),
             invalidatesTags: [
                 { type: 'User', id: "LIST" }

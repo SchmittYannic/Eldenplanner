@@ -28,9 +28,13 @@ const Signup = (): ReactElement => {
 
     const onSubmitClick = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        await addNewUser({ username, password, email })
-                .then((res) => setResponseMsg((res as {data: any}).data.message))
-                .catch(() => {});
+        try {
+            setResponseMsg("");
+            await addNewUser({ username, password, email });
+        }
+        catch (err) {
+            setResponseMsg("an error occured");
+        }
     };
 
     useEffect(() => {
@@ -40,6 +44,12 @@ const Signup = (): ReactElement => {
             setResponseMsg("an error occured")
         }
     }, [isError]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            setResponseMsg(`New user ${username} created`);
+        }
+    }, [isSuccess]);
 
     return (
         <main className="signuppage">
