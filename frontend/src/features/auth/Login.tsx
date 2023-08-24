@@ -8,18 +8,20 @@ import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../asset
 
 const Login = (): ReactElement => {
 
-    const [user, setUser] = useState("");
-    const [password, setPassword] = useState("");
-
-    const [responseMsg, setResponseMsg] = useState("");
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [login, { isLoading, isError }] = useLoginMutation();
 
+    const [user, setUser] = useState("");
+    const [password, setPassword] = useState("");
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const [responseMsg, setResponseMsg] = useState("");
+
     const onUserChange = (e: ChangeEvent<HTMLInputElement>) => setUser(e.target.value);
     const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+    const onShowHideClicked = () => setIsPasswordVisible(!isPasswordVisible);
 
     const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -77,11 +79,12 @@ const Login = (): ReactElement => {
                             method="post"
                         >
                             <div className="loginpage--input-wrapper username">
-                                <label htmlFor="signup-user">
+                                <label htmlFor="login-user">
                                     Username or Email
                                 </label>
+                                <div className="divider-1" />
                                 <input
-                                    id="signup-user"
+                                    id="login-user"
                                     type="text"
                                     value={user}
                                     onChange={onUserChange}
@@ -89,17 +92,30 @@ const Login = (): ReactElement => {
                                     placeholder="name@example.com"
                                 />
                             </div>
+
+                            <div className="divider-4" />
+
                             <div className="loginpage--input-wrapper password">
-                                <label htmlFor="signup-password">
+                                <label htmlFor="login-password">
                                     Password
                                 </label>
-                                <input
-                                    id="signup-password"
-                                    type="password"
-                                    value={password}
-                                    onChange={onPasswordChange}
-                                    autoComplete="off"
-                                />
+                                <div className="divider-1" />
+                                <div className="flex">
+                                    <input
+                                        id="login-password"
+                                        type={isPasswordVisible ? "text" : "password"}
+                                        value={password}
+                                        onChange={onPasswordChange}
+                                        autoComplete="off"
+                                    />
+                                    <button
+                                        className="password-toggle button"
+                                        type="button"
+                                        onClick={onShowHideClicked}
+                                    >
+                                        {isPasswordVisible ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="divider-4" />
