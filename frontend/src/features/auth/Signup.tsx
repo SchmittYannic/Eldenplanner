@@ -1,6 +1,7 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffect } from "react";
 import { useAddNewUserMutation } from "../users/usersApiSlice";
 import { isCustomError } from "../../app/api/apiSlice";
+import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
 
 const Signup = (): ReactElement => {
 
@@ -40,7 +41,20 @@ const Signup = (): ReactElement => {
 
     return (
         <main className="signuppage">
-            <div style={{backgroundColor: "black", height: "100%"}}>img</div>
+            <div className="signuppage--img-wrapper">
+                <img
+                    className="signuppage--img"
+                    src={signupimg420w}
+                    alt="elden ring wallpaper"
+                    srcSet={
+                        `${signupimg420w} 420w,
+                        ${signupimg980w} 980w,
+                        ${signupimg1680w} 1680w,
+                        ${signupimg} 2400w,`
+                    }
+                    sizes="50vw"
+                />
+            </div>
             <div className="signuppage--rightside">
                 <div className="signuppage--wrapper">
                     <div className="signuppage--form-header">
