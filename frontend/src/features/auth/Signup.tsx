@@ -1,4 +1,5 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { useAddNewUserMutation } from "../users/usersApiSlice";
 import { isCustomError } from "../../app/api/apiSlice";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
@@ -10,7 +11,7 @@ const Signup = (): ReactElement => {
         isSuccess,
         isError,
         error
-    }] = useAddNewUserMutation()
+    }] = useAddNewUserMutation();
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -28,8 +29,6 @@ const Signup = (): ReactElement => {
                 .then((res) => setResponseMsg((res as {data: any}).data.message))
                 .catch(() => {});
     };
-
-    const responseMsgClass = isSuccess ? "succmsg" : isError ? "errmsg" : "";
 
     useEffect(() => {
         if (isError && isCustomError(error)) {
@@ -108,23 +107,36 @@ const Signup = (): ReactElement => {
                                 />
                             </div>
 
-                            <div className="divider-2" />
+                            <div className="divider-4" />
 
-                            <p className={`msg--signup ${responseMsgClass}`}>
+                            {/* <p className={`msg--signup ${responseMsgClass}`}>
                                 {responseMsg}
-                            </p>
+                            </p> */}
+                            {isError && (
+                                <div className="errmsg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
+                            )}
 
-                            <div className="divider-2" />
+                            <div className="divider-4" />
 
                             <button
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClick}
+                                disabled={isLoading ? true : false}
                             >
-                                Submit
+                                {!isLoading ? "Submit" :
+                                    <ClipLoader
+                                        color={"rgb(231, 214, 182)"}
+                                        loading={isLoading}
+                                        size={20}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                    />
+                                }
                             </button>
-
-                            {isLoading && <p>is Loading...</p>}
                         </form>
                     </div>
                     
