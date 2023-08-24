@@ -125,15 +125,12 @@ textarea {
     height: 1rem;
 }
 
-.errmsg {
+.sm-alert {
     /* inspired by: https://daisyui.com/components/alert/ */
     padding: v.$input-padding;
     width: 100%;
-    color: hsl(v.$err-color);
-    border-color: hsl(v.$err-background-color);
     border-width: 1px;
     border-radius: calc(v.$border-radius - 2px);
-    background-color: hsl(v.$err-background-color);
 
     display: flex;
     align-content: flex-start;
@@ -148,9 +145,16 @@ textarea {
     }
 }
 
+.errmsg {
+    color: hsl(v.$err-color);
+    border-color: hsl(v.$err-background-color);
+    background-color: hsl(v.$err-background-color);
+}
+
 .succmsg {
-    background-color: transparent;
-    color: green;
+    color: hsl(v.$succ-color);
+    border-color: hsl(v.$succ-background-color);
+    background-color: hsl(v.$succ-background-color);
 }
 
 /* || TABLES - GENERAL */
