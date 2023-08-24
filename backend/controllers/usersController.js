@@ -48,6 +48,13 @@ const createNewUser = async (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
+    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+    const isValidUsername = validUsernameRegex.test(username);
+
+    if (!isValidUsername) {
+        return res.status(400).json({ message: "Invalid username received" });
+    }
+
     /* Check for duplicate */
     // if you use async await and expect a promise back u should use exec at the end.
     // collation to make sure it is case insensitive -> Hank and hank count as duplicates
