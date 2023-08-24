@@ -15,7 +15,7 @@ const Login = (): ReactElement => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [login, { isLoading, isError }] = useLoginMutation();
 
     const onUserChange = (e: ChangeEvent<HTMLInputElement>) => setUser(e.target.value);
     const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
@@ -37,9 +37,8 @@ const Login = (): ReactElement => {
             } else if (err.status === 401) {
                 setResponseMsg(err.data?.message);
             } else {
-                setResponseMsg(err.data?.message);
+                setResponseMsg(err.data?.message ? err.data?.message : "an error occured");
             }
-            setResponseMsg("an error occured");
         }
     };
 
@@ -89,13 +88,16 @@ const Login = (): ReactElement => {
                                 />
                             </div>
 
-                            <div className="divider-2" />
+                            <div className="divider-4" />
 
-                            <p className="msg--login errmsg">
-                                {responseMsg}
-                            </p>
+                            {isError && (
+                                <div className="errmsg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
+                            )}
 
-                            <div className="divider-2" />
+                            <div className="divider-4" />
 
                             <button
                                 className="action-btn full"
