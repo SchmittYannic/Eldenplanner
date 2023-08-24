@@ -113,9 +113,31 @@ textarea {
     height: 0.5rem;
 }
 
+.divider-4 {
+    height: 1rem;
+}
+
 .errmsg {
-    background-color: transparent;
-    color: red;
+    /* inspired by: https://daisyui.com/components/alert/ */
+    padding: v.$input-padding;
+    width: 100%;
+    color: hsl(v.$err-color);
+    border-color: hsl(v.$err-background-color);
+    border-width: 1px;
+    border-radius: calc(v.$border-radius - 2px);
+    background-color: hsl(v.$err-background-color);
+
+    display: flex;
+    align-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+        stroke: currentColor;
+        height: 1.2rem;
+        width: 1.2rem;
+        flex-shrink: 0;
+    }
 }
 
 .succmsg {
