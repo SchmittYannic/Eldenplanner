@@ -1,6 +1,7 @@
 import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import ClipLoader from "react-spinners/ClipLoader";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
 
@@ -100,11 +101,18 @@ const Login = (): ReactElement => {
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClicked}
+                                disabled={isLoading ? true : false}
                             >
-                                Login
+                                {!isLoading ? "Login" :
+                                    <ClipLoader
+                                        color={"rgb(231, 214, 182)"}
+                                        loading={isLoading}
+                                        size={20}
+                                        aria-label="Loading Spinner"
+                                        data-testid="loader"
+                                    />
+                                }
                             </button>
-
-                            {isLoading && <p>is Loading...</p>}
                         </form>
                     </div>
                     
