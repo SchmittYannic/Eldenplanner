@@ -2,6 +2,7 @@ import { useState, ChangeEvent, ReactElement } from "react";
 import { UserAsAdminType, useUpdateUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
 import { isCustomError } from "../../app/api/apiSlice";
+import { Checkbox } from "../../components/ui";
 
 type PropsType = {
     user: UserAsAdminType
@@ -62,40 +63,38 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     const errContent = error === undefined ? "" : isCustomError(error) ? error.data.message : "An Error occured"
 
     return (
-        <form action="">
-            <p>{errContent}</p>
-            <input 
-                type="text"
-                value={username}
-                onChange={onUsernameChanged}
-            />
-            <input 
-                type="email"
-                value={email}
-                onChange={onEmailChanged}
-            />
-            <input
-                type="checkbox"
-                checked={active}
-                onChange={onActiveChanged}
-            />
-            <input
-                type="checkbox"
-                checked={validated}
-                onChange={onValidatedChanged}
-            />
-            <select
-                multiple={true}
-                size={3}
-                value={roles}
-                onChange={onRolesChanged}
-            >
-                {options}
-            </select>
-            <button type="button" onClick={onSaveUserClicked}>
-                Save
-            </button>
-        </form>
+        <main>
+            <form action="">
+                <p>{errContent}</p>
+                <input 
+                    type="text"
+                    value={username}
+                    onChange={onUsernameChanged}
+                />
+                <input 
+                    type="email"
+                    value={email}
+                    onChange={onEmailChanged}
+                />
+                <Checkbox label="Active" checked={active} setChecked={onActiveChanged} />
+                <Checkbox label="Validated" checked={validated} setChecked={onValidatedChanged} />
+                <select
+                    multiple={true}
+                    size={3}
+                    value={roles}
+                    onChange={onRolesChanged}
+                >
+                    {options}
+                </select>
+                <button
+                    className="button"
+                    type="button"
+                    onClick={onSaveUserClicked}
+                >
+                    Save
+                </button>
+            </form>
+        </main>
     )
 }
 
