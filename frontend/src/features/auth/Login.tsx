@@ -40,7 +40,7 @@ const Login = (): ReactElement => {
             } else if (err.status === 401) {
                 setResponseMsg(err.data?.message);
             } else {
-                setResponseMsg(err.data?.message ? err.data?.message : "an error occured");
+                setResponseMsg("an error occured");
             }
         }
     };
