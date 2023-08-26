@@ -63,20 +63,44 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     const errContent = error === undefined ? "" : isCustomError(error) ? error.data.message : "An Error occured"
 
     return (
-        <main>
-            <form action="">
+        <main className="editasadminpage">
+            <form
+                className="editasadmin--form"
+                action="patch"
+            >
                 <p>{errContent}</p>
-                <input 
-                    type="text"
-                    value={username}
-                    onChange={onUsernameChanged}
-                />
-                <input 
-                    type="email"
-                    value={email}
-                    onChange={onEmailChanged}
-                />
+                <div className="editasadmin--input-wrapper username">
+                    <label htmlFor="editasadmin-username">Username</label>
+                    <div className="divider-1" />
+                    <input 
+                        id="editasadmin-username"
+                        type="text"
+                        value={username}
+                        onChange={onUsernameChanged}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className="divider-4" />
+
+                <div className="editasadmin--input-wrapper email">
+                    <label htmlFor="editasadmin-email">Email</label>
+                    <div className="divider-1" />
+                    <input
+                        id="editasadmin-email"
+                        type="email"
+                        value={email}
+                        onChange={onEmailChanged}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className="divider-4" />
+
                 <Checkbox label="Active" checked={active} setChecked={onActiveChanged} />
+
+                <div className="divider-2" />
+
                 <Checkbox label="Validated" checked={validated} setChecked={onValidatedChanged} />
                 <select
                     multiple={true}
