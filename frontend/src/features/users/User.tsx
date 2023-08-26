@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { EntityId } from "@reduxjs/toolkit";
-import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersApiSlice";
+import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import { useNavigate } from "react-router-dom";
 
 type PropsType = {

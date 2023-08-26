@@ -15,7 +15,7 @@ import {
     flexRender,
 } from "@tanstack/react-table";
 import { RankingInfo } from "@tanstack/match-sorter-utils";
-import { UserAsAdminType } from "./usersApiSlice";
+import { UserAsAdminType } from "./usersAsAdminApiSlice";
 import FuzzyFilter from "../../utils/FuzzyFilter";
 declare module "@tanstack/table-core" {
     interface FilterFns {

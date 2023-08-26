@@ -1,20 +1,20 @@
 import { useState, ChangeEvent, ReactElement, MouseEvent, KeyboardEvent } from "react";
 import { ClipLoader } from "react-spinners";
-import { UserAsAdminType, useUpdateUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
 import { Checkbox } from "../../components/ui";
+import { UserAsAdminType, useUpdateUserAsAdminMutation } from "./usersAsAdminApiSlice";
 
 type PropsType = {
     user: UserAsAdminType
 }
 
 const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
-    
-    const [updateUser, {
+
+    const [updateUserAsAdmin, {
         isLoading,
         isSuccess,
         isError,
-    }] = useUpdateUserMutation();
+    }] = useUpdateUserAsAdminMutation();
 
     const [username, setUsername] = useState(user.username);
     const [email, setEmail] = useState(user.email);
@@ -48,7 +48,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     const onSaveUserClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
-            const response = await updateUser({ 
+            const response = await updateUserAsAdmin({ 
                 id: user.id,
                 username,
                 active,
@@ -62,9 +62,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
         catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400) {
-                setResponseMsg(err.data?.message);
-            } else if (err.status === 409) {
+            } else if (err.status === 400 || err.status === 401 || err.status === 409) {
                 setResponseMsg(err.data?.message);
             } else {
                 setResponseMsg("an error occured");

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersApiSlice";
+import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import EditUserAsAdminForm from "./EditUserAsAdminForm";
 
 const EditUserAsAdmin = (): ReactElement => {

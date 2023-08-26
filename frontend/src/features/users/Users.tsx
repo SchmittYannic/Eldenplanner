@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersApiSlice";
+import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList2 from "./UsersList2";
 
 const Users = (): ReactElement => {
