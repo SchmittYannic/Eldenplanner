@@ -1,11 +1,14 @@
 import express from "express";
 import {
-    getAllUsersAsAdmin,
     getAllUsers,
     createNewUser,
     updateUser,
     deleteUser
 } from "../controllers/usersController.js";
+import {
+    getAllUsersAsAdmin,
+    updateUserAsAdmin,
+} from "../controllers/usersAsAdminController.js";
 import verifyJWT from "../middleware/verifyJWT.js";
 const router = express.Router();
 
@@ -17,5 +20,6 @@ router.route("/")
 
 router.route("/admin")
     .get(verifyJWT, getAllUsersAsAdmin)
+    .patch(verifyJWT, updateUserAsAdmin)
 
 export default router;
