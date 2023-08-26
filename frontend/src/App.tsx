@@ -6,7 +6,7 @@ import Login from "./features/auth/Login";
 import Signup from "./features/auth/Signup";
 import Charplanner from "./features/charplanner/Charplanner";
 import Users from "./features/users/Users";
-import EditUser from "./features/users/EditUser";
+import EditUserAsAdmin from "./features/users/EditUserAsAdmin";
 import Builds from "./features/builds/Builds";
 import UserPage from "./features/users/UserPage";
 import Prefetch from "./features/auth/Prefetch";
@@ -36,7 +36,7 @@ const App = (): ReactElement => {
                     <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
                         <Route path="users">
                             <Route index element={<Users/>} />
-                            <Route path=":userId" element={<EditUser />} />
+                            <Route path=":userId" element={<EditUserAsAdmin />} />
                         </Route>
                     </Route>
                 </Route>

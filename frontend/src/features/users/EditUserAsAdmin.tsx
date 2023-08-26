@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import { UserType, useGetUsersAsAdminQuery } from "./usersApiSlice";
-import EditUserForm from "./EditUserForm";
+import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersApiSlice";
+import EditUserAsAdminForm from "./EditUserAsAdminForm";
 
-const EditUser = (): ReactElement => {
+const EditUserAsAdmin = (): ReactElement => {
     const { userId } = useParams();
     
     const { user } = useGetUsersAsAdminQuery("usersList", {
@@ -15,8 +15,8 @@ const EditUser = (): ReactElement => {
     if (!user) return <p>is Loading...</p>
 
     return (
-        <EditUserForm user={user as UserType} />
+        <EditUserAsAdminForm user={user as UserAsAdminType} />
     )
 }
 
-export default EditUser
+export default EditUserAsAdmin

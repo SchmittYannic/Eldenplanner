@@ -1,13 +1,13 @@
 import { useState, ChangeEvent, ReactElement } from "react";
-import { UserType, useUpdateUserMutation } from "./usersApiSlice";
+import { UserAsAdminType, useUpdateUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
 import { isCustomError } from "../../app/api/apiSlice";
 
 type PropsType = {
-    user: UserType
+    user: UserAsAdminType
 }
 
-const EditUserForm = ({ user }: PropsType): ReactElement => {
+const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     
     const [updateUser, {
         isLoading,
@@ -99,4 +99,4 @@ const EditUserForm = ({ user }: PropsType): ReactElement => {
     )
 }
 
-export default EditUserForm
+export default EditUserAsAdminForm
