@@ -12,7 +12,13 @@ const EditUserAsAdmin = (): ReactElement => {
         }),
     })
 
-    if (!user) return <p>is Loading...</p>
+    if (!user) {
+        return(
+            <main>
+                <p>isLoading...</p>
+            </main>
+        )
+    }
 
     return (
         <EditUserAsAdminForm user={user as UserAsAdminType} />
