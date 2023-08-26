@@ -4,6 +4,7 @@ import CustomSelect from "./CustomSelect";
 import Alert from "./Alert";
 import CollapsibleList from "./CollapsibleList";
 import DebouncedInput from "./DebouncedInput";
+import MultiSelect from "./MultiSelect";
 
 export {
     Checkbox,
@@ -12,4 +13,5 @@ export {
     Alert,
     CollapsibleList,
     DebouncedInput,
+    MultiSelect,
 }
