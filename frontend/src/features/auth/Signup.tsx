@@ -1,7 +1,6 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useAddNewUserMutation } from "../users/usersApiSlice";
-import { isCustomError } from "../../app/api/apiSlice";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
 
 const Signup = (): ReactElement => {
@@ -10,7 +9,6 @@ const Signup = (): ReactElement => {
         isLoading,
         isSuccess,
         isError,
-        error
     }] = useAddNewUserMutation();
 
     const [username, setUsername] = useState("");
@@ -30,20 +28,19 @@ const Signup = (): ReactElement => {
         e.preventDefault();
         try {
             setResponseMsg("");
-            await addNewUser({ username, password, email });
-        }
-        catch (err) {
-            setResponseMsg("an error occured");
+            await addNewUser({ username, password, email }).unwrap();
+        } catch (err: any) {
+            if (!err.status) {
+                setResponseMsg("No Server Response");
+            } else if (err.status === 400) {
+                setResponseMsg(err.data?.message);
+            } else if (err.status === 409) {
+                setResponseMsg(err.data?.message);
+            } else {
+                setResponseMsg("an error occured");
+            }
         }
     };
-
-    useEffect(() => {
-        if (isError && isCustomError(error)) {
-            setResponseMsg(error.data.message)
-        } else if (isError) {
-            setResponseMsg("an error occured")
-        }
-    }, [isError]);
 
     useEffect(() => {
         if (isSuccess) {
