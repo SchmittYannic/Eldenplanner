@@ -27,22 +27,19 @@ const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
     }
 
     return (
-        <form
-            className="Checkbox"
-            onSubmit={(e) => e.preventDefault()}
-        >
+        <div className="Checkbox">
             <label>
                 <div 
                     className={checked ? "CheckboxWrapper Checked" : "CheckboxWrapper" }
                 >
                     {isRippling ? (
-                    <span
-                        className="CheckboxRipple"
-                        style={{
-                        marginTop: "-10px",
-                        top: "50%"
-                        }}
-                    />
+                        <span
+                            className="CheckboxRipple"
+                            style={{
+                                marginTop: "-10px",
+                                top: "50%"
+                            }}
+                        />
                     ) : (
                         ''
                     )}
@@ -56,7 +53,7 @@ const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
                 </div>
                 <p>{label}</p>
             </label>
-        </form>
+        </div>
     )
 }
 
