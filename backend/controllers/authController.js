@@ -55,7 +55,7 @@ const login = async (req, res) => {
     });
 
     // Send accessToken containing username and roles 
-    res.json({ accessToken });
+    res.status(200).json({ accessToken });
 };
 
 // @desc Refresh
