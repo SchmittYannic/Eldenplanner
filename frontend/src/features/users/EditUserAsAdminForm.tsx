@@ -1,7 +1,7 @@
-import { useState, ChangeEvent, ReactElement } from "react";
+import { useState, ChangeEvent, ReactElement, MouseEvent, KeyboardEvent } from "react";
+import { ClipLoader } from "react-spinners";
 import { UserAsAdminType, useUpdateUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
-import { isCustomError } from "../../app/api/apiSlice";
 import { Checkbox } from "../../components/ui";
 
 type PropsType = {
@@ -14,14 +14,15 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
         isLoading,
         isSuccess,
         isError,
-        error
     }] = useUpdateUserMutation();
 
     const [username, setUsername] = useState(user.username);
     const [email, setEmail] = useState(user.email);
     const [active, setActive] = useState(user.active);
     const [validated, setValidated] = useState(user.validated);
-    const [roles, setRoles] = useState(user.roles)
+    const [roles, setRoles] = useState(user.roles);
+
+    const [responseMsg, setResponseMsg] = useState("");
 
     const onUsernameChanged = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const onEmailChanged = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
@@ -44,15 +45,31 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
         setRoles(user.roles);
     };
 
-    const onSaveUserClicked = async () => {
-        await updateUser({ 
-            id: user.id,
-            username,
-            active,
-            roles,
-            validated,
-            email 
-        })
+    const onSaveUserClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        try {
+            const response = await updateUser({ 
+                id: user.id,
+                username,
+                active,
+                roles,
+                validated,
+                email 
+            }).unwrap();
+
+            setResponseMsg(response.message);
+        }
+        catch (err: any) {
+            if (!err.status) {
+                setResponseMsg("No Server Response");
+            } else if (err.status === 400) {
+                setResponseMsg(err.data?.message);
+            } else if (err.status === 409) {
+                setResponseMsg(err.data?.message);
+            } else {
+                setResponseMsg("an error occured");
+            }
+        }
     };
 
     const options = Object.values(ROLES).map(role => {
@@ -71,18 +88,12 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
         || validated !== user.validated 
         || roles !== user.roles;
 
-    console.log(isError)
-    console.log(error)
-
-    const errContent = error === undefined ? "" : isCustomError(error) ? error.data.message : "An Error occured"
-
     return (
         <main className="editasadminpage">
             <form
                 className="editasadmin--form"
                 action="patch"
             >
-                <p>{errContent}</p>
                 <div className="editasadmin--input-wrapper username">
                     <label htmlFor="editasadmin-username">Username</label>
                     <div className="divider-1" />
@@ -132,14 +143,39 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                 >
                     Reset
                 </button>
+
                 <button
-                    className="action-btn"
-                    type="button"
+                    className="action-btn full"
+                    type="submit"
                     onClick={onSaveUserClicked}
-                    disabled={!isChanged ? true : false}
+                    disabled={(!isChanged || isLoading) ? true : false}
                 >
-                    Save
+                    {!isLoading ? "Save" :
+                        <ClipLoader
+                            color={"rgb(231, 214, 182)"}
+                            loading={isLoading}
+                            size={20}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+                    }
                 </button>
+
+                <div className="divider-4" />
+
+                {isSuccess && (
+                    <div className="sm-alert succmsg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>{responseMsg}</span>
+                    </div>
+                )}
+
+                {isError && (
+                    <div className="sm-alert errmsg">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>{responseMsg}</span>
+                    </div>
+                )}
             </form>
         </main>
     )
