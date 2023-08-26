@@ -7,7 +7,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
             query: credentials => ({
                 url: "/auth",
                 method: "POST",
-                body: { ...credentials }
+                body: { ...credentials },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
             })
         }),
         sendLogout: builder.mutation({
