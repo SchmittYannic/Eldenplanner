@@ -61,13 +61,13 @@ const createNewUser = async (req, res) => {
     const duplicateUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec();
 
     if (duplicateUsername) {
-        return res.status(409).json({ message: "Duplicate username" });
+        return res.status(409).json({ message: "Username already in use" });
     }
 
     const duplicateEmail = await User.findOne({ email }).lean().exec();
 
     if (duplicateEmail) {
-        return res.status(409).json({ message: "Duplicate email" });
+        return res.status(409).json({ message: "Email already in use" });
     }
 
     if (!EmailValidator.validate(email)) {
