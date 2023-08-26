@@ -34,7 +34,15 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
             (option) => option.value
         )
         setRoles(values)
-    }
+    };
+
+    const onResetChangesClicked = () => {
+        setUsername(user.username);
+        setEmail(user.email);
+        setActive(user.active);
+        setValidated(user.validated);
+        setRoles(user.roles);
+    };
 
     const onSaveUserClicked = async () => {
         await updateUser({ 
@@ -45,7 +53,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
             validated,
             email 
         })
-    }
+    };
 
     const options = Object.values(ROLES).map(role => {
         return (
@@ -55,7 +63,13 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
 
             > {role}</option >
         )
-    })
+    });
+
+    const isChanged = username !== user.username 
+        || email !== user.email 
+        || active !== user.active 
+        || validated !== user.validated 
+        || roles !== user.roles;
 
     console.log(isError)
     console.log(error)
@@ -113,7 +127,16 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                 <button
                     className="button"
                     type="button"
+                    onClick={onResetChangesClicked}
+                    disabled={!isChanged ? true : false}
+                >
+                    Reset
+                </button>
+                <button
+                    className="action-btn"
+                    type="button"
                     onClick={onSaveUserClicked}
+                    disabled={!isChanged ? true : false}
                 >
                     Save
                 </button>
