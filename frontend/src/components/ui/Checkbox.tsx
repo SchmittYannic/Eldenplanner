@@ -2,7 +2,7 @@ import { KeyboardEvent, useState, ReactElement } from "react";
 import "./Checkbox.scss";
 
 type PropsType = {
-    label: string,
+    label: (string | number),
     checked: boolean,
     setChecked: Function
 }
