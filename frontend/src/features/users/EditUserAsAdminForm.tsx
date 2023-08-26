@@ -1,12 +1,12 @@
 import { useState, ChangeEvent, ReactElement, MouseEvent, KeyboardEvent } from "react";
 import { ClipLoader } from "react-spinners";
 import { ROLES } from "../../config/roles";
-import { Checkbox } from "../../components/ui";
+import { Checkbox, MultiSelect } from "../../components/ui";
 import { UserAsAdminType, useUpdateUserAsAdminMutation } from "./usersAsAdminApiSlice";
 
 type PropsType = {
     user: UserAsAdminType
-}
+};
 
 const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
 
@@ -28,14 +28,6 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     const onEmailChanged = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
     const onActiveChanged = () => setActive(prev => !prev);
     const onValidatedChanged = () => setValidated(prev => !prev);
-
-    const onRolesChanged = (e: ChangeEvent<HTMLSelectElement>) => {
-        const values = Array.from(
-            e.target.selectedOptions,
-            (option) => option.value
-        )
-        setRoles(values)
-    };
 
     const onResetChangesClicked = () => {
         setUsername(user.username);
@@ -69,16 +61,6 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
             }
         }
     };
-
-    const options = Object.values(ROLES).map(role => {
-        return (
-            <option
-                key={role}
-                value={role}
-
-            > {role}</option >
-        )
-    });
 
     const isChanged = username !== user.username 
         || email !== user.email 
@@ -118,21 +100,23 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                     />
                 </div>
 
-                <div className="divider-4" />
+                <div className="divider-2" />
 
                 <Checkbox label="Active" checked={active} setChecked={onActiveChanged} />
 
-                <div className="divider-2" />
+                <div className="divider-1" />
 
                 <Checkbox label="Validated" checked={validated} setChecked={onValidatedChanged} />
-                <select
-                    multiple={true}
-                    size={3}
+
+                <div className="divider-2" />
+                
+                <MultiSelect
+                    label="Roles"
                     value={roles}
-                    onChange={onRolesChanged}
-                >
-                    {options}
-                </select>
+                    onChange={setRoles}
+                    optionsList={Object.values(ROLES)}
+                />
+
                 <button
                     className="button"
                     type="button"
