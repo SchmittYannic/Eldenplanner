@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, KeyboardEvent, useRef, useState, FocusEvent } from "react";
 import { Checkbox } from ".";
 import "./MultiSelect.scss";
 
@@ -11,7 +11,10 @@ type PropsType = {
 };
 
 const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="Select an Option", label="" }: PropsType): ReactElement => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
     const isNothingSelected = initialValue.length === 0;
     const initialValueString = initialValue.join(", ");
@@ -23,7 +26,10 @@ const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="
             : initialValueString;
 
     const onLabelClicked = () => {
-        setIsOpen(!isOpen);
+        if (inputRef.current) {
+            inputRef.current.focus();
+            setIsOpen(!isOpen);
+        }
     };
 
     const onSelectOption = (checked: boolean, option: (string | number)) => {
@@ -41,16 +47,47 @@ const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="
         }
     };
 
+    const onInputFocus = () => {
+        setIsFocused(true);
+    };
+
+    const onInputBlur = (e: FocusEvent<HTMLInputElement>) => {
+        if (!containerRef.current?.contains(e.relatedTarget)) {
+            setIsFocused(false);
+            setIsOpen(false);
+        }
+    };
+
+    const onInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+        const { key } = e;
+
+        if (key === "Enter") {
+            e.preventDefault();
+            if (!isOpen) setIsOpen(true);
+        }
+    };
+
     return (
-        <div className="multiselect">
+        <div ref={containerRef} className={`multiselect`}>
             <label className="multiselect-label">
                 {label}
-                <input className="sr-only" type="text" tabIndex={0} role="listbox" aria-expanded={isOpen} readOnly />
+                <input
+                    ref={inputRef}
+                    className="sr-only"
+                    type="text"
+                    tabIndex={0}
+                    role="listbox"
+                    aria-expanded={isOpen}
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                    onKeyDown={onInputKeydown}
+                    readOnly
+                />
             </label>
 
             <div className="divider-1" />
                      
-            <div className="multiselect-trigger-container" onClick={onLabelClicked}>
+            <div className={`multiselect-trigger-container ${isFocused ? "focused" : ""}`} onClick={onLabelClicked}>
                 <p className={`multiselect-triggertext ${isNothingSelected ? "placeholder" : ""}`}>
                     {displayText}
                 </p>
@@ -64,6 +101,7 @@ const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="
                                 label={option}
                                 checked={initialValue.includes(option)}
                                 setChecked={(checked: boolean) => onSelectOption(checked, option)} 
+                                onBlur={onInputBlur}
                             />
                         </li>
                     ))}

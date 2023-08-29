@@ -73,6 +73,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
             <form
                 className="editasadmin--form"
                 action="patch"
+                onSubmit={(e) => e.preventDefault()}
             >
                 <div className="editasadmin--input-wrapper username">
                     <label htmlFor="editasadmin-username">Username</label>

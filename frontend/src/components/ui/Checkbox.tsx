@@ -8,12 +8,20 @@ type PropsType = {
 }
 
 /* https://blog.logrocket.com/building-custom-checkbox-react/ */
-const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
+const Checkbox = ({
+    label,
+    checked,
+    setChecked,
+    ...props
+}: PropsType & React.InputHTMLAttributes<HTMLInputElement>): ReactElement => {
     const [isRippling, setIsRippling] = useState(false);
 
     const onKeyDown = (e: KeyboardEvent) => {
         const { key } = e;
-        if (key === "Enter") handleCheck();
+        if (key === "Enter") {
+            e.preventDefault()
+            handleCheck();
+        }
     };
 
     const handleCheck = () => {
@@ -44,6 +52,7 @@ const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
                         ''
                     )}
                     <input
+                        {...props}
                         type="checkbox"
                         checked={checked}
                         onChange={handleCheck}
