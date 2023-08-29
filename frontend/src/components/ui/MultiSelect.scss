@@ -43,8 +43,9 @@
     }
 
     ul {
+        width: 100%;
         position: absolute;
-        top: 100%;
+        top: calc(100% + 5px);
         background-color: hsl(v.$background);
         border-radius: calc(v.$border-radius - 2px);
         border: 1px solid hsl(v.$border-color);
@@ -53,5 +54,11 @@
 
     li {
         list-style-type: none;
+        padding: calc(v.$input-padding-top / 2) calc(v.$input-padding-left / 2);
+    }
+
+    .checkbox-label {
+        display: flex;
+        gap: .5rem;
     }
 }
