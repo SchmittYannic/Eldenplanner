@@ -38,9 +38,11 @@ const UserPage = (): ReactElement => {
                         <h2>Builds of {user?.username}</h2>
                         <div className="divider-2" />
                         <p>Joined {month} {year}</p>
+                        <div className="divider-2" />
                         {isOwnProfile && (
                             // turn into Link later
                             <button
+                                className="button"
                                 type="button"
                                 onClick={onEditProfileClicked}
                             >
