@@ -129,7 +129,7 @@ textarea {
     /* inspired by: https://daisyui.com/components/alert/ */
     margin: 0 auto;
     padding: v.$input-padding;
-    width: 100%;
+    width: fit-content;
     border-width: 1px;
     border-radius: calc(v.$border-radius - 2px);
 
@@ -156,7 +156,6 @@ textarea {
     color: hsl(v.$succ-color);
     border-color: hsl(v.$succ-background-color);
     background-color: hsl(v.$succ-background-color);
-    width: fit-content;
 }
 
 .focused {
