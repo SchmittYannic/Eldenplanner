@@ -30,28 +30,43 @@ const UserPage = (): ReactElement => {
 
     };
 
-    return (
-        <main className="main--userpage">
-            <section className="section--userpage infobuildswrapper">
-                <div className="userpage__userinfo">
-                    <h2>{user?.username}</h2>
-                    <p>Joined {month} {year}</p>
-                    {isOwnProfile && (
-                        // turn into Link later
-                        <button
-                            type="button"
-                            onClick={onEditProfileClicked}
-                        >
-                            Edit Profile
-                        </button>
-                    )}
+    if (user) {
+        return (
+            <main className="main--userpage">
+                <section className="section--userpage infobuildswrapper">
+                    <div className="userpage__userinfo">
+                        <h2>Builds of {user?.username}</h2>
+                        <div className="divider-2" />
+                        <p>Joined {month} {year}</p>
+                        {isOwnProfile && (
+                            // turn into Link later
+                            <button
+                                type="button"
+                                onClick={onEditProfileClicked}
+                            >
+                                Edit Profile
+                            </button>
+                        )}
+                    </div>
+    
+                    <div className="divider-4" />
+    
+                    <div className="userpage__userbuilds">
+                        {userId && <UserBuildList userId={userId} />}
+                    </div>
+                </section>
+            </main>
+        )
+    } else {
+        return (
+            <main className="main--userpage">
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Something went wrong.</span>
                 </div>
-                <div className="userpage__userbuilds">
-                    {userId && <UserBuildList userId={userId} />}
-                </div>
-            </section>
-        </main>
-    )
+            </main>
+        )
+    }
 }
 
 export default UserPage
