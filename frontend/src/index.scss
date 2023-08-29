@@ -155,6 +155,7 @@ textarea {
     color: hsl(v.$succ-color);
     border-color: hsl(v.$succ-background-color);
     background-color: hsl(v.$succ-background-color);
+    width: fit-content;
 }
 
 .focused {
@@ -539,6 +540,10 @@ table a {
 
 /* EditAsAdmin Page */
 .editasadminpage {
+
+    .editasadmin--form {
+        width: 250px;
+    }
 
     .editasadmin--input-wrapper {
         display: grid;
