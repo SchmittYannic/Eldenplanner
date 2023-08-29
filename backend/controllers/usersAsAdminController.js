@@ -65,6 +65,13 @@ const updateUserAsAdmin = async (req, res) => {
         return res.status(409).json({ message: "Email already in use" });
     }
 
+    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,19}$/;
+    const isValidUsername = validUsernameRegex.test(username);
+
+    if (!isValidUsername) {
+        return res.status(400).json({ message: "Invalid username received" });
+    }
+
     if (!EmailValidator.validate(email)) {
         return res.status(400).json({ message: "Invalid email address received" });
     }

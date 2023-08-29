@@ -27,7 +27,7 @@ const createNewUser = async (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,19}$/;
     const isValidUsername = validUsernameRegex.test(username);
 
     if (!isValidUsername) {
