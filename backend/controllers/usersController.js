@@ -6,9 +6,9 @@ import * as EmailValidator from "email-validator";
 // @route GET /users
 // @access Public
 const getAllUsers = async (req, res) => {
-    // select all users username and creation date, who arent admins or demoadmins
+    // select all users username and creation date
     // when not calling any methods like save later on and only want to get the data add a lean()
-    const users = await User.find({roles: {$nin: ["Admin", "Demoadmin"]}}).select("username createdAt").lean();
+    const users = await User.find().select("username createdAt").lean();
     if (!users?.length) {
         return res.status(400).json({ message: "No users found" });
     }
