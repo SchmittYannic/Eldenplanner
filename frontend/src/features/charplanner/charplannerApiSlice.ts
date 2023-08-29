@@ -23,9 +23,15 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                     ...initialBuildData,
                 }
             }),
-            invalidatesTags: (arg) => [
-                { type: 'Build', id: arg.id }
-            ]
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "Build", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
         }),
     })
 });

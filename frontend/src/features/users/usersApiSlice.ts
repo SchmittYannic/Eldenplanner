@@ -67,9 +67,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            invalidatesTags: (arg) => [
-                { type: 'User', id: arg.id }
-            ]
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "User", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
         }),
         deleteUser: builder.mutation({
             query: ({ id }) => ({
@@ -77,9 +83,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { id }
             }),
-            invalidatesTags: (arg) => [
-                { type: 'User', id: arg.id }
-            ]
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "User", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
         }),
     }),
 })

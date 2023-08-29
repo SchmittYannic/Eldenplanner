@@ -57,9 +57,15 @@ export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            invalidatesTags: (arg) => [
-                { type: "User", id: arg.id }
-            ]
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "User", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
         }),
     }),
 });
