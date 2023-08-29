@@ -127,6 +127,7 @@ textarea {
 
 .sm-alert {
     /* inspired by: https://daisyui.com/components/alert/ */
+    margin: 0 auto;
     padding: v.$input-padding;
     width: 100%;
     border-width: 1px;
@@ -135,7 +136,7 @@ textarea {
     display: flex;
     align-content: flex-start;
     align-items: center;
-    gap: 1rem;
+    gap: v.$input-padding-left;
 
     svg {
         stroke: currentColor;
