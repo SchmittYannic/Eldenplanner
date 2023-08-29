@@ -43,7 +43,7 @@ const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="
 
     return (
         <div className="multiselect">
-            <label>
+            <label className="multiselect-label">
                 {label}
                 <input className="sr-only" type="text" tabIndex={0} role="listbox" aria-expanded={isOpen} readOnly />
             </label>

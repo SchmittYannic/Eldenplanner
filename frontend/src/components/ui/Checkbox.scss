@@ -2,7 +2,7 @@
 @use "../../Variables" as v;
 
 .Checkbox {
-    label {
+    .checkbox-label {
         pointer-events: none; // without it you can change the checkbox by clicking the label
         height: calc(v.$InputHeight + v.$InputPaddingBottom + v.$InputPaddingTop); //height: 100%;
         display: flex;

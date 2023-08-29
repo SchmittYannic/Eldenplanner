@@ -4,8 +4,9 @@
 
     display: grid;
     gap: .25rem;
+    position: relative;
 
-    label {
+    .multiselect-label {
         line-height: 1;
         font-size: .875rem;
         font-weight: 500;
@@ -43,6 +44,7 @@
 
     ul {
         position: absolute;
+        top: 100%;
         background-color: hsl(v.$background);
         border-radius: calc(v.$border-radius - 2px);
         border: 1px solid hsl(v.$border-color);

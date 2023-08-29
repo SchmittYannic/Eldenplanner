@@ -28,7 +28,7 @@ const Checkbox = ({ label, checked, setChecked }: PropsType): ReactElement => {
 
     return (
         <div className="Checkbox">
-            <label>
+            <label className="checkbox-label">
                 <div 
                     className={checked ? "CheckboxWrapper Checked" : "CheckboxWrapper" }
                 >
