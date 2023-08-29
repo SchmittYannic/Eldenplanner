@@ -1,5 +1,6 @@
 import { ReactElement, useState } from "react";
 import { Checkbox } from ".";
+import "./MultiSelect.scss";
 
 type PropsType = {
     value: (string | number)[],
@@ -50,9 +51,9 @@ const MultiSelect = ({ value: initialValue, onChange, optionsList, placeholder="
             <div className="divider-1" />
                      
             <div className="multiselect-trigger-container" onClick={onLabelClicked}>
-                <div className={`multiselect-triggertext ${isNothingSelected ? "placeholder" : ""}`}>
+                <p className={`multiselect-triggertext ${isNothingSelected ? "placeholder" : ""}`}>
                     {displayText}
-                </div>
+                </p>
             </div>
 
             {isOpen && (

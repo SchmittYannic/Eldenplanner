@@ -1,0 +1,55 @@
+@use "../../Variables" as v;
+
+.multiselect {
+
+    display: grid;
+    gap: .25rem;
+
+    label {
+        line-height: 1;
+        font-size: .875rem;
+        font-weight: 500;
+    }
+
+    .multiselect-trigger-container {
+        font-size: .875rem;
+        line-height: 1.25rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        padding-left: .75rem;
+        padding-right: .75rem;
+        background-color: transparent;
+        border-radius: calc(v.$border-radius - 2px);
+        border: 1px solid hsl(v.$border-color);
+        width: 100%;
+        height: 2.25rem;
+        display: flex;
+        align-items: center;
+        transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        transition-duration: .15s;
+        cursor: pointer;
+
+        .placeholder {
+            color: hsl(v.$muted-foreground);
+            opacity: 1;
+        }
+
+        &:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+    }
+
+    ul {
+        position: absolute;
+        background-color: hsl(v.$background);
+        border-radius: calc(v.$border-radius - 2px);
+        border: 1px solid hsl(v.$border-color);
+        z-index: 1;
+    }
+
+    li {
+        list-style-type: none;
+    }
+}

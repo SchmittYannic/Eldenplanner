@@ -117,6 +117,8 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                     optionsList={Object.values(ROLES)}
                 />
 
+                <div className="divider-4" />
+
                 <button
                     className="button"
                     type="button"
