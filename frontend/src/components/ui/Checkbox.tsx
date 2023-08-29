@@ -35,14 +35,14 @@ const Checkbox = ({
     }
 
     return (
-        <div className="Checkbox">
+        <div className="checkbox">
             <label className="checkbox-label">
                 <div 
-                    className={checked ? "CheckboxWrapper Checked" : "CheckboxWrapper" }
+                    className={checked ? "checkbox-wrapper checked" : "checkbox-wrapper" }
                 >
                     {isRippling ? (
                         <span
-                            className="CheckboxRipple"
+                            className="checkbox-ripple"
                             style={{
                                 marginTop: "-10px",
                                 top: "50%"

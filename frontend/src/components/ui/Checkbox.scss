@@ -1,14 +1,14 @@
 @charset "UTF-8";
 @use "../../Variables" as v;
 
-.Checkbox {
+.checkbox {
     .checkbox-label {
         pointer-events: none; // without it you can change the checkbox by clicking the label
         height: calc(v.$InputHeight + v.$InputPaddingBottom + v.$InputPaddingTop); //height: 100%;
         display: flex;
         align-items: center;
 
-        .CheckboxWrapper {
+        .checkbox-wrapper {
             height: 100%;
             width: calc(v.$InputPaddingLeft + v.$InputPaddingRight + 33px);//width: 33px;
             border-radius: 50%;
@@ -59,7 +59,7 @@
                 }
             }
 
-            .CheckboxRipple {
+            .checkbox-ripple {
                 width: 20px;
                 height: 20px;
                 position: absolute;
@@ -70,11 +70,11 @@
                 animation: 0.9s ease 1 forwards ripple-effect;
             }
 
-            &:not(.Checked) .CheckboxRipple {
+            &:not(.checked) .checkbox-ripple {
                 background-color: v.$default-font-color;
             }
 
-            &.Checked .CheckboxRipple {
+            &.checked .checkbox-ripple {
                 background-color: v.$default-focus-label-font-color;
             }
         }
