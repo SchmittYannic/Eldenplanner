@@ -1,24 +1,41 @@
-import { BuildType, selectAllBuilds } from "./buildsApiSlice";
-import { useSelector } from "react-redux";
+import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
+import { ClipLoader } from "react-spinners";
 import { calcSumObjectValues } from "../../utils/functions";
 import BuildsList2 from "./BuildsList2";
-import { UserType, selectAllUsers } from "../users/usersApiSlice";
+import { UserType, useGetUsersQuery } from "../users/usersApiSlice";
+import { isCustomError } from "../../app/api/apiSlice";
 
 const Builds = () => {
 
-    const builds = useSelector(selectAllBuilds) as BuildType[];
-    const users = useSelector(selectAllUsers) as UserType[];
+    const {
+        data: builds,
+        isLoading: isBuildsLoading, 
+        isSuccess: isBuildsSuccess,
+        isError: isBuildsError,
+        error: buildsError,   
+    } = useGetBuildsQuery("buildsList", {
+        pollingInterval: 1000 * 60 // refetching data in 1 minute
+    });
 
-    const isDataLoaded = builds.length > 0 && users.length > 0;
+    const {
+        data: users,
+        isLoading: isUsersLoading,
+        isSuccess: isUsersSuccess,
+        isError: isUsersError,
+        error: usersError,
+    } = useGetUsersQuery("usersList", {
+        pollingInterval: 1000 * 60 // refetching data in 1 minute
+    });
     
-    const tableData = isDataLoaded && builds.map((build) => {
-        const user = users.find((user) => user.id.toString() === build.user);
+    const tableData = isBuildsSuccess && isUsersSuccess && builds.ids.map((buildId) => {
+        const build = builds.entities[buildId] as BuildType;
+        const author = users.entities[build.user] as UserType;
 
         const sumStats = calcSumObjectValues(build.stats);
 
         const runelevel = sumStats - 79;
 
-        if(!user) {
+        if(!author) {
             throw new Error("Builds tableData not complete");
         }
 
@@ -26,7 +43,7 @@ const Builds = () => {
             buildId: build.id,
             authorId: build.user,
             title: build.title,
-            author: user.username,
+            author: author.username,
             level: runelevel,
             stars: 0,
             createdAt: build.createdAt,
@@ -34,7 +51,46 @@ const Builds = () => {
         }
     });
 
-    if (builds.length === 0 || users.length === 0) {
+    if (tableData) {
+        return (
+            <>
+                {typeof tableData !== "boolean" && <BuildsList2 data={tableData} />}
+                <p>here</p>
+            </>
+        )
+    } else if (isBuildsLoading || isUsersLoading) {
+        return (
+            <main>
+                <ClipLoader
+                    color={"rgb(231, 214, 182)"}
+                    loading={isBuildsLoading ? isBuildsLoading : isUsersLoading}
+                    size={20}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            </main>
+        )
+    } else if (isBuildsError) {
+        const errormsg = isCustomError(buildsError) && buildsError.status === 400 && buildsError.data.message;
+        return (
+            <main>
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{errormsg ? errormsg : "an error occured"}</span>
+                </div>
+            </main>
+        )
+    } else if (isUsersError) {
+        const errormsg = isCustomError(usersError) && usersError.status === 400 && usersError.data.message;
+        return (
+            <main>
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{errormsg ? errormsg : "an error occured"}</span>
+                </div>
+            </main>
+        )
+    } else {
         return (
             <main>
                 <div className="sm-alert errmsg">
@@ -42,12 +98,6 @@ const Builds = () => {
                     <span>Something went wrong.</span>
                 </div>
             </main>
-        )
-    } else {
-        return (
-            <>
-                {typeof tableData !== "boolean" && <BuildsList2 data={tableData} />}
-            </>
         )
     }
 }
