@@ -22,7 +22,7 @@ const Users = (): ReactElement => {
     if (tableData) {
         return (
             <>
-                {typeof tableData !== "boolean" && <UsersList2 data={tableData} />}
+                <UsersList2 data={tableData} />
             </>
         )
     } else if (isLoading) {
