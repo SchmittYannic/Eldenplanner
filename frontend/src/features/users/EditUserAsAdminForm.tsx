@@ -3,6 +3,7 @@ import { ClipLoader } from "react-spinners";
 import { ROLES } from "../../config/roles";
 import { Checkbox, MultiSelect } from "../../components/ui";
 import { UserAsAdminType, useUpdateUserAsAdminMutation } from "./usersAsAdminApiSlice";
+import DeleteUserAsAdmin from "./DeleteUserAsAdmin";
 
 type PropsType = {
     user: UserAsAdminType
@@ -23,6 +24,8 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
     const [roles, setRoles] = useState(user.roles);
 
     const [responseMsg, setResponseMsg] = useState("");
+
+    const [isDeleteTriggered, setIsDeleteTriggered] = useState(false);
 
     const onUsernameChanged = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const onEmailChanged = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
@@ -120,30 +123,42 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
 
                 <div className="divider-4" />
 
-                <button
-                    className="button"
-                    type="button"
-                    onClick={onResetChangesClicked}
-                    disabled={!isChanged ? true : false}
-                >
-                    Reset
-                </button>
+                <div className="button-wrapper">
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={onResetChangesClicked}
+                        disabled={!isChanged ? true : false}
+                    >
+                        Reset
+                    </button>
+
+                    <button
+                        className="action-btn"
+                        type="submit"
+                        onClick={onSaveUserClicked}
+                        disabled={(!isChanged || isLoading) ? true : false}
+                    >
+                        {!isLoading ? "Save" :
+                            <ClipLoader
+                                color={"rgb(231, 214, 182)"}
+                                loading={isLoading}
+                                size={20}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        }
+                    </button>
+                </div>
+
+                <div className="divider-4" />
 
                 <button
                     className="action-btn full"
                     type="submit"
-                    onClick={onSaveUserClicked}
-                    disabled={(!isChanged || isLoading) ? true : false}
+                    onClick={() => setIsDeleteTriggered(true)}
                 >
-                    {!isLoading ? "Save" :
-                        <ClipLoader
-                            color={"rgb(231, 214, 182)"}
-                            loading={isLoading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-                    }
+                    Delete User
                 </button>
 
                 <div className="divider-4" />
@@ -161,6 +176,10 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         <span>{responseMsg}</span>
                     </div>
                 )}
+
+                {isDeleteTriggered && 
+                    <DeleteUserAsAdmin user={user} setTrigger={setIsDeleteTriggered} />
+                }
             </form>
         </main>
     )
