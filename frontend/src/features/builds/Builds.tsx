@@ -55,7 +55,6 @@ const Builds = () => {
         return (
             <>
                 {typeof tableData !== "boolean" && <BuildsList2 data={tableData} />}
-                <p>here</p>
             </>
         )
     } else if (isBuildsLoading || isUsersLoading) {
