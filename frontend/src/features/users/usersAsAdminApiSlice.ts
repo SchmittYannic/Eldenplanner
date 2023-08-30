@@ -67,12 +67,32 @@ export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        deleteUserAsAdmin: builder.mutation({
+            query: ({ id }) => ({
+                url: "/users/admin",
+                method: "DELETE",
+                body: { id },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "User", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
+        }),
     }),
 });
 
 export const {
     useGetUsersAsAdminQuery,
     useUpdateUserAsAdminMutation,
+    useDeleteUserAsAdminMutation,
 } = usersAsAdminApiSlice;
 
 // returns the query result object
