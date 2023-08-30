@@ -115,7 +115,7 @@ const deleteUserAsAdmin = async (req, res) => {
 
     const result = await user.deleteOne();
 
-    res.status(200).json(`Username ${result.username} with ID ${result._id} deleted`);
+    res.status(200).json({ message: `Username ${result.username} with ID ${result._id} deleted`});
 };
 
 export {
