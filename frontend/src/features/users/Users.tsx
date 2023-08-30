@@ -1,4 +1,6 @@
 import { ReactElement } from "react";
+import { ClipLoader } from "react-spinners";
+import { isCustomError } from "../../app/api/apiSlice";
 import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList2 from "./UsersList2";
 
@@ -8,6 +10,7 @@ const Users = (): ReactElement => {
         isLoading,
         isSuccess,
         isError,
+        error,
     } = useGetUsersAsAdminQuery("usersList", {
         pollingInterval: 1000 * 60 // refetching data in 1 minute
     });
@@ -16,29 +19,44 @@ const Users = (): ReactElement => {
         return users.entities[id] as UserAsAdminType
     })
 
-    if (isLoading) {
+    if (tableData) {
+        return (
+            <>
+                {typeof tableData !== "boolean" && <UsersList2 data={tableData} />}
+            </>
+        )
+    } else if (isLoading) {
         return (
             <main>
-                <p>isLoading...</p>
+                <ClipLoader
+                    color={"rgb(231, 214, 182)"}
+                    loading={isLoading}
+                    size={20}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            </main>
+        )
+    } else if (isError) {
+        const errormsg = isCustomError(error) && (error.status === 400 || error.status === 401) && error.data.message;
+        return (
+            <main>
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{errormsg ? errormsg : "an error occured"}</span>
+                </div>
+            </main>
+        )
+    } else {
+        return (
+            <main>
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Something went wrong.</span>
+                </div>
             </main>
         )
     }
-
-    if (isError) {
-        return (
-            <main>
-                <p className="errmsg">an error occured</p>
-            </main>
-        )
-    }
-
-    if (isSuccess && typeof tableData !== "boolean") {
-        return (           
-            <UsersList2 data={tableData} />         
-        )
-    }
-
-    return (<></>)
 }
 
 export default Users
