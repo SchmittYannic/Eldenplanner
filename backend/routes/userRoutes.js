@@ -8,6 +8,7 @@ import {
 import {
     getAllUsersAsAdmin,
     updateUserAsAdmin,
+    deleteUserAsAdmin,
 } from "../controllers/usersAsAdminController.js";
 import verifyJWT from "../middleware/verifyJWT.js";
 const router = express.Router();
@@ -21,5 +22,6 @@ router.route("/")
 router.route("/admin")
     .get(verifyJWT, getAllUsersAsAdmin)
     .patch(verifyJWT, updateUserAsAdmin)
+    .delete(verifyJWT, deleteUserAsAdmin);
 
 export default router;

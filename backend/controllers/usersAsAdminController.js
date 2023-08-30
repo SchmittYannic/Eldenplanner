@@ -87,7 +87,39 @@ const updateUserAsAdmin = async (req, res) => {
     res.status(200).json({ message: `${updateUser.username} updated`});
 };
 
+// @desc Delete a user
+// @route DELETE /users
+// @access Private
+const deleteUserAsAdmin = async (req, res) => {
+
+    const reqroles = req.roles;
+
+    // If Admin is not inside the roles Array then request is unauthorized
+    if (!reqroles.includes("Admin")) {
+        return res.status(401).json({ message: "Unauthorized: only admins, no demoadmins" });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "User ID Required" });
+    }
+
+    // Check if user has Builds attached to him in the future.
+
+    const user = await User.findById(id).exec();
+
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
+    }
+
+    const result = await user.deleteOne();
+
+    res.status(200).json(`Username ${result.username} with ID ${result._id} deleted`);
+};
+
 export {
     getAllUsersAsAdmin,
     updateUserAsAdmin,
+    deleteUserAsAdmin,
 }
