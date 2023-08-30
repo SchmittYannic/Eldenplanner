@@ -11,7 +11,7 @@ const getAllBuilds = async (req, res) => {
     if (!builds?.length) {
         return res.status(400).json({ message: "No builds found" });
     }
-    res.json(builds);
+    res.status(200).json(builds);
 };
 
 // @desc Create new build
