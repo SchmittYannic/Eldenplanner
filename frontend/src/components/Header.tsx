@@ -14,7 +14,14 @@ const Header = (): ReactElement => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const isSmallDesktop = windowSize.width && windowSize.width < 1040;
-    const isMobile = windowSize.width && windowSize.width < 840;
+    const isMobile = windowSize.width && windowSize.width < 850;
+
+    const closeMenu = () => setIsMenuOpen(false);
+
+    const onLogoutClick = () => {
+        closeMenu();
+        sendLogout("");
+    };
 
     return (
         <header>
@@ -103,18 +110,30 @@ const Header = (): ReactElement => {
                     <div className="mobile-menu">
                         <ul>
                             <li>
-                                <Link className="nav-link" to="/charplanner">
+                                <Link
+                                    className="nav-link"
+                                    to="/charplanner"
+                                    onClick={closeMenu}
+                                >
                                     Charplanner
                                 </Link>
                             </li>
                             <li>
-                                <Link className="nav-link" to="/builds">
+                                <Link
+                                    className="nav-link"
+                                    to="/builds"
+                                    onClick={closeMenu}
+                                >
                                     Community Builds
                                 </Link>
                             </li>
                             {(isAdmin || isDemoadmin) && (
                                 <li>
-                                    <Link className="nav-link" to="/users">
+                                    <Link
+                                        className="nav-link"
+                                        to="/users"
+                                        onClick={closeMenu}
+                                    >
                                         Users
                                     </Link>
                                 </li>
@@ -126,21 +145,33 @@ const Header = (): ReactElement => {
                         <ul>
                             {status === "Visitor" && (
                                 <li>
-                                    <Link className="nav-link" to="/login">
+                                    <Link
+                                        className="nav-link"
+                                        to="/login"
+                                        onClick={closeMenu}
+                                    >
                                         Login
                                     </Link>
                                 </li>
                             )}
                             {status === "Visitor" && (
                                 <li>
-                                    <Link className="nav-link" to="/signup">
+                                    <Link
+                                        className="nav-link"
+                                        to="/signup"
+                                        onClick={closeMenu}
+                                    >
                                         Sign Up
                                     </Link>
                                 </li>
                             )}
                             {(isUser || isDemoadmin || isAdmin) && (
                                 <li>
-                                    <Link className="nav-link" to={`/${userId}`}>
+                                    <Link
+                                        className="nav-link"
+                                        to={`/${userId}`}
+                                        onClick={closeMenu}
+                                    >
                                         Your Profile
                                     </Link>
                                 </li>
@@ -150,7 +181,7 @@ const Header = (): ReactElement => {
                                     <button
                                         className="nav-link"
                                         type="button"
-                                        onClick={sendLogout}
+                                        onClick={onLogoutClick}
                                     >
                                         <div>Logout</div>
                                         <MdLogout />
