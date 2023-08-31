@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
 import useAuth from "../hooks/useAuth";
+import useWindowSize from "../hooks/useWindowSize";
+import { navbarlogo } from "../assets";
 
 const Header = (): ReactElement => {
 
     const { userId, status, isUser, isDemoadmin, isAdmin } = useAuth();
 
+    const windowSize = useWindowSize();
+
     const [sendLogout, {}] = useSendLogoutMutation();
+
+    const isSmallDesktop = windowSize.width && windowSize.width < 1040;
 
     return (
         <header>
@@ -16,9 +22,16 @@ const Header = (): ReactElement => {
                 <div className="page-padding">
                     <div className="container-large">
                         <div className="nav-inner">
-                            <Link className="nav-logo" to={"/"}>
-                                <div>ELDENPLANNER</div>
-                            </Link>
+                            {isSmallDesktop ? (
+                                <Link className="nav-logo" to={"/"}>
+                                    <img src={navbarlogo} alt="" />
+                                    <div>EP</div>
+                                </Link>
+                            ) : (
+                                <Link className="nav-logo" to={"/"}>
+                                    <div>ELDENPLANNER</div>
+                                </Link>
+                            )}
 
                             <ul>
                                 <li>

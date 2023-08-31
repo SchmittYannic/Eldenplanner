@@ -263,6 +263,8 @@ textarea {
 
     .nav-logo {
         margin-left: 5px;
+        display: flex;
+        align-items: center;
         font-size: 2rem;
         font-weight: 700;
         text-decoration: none;
@@ -280,6 +282,10 @@ textarea {
 
         &:active {
             color: transparent;
+        }
+
+        img {
+            height: 48px;
         }
     }
 }
