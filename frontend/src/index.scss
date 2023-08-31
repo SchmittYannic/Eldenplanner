@@ -69,7 +69,7 @@ main, header {
 }
 
 main {
-    margin-top: calc(v.$primary-nav-height + 1rem);
+    margin-top: v.$primary-nav-height;
     display: flex;
     flex-direction: column;
     justify-content: center;
