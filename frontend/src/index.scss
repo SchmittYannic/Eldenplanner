@@ -110,6 +110,13 @@ textarea {
     display: flex;
 }
 
+.horizontal-divider {
+    border-color: hsl(v.$border-color);
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+}
+
 .divider-1 {
     height: 0.25rem;
 }
@@ -236,12 +243,12 @@ textarea {
         align-items: stretch;
         display: flex;
         position: relative;
-    }
 
-    ul {
-        list-style-type: none;
-        display: flex;
-        align-items: center;
+        ul {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+        }
     }
 
     .mobile-menu-button {
@@ -262,6 +269,24 @@ textarea {
         &:active {
             transition: transform .05s;
             transform: scale(.95);
+        }
+    }
+
+    .mobile-menu {
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+        width: 200px;
+        position: absolute;
+        right: 0;
+        top: v.$primary-nav-height;
+        background-color: hsl(v.$background);
+        border: 1px solid hsl(v.$border-color);
+        border-radius: calc(v.$border-radius - 2px);
+
+        ul {
+            list-style-type: none;
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
         }
     }
 
