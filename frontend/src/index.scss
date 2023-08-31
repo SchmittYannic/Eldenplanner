@@ -243,6 +243,27 @@ textarea {
         align-items: center;
     }
 
+    .mobile-menu-button {
+        display: flex;
+        align-items: center;
+
+        svg {
+            display: block;
+            color: hsl(v.$muted-foreground);
+            height: 48px;
+            width: 48px;
+
+            &:hover {
+                color: hsl(v.$accent-foreground)
+            }
+        }
+
+        &:active {
+            transition: transform .05s;
+            transform: scale(.95);
+        }
+    }
+
     .nav-link {
         text-decoration: none;
         color: hsl(v.$muted-foreground);
