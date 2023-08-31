@@ -131,7 +131,8 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
 
     return (
         <main>
-
+            <h1>Users</h1>
+            <div className="divider-2" />
             <table className="table table--users">
                 <thead className="table__thead">
                     {table.getHeaderGroups().map(headerGroup => (
