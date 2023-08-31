@@ -65,6 +65,7 @@ body {
 
 main, header {
     width: 100%;
+    min-width: v.$min-page-width;
     max-width: 1080px;
 }
 
@@ -829,6 +830,10 @@ table a {
 /* MEDIA QUERIES */
 
 @media only screen and (max-width: 849px) {
+    #root {
+        display: block;
+    }
+
     .loginpage,
     .signuppage {
         min-height: 400px;

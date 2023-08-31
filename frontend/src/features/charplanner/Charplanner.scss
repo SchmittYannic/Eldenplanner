@@ -1,6 +1,7 @@
 @use "../../Variables" as v;
 
 .Charplanner {
+    min-width: v.$min-page-width;
     background-color: v.$default-background-color;
     color: v.$default-font-color;
     font-family: v.$default-font-family;
