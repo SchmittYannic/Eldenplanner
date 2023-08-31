@@ -608,7 +608,8 @@ table a {
 
     .loginpage--wrapper,
     .signuppage--wrapper {
-        width: 350px; //min-width 640px
+        min-width: 200px; //min-width 640px
+        max-width: 300px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -819,5 +820,19 @@ table a {
 
     &.active, &.validated, &.created, &.modified, &.edit {
         place-content: center;
+    }
+}
+
+
+
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 849px) {
+    .loginpage,
+    .signuppage {
+        min-height: 400px;
+        grid-template-columns: 1fr;
+        align-items: start;
     }
 }

@@ -5,11 +5,14 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const Login = (): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
 
     const [login, { isLoading, isError }] = useLoginMutation();
 
@@ -47,20 +50,22 @@ const Login = (): ReactElement => {
 
     return (
         <main className="loginpage">
-            <div className="loginpage--img-wrapper">
-                <img
-                    className="loginpage--img"
-                    src={loginimg420w}
-                    alt="elden ring wallpaper"
-                    srcSet={
-                        `${loginimg420w} 420w,
-                        ${loginimg980w} 980w,
-                        ${loginimg1680w} 1680w,
-                        ${loginimg} 2400w,`
-                    }
-                    sizes="50vw"
-                />
-            </div>
+            {!isMobile && (
+                <div className="loginpage--img-wrapper">
+                    <img
+                        className="loginpage--img"
+                        src={loginimg420w}
+                        alt="elden ring wallpaper"
+                        srcSet={
+                            `${loginimg420w} 420w,
+                            ${loginimg980w} 980w,
+                            ${loginimg1680w} 1680w,
+                            ${loginimg} 2400w,`
+                        }
+                        sizes="50vw"
+                    />
+                </div>
+            )}
             <div className="loginpage--rightside">
                 <div className="loginpage--wrapper">
                     <div className="loginpage--form-header">

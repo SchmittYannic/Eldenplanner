@@ -2,8 +2,12 @@ import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffe
 import ClipLoader from "react-spinners/ClipLoader";
 import { useAddNewUserMutation } from "../users/usersApiSlice";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const Signup = (): ReactElement => {
+
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
 
     const [addNewUser, {
         isLoading,
@@ -50,20 +54,22 @@ const Signup = (): ReactElement => {
 
     return (
         <main className="signuppage">
-            <div className="signuppage--img-wrapper">
-                <img
-                    className="signuppage--img"
-                    src={signupimg420w}
-                    alt="elden ring wallpaper"
-                    srcSet={
-                        `${signupimg420w} 420w,
-                        ${signupimg980w} 980w,
-                        ${signupimg1680w} 1680w,
-                        ${signupimg} 2400w,`
-                    }
-                    sizes="50vw"
-                />
-            </div>
+            {!isMobile && (
+                <div className="signuppage--img-wrapper">
+                    <img
+                        className="signuppage--img"
+                        src={signupimg420w}
+                        alt="elden ring wallpaper"
+                        srcSet={
+                            `${signupimg420w} 420w,
+                            ${signupimg980w} 980w,
+                            ${signupimg1680w} 1680w,
+                            ${signupimg} 2400w,`
+                        }
+                        sizes="50vw"
+                    />
+                </div>
+            )}
             <div className="signuppage--rightside">
                 <div className="signuppage--wrapper">
                     <div className="signuppage--form-header">
