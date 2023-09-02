@@ -17,6 +17,7 @@ import {
 //import { RankingInfo } from "@tanstack/match-sorter-utils";
 import { UserAsAdminType } from "./usersAsAdminApiSlice";
 import FuzzyFilter from "../../utils/FuzzyFilter";
+import FilterTable from "../../components/FilterTable";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
 // declare module "@tanstack/table-core" {
@@ -62,18 +63,21 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 id: "roles",
                 cell: info => info.getValue().join(", "),
                 header: () => <span>Roles</span>,
+                enableColumnFilter: false,
             },
             {
                 accessorFn: row => row.active,
                 id: "active",
                 cell: info => info.getValue().toString(),
                 header: () => <span>Active</span>,
+                enableColumnFilter: false,
             },
             {
                 accessorFn: row => row.validated,
                 id: "validated",
                 cell: info => info.getValue().toString(),
                 header: () => <span>Validated</span>,
+                enableColumnFilter: false,
             },
             {
                 accessorFn: row => row.createdAt,
@@ -108,6 +112,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 )  
                 ,
                 header: () => <span>Edit</span>,
+                enableColumnFilter: false,
             },
         ], []
     );
@@ -138,6 +143,20 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
         <main>
             <h1>Users</h1>
             <div className="divider-2" />
+            <div className="table--filter-wrapper">
+                <div className="table--filter">
+                    {
+                        table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
+                            if(header.column.getCanFilter()) {
+                                return (
+                                    <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
+                                )
+                            }
+                        }))
+                    }
+                </div>
+                <div className="divider-2" />
+            </div>
             <table className="table table--users">
                 {!isMobile &&
                     <thead className="table__thead">
