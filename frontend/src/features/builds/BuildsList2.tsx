@@ -206,7 +206,9 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     })}
                 </tbody>
             </table>
+
             <div className="divider-2" />
+            
             <div className="table--pagination">
                 <button
                     className="button"
@@ -260,7 +262,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         table.setPageSize(Number(e.target.value))
                     }}
                 >
-                    {[2, 10, 20, 30, 40, 50].map(pageSize => (
+                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
