@@ -35,7 +35,7 @@ const FilterTable = ({column, table,}: PropsType): ReactElement => {
                     max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
                     value={(columnFilterValue as [number, number])?.[0] ?? ""}
                     onChange={value =>
-                    column.setFilterValue((old: [number, number]) => [value, old?.[1]])
+                        column.setFilterValue((old: [number, number]) => [value, old?.[1]])
                     }
                     placeholder={`Min ${column.id} ${
                     column.getFacetedMinMaxValues()?.[0]
@@ -43,6 +43,7 @@ const FilterTable = ({column, table,}: PropsType): ReactElement => {
                         : ""
                     }`}
                     className="table--filter-number"
+                    title={`Filter by minimum ${column.id}`}
                 />
                 <label htmlFor={column.id + "filterMax"} className="sr-only">
                     {`filter column ${column.id} maximum`}
@@ -62,6 +63,7 @@ const FilterTable = ({column, table,}: PropsType): ReactElement => {
                                 : ""
                         }`}
                     className="table--filter-number"
+                    title={`Filter by maximum ${column.id}`}
                 />
             </div>
         </div>
@@ -83,6 +85,7 @@ const FilterTable = ({column, table,}: PropsType): ReactElement => {
                 placeholder={`Filter ${column.id} (${column.getFacetedUniqueValues().size})`}
                 className={`table--filter-text ${column.id}`}
                 list={column.id + "list"}
+                title={`Filter column: ${column.id}`}
             />
         </>
     )
