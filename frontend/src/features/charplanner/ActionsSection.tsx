@@ -26,6 +26,8 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
                 className="Charplanner__Save action-btn"
                 type="button"
                 onClick={onSaveClicked}
+                title={status === "Visitor" ? "Requires Login" : "Save Build"}
+                disabled={status === "Visitor"}
             >
                 {isBuildAuthor ? "Update" : "Save"}
             </button>          
