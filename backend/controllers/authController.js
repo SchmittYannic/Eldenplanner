@@ -2,10 +2,13 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+let knownIps = new Map();
+
 // @desc Login
 // @route POST /auth
 // @access Public
 const login = async (req, res) => {
+
     const { user, password } = req.body;
 
     if (!user || !password) {
@@ -22,7 +25,31 @@ const login = async (req, res) => {
 
     const match = await bcrypt.compare(password, foundUser.password);
 
-    if (!match) return res.status(401).json({ message: "wrong password" });
+    if (!match) {
+        if (knownIps.has(req.ip)) {
+            const { lastUnsuccessfulAttempt, countUnsuccessfulAttempts } = knownIps.get(req.ip);
+            const now = new Date();
+            const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60);
+
+            if (sinceLastFailedAttempt >= 1) {
+                // if last attempt was far enough in the past reset entry
+                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1});
+            } else if (countUnsuccessfulAttempts >= 3) {
+                // else check if attempts exceed limit of 3
+                console.log("here")
+                console.log(countUnsuccessfulAttempts)
+                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1})
+                return res.status(429).json({ message: "Too many failed login attempts" })
+            } else {
+                // else increase count
+                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1})
+            }
+        } else {
+            // if ip not known add it to map
+            knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1})
+        }
+        return res.status(401).json({ message: "wrong password" });
+    }
 
     // to create an ACCESS_TOKEN_SECRET key in .env you can use
     // require("crypto").randomBytes(64).toString("hex");
