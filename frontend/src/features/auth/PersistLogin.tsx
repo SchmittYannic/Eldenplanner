@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import { useRefreshMutation } from "./authApiSlice"
-import usePersist from "../../hooks/usePersist"
-import { useSelector } from "react-redux"
-import { selectCurrentToken } from "./authSlice"
+import { useRefreshMutation } from "./authApiSlice";
+import usePersist from "../../hooks/usePersist";
+import { selectCurrentToken } from "./authSlice";
 
 const PersistLogin = () => {
 
@@ -47,7 +47,7 @@ const PersistLogin = () => {
     }, []);
 
 
-    let content
+    let content;
     if (!persist) { // persist: no
         //console.log("no persist")
         content = <Outlet />
