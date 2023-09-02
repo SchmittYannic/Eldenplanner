@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import UserBuildList from "./UserBuildList";
 import { useSelector } from "react-redux";
 import { UserType, selectUserById } from "./usersApiSlice";
 import { RootState } from "../../app/store";
 import useAuth from "../../hooks/useAuth";
+import UserBuilds from "./UserBuilds";
 
 const UserPage = (): ReactElement => {
 
@@ -54,7 +54,7 @@ const UserPage = (): ReactElement => {
                     <div className="divider-4" />
     
                     <div className="userpage__userbuilds">
-                        {userId && <UserBuildList userId={userId} />}
+                        {userId && <UserBuilds userId={userId} />}
                     </div>
                 </section>
             </main>
