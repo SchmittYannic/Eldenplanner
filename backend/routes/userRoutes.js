@@ -3,7 +3,7 @@ import {
     getAllUsers,
     createNewUser,
     updateUser,
-    deleteUser
+    deleteUser,
 } from "../controllers/usersController.js";
 import {
     getAllUsersAsAdmin,
@@ -11,11 +11,13 @@ import {
     deleteUserAsAdmin,
 } from "../controllers/usersAsAdminController.js";
 import verifyJWT from "../middleware/verifyJWT.js";
+import { signupLimiter } from "../middleware/rateLimiters.js";
+import checkNewUserData from "../middleware/checkNewUserData.js";
 const router = express.Router();
 
 router.route("/")
     .get(getAllUsers)
-    .post(createNewUser)
+    .post(checkNewUserData, signupLimiter, createNewUser)
     .patch(updateUser)
     .delete(deleteUser);
 
