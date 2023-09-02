@@ -83,7 +83,7 @@ const Header = (): ReactElement => {
                                     )}
                                     {(isUser || isDemoadmin || isAdmin) && (
                                         <li>
-                                            <Link className="nav-link" to={`/${userId}`}>
+                                            <Link className="nav-link" to={`/user/${userId}`}>
                                                 Your Profile
                                             </Link>
                                         </li>
@@ -169,7 +169,7 @@ const Header = (): ReactElement => {
                                 <li>
                                     <Link
                                         className="nav-link"
-                                        to={`/${userId}`}
+                                        to={`/user/${userId}`}
                                         onClick={closeMenu}
                                     >
                                         Your Profile

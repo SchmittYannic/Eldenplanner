@@ -52,7 +52,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 id: "author",
                 cell: info => {
                     const authorId = info.row.original.authorId;
-                    return <Link to={`/${authorId}`}>{info.getValue()}</Link>
+                    return <Link to={`/user/${authorId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Author</span>,
             },

@@ -47,7 +47,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 id: "username",
                 cell: info => {
                     const userId = info.row.original.id;
-                    return <Link to={`/${userId}`}>{info.getValue()}</Link>
+                    return <Link to={`/user/${userId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Username</span>,
             },
