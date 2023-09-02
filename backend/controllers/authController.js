@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+// from: https://stackoverflow.com/questions/69504697/express-rate-limit-for-login-route
 let knownIps = new Map();
 
 // @desc Login
@@ -29,7 +30,7 @@ const login = async (req, res) => {
         if (knownIps.has(req.ip)) {
             const { lastUnsuccessfulAttempt, countUnsuccessfulAttempts } = knownIps.get(req.ip);
             const now = new Date();
-            const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60);
+            const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60 * 30);
 
             if (sinceLastFailedAttempt >= 1) {
                 // if last attempt was far enough in the past reset entry
