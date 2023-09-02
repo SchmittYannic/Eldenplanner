@@ -230,34 +230,36 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
             <div className="divider-2" />
 
             <div className="table--pagination">
-                <button
-                    className="button"
-                    onClick={() => table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {"<<"}
-                </button>
-                <button
-                    className="button"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {"Previous"}
-                </button>
-                <button
-                    className="button"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {"Next"}
-                </button>
-                <button
-                    className="button"
-                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {">>"}
-                </button>
+                <span className="table--pagination button-wrapper">
+                    <button
+                        className="button"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"<<"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"Previous"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {"Next"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {">>"}
+                    </button>
+                </span>
                 <span>
                     <div>Page</div>
                     <strong>
