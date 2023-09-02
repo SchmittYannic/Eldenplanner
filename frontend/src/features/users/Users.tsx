@@ -12,7 +12,7 @@ const Users = (): ReactElement => {
         isError,
         error,
     } = useGetUsersAsAdminQuery("usersList", {
-        pollingInterval: 1000 * 60 // refetching data in 1 minute
+        pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
 
     const tableData = isSuccess && users.ids.map(id => {

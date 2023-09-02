@@ -14,7 +14,7 @@ const Builds = () => {
         isError: isBuildsError,
         error: buildsError,   
     } = useGetBuildsQuery("buildsList", {
-        pollingInterval: 1000 * 60 // refetching data in 1 minute
+        pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
 
     const {
@@ -24,7 +24,7 @@ const Builds = () => {
         isError: isUsersError,
         error: usersError,
     } = useGetUsersQuery("usersList", {
-        pollingInterval: 1000 * 60 // refetching data in 1 minute
+        pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
     
     const tableData = isBuildsSuccess && isUsersSuccess && builds.ids.map((buildId) => {
