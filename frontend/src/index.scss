@@ -360,44 +360,11 @@ td, th {
 th {
     font-weight: 500;
     color: hsl(v.$muted-foreground);
+    cursor: pointer;
 }
 
 td {
     color: hsl(v.$accent-foreground);
-}
-
-tr {
-    td:first-of-type, th:first-of-type {
-        border-left: 1px solid hsl(v.$border-color);
-    }
-
-    td:last-of-type, th:last-of-type {
-        border-right: 1px solid hsl(v.$border-color);
-    }
-
-    &:first-of-type {
-        th:last-of-type {
-            border-top-right-radius: calc(v.$border-radius - 2px);
-        }
-    
-        th:first-of-type {
-            border-top-left-radius: calc(v.$border-radius - 2px);
-        }
-    }
-
-    &:last-of-type {
-        td {
-            border-bottom: 1px solid hsl(v.$border-color);
-        }
-
-        td:first-of-type {
-            border-bottom-left-radius: calc(v.$border-radius - 2px);
-        }
-
-        td:last-of-type {
-            border-bottom-right-radius: calc(v.$border-radius - 2px);
-        }
-    }
 }
 
 table a {
@@ -415,7 +382,7 @@ table a {
 
 .table {
     font-size: 1rem;
-    width: 100%;
+    //width: 100%;
     display: grid;
 }
 
@@ -450,6 +417,7 @@ table a {
 }
 
 .table--filter-number-wrapper {
+    width: 100%;
     display: inline-flex;
     gap: .5rem;
 }
@@ -834,10 +802,89 @@ table a {
         display: block;
     }
 
+    main {
+        padding: 0 v.$mobile-page-padding;
+    }
+
+    tbody tr {
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+        border-radius: calc(v.$border-radius - 2px);
+        border: 1px solid hsl(v.$border-color);
+        margin-bottom: .5rem;
+    }
+
+    td {
+        border: none;
+    }
+
+    .table--builds {
+        display: block;
+    }
+
+    .table__cell {
+        &.level, &.stars, &.created, &.modified {
+            place-content: center start;
+        }
+    }
+
+    .table__cell__head {
+        color: hsl(v.$muted-foreground);
+    }
+
+    .table--filter-wrapper {
+        
+
+        .table--filter {
+            grid-template-columns: 1fr;
+
+            > div {
+                width: 100%;
+            }
+        }
+    }
+
     .loginpage,
     .signuppage {
         min-height: 400px;
         grid-template-columns: 1fr;
         align-items: start;
+    }
+}
+
+@media only screen and (min-width: 850px) {
+    tr {
+        td:first-of-type, th:first-of-type {
+            border-left: 1px solid hsl(v.$border-color);
+        }
+    
+        td:last-of-type, th:last-of-type {
+            border-right: 1px solid hsl(v.$border-color);
+        }
+    
+        &:first-of-type {
+            th:last-of-type {
+                border-top-right-radius: calc(v.$border-radius - 2px);
+            }
+        
+            th:first-of-type {
+                border-top-left-radius: calc(v.$border-radius - 2px);
+            }
+        }
+    
+        &:last-of-type {
+            td {
+                border-bottom: 1px solid hsl(v.$border-color);
+            }
+    
+            td:first-of-type {
+                border-bottom-left-radius: calc(v.$border-radius - 2px);
+            }
+    
+            td:last-of-type {
+                border-bottom-right-radius: calc(v.$border-radius - 2px);
+            }
+        }
     }
 }

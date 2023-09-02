@@ -18,6 +18,8 @@ import { RankingInfo } from "@tanstack/match-sorter-utils";
 import FuzzyFilter from "../../utils/FuzzyFilter";
 import { BuildListItem } from "../../utils/Types";
 import FilterTable from "../../components/FilterTable";
+import useWindowSize from "../../hooks/useWindowSize";
+import { capitalizeFirstLetter } from "../../utils/functions";
 declare module "@tanstack/table-core" {
     interface FilterFns {
         fuzzy: FilterFn<unknown>
@@ -29,7 +31,9 @@ declare module "@tanstack/table-core" {
 
 const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 
-    // const navigate = useNavigate();
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
+
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const columns = useMemo<ColumnDef<BuildListItem, any>[]>(
@@ -89,17 +93,6 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
         ], []
     );
 
-    // const onRowClicked = (e: MouseEvent<HTMLTableRowElement>, buildId: number) => {
-    //     const target = e.target as Element
-    //     const isAuthorCell = target.firstElementChild?.tagName === "A" || target.tagName === "A";
-    //     if (isAuthorCell) return
-    //     navigate(`/${buildId}`)
-    // };
-
-    // const onAuthorCellClicked = (e: MouseEvent<HTMLTableCellElement>) => {
-
-    // };
-
     const table = useReactTable({
         data,
         columns,
@@ -141,73 +134,72 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 <div className="divider-2" />
             </div>
             <table className="table table--builds">
-                <thead className="table__thead">
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id} className="table__row">
-                            {headerGroup.headers.map(header => {
-                                return (
-                                    <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
-                                        {header.isPlaceholder ? null : (
-                                            <>
-                                                <div
-                                                    {...{
-                                                        className: header.column.getCanSort()
-                                                            ? "cursor-pointer select-none"
-                                                            : "",
-                                                        onClick: header.column.getToggleSortingHandler(),
-                                                    }}
-                                                >
-                                                    {flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                                    {{
-                                                        asc: " 🔼",
-                                                        desc: " 🔽",
-                                                    }[header.column.getIsSorted() as string] ?? null}
-                                                </div>
-                                                {/* {header.column.getCanFilter() ? (
-                                                    <div>
-                                                        <Filter column={header.column} table={table} />
+                {!isMobile &&
+                    <thead className="table__thead">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id} className="table__row">
+                                {headerGroup.headers.map(header => {
+                                    return (
+                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
+                                            {header.isPlaceholder ? null : (
+                                                <>
+                                                    <div
+                                                        {...{
+                                                            className: header.column.getCanSort()
+                                                                ? "cursor-pointer select-none"
+                                                                : "",
+                                                            onClick: header.column.getToggleSortingHandler(),
+                                                        }}
+                                                    >
+                                                        {flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                        {{
+                                                            asc: " 🔼",
+                                                            desc: " 🔽",
+                                                        }[header.column.getIsSorted() as string] ?? null}
                                                     </div>
-                                                ) : null} */}
-                                            </>
-                                        )}
-                                    </th>
-                                )
-                            })}
-                        </tr>
-                    ))}
-                </thead>
+                                                </>
+                                            )}
+                                        </th>
+                                    )
+                                })}
+                            </tr>
+                        ))}
+                    </thead>
+                }
                 <tbody>
                     {table.getRowModel().rows.map(row => {
-
-                        //const buildId: number = row.getValue("title");
-                        // onClick={(e) => onRowClicked(e, buildId)}
                         return (
                             <tr key={row.id} className="table__row build">
                                 {row.getVisibleCells().map(cell => {
-                                    // const isAuthorColumn = cell.column.id === "author";
-                                    
-                                    // if (isAuthorColumn) {
-                                    //     return (
-                                    //         <td key={cell.id} onClick={(e) => onAuthorCellClicked(e)}>
-                                    //             {flexRender(
-                                    //                 cell.column.columnDef.cell,
-                                    //                 cell.getContext()
-                                    //             )}
-                                    //         </td>
-                                    //     )
-                                    // } else {
+                                    if (isMobile) {
+                                        const header = capitalizeFirstLetter(cell.column.id);
+                                        
                                         return (
                                             <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                <div className="table__cell__head">
+                                                    {header}:
+                                                </div>
+                                                <div className="table__cell__body">
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </div>
+                                            </td>
+                                        ) 
+                                    } else {
+                                        return (
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
                                                 )}
                                             </td>
-                                        )
-                                    //}
+                                        ) 
+                                    }                                     
                                 })}
                             </tr>
                         )
@@ -281,6 +273,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
             {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
         </main>
     )
+    
 }
 
 export default BuildsList2
