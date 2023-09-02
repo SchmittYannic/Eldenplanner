@@ -404,10 +404,29 @@ table a {
     }
 }
 
+.table--sort-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    border-radius: calc(v.$border-radius - 2px);
+    border: 1px solid hsl(v.$border-color);
+
+    .table__sort {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        padding: 1rem;
+        display: grid;
+        cursor: pointer;
+    }
+}
+
 .table--filter-text {
     padding: v.$input-padding;
     border-width: 1px;
-    border-radius: 0.25rem;
+    border-radius: calc(v.$border-radius - 2px);
     width: 100%;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 
@@ -425,7 +444,7 @@ table a {
 .table--filter-number {
     padding: v.$input-padding;
     border-width: 1px;
-    border-radius: 0.25rem;
+    border-radius: calc(v.$border-radius - 2px);
     width: 50%;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     appearance: textfield;
@@ -454,7 +473,7 @@ table a {
 
     input {
         border-width: 1px;
-        border-radius: 0.25rem;
+        border-radius: calc(v.$border-radius - 2px);
         padding: 0.25rem;
         width: 4rem;
     }
