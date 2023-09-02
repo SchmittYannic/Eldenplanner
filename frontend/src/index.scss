@@ -545,6 +545,11 @@ table a {
         background-color: hsl(v.$accent);
     }
 
+    &:not(:disabled):active {
+        transition: transform .1s;
+        transform: scale(.95);
+    }
+
     &:disabled {
         cursor: default;
         opacity: .5;
