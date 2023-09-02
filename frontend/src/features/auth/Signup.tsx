@@ -36,7 +36,7 @@ const Signup = (): ReactElement => {
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400) {
+            } else if (err.status === 400 || err.status === 409 || err.status === 429) {
                 setResponseMsg(err.data?.message);
             } else if (err.status === 409) {
                 setResponseMsg(err.data?.message);

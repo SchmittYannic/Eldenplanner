@@ -38,9 +38,7 @@ const Login = (): ReactElement => {
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400) {
-                setResponseMsg(err.data?.message);
-            } else if (err.status === 401) {
+            } else if (err.status === 400 || err.status === 401 || err.status === 429) {
                 setResponseMsg(err.data?.message);
             } else {
                 setResponseMsg("an error occured");
