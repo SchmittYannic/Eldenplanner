@@ -10,24 +10,24 @@ import {
     getFacetedMinMaxValues,
     getPaginationRowModel,
     getSortedRowModel,
-    FilterFn,
+    //FilterFn,
     ColumnDef,
     flexRender,
 } from "@tanstack/react-table";
-import { RankingInfo } from "@tanstack/match-sorter-utils";
+//import { RankingInfo } from "@tanstack/match-sorter-utils";
 import FuzzyFilter from "../../utils/FuzzyFilter";
 import { BuildListItem } from "../../utils/Types";
 import FilterTable from "../../components/FilterTable";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
-declare module "@tanstack/table-core" {
-    interface FilterFns {
-        fuzzy: FilterFn<unknown>
-    }
-    interface FilterMeta {
-        itemRank: RankingInfo
-    }
-}
+// declare module "@tanstack/table-core" {
+//     interface FilterFns {
+//         fuzzy: FilterFn<unknown>
+//     }
+//     interface FilterMeta {
+//         itemRank: RankingInfo
+//     }
+// }
 
 const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 

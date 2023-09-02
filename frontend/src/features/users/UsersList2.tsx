@@ -11,20 +11,20 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-    FilterFn,
+    //FilterFn,
     flexRender,
 } from "@tanstack/react-table";
-import { RankingInfo } from "@tanstack/match-sorter-utils";
+//import { RankingInfo } from "@tanstack/match-sorter-utils";
 import { UserAsAdminType } from "./usersAsAdminApiSlice";
 import FuzzyFilter from "../../utils/FuzzyFilter";
-declare module "@tanstack/table-core" {
-    interface FilterFns {
-        fuzzy: FilterFn<unknown>
-    }
-    interface FilterMeta {
-        itemRank: RankingInfo
-    }
-}
+// declare module "@tanstack/table-core" {
+//     interface FilterFns {
+//         fuzzy: FilterFn<unknown>
+//     }
+//     interface FilterMeta {
+//         itemRank: RankingInfo
+//     }
+// }
 
 const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
     
