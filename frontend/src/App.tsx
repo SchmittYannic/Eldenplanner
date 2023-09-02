@@ -12,31 +12,34 @@ import UserPage from "./features/users/UserPage";
 import Prefetch from "./features/auth/Prefetch";
 import RequireAuth from "./features/auth/RequireAuth";
 import { ROLES } from "./config/roles";
+import PersistLogin from "./features/auth/PersistLogin";
 
 const App = (): ReactElement => {
 
     return (
         <Routes>
             <Route path="/" element={<Layout />} >
-                <Route index element={<Frontpage />} />
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
+                <Route element={<PersistLogin />}>
+                    <Route index element={<Frontpage />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
 
-                <Route path="charplanner" element={<Charplanner/>} />
+                    <Route path="charplanner" element={<Charplanner/>} />
 
-                <Route element={<Prefetch />}>
-                    <Route path="charplanner/:buildId" element={<Charplanner/>} />
-                
-                    <Route path="builds">
-                        <Route index element={<Builds/>} />
-                    </Route>
+                    <Route element={<Prefetch />}>
+                        <Route path="charplanner/:buildId" element={<Charplanner/>} />
+                    
+                        <Route path="builds">
+                            <Route index element={<Builds/>} />
+                        </Route>
 
-                    <Route path=":userId" element={<UserPage/>} />
+                        <Route path="user/:userId" element={<UserPage/>} />
 
-                    <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
-                        <Route path="users">
-                            <Route index element={<Users/>} />
-                            <Route path=":userId" element={<EditUserAsAdmin />} />
+                        <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
+                            <Route path="users">
+                                <Route index element={<Users/>} />
+                                <Route path=":userId" element={<EditUserAsAdmin />} />
+                            </Route>
                         </Route>
                     </Route>
                 </Route>
