@@ -17,6 +17,8 @@ import {
 //import { RankingInfo } from "@tanstack/match-sorter-utils";
 import { UserAsAdminType } from "./usersAsAdminApiSlice";
 import FuzzyFilter from "../../utils/FuzzyFilter";
+import useWindowSize from "../../hooks/useWindowSize";
+import { capitalizeFirstLetter } from "../../utils/functions";
 // declare module "@tanstack/table-core" {
 //     interface FilterFns {
 //         fuzzy: FilterFn<unknown>
@@ -27,6 +29,9 @@ import FuzzyFilter from "../../utils/FuzzyFilter";
 // }
 
 const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
+
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
     
     const navigate = useNavigate();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -134,48 +139,70 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
             <h1>Users</h1>
             <div className="divider-2" />
             <table className="table table--users">
-                <thead className="table__thead">
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id} className="table__row">
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
-                                    {header.isPlaceholder ? null : (
-                                        <>
-                                            <div
-                                                {...{
-                                                    className: header.column.getCanSort()
-                                                        ? "cursor-pointer select-none"
-                                                        : "",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                }}
-                                            >
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {{
-                                                    asc: " 🔼",
-                                                    desc: " 🔽",
-                                                }[header.column.getIsSorted() as string] ?? null}
-                                            </div>
-                                        </>
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
+                {!isMobile &&
+                    <thead className="table__thead">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id} className="table__row">
+                                {headerGroup.headers.map(header => (
+                                    <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
+                                        {header.isPlaceholder ? null : (
+                                            <>
+                                                <div
+                                                    {...{
+                                                        className: header.column.getCanSort()
+                                                            ? "cursor-pointer select-none"
+                                                            : "",
+                                                        onClick: header.column.getToggleSortingHandler(),
+                                                    }}
+                                                >
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                    {{
+                                                        asc: " 🔼",
+                                                        desc: " 🔽",
+                                                    }[header.column.getIsSorted() as string] ?? null}
+                                                </div>
+                                            </>
+                                        )}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </thead>
+                }
                 <tbody>
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id} className="table__row user">
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </td>
-                            ))}
+                            {row.getVisibleCells().map(cell => {
+                                if (isMobile) {
+                                    const header = capitalizeFirstLetter(cell.column.id);
+                                    
+                                    return (
+                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                            <div className="table__cell__head">
+                                                {header}:
+                                            </div>
+                                            <div className="table__cell__body">
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </div>
+                                        </td>
+                                    ) 
+                                } else {
+                                    return (
+                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </td>
+                                    ) 
+                                }
+                            })}
                         </tr>
                     ))}
                 </tbody>

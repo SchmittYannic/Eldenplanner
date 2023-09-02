@@ -820,12 +820,13 @@ table a {
     }
 
     .table--builds,
+    .table--users,
     .table--userbuilds {
         display: block;
     }
 
     .table__cell {
-        &.level, &.stars, &.created, &.modified {
+        &.level, &.stars, &.created, &.modified, &.active, &.validated {
             place-content: center start;
         }
     }
