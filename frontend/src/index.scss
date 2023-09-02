@@ -488,12 +488,12 @@ table a {
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .35s;
 
-    &:hover {
+    &:not(:disabled):hover {
         filter: brightness(125%);
         opacity: 1;
     }
 
-    &::before {
+    &:not(:disabled)::before {
         content: '';
         position: absolute;
         inset: 0;
@@ -502,9 +502,13 @@ table a {
         filter: blur(2px);
     }
 
+    &:not(:disabled):active {
+        transition: transform .1s;
+        transform: scale(.95);
+    }
+
     &:disabled {      
         cursor: default;
-        pointer-events: none;
         opacity: .5;
         color: rgb(231, 214, 182);
         border-color: rgb(231, 214, 182);
@@ -512,11 +516,6 @@ table a {
         &::before {
             background: radial-gradient(190.82% 190.82% at 50% 100%, rgb(252, 230, 186) 0%, rgba(169, 150, 133, 0.62) 18.09%);
         }
-    }
-
-    &:active {
-        transition: transform .1s;
-        transform: scale(.95);
     }
 }
 
@@ -541,14 +540,13 @@ table a {
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .15;
 
-    &:hover {
+    &:not(:disabled):hover {
         color: hsl(v.$accent-foreground);
         background-color: hsl(v.$accent);
     }
 
     &:disabled {
         cursor: default;
-        pointer-events: none;
         opacity: .5;
     }
 }
