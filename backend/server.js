@@ -27,6 +27,7 @@ app.use(logger);
 app.use(cors(corsOptions));
 app.use(express.json()); // lets app receive and parse json data
 app.use(cookieParser());
+//app.set("trust proxy", true);
 // __dirname is a global variable -> look inside the folder we are in
 // look inside the public folder for static files (css, img, etc.)
 // alternative: app.use(express.static("public"));
