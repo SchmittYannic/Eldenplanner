@@ -41,11 +41,15 @@ const UserBuilds = ({ author }: PropsType): ReactElement => {
         }
     });
 
-    if (isSuccess && tableData) {
+    if (isSuccess && tableData && tableData.length > 0) {
         return (
             <>
                 <UserBuildsList data={tableData} />
             </>
+        )
+    } else if (isSuccess && tableData && tableData.length === 0) {
+        return (
+            <h4>No Builds</h4>
         )
     } else if (isLoading) {
         return (
