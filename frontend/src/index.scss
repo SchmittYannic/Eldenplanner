@@ -382,7 +382,7 @@ table a {
 
 .table {
     font-size: 1rem;
-    //width: 100%;
+    width: 100%;
     display: grid;
 }
 
@@ -848,13 +848,20 @@ table a {
     }
 
     .table__cell {
-        &.level, &.stars, &.created, &.modified, &.active, &.validated {
-            place-content: center start;
+        display: block;
+
+        &.edit .table__cell__body {
+            display: flex;
+            justify-content: center;
         }
     }
 
     .table__cell__head {
         color: hsl(v.$muted-foreground);
+    }
+
+    .table__cell__body {
+        overflow-wrap: break-word;
     }
 
     .table--filter-wrapper {
