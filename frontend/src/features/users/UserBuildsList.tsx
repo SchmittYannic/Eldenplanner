@@ -1,5 +1,6 @@
 import { ReactElement, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
 import {
     useReactTable,
     ColumnDef,
@@ -11,6 +12,7 @@ import {
 import { BuildListItem } from "../../utils/Types";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
 
 type PropsType = {
     data: BuildListItem[],
@@ -33,6 +35,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                     return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Title</span>,
+                sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.level,
@@ -84,79 +87,205 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
     });
 
     return (
-        <table className="table table--userbuilds">
-            {!isMobile &&
-                <thead className="table__thead">
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id} className="table__row">
-                            {headerGroup.headers.map(header => {
-                                return (
-                                    <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
-                                        {header.isPlaceholder ? null : (
-                                            <>
-                                                <div
-                                                    {...{
-                                                        className: header.column.getCanSort()
-                                                            ? "cursor-pointer select-none"
-                                                            : "",
-                                                        onClick: header.column.getToggleSortingHandler(),
-                                                    }}
-                                                >
-                                                    {flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                                    {{
-                                                        asc: " 🔼",
-                                                        desc: " 🔽",
-                                                    }[header.column.getIsSorted() as string] ?? null}
-                                                </div>
-                                            </>
-                                        )}
-                                    </th>
-                                )
-                            })}
-                        </tr>
-                    ))}
-                </thead>
-            }
-            <tbody>
-                {table.getRowModel().rows.map(row => {
-                    return (
-                        <tr key={row.id} className="table__row build">
-                            {row.getVisibleCells().map(cell => {
-                                if (isMobile) {
-                                    const header = capitalizeFirstLetter(cell.column.id);
-                                    
+        <>
+            {isMobile &&
+                <>
+                    <h3>Sort By Column</h3>
+
+                    <div className="divider-2" />
+
+                    <div className="table--sort-wrapper">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            headerGroup.headers.map(header => {
+                                if (header.column.getCanSort()) {
+                                    const isSorted = header.column.getIsSorted();
                                     return (
-                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                            <div className="table__cell__head">
-                                                {header}:
+                                        <div key={header.id} className="table__sort">                                     
+                                            <div
+                                                {...{
+                                                    className: "flex",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >                                                                                                  
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {!isSorted && (
+                                                    <span className="swap-vert">
+                                                        <MdSwapVert />
+                                                    </span> 
+                                                )}
+                                                {isSorted === "desc" && (
+                                                    <span className="arrow-downward">
+                                                        <MdArrowDownward />
+                                                    </span>
+                                                )}
+                                                {isSorted === "asc" && (
+                                                    <span className="arrow-upward">
+                                                        <MdArrowUpward />
+                                                    </span>
+                                                )}                                    
                                             </div>
-                                            <div className="table__cell__body">
+                                        </div>
+                                    )
+                                }
+                            })
+                        ))}
+                    </div>
+
+                    <div className="divider-4" />
+                    <div className="divider-4" />
+                </>
+            }
+            <table className="table table--userbuilds">
+                {!isMobile &&
+                    <thead className="table__thead">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id} className="table__row">
+                                {headerGroup.headers.map(header => {
+                                    const isSorted = header.column.getIsSorted();
+                                    return (
+                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">                              
+                                            <div
+                                                {...{
+                                                    className: "flex",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >                                                                                                  
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {!isSorted && (
+                                                    <span className="swap-vert">
+                                                        <MdSwapVert />
+                                                    </span> 
+                                                )}
+                                                {isSorted === "desc" && (
+                                                    <span className="arrow-downward">
+                                                        <MdArrowDownward />
+                                                    </span>
+                                                )}
+                                                {isSorted === "asc" && (
+                                                    <span className="arrow-upward">
+                                                        <MdArrowUpward />
+                                                    </span>
+                                                )}                                    
+                                            </div>
+                                        </th>
+                                    )
+                                })}
+                            </tr>
+                        ))}
+                    </thead>
+                }
+                <tbody>
+                    {table.getRowModel().rows.map(row => {
+                        return (
+                            <tr key={row.id} className="table__row build">
+                                {row.getVisibleCells().map(cell => {
+                                    if (isMobile) {
+                                        const header = capitalizeFirstLetter(cell.column.id);
+                                        
+                                        return (
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                <div className="table__cell__head">
+                                                    {header}:
+                                                </div>
+                                                <div className="table__cell__body">
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </div>
+                                            </td>
+                                        ) 
+                                    } else {
+                                        return (
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
                                                 )}
-                                            </div>
-                                        </td>
-                                    ) 
-                                } else {
-                                    return (
-                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </td>
-                                    ) 
-                                }                                     
-                            })}
-                        </tr>
-                    )
-                })}
-            </tbody>
-        </table>
+                                            </td>
+                                        ) 
+                                    }                                     
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+
+            <div className="divider-2" />
+
+            <div className="table--pagination">
+                <span className="table--pagination button-wrapper">
+                    <button
+                        className="button"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"<<"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"Previous"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {"Next"}
+                    </button>
+                    <button
+                        className="button"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {">>"}
+                    </button>
+                </span>
+                <span>
+                    <div>Page</div>
+                    <strong>
+                        {table.getState().pagination.pageIndex + 1} of{" "}
+                        {table.getPageCount()}
+                    </strong>
+                </span>
+                <span>
+                    | Go to page:
+                    <input
+                        type="number"
+                        defaultValue={table.getState().pagination.pageIndex + 1}
+                        onChange={e => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0
+                            table.setPageIndex(page)
+                        }}
+                    />
+                </span>
+                <select
+                    value={table.getState().pagination.pageSize}
+                    onChange={e => {
+                        table.setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+                <div>{table.getPrePaginationRowModel().rows.length} Builds Total</div>
+            </div>
+
+            <div className="divider-4" />
+        </>
     )
 }
 
