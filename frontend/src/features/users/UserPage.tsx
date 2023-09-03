@@ -46,6 +46,7 @@ const UserPage = (): ReactElement => {
                                 className="button"
                                 type="button"
                                 onClick={onEditProfileClicked}
+                                title="edit account"
                             >
                                 Edit Profile
                             </button>

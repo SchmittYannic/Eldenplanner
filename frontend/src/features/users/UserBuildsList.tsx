@@ -32,7 +32,11 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                 id: "title",
                 cell: info => {
                     const buildId = info.row.original.buildId;
-                    return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
+                    return (
+                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
+                            {info.getValue()}
+                        </Link>
+                    )
                 },
                 header: () => <span>Title</span>,
                 sortingFn: sortCaseInsensitive,
@@ -105,6 +109,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
                                                 }}
                                             >                                                                                                  
                                                 {flexRender(
@@ -151,6 +156,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
                                                 }}
                                             >                                                                                                  
                                                 {flexRender(
@@ -226,6 +232,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(0)}
                         disabled={!table.getCanPreviousPage()}
+                        title="first page"
                     >
                         {"<<"}
                     </button>
@@ -233,6 +240,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                         className="button"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
+                        title="previous page"
                     >
                         {"Previous"}
                     </button>
@@ -240,6 +248,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                         className="button"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
+                        title="next page"
                     >
                         {"Next"}
                     </button>
@@ -247,6 +256,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                         disabled={!table.getCanNextPage()}
+                        title="last page"
                     >
                         {">>"}
                     </button>
@@ -267,6 +277,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)
                         }}
+                        title="go to page"
                     />
                 </span>
                 <select
@@ -274,6 +285,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                     onChange={e => {
                         table.setPageSize(Number(e.target.value))
                     }}
+                    title="max number of entries per page"
                 >
                     {[5, 10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>

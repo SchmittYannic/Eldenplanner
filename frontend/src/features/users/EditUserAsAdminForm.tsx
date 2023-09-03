@@ -87,6 +87,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         value={username}
                         onChange={onUsernameChanged}
                         autoComplete="off"
+                        title="change username"
                     />
                 </div>
 
@@ -101,6 +102,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         value={email}
                         onChange={onEmailChanged}
                         autoComplete="off"
+                        title="change email"
                     />
                 </div>
 
@@ -129,6 +131,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         type="button"
                         onClick={onResetChangesClicked}
                         disabled={!isChanged ? true : false}
+                        title="reset changes"
                     >
                         Reset
                     </button>
@@ -138,6 +141,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         type="submit"
                         onClick={onSaveUserClicked}
                         disabled={(!isChanged || isLoading) ? true : false}
+                        title="save changes"
                     >
                         {!isLoading ? "Save" :
                             <ClipLoader
@@ -157,6 +161,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                     className="action-btn full"
                     type="submit"
                     onClick={() => setIsDeleteTriggered(true)}
+                    title="delete user"
                 >
                     Delete User
                 </button>

@@ -50,7 +50,11 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 id: "username",
                 cell: info => {
                     const userId = info.row.original.id;
-                    return <Link to={`/user/${userId}`}>{info.getValue()}</Link>
+                    return (
+                        <Link to={`/user/${userId}`} title="open profile of build author">
+                            {info.getValue()}
+                        </Link>
+                    )
                 },
                 header: () => <span>Username</span>,
                 sortingFn: sortCaseInsensitive,
@@ -110,6 +114,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     <button
                         className="button"
                         onClick={() => onEditClick(info.getValue())}
+                        title="edit user"
                     >
                         <MdEdit />
                     </button>
@@ -184,6 +189,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
                                                 }}
                                             >                                                                                                  
                                                 {flexRender(
@@ -233,6 +239,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                     {...{
                                                         className: "flex",
                                                         onClick: header.column.getToggleSortingHandler(),
+                                                        title: `sort by ${header.id} column`,
                                                     }}
                                                 >                                                                                                  
                                                     {flexRender(
@@ -318,6 +325,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(0)}
                         disabled={!table.getCanPreviousPage()}
+                        title="first page"
                     >
                         {"<<"}
                     </button>
@@ -325,6 +333,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                         className="button"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
+                        title="previous page"
                     >
                         {"Previous"}
                     </button>
@@ -332,6 +341,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                         className="button"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
+                        title="next page"
                     >
                         {"Next"}
                     </button>
@@ -339,6 +349,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                         disabled={!table.getCanNextPage()}
+                        title="last page"
                     >
                         {">>"}
                     </button>
@@ -359,6 +370,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)
                         }}
+                        title="go to page"
                     />
                 </span>
                 <select
@@ -366,6 +378,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     onChange={e => {
                         table.setPageSize(Number(e.target.value))
                     }}
+                    title="max number of entries per page"
                 >
                     {[5, 10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>

@@ -45,7 +45,11 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 id: "title",
                 cell: info => {
                     const buildId = info.row.original.buildId;
-                    return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
+                    return (
+                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
+                            {info.getValue()}
+                        </Link>
+                    )
                 },
                 header: () => <span>Title</span>,
                 sortingFn: sortCaseInsensitive,
@@ -55,7 +59,11 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 id: "author",
                 cell: info => {
                     const authorId = info.row.original.authorId;
-                    return <Link to={`/user/${authorId}`}>{info.getValue()}</Link>
+                    return (
+                        <Link to={`/user/${authorId}`} title="open profile of build author">
+                            {info.getValue()}
+                        </Link>
+                    )
                 },
                 header: () => <span>Author</span>,
                 sortingFn: sortCaseInsensitive,
@@ -159,6 +167,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
                                                 }}
                                             >                                                                                                  
                                                 {flexRender(
@@ -206,6 +215,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
                                                 }}
                                             >                                                                                                  
                                                 {flexRender(
@@ -281,6 +291,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(0)}
                         disabled={!table.getCanPreviousPage()}
+                        title="first page"
                     >
                         {"<<"}
                     </button>
@@ -288,6 +299,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         className="button"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
+                        title="previous page"
                     >
                         {"Previous"}
                     </button>
@@ -295,6 +307,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         className="button"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
+                        title="next page"
                     >
                         {"Next"}
                     </button>
@@ -302,6 +315,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         className="button"
                         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                         disabled={!table.getCanNextPage()}
+                        title="last page"
                     >
                         {">>"}
                     </button>
@@ -322,6 +336,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
                             table.setPageIndex(page)
                         }}
+                        title="go to page"
                     />
                 </span>
                 <select
@@ -329,6 +344,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     onChange={e => {
                         table.setPageSize(Number(e.target.value))
                     }}
+                    title="max number of entries per page"
                 >
                     {[5, 10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
