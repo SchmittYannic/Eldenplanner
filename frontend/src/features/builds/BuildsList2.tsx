@@ -118,7 +118,9 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
     return (
         <main>
             <h1>Builds</h1>
+
             <div className="divider-2" />
+
             <div className="table--filter-wrapper">
                 <div className="table--filter">
                     {
@@ -133,6 +135,54 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 </div>
                 <div className="divider-2" />
             </div>
+
+            {isMobile &&
+                <>
+                    <div className="divider-4" />
+
+                    <h3>Sort By Column</h3>
+
+                    <div className="divider-2" />
+
+                    <div className="table--sort-wrapper">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            headerGroup.headers.map(header => {
+                                if (header.column.getCanSort()) {
+                                    return (
+                                        <div key={header.id} className="table__sort">
+                                            {header.isPlaceholder ? null : (
+                                                <>
+                                                    <div
+                                                        {...{
+                                                            className: header.column.getCanSort()
+                                                                ? "cursor-pointer select-none"
+                                                                : "",
+                                                            onClick: header.column.getToggleSortingHandler(),
+                                                        }}
+                                                    >
+                                                        {flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                        {{
+                                                            asc: " 🔼",
+                                                            desc: " 🔽",
+                                                        }[header.column.getIsSorted() as string] ?? null}
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    )
+                                }
+                            })
+                        ))}
+                    </div>
+
+                    <div className="divider-4" />
+                    <div className="divider-4" />
+                </>
+            }
+
             <table className="table table--builds">
                 {!isMobile &&
                     <thead className="table__thead">
