@@ -81,7 +81,7 @@
             width: 21px;
             color: inherit;
             border: none;
-            background: transparent;
+            background-color: v.$default-background-color;
             position: absolute;
             cursor: pointer;
 
@@ -201,6 +201,7 @@
 
         button {
             right: 1em;
+            background-color: #1e1e1e;
         }
     }
 
