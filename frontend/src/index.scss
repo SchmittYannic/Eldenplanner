@@ -71,6 +71,7 @@ main, header {
 
 main {
     margin-top: v.$primary-nav-height;
+    padding: 0 v.$mobile-page-padding;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -367,6 +368,8 @@ th {
 }
 
 td {
+    word-wrap: break-word;
+    word-break: break-all;
     color: hsl(v.$accent-foreground);
 }
 
@@ -814,7 +817,7 @@ table a {
 
 /* users */
 .table--users {
-    grid-template-columns: 2fr 2fr 2fr 1fr 1fr 3fr 3fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr 1fr 1fr 3fr 3fr 1fr;
 
     td {
         padding: .7rem;
@@ -839,10 +842,6 @@ table a {
 @media only screen and (max-width: 849px) {
     #root {
         display: block;
-    }
-
-    main {
-        padding: 0 v.$mobile-page-padding;
     }
 
     tbody tr {
