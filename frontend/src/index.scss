@@ -358,9 +358,12 @@ td, th {
 }
 
 th {
+    display: flex;
+    justify-content: center;
     font-weight: 500;
     color: hsl(v.$muted-foreground);
     cursor: pointer;
+    user-select: none;
 }
 
 td {

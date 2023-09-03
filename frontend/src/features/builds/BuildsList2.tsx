@@ -152,32 +152,32 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                     const isSorted = header.column.getIsSorted();
                                     return (
                                         <div key={header.id} className="table__sort">                                     
-                                                <div
-                                                    {...{
-                                                        className: "flex",
-                                                        onClick: header.column.getToggleSortingHandler(),
-                                                    }}
-                                                >                                                                                                  
-                                                    {flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                                    {!isSorted && (
-                                                        <span className="swap-vert">
-                                                            <MdSwapVert />
-                                                        </span> 
-                                                    )}
-                                                    {isSorted === "desc" && (
-                                                        <span className="arrow-downward">
-                                                            <MdArrowDownward />
-                                                        </span>
-                                                    )}
-                                                    {isSorted === "asc" && (
-                                                        <span className="arrow-upward">
-                                                            <MdArrowUpward />
-                                                        </span>
-                                                    )}                                    
-                                                </div>
+                                            <div
+                                                {...{
+                                                    className: "flex",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >                                                                                                  
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {!isSorted && (
+                                                    <span className="swap-vert">
+                                                        <MdSwapVert />
+                                                    </span> 
+                                                )}
+                                                {isSorted === "desc" && (
+                                                    <span className="arrow-downward">
+                                                        <MdArrowDownward />
+                                                    </span>
+                                                )}
+                                                {isSorted === "asc" && (
+                                                    <span className="arrow-upward">
+                                                        <MdArrowUpward />
+                                                    </span>
+                                                )}                                    
+                                            </div>
                                         </div>
                                     )
                                 }
@@ -196,29 +196,35 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id} className="table__row">
                                 {headerGroup.headers.map(header => {
+                                    const isSorted = header.column.getIsSorted();
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
-                                            {header.isPlaceholder ? null : (
-                                                <>
-                                                    <div
-                                                        {...{
-                                                            className: header.column.getCanSort()
-                                                                ? "cursor-pointer select-none"
-                                                                : "",
-                                                            onClick: header.column.getToggleSortingHandler(),
-                                                        }}
-                                                    >
-                                                        {flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )}
-                                                        {{
-                                                            asc: " 🔼",
-                                                            desc: " 🔽",
-                                                        }[header.column.getIsSorted() as string] ?? null}
-                                                    </div>
-                                                </>
-                                            )}
+                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">                              
+                                            <div
+                                                {...{
+                                                    className: "flex",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >                                                                                                  
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {!isSorted && (
+                                                    <span className="swap-vert">
+                                                        <MdSwapVert />
+                                                    </span> 
+                                                )}
+                                                {isSorted === "desc" && (
+                                                    <span className="arrow-downward">
+                                                        <MdArrowDownward />
+                                                    </span>
+                                                )}
+                                                {isSorted === "asc" && (
+                                                    <span className="arrow-upward">
+                                                        <MdArrowUpward />
+                                                    </span>
+                                                )}                                    
+                                            </div>
                                         </th>
                                     )
                                 })}
