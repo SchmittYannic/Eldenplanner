@@ -879,6 +879,7 @@ table a {
         .button-wrapper {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
         }
     }
 
