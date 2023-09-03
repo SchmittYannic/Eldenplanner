@@ -1,6 +1,6 @@
 import { ReactElement, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import { MdSwapVert, MdArrowDownward, MdArrowUpward, MdEdit } from "react-icons/md";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -108,7 +108,7 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                         className="button"
                         onClick={() => onEditClick(info.getValue())}
                     >
-                        EDIT
+                        <MdEdit />
                     </button>
                 )  
                 ,
