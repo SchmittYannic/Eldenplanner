@@ -275,6 +275,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
 
             {/* keep for debug purposes */}
             {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
+            <div className="divider-4" />
         </main>
     )
     

@@ -343,6 +343,8 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 </select>
                 <div>{table.getPrePaginationRowModel().rows.length} Users Total</div>
             </div>
+
+            <div className="divider-4" />
         </main>
     )
 }
