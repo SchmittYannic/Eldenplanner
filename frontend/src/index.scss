@@ -373,7 +373,19 @@ td {
     color: hsl(v.$accent-foreground);
 }
 
-table a {
+.table {
+    font-size: 1rem;
+    width: 100%;
+    display: grid;
+}
+
+// .table__thead {
+//     position: sticky;
+//     top: 0;
+//     z-index: 1;
+// }
+
+.table__cell a {
     color: hsl(v.$accent-foreground);
     text-decoration: none;
 
@@ -384,18 +396,11 @@ table a {
     &:visited {
         color: hsl(v.$muted-foreground);
     }
-}
 
-.table {
-    font-size: 1rem;
-    width: 100%;
-    display: grid;
-}
-
-.table__thead {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    &::after{
+        content: " ->";
+        font-weight: 700;
+    }
 }
 
 .table--filter-wrapper {
