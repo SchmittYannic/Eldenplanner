@@ -415,12 +415,26 @@ table a {
     .table__sort {
         font-family: inherit;
         font-size: inherit;
-        font-weight: inherit;
         line-height: inherit;
         padding: 1rem;
         display: grid;
         cursor: pointer;
+        font-weight: 500;
+        color: hsl(240, 5%, 64.9%);
+        cursor: pointer;
     }
+}
+
+.arrow-upward,
+.arrow-downward,
+.swap-vert {
+    display: flex;
+    align-items: center;  
+}
+
+.arrow-upward,
+.arrow-downward {
+    color: hsl(v.$accent-foreground); 
 }
 
 .table--filter-text {
