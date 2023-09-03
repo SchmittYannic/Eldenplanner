@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { ClipLoader } from "react-spinners";
 import { isCustomError } from "../../app/api/apiSlice";
 import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
-import UsersList2 from "./UsersList2";
+import UsersList from "./UsersList";
 
 const Users = (): ReactElement => {
     const {
@@ -22,7 +22,7 @@ const Users = (): ReactElement => {
     if (tableData) {
         return (
             <>
-                <UsersList2 data={tableData} />
+                <UsersList data={tableData} />
             </>
         )
     } else if (isLoading) {

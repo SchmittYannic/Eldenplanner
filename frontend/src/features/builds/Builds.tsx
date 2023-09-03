@@ -1,7 +1,7 @@
 import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
 import { ClipLoader } from "react-spinners";
 import { calcSumObjectValues } from "../../utils/functions";
-import BuildsList2 from "./BuildsList2";
+import BuildsList from "./BuildsList";
 import { UserType, useGetUsersQuery } from "../users/usersApiSlice";
 import { isCustomError } from "../../app/api/apiSlice";
 
@@ -54,7 +54,7 @@ const Builds = () => {
     if (tableData) {
         return (
             <>
-                <BuildsList2 data={tableData} />
+                <BuildsList data={tableData} />
             </>
         )
     } else if (isBuildsLoading || isUsersLoading) {
