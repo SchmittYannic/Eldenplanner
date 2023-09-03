@@ -21,6 +21,7 @@ import { BuildListItem } from "../../utils/Types";
 import FilterTable from "../../components/FilterTable";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
 // declare module "@tanstack/table-core" {
 //     interface FilterFns {
 //         fuzzy: FilterFn<unknown>
@@ -47,6 +48,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     return <Link to={`/charplanner/${buildId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Title</span>,
+                sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.author,
@@ -56,6 +58,7 @@ const BuildsList2 = ({ data }: {data: BuildListItem[]}): ReactElement => {
                     return <Link to={`/user/${authorId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Author</span>,
+                sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.level,

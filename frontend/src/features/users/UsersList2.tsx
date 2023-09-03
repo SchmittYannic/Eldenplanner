@@ -21,6 +21,7 @@ import FuzzyFilter from "../../utils/FuzzyFilter";
 import FilterTable from "../../components/FilterTable";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
 // declare module "@tanstack/table-core" {
 //     interface FilterFns {
 //         fuzzy: FilterFn<unknown>
@@ -52,12 +53,14 @@ const UsersList2 = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     return <Link to={`/user/${userId}`}>{info.getValue()}</Link>
                 },
                 header: () => <span>Username</span>,
+                sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.email,
                 id: "email",
                 cell: info => info.getValue(),
                 header: () => <span>Email</span>,
+                sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.roles,
