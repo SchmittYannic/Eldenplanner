@@ -33,10 +33,27 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        deleteBuild: builder.mutation({
+            query: ( buildId ) => ({
+                url: "/builds",
+                method: "DELETE",
+                body: { buildId },
+            }),
+            invalidatesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "Build", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            }
+        })
     })
 });
 
 export const {
     useAddNewBuildMutation,
     useUpdateBuildMutation,
+    useDeleteBuildMutation,
 } = charplannerApiSlice;
