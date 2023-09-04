@@ -35,6 +35,19 @@ const createNewBuild = async(req, res) => {
         return res.status(400).json({ message: "No corresponding user was found in database" });
     }
 
+    /* only allow active users to save builds. */
+    if (!user.active) {
+        return res.status(400).json({ message: "Your account is blocked from saving new builds. Please get in touch with support." });
+    }
+
+    /* check if user is below buildLimit. Maximum of 20 builds per account by default unless changed in .env */
+    const builds = await Build.find({ user: userId }).exec();
+    const buildsCount = builds.length;
+
+    const buildLimit = (process.env.BUILD_LIMIT_PER_ACCOUNT | 0 ) ?? 20;
+    if (buildsCount >= buildLimit) {
+        return res.status(400).json({ message: "You are exceeding the buildlimit. Max 20 builds per account." });
+    }
 
     /* empty string characternames default to Tarnished */
     let validCharactername = charactername
