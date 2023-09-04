@@ -37,8 +37,6 @@ const login = async (req, res) => {
                 knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1});
             } else if (countUnsuccessfulAttempts >= 3) {
                 // else check if attempts exceed limit of 3
-                console.log("here")
-                console.log(countUnsuccessfulAttempts)
                 knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1})
                 return res.status(429).json({ message: "Too many failed login attempts" })
             } else {
