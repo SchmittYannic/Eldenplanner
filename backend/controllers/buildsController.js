@@ -135,24 +135,33 @@ const updateBuild = async (req, res) => {
 // @route DELETE /builds
 // @access Private
 const deleteBuild = async (req, res) => {
+
+    const { userId } = req;
     const { buildId } = req.body;
 
+    /* Confirm data */
     if (!buildId) {
         return res.status(400).json({ message: "Build ID Required" });
     }
 
-    // Check if user has Builds attached to him in the future.
-
+    /* check if build is in database */
     const build = await Build.findById(buildId).exec();
 
     if (!build) {
         return res.status(400).json({ message: "Build not found" });
     }
 
+    /* check if user sending request is the build author */
+    const isBuildAuthor = build.user.equals(userId);
+
+    if (!isBuildAuthor) {
+        return res.status(401).json({ message: "Unauthorized to delete build" });
+    }
+
     const result = await build.deleteOne();
 
     if (result) {
-        res.json(`Build ${result._id} deleted`);
+        res.status(200).json(`Build ${result._id} deleted`);
     } else {
         return res.status(400).json({ message: "Failed to delete Build from database" });
     }
