@@ -89,7 +89,7 @@ main, header {
 }
 
 main {
-    margin-top: calc(v.$primary-nav-height + .5rem);
+    margin-top: calc(v.$primary-nav-height + 2rem);
     padding: 0 v.$mobile-page-padding;
     display: flex;
     flex-direction: column;
@@ -238,6 +238,24 @@ textarea {
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+}
+
+.link {
+    color: hsl(v.$accent-foreground);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:visited {
+        color: hsl(v.$muted-foreground);
+    }
+
+    &::after{
+        content: " ->";
+        font-weight: 700;
     }
 }
 
