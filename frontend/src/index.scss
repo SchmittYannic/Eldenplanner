@@ -89,7 +89,7 @@ main, header {
 }
 
 main {
-    margin-top: v.$primary-nav-height;
+    margin-top: calc(v.$primary-nav-height + .5rem);
     padding: 0 v.$mobile-page-padding;
     display: flex;
     flex-direction: column;
@@ -637,6 +637,7 @@ td {
 .signuppage {
     max-width: none;
     padding: 0;
+    margin-top: v.$primary-nav-height;
     width: 100%;
     min-height: 800px;
     height: calc(100vh - v.$primary-nav-height);
