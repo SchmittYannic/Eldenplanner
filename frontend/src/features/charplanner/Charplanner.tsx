@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
@@ -72,7 +72,20 @@ const Charplanner = (): ReactElement => {
 
     return (
         <main>
-            {buildAuthor && <h2>{buildAuthor.username}</h2>}
+            <div className="charplanner__header">
+                <h1>Eldenring Character Planner</h1>
+                {buildAuthor && (
+                    <>
+                        <div className="divider-4" />
+                        <p>
+                            <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
+                        </p>
+                        <div className="divider-4" />
+                        <div className="divider-4" />
+                    </>
+                )}
+            </div>
+
             <div className="Charplanner">
                 <CharacterSection />
                 <EquipmentSection />
