@@ -636,6 +636,7 @@ td {
 .loginpage,
 .signuppage {
     max-width: none;
+    padding: 0;
     width: 100%;
     min-height: 800px;
     height: calc(100vh - v.$primary-nav-height);
@@ -650,6 +651,7 @@ td {
     .loginpage--rightside,
     .signuppage--rightside {
         padding: 2rem; //only on lg
+        max-width: 540px;
     }
 
     .loginpage--wrapper,
@@ -939,6 +941,11 @@ td {
         min-height: 400px;
         grid-template-columns: 1fr;
         align-items: start;
+
+        .loginpage--rightside,
+        .signuppage--rightside {
+            max-width: none;
+        }
     }
 }
 
