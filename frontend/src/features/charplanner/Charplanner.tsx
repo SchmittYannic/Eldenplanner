@@ -13,13 +13,16 @@ import InfoSection from "./InfoSection";
 import ActionsSection from "./ActionsSection";
 import "./Charplanner.scss";
 import useAuth from "../../hooks/useAuth";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const Charplanner = (): ReactElement => {
 
+    const windowSize = useWindowSize();
     const dispatch = useDispatch();
     const param = useParams();
     const buildRef = useRef<CharplannerStateType>();
     const { userId } = useAuth();
+    const isMobile = windowSize.width && windowSize.width < 900;
 
     // if param exist select Build through buildId in param
     const build = useSelector((state: RootState) => {
@@ -88,9 +91,13 @@ const Charplanner = (): ReactElement => {
 
             <div className="Charplanner">
                 <CharacterSection />
-                <div className="vertical-divider" />
+                {isMobile && <div className="divider-4" />}
+                {!isMobile ? <div className="vertical-divider" /> : <div className="horizontal-divider" />}
+                {isMobile && <div className="divider-4" />}
                 <EquipmentSection />
-                <div className="vertical-divider" />
+                {isMobile && <div className="divider-4" />}
+                {!isMobile ? <div className="vertical-divider" /> : <div className="horizontal-divider" />}
+                {isMobile && <div className="divider-4" />}
                 <InfoSection />
                 <ActionsSection isBuildAuthor={isBuildAuthor} />
             </div>
