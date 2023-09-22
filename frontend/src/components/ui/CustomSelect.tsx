@@ -12,7 +12,7 @@ type SearchSelectPropsType = {
     label?: string,
     enableDelete?: boolean,
     searchable?: boolean,
-    disabled?: boolean
+    disabled?: boolean,
 };
 
 const CustomSelect = ({
@@ -83,7 +83,7 @@ const CustomSelect = ({
             handleReset();
         }
 
-        setTimeout(()=> handleClose(), 100); //Timeout for ripple effect to play, when Option is clicked.
+        setTimeout(() => handleClose(), 500); //Timeout for ripple effect to play, when Option is clicked.
     };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -186,6 +186,10 @@ const CustomSelect = ({
             {showOptions && 
                 <ul className="OptionsList">
                     {filteredOptions.map((option, idx) => {
+                        
+                        const regEscape = (v: string) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+                        const strArr = option.split(new RegExp("(" + regEscape(inputValue) + ")", "ig"));
+
                         return(
                             <li 
                                 key={idx}
@@ -194,7 +198,12 @@ const CustomSelect = ({
                                 onMouseDown={() => handleSelection(idx)}
                             >
                                 <p className={option === currentSelectedOption ? "SelectedOption" : ""}>
-                                    {option}
+                                    {strArr.map((substring) => {
+                                        if (substring.toLowerCase() === inputValue.toLowerCase()) {
+                                            return <span className="filter-substring" style={{ backgroundColor: "gray"}}>{substring}</span>
+                                        }
+                                        return <>{substring}</>
+                                    })}
                                 </p>
                             </li>
                         )
