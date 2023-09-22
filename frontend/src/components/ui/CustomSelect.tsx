@@ -83,7 +83,9 @@ const CustomSelect = ({
             handleReset();
         }
 
-        setTimeout(() => handleClose(), 500); //Timeout for ripple effect to play, when Option is clicked.
+        handleClose();
+
+        //setTimeout(() => handleClose(), 500); //Timeout for ripple effect to play, when Option is clicked.
     };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -198,11 +200,11 @@ const CustomSelect = ({
                                 onMouseDown={() => handleSelection(idx)}
                             >
                                 <p className={option === currentSelectedOption ? "SelectedOption" : ""}>
-                                    {strArr.map((substring) => {
+                                    {strArr.map((substring, idx2) => {
                                         if (substring.toLowerCase() === inputValue.toLowerCase()) {
-                                            return <span className="filter-substring" style={{ backgroundColor: "gray"}}>{substring}</span>
+                                            return <span key={idx + substring + idx2} className="filter-substring" style={{ backgroundColor: "gray"}}>{substring}</span>
                                         }
-                                        return <>{substring}</>
+                                        return substring
                                     })}
                                 </p>
                             </li>
