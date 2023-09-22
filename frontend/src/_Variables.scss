@@ -57,26 +57,26 @@ $font-size-normal: 1rem;
 $font-size-small: 0.8rem;
 
 
-$default-font-color: white;
+$default-font-color: hsla($accent-foreground);
 $default-font-size: $font-size-normal;
-$default-font-family: "proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
-$default-background-color: rgb(23	24	29); // hsla(40, 6.81%, 17.255%, 1);
+$default-font-family: inherit;
+$default-background-color: hsla($background); // hsla(40, 6.81%, 17.255%, 1);
 $default-border-style: none none solid none;
 $default-border-width: 1px;
-$default-border-color: #bcbcbc; //gray;
+$default-border-color: hsla($border-color); //gray;
 $default-border-radius: 0px;
-$default-label-font-color: #bcbcbc; //gray;
+$default-label-font-color: hsla($muted-foreground); //gray;
 $default-label-font-size: $font-size-normal;
 $default-label-background-color: transparent;
 $default-label-y-offset: 0px;
 $default-label-x-offset: 0px;
 $default-label-cursor: text;
-$default-option-font-color: white;
-$default-option-background-color: rgb(67, 65, 59);
+$default-option-font-color: hsla($accent-foreground);
+$default-option-background-color: hsla($foreground);
 
-$default-hover-font-color: white;
-$default-hover-label-font-color: white;
-$default-hover-border-color: white;
+$default-hover-font-color: hsla($accent-foreground);
+$default-hover-label-font-color: hsla($accent-foreground);
+$default-hover-border-color: hsla($accent-foreground);
 
 $default-focus-border-style: none none solid none;
 $default-focus-border-width: 1px;
@@ -87,7 +87,7 @@ $default-focus-label-font-size: $font-size-small;
 $default-focus-label-y-offset: -22px;
 $default-focus-label-x-offset: 0px;
 $default-focus-label-cursor: default;
-$default-focus-button-background-color: #ffffff3b;
+$default-focus-button-background-color: hsla($accent2);
 
 
 @keyframes ripple-effect {

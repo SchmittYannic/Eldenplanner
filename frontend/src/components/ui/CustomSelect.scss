@@ -117,7 +117,6 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            background-color: blue;
     
             p {
                 user-select: none;
@@ -189,7 +188,7 @@
         }
 
         input {
-            background-color: #1e1e1e;
+            background-color: hsla(v.$accent);
             border-color: transparent;
             border-radius: 5px;
             padding-top: 1.3em;
@@ -205,7 +204,7 @@
 
         button {
             right: 1em;
-            background-color: #1e1e1e;
+            background-color: hsla(v.$accent);
         }
     }
 
