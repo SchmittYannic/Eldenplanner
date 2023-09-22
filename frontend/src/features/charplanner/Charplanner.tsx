@@ -80,10 +80,10 @@ const Charplanner = (): ReactElement => {
                         <p>
                             <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
                         </p>
-                        <div className="divider-4" />
-                        <div className="divider-4" />
                     </>
                 )}
+                <div className="divider-4" />
+                <div className="divider-4" />
             </div>
 
             <div className="Charplanner">
