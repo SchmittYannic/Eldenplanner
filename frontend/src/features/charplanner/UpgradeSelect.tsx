@@ -50,7 +50,7 @@ const UpgradeSelect = ({ id }: PropsType): ReactElement => {
             value={upgrade}
             setValue={setUpgrade}
             options={upgradeOptions}
-            className={disableUpgrade ? "CustomSelect style1 disabled" : "CustomSelect style1"}
+            className={disableUpgrade ? "customselect style1 disabled" : "customselect style1"}
             label="0"
             disabled={disableUpgrade}
         />

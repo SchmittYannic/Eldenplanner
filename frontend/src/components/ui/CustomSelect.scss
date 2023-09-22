@@ -1,6 +1,6 @@
 @use "../../Variables" as v;
 
-.CustomSelect {
+.customselect {
     position: relative;
     padding: v.$FormPadding;
     pointer-events: all;
@@ -102,7 +102,7 @@
         }
     }
 
-    .OptionsList {
+    .optionslist {
         left: calc(.7em);
         right: calc(.7em);
         top: calc(v.$InputHeight + v.$InputPaddingTop + v.$InputPaddingBottom + v.$InputContainerGap);
@@ -124,41 +124,41 @@
             }
         }
     
-        li:not(.FocusedOption) p:not(.SelectedOption) {
+        li:not(.focused-option) p:not(.selected-option) {
             padding: v.$OptionPadding;
             background-color: v.$default-option-background-color;
             color: v.$default-option-font-color;
         }
     
-        .FocusedOption p:not(.SelectedOption) {
+        .focused-option p:not(.selected-option) {
             padding: v.$OptionPadding;
             background-color: #666666;
             color: v.$default-option-font-color;
         }
     
-        li:not(.FocusedOption) p:not(.SelectedOption):hover {
+        li:not(.focused-option) p:not(.selected-option):hover {
             background-color: #525252;
         }
     
-        .FocusedOption p:not(.SelectedOption):hover {
+        .focused-option p:not(.selected-option):hover {
             background-color: #7b7b7b;
         }
     
-        .SelectedOption {
+        .selected-option {
             padding: v.$OptionPadding;
             background-color: #544320;
             color:#ffba27;
         }
     
-        .FocusedOption .SelectedOption {
+        .focused-option .selected-option {
             background-color: #665020;
         }
     
-        .SelectedOption:hover {
+        .selected-option:hover {
             background-color: #372b11;
         }
     
-        .FocusedOption .SelectedOption:hover {
+        .focused-option .selected-option:hover {
             background-color: #7b6027;
         }
     }
@@ -170,10 +170,14 @@
             color: v.$InputDisabledColor; //v.$default-label-font-color;
         }
     }
+
+    .filter-substring {
+        background-color: gray;
+    }
 }
 
 // CustomStyles
-.CustomSelect.style1 {
+.customselect.style1 {
     padding-top: .1em;
     padding-bottom: .1em;
     padding-right: 0;
@@ -205,7 +209,7 @@
         }
     }
 
-    .OptionsList {
+    .optionslist {
         left: 0;
         right: 0;
     }

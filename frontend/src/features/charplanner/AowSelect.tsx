@@ -50,7 +50,7 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
             value={aow}
             setValue={setAow}
             options={aowOptions}
-            className={disableAow ? "CustomSelect style1 disabled" : "CustomSelect style1"}
+            className={disableAow ? "customselect style1 disabled" : "customselect style1"}
             label="Ash of War"
             enableDelete={true}
             searchable={true}

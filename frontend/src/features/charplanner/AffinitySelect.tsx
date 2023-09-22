@@ -46,7 +46,7 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
             value={affinity}
             setValue={setAffinity}
             options={AffinityOptions}
-            className={disableAffinity ? "CustomSelect style1 disabled" : "CustomSelect style1"}
+            className={disableAffinity ? "customselect style1 disabled" : "customselect style1"}
             label="Imbue"
             enableDelete={true}
             searchable={true}

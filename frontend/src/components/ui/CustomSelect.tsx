@@ -20,7 +20,7 @@ const CustomSelect = ({
     value: currentSelectedOption,
     setValue,
     options,
-    className="CustomSelect",
+    className="customselect",
     label="",
     enableDelete=false,
     searchable=false,
@@ -74,7 +74,7 @@ const CustomSelect = ({
             /* if inputValue is not an option AND 
             you are allowed to select nothing AND
             the inputValue is not an empty string AND
-            the currentSelectedOption starts with the inputValuu THEN
+            the currentSelectedOption starts with the inputValue THEN
             reset the select box to its previous value */
             setInputValue(currentSelectedOption);
             setValue(currentSelectedOption);
@@ -186,7 +186,7 @@ const CustomSelect = ({
             </label>
 
             {showOptions && 
-                <ul className="OptionsList">
+                <ul className="optionslist">
                     {filteredOptions.map((option, idx) => {
                         
                         const regEscape = (v: string) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -196,13 +196,13 @@ const CustomSelect = ({
                             <li 
                                 key={idx}
                                 ref={idx === focusedOption ? optionContainer : null}
-                                className={idx === focusedOption ? "FocusedOption": ""}
+                                className={idx === focusedOption ? "focused-option": ""}
                                 onMouseDown={() => handleSelection(idx)}
                             >
-                                <p className={option === currentSelectedOption ? "SelectedOption" : ""}>
+                                <p className={option === currentSelectedOption ? "selected-option" : ""}>
                                     {strArr.map((substring, idx2) => {
                                         if (substring.toLowerCase() === inputValue.toLowerCase()) {
-                                            return <span key={idx + substring + idx2} className="filter-substring" style={{ backgroundColor: "gray"}}>{substring}</span>
+                                            return <span key={idx + substring + idx2} className="filter-substring">{substring}</span>
                                         }
                                         return substring
                                     })}
