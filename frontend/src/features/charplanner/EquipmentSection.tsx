@@ -8,8 +8,17 @@ const EquipmentSection = (): ReactElement => {
     return (
         <section className="EquipmentSection">
             <WeaponsSubSection />
+            <div className="divider-2" />
+            <div className="horizontal-divider" />
+            <div className="divider-2" />
             <TalismanSubSection />
+            <div className="divider-2" />
+            <div className="horizontal-divider" />
+            <div className="divider-2" />
             <ArmorSubSection />
+            <div className="divider-2" />
+            <div className="horizontal-divider" />
+            <div className="divider-2" />
             <EffectDisplay />
         </section>
     )

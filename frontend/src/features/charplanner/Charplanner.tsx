@@ -88,7 +88,9 @@ const Charplanner = (): ReactElement => {
 
             <div className="Charplanner">
                 <CharacterSection />
+                <div className="vertical-divider" />
                 <EquipmentSection />
+                <div className="vertical-divider" />
                 <InfoSection />
                 <ActionsSection isBuildAuthor={isBuildAuthor} />
             </div>

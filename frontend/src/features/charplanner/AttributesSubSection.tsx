@@ -22,6 +22,9 @@ const AttributesSubSection = () => {
                         />
                     ))}
                 </>
+                <div className="divider-4" />
+                <div className="horizontal-divider" />
+                <div className="divider-4" />
             </RuneDisplayWrapper>
         </div>
     )

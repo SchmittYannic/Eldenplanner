@@ -132,10 +132,13 @@ textarea {
 }
 
 .horizontal-divider {
-    border-color: hsl(v.$border-color);
-    border-style: solid;
-    border-top-width: 1px;
-    border-bottom-width: 0px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(v.$border-color) 15%, hsl(v.$border-color) 85%, transparent);
+}
+
+.vertical-divider {
+    width: 1px;
+    background: linear-gradient(transparent, hsl(v.$border-color) 15%, hsl(v.$border-color) 85%, transparent);
 }
 
 .divider-1 {
