@@ -30,6 +30,7 @@ const TalismanSubSection = (): ReactElement => {
         if(!conflicts.includes(value)) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](value));
         } else {
+            dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
             setIsConflict(true);
             setAlertContent(`The selected Talisman "${value}" is in conflict with Talisman in different slot.`);
         }
