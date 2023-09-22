@@ -65,6 +65,7 @@ const CustomSelect = ({
         /* if inputValue is an option set the selected value of the select box */
         if (options.includes(inputValue)) {
             setValue(inputValue);
+            setInputValue(currentSelectedOption);
         } else if (!options.includes(inputValue) && !enableDelete) {
             /* if inputValue is not an option AND you are not allowed to select nothing 
             reset the select box to its previous value */
