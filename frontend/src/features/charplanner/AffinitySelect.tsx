@@ -43,12 +43,11 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
     return (
         <CustomSelect
             id={idAffinity}
-            selectedOption={affinity}
-            setSelectedOption={setAffinity}
+            value={affinity}
+            setValue={setAffinity}
             options={AffinityOptions}
-            renderOption={(option: string) => <p className={option === affinity ? "SelectedOption" : ""}>{option}</p>}
-            classes={disableAffinity ? "CustomSelect style1 disabled" : "CustomSelect style1"}
-            label={"Imbue"}
+            className={disableAffinity ? "CustomSelect style1 disabled" : "CustomSelect style1"}
+            label="Imbue"
             enableDelete={true}
             searchable={true}
             disabled={disableAffinity}

@@ -46,21 +46,17 @@ const NameSubSection = (): ReactElement => {
             />
             <CustomSelect
                 id="StartingClass"
-                selectedOption={startingclass}
-                setSelectedOption={setStartingclass}
+                value={startingclass}
+                setValue={setStartingclass}
                 options={startingClassOptions}
-                renderOption={(option: string) => <p className={option === startingclass ? "SelectedOption" : ""}>{option}</p>}
-                classes={""}
                 label="Starting Class"
             />
             <div className="Row">
-                <CustomSelect 
+                <CustomSelect
                     id="GreatRune"
-                    selectedOption={greatrune}
-                    setSelectedOption={setGreatrune}
+                    value={greatrune}
+                    setValue={setGreatrune}
                     options={greatRuneOptions}
-                    renderOption={(option:string) => <p className={option === greatrune ? "SelectedOption" : ""}>{option}</p>}
-                    classes={""}
                     label="Great Rune"
                     enableDelete={true}
                 />

@@ -26,11 +26,9 @@ const WeaponSelect = ({ id, label }: PropsType): ReactElement => {
     return (
         <CustomSelect
             id={idWeapon}
-            selectedOption={weapon}
-            setSelectedOption={setWeapon}
+            value={weapon}
+            setValue={setWeapon}
             options={WeaponsNames}
-            renderOption={(option: string) => <p className={option === weapon ? "SelectedOption" : ""}>{option}</p>}
-            classes={""}
             label={label}
             enableDelete={true}
             searchable={true}

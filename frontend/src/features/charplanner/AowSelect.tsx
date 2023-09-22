@@ -47,12 +47,11 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
     return (
         <CustomSelect
             id={idAow}
-            selectedOption={aow}
-            setSelectedOption={setAow}
+            value={aow}
+            setValue={setAow}
             options={aowOptions}
-            renderOption={(option: string) => <p className={option === aow ? "SelectedOption" : ""}>{option}</p>}
-            classes={disableAow ? "CustomSelect style1 disabled" : "CustomSelect style1"}
-            label={"Ash of War"}
+            className={disableAow ? "CustomSelect style1 disabled" : "CustomSelect style1"}
+            label="Ash of War"
             enableDelete={true}
             searchable={true}
             disabled={disableAow}

@@ -21,11 +21,9 @@ const ArmorSubSection = (): ReactElement => {
                 <CustomSelect
                     key={idx}
                     id={slot}
-                    selectedOption={armor[slot as keyof ArmorStateType]}
-                    setSelectedOption={(value: string) => setSelectedArmor(value, slot)}
+                    value={armor[slot as keyof ArmorStateType]}
+                    setValue={(value: string) => setSelectedArmor(value, slot)}
                     options={ArmorOptions[slot as keyof accType]}
-                    renderOption={(option: string) => <p className={option === armor[slot as keyof ArmorStateType] ? "SelectedOption" : ""}>{option}</p>}
-                    classes={""}
                     label={capitalizeFirstLetter(slot)}
                     enableDelete={true}
                     searchable={true}

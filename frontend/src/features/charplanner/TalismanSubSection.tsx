@@ -51,11 +51,9 @@ const TalismanSubSection = (): ReactElement => {
                 <CustomSelect
                     key={idx}
                     id={slot}
-                    selectedOption={talisman[slot as keyof TalismanStateType]}
-                    setSelectedOption={(value: string) => setSelectedTalisman(value, slot)}
+                    value={talisman[slot as keyof TalismanStateType]}
+                    setValue={(value: string) => setSelectedTalisman(value, slot)}
                     options={TalismansNames}
-                    renderOption={(option: string) => <p className={option === talisman[slot as keyof TalismanStateType] ? "SelectedOption" : ""}>{option}</p>}
-                    classes={""}
                     label={"Talisman " + slot.slice(-1)}
                     enableDelete={true}
                     searchable={true}
