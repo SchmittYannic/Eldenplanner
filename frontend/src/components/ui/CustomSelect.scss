@@ -125,6 +125,7 @@
         }
     
         li:not(.focused-option) p:not(.selected-option) {
+            line-height: 1.5;
             padding: v.$OptionPadding;
             background-color: v.$default-option-background-color;
             color: v.$default-option-font-color;
