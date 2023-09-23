@@ -176,6 +176,8 @@ const CustomSelect = ({
                     disabled={disabled}
                 />
                 <p>{label}</p>
+            </label>
+            <div className="ddBtn-container">
                 <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
                     {enableDelete ? 
                         inputValue === "" ? 
@@ -184,7 +186,7 @@ const CustomSelect = ({
                     : <MdExpandMore  className="ddBtn" onClick={handleClickExpandButton} /> 
                     }
                 </button>
-            </label>
+            </div>
 
             {showOptions && 
                 <ul className="optionslist">

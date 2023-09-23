@@ -73,16 +73,22 @@
                 transform: rotate(180deg);
             }
         }
+    }
+
+    .ddBtn-container {
+        position: absolute;
+        top: v.$FormPaddingTop;
+        right: v.$FormPaddingRight;
+        bottom: calc(v.$FormPaddingBottom + 1px);
+        display: flex;
+        align-items: center;
+        background-color: v.$default-background-color;
 
         button {
-            top:0;
-            right: 0;
             height: 21px;
             width: 21px;
             color: inherit;
             border: none;
-            background-color: v.$default-background-color;
-            position: absolute;
             cursor: pointer;
 
             .ddBtn {
@@ -183,6 +189,7 @@
     padding-bottom: .1em;
     padding-right: 0;
     padding-left: 0;
+    min-width: 50px;
 
     label {
         p {
@@ -203,10 +210,19 @@
                 display: none;
             }
         }
+    }
+
+    .ddBtn-container {
+        top: .1em;
+        bottom: .1em;
+        right: 0;
+        width: calc(1em + 21px);
+        background-color: hsla(v.$accent);
+        border-radius: 5px;
 
         button {
+            top: calc(1.4em / 2);
             right: 1em;
-            background-color: hsla(v.$accent);
         }
     }
 
