@@ -172,6 +172,21 @@
     }
 }
 
+
+.weaponslot {
+    .weaponslot-details {
+        padding-left: .7em;
+        padding-right: .7em;
+    }
+
+    .upgrade-affinity-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: .25rem;
+    }
+}
+
+
 /* ARDisplay */
 
 .ARDisplay {

@@ -14,18 +14,14 @@ const Weaponslot = ({ label }: PropsType): ReactElement  => {
     const id = label.replace(/\s/g, '').toLowerCase();
 
     return (
-        <div>
+        <div className="weaponslot">
             <WeaponSelect id={id} label={label} />
             <ARDisplay id={id} />
-            <div style={{ paddingLeft: ".7em", paddingRight: ".7em" }}>
+            <div className="weaponslot-details">
                 <AowSelect id={id} />
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr" }}>
-                    <span style={{ paddingRight: ".1em"}}>
-                        <UpgradeSelect id={id} />
-                    </span>
-                    <span style={{ paddingLeft: ".1em"}}>
-                        <AffinitySelect id={id} />
-                    </span>
+                <div className="upgrade-affinity-wrapper">              
+                    <UpgradeSelect id={id} />               
+                    <AffinitySelect id={id} />
                 </div>
             </div>
         </div>
