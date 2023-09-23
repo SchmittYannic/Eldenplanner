@@ -194,7 +194,6 @@
 .ARDisplay {
     width: 100%;
     position: relative;
-    padding-bottom: v.$FormPaddingBottom;
     padding-left: v.$FormPaddingLeft;
     padding-right: v.$FormPaddingRight;
     font-size: v.$font-size-small;
@@ -203,6 +202,10 @@
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    span {
+        padding-bottom: v.$FormPaddingBottom;
+    }
 
     .redText {
         div:not(.Tooltip) {
@@ -221,7 +224,7 @@
         left: 0px;
         right: 0px;
         padding: 1.2rem;
-        font-size: 1rem;
+        font-size: v.$font-size-small;
         line-height: 1;
         background-color: v.$default-focus-label-font-color;
         color: black;
@@ -230,7 +233,7 @@
         z-index: 3;
     }
 
-    div:hover + .Tooltip {
+    span:hover > .Tooltip {
         display: block;
     }
 };
