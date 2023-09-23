@@ -220,14 +220,14 @@
         top: 20px;
         left: 0px;
         right: 0px;
-        z-index: 3;
-        background-color: v.$default-focus-label-font-color;
-        padding: 10px;
+        padding: 1.2rem;
         font-size: 1rem;
+        line-height: 1;
+        background-color: v.$default-focus-label-font-color;
         color: black;
-        border-radius: 2px;
-        line-height: 80%;
+        border-radius: v.$border-radius;
         white-space: pre-wrap;
+        z-index: 3;
     }
 
     div:hover + .Tooltip {
