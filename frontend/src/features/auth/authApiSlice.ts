@@ -55,6 +55,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        sendVerificationEmail: builder.mutation({
+            query: ( email ) => ({
+                url: "/auth/sendverify",
+                method: "POST",
+                body: { email },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+        }),
     }),
 });
 
@@ -62,4 +72,5 @@ export const {
     useLoginMutation,
     useSendLogoutMutation,
     useRefreshMutation,
+    useSendVerificationEmailMutation,
 } = authApiSlice;
