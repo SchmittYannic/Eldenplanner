@@ -966,13 +966,15 @@ td {
     }
 
     .loginpage,
-    .signuppage {
+    .signuppage,
+    .verifypage {
         min-height: 400px;
         grid-template-columns: 1fr;
         align-items: start;
 
         .loginpage--rightside,
-        .signuppage--rightside {
+        .signuppage--rightside,
+        .verifypage--rightside {
             max-width: none;
         }
     }
