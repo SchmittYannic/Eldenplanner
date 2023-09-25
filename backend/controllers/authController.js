@@ -1,6 +1,8 @@
-import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import * as EmailValidator from "email-validator";
+import User from "../models/User.js";
+import emailVerificationSender from "../middleware/emailVerificationSender.js";
 
 // from: https://stackoverflow.com/questions/69504697/express-rate-limit-for-login-route
 let knownIps = new Map();
@@ -131,8 +133,43 @@ const logout = (req, res) => {
     res.json({ message: "Cookie cleared" });
 };
 
+// @desc Sending Verification Email
+// @route POST /auth/sendverify
+// @access Public
+const sendverify = async (req, res) => {
+    const { email } = req.body;
+
+    // confirm received data
+    if (!email) {
+        return res.status(400).json({ message: "Email field is required" });
+    }
+
+    // check if email is valid
+    if (!EmailValidator.validate(email)) {
+        return res.status(400).json({ message: "Invalid email address received" });
+    }
+
+    // get user associated with email from database
+    const user = await User.findOne({ email }).lean().exec();
+
+    // if no user was found in database
+    if (!user) {
+        return res.status(400).json({ message: "No account linked to this email was found" });
+    }
+
+    // if user is already verified
+    if (user.validated) {
+        return res.status(200).json({ message: "Email is already verified" });
+    }
+
+    emailVerificationSender(email);
+
+    res.status(200).json({ message: "Verification Email send"});
+};
+
 export {
     login,
     refresh,
     logout,
+    sendverify,
 };
