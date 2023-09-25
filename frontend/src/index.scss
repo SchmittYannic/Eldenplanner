@@ -655,7 +655,8 @@ td {
 /* Login Page and Signup Page */
 
 .loginpage,
-.signuppage {
+.signuppage,
+.verifypage {
     max-width: none;
     padding: 0;
     margin-top: v.$primary-nav-height;
@@ -671,13 +672,15 @@ td {
     margin-left: auto;
 
     .loginpage--rightside,
-    .signuppage--rightside {
+    .signuppage--rightside,
+    .verifypage--rightside {
         padding: 2rem; //only on lg
         max-width: 540px;
     }
 
     .loginpage--wrapper,
-    .signuppage--wrapper {
+    .signuppage--wrapper,
+    .verifypage--wrapper {
         min-width: 200px; //min-width 640px
         max-width: 300px;
         display: flex;
@@ -688,7 +691,8 @@ td {
     }
 
     .loginpage--form-header,
-    .signuppage--form-header {
+    .signuppage--form-header,
+    .verifypage--form-header {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -710,14 +714,16 @@ td {
     }
 
     .loginpage--form-wrapper,
-    .signuppage--form-wrapper {
+    .signuppage--form-wrapper,
+    .verifypage--form-wrapper {
         display: grid;
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
 
     .loginpage--input-wrapper,
-    .signuppage--input-wrapper {
+    .signuppage--input-wrapper,
+    .verifypage--input-wrapper {
         display: grid;
         gap: .25rem;
 
@@ -772,7 +778,8 @@ td {
 }
 
 .loginpage--img-wrapper,
-.signuppage--img-wrapper {
+.signuppage--img-wrapper,
+.verifypage--img-wrapper {
     height: 100%;
 
     img {
