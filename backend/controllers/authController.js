@@ -167,9 +167,43 @@ const sendverify = async (req, res) => {
     res.status(200).json({ message: "Verification Email send"});
 };
 
+// @desc Verify Email
+// @route POST /auth/verify
+// @access Public
+const verify = (req, res) => {
+    const { verificationToken } = req.body;
+    
+    if (!verificationToken) {
+        res.status(400).json({ message: "Missing Verification Token in request" });
+    }  
+
+    jwt.verify(
+        verificationToken,
+        process.env.EMAIL_VERIFICATION_TOKEN_SECRET,
+        async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ message: "Email verification failed, possibly the link is invalid or expired" });
+            }
+
+            const user = await User.findOne({ email: decoded.email }).exec();
+
+            user.validated = true;
+
+            const updateUser = await user.save();
+
+            if (updateUser) {
+                return res.status(200).json({ message: "Email successfully verified" });
+            } else {
+                return res.status(400).json({ message: "Email verification failed, try again at a later date or contact support" });
+            }
+        }
+    );
+};
+
 export {
     login,
     refresh,
     logout,
     sendverify,
+    verify,
 };
