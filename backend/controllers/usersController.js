@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import * as EmailValidator from "email-validator";
+import emailVerificationSender from "../middleware/emailVerificationSender.js";
 
 // @desc Get all users
 // @route GET /users
@@ -27,6 +28,7 @@ const createNewUser = async (req, res) => {
     if (user) {
         // created user successfully
         res.status(201).json({ message: `New user ${userObject.username} created` });
+        emailVerificationSender(userObject.email);
     } else {
         res.status(400).json({ message: "Invalid user data received" });
     }
