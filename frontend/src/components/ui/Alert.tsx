@@ -1,4 +1,4 @@
-import { useEffect, useRef, KeyboardEvent, ReactElement } from "react";
+import { useEffect, useRef, ReactElement } from "react";
 import "./Alert.scss";
 
 type PropsType = {
@@ -10,7 +10,8 @@ type PropsType = {
 const Alert = ({ setAlert, classes, children }: PropsType): ReactElement => {
     const ref = useRef<HTMLDivElement | null>(null);
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = () => {
+        // e: KeyboardEvent<HTMLDivElement>
         // const { key } = e;
         // e.preventDefault();
         // if(key === "Tab") {
