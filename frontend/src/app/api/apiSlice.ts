@@ -5,6 +5,7 @@ import { RootState } from "../store";
 interface CustomError {
     data: {
         message: string,
+        action?: string,
     },
     status: number
 };
@@ -17,6 +18,7 @@ export const isCustomError = (object: any): object is CustomError => {
     if (typeof object.status !== "number") return false
     if (!("message" in object.data)) return false
     if (typeof object.data.message !== "string") return false
+    if ("action" in object.data && typeof object.data.action !== "string") return false
     return true
 };
 
