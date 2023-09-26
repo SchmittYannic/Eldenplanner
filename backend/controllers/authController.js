@@ -1,8 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as EmailValidator from "email-validator";
+import nodemailer from "nodemailer";
 import User from "../models/User.js";
+import Tokens from "../models/Tokens.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
+import { logEvents } from "../middleware/logger.js";
 
 // from: https://stackoverflow.com/questions/69504697/express-rate-limit-for-login-route
 let knownIps = new Map();
@@ -200,10 +203,115 @@ const verify = (req, res) => {
     );
 };
 
+// @desc Reset User Password
+// @route POST /auth/sendreset
+// @access Public
+const sendreset = async (req, res, next) => {
+    const { user } = req.body;
+
+    if (!user) {
+        return res.status(400).json({ message: "Providing a Username or Email is required" });
+    }
+
+    const foundUsername = await User.findOne({ username: user }).exec();
+    const foundEmail = await User.findOne({ email: user }).exec();
+    const foundUser = foundUsername ?? foundEmail;
+
+    if (!foundUser) {
+        return res.status(401).json({ message: "No User with this username or email found" });
+    }
+
+    if (!foundUser.validated) {
+        return res.status(401).json({ message: "Account is not verified. Please verify your email first.", action: "redirectVerify" });
+    }
+
+    if (foundUser.roles.includes("Demoadmin") || foundUser.roles.includes("Admin")) {
+        return res.status(401).json({ message: "Unauthorized - Contact the Headadmin for a password reset" });
+    }
+
+    const resetPasswordToken = jwt.sign(
+        {
+            "UserInfo": {
+                "userId": foundUser._id,
+            }
+        },
+        process.env.RESET_PASSWORD_TOKEN_SECRET,
+        { 
+            expiresIn: process.env.EXPIRATION_RESET_TOKEN
+        }
+    );
+
+    const tokens = await Tokens.findOne({ user: foundUser._id }).exec();
+
+    if (!tokens) {
+        const createdTokens = await Tokens.create({ user: foundUser._id, resetPasswordToken });
+        if (createdTokens) {
+            req.resetPasswordToken = resetPasswordToken;
+            req.email = foundUser.email;
+            next();
+        } else {
+            return res.status(400).json({ message: "Server Error - Please try again at a later."});
+        }
+    } else {
+        tokens.resetPasswordToken = resetPasswordToken;
+        const updatedTokens = await tokens.save();
+        if (updatedTokens) {
+            req.resetPasswordToken = resetPasswordToken;
+            req.email = foundUser.email;
+            next();
+        } else {
+            return res.status(400).json({ message: "Server Error - Please try again at a later."});
+        }
+    }
+};
+
+const sendresetemail = (req, res) => {
+    const { resetPasswordToken, email } = req;
+    
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.BUSINESS_EMAIL_ADDRESS,
+            pass: process.env.BUSINESS_EMAIL_PASSWORD,
+        }
+    });
+
+    const mailOptions = {
+        from: `ELDENPLANNER <${process.env.BUSINESS_EMAIL_ADDRESS}>`,
+        to: email,
+        subject: "Eldenplanner Password Reset",
+        text: `You have requested a password reset.
+        Please follow the given link to reset your password.
+
+        INSERT HERE
+
+        If you didnt request a reset feel free to contact our support here:
+        INSERT HERE`,
+        html: `<p>You have requested a password reset.
+        Please follow the given link to reset your password.</p>
+
+        <a href="INSERT HERE" target="_blank">Reset Password</a>
+
+        <p>If you didnt request a reset feel free to contact our support here:</p>
+        <a href="INSERT HERE" target="_blank">Contact Support</a>`,
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            logEvents(`VerificationEmailSender Error for: ${email}`, "ResetPasswordMailErrorLog.log");
+            res.status(400).json({ message: "Failed to send email - please contact support", action: "redirectSupport" });
+        } else {
+            res.status(200).json({ message: "An email with instructions how to reset your password was send."});
+        }
+    });
+};
+
 export {
     login,
     refresh,
     logout,
     sendverify,
     verify,
+    sendreset,
+    sendresetemail,
 };
