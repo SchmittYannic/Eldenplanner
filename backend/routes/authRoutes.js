@@ -1,5 +1,5 @@
 import express from "express";
-import { login, refresh, logout, sendverify, verify, sendreset, sendresetemail } from "../controllers/authController.js";
+import { login, refresh, logout, sendverify, verify, sendreset, sendresetemail, reset } from "../controllers/authController.js";
 import { loginLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
@@ -21,5 +21,8 @@ router.route("/verify")
 
 router.route("/sendreset")
     .post(sendreset, sendresetemail);
+
+router.route("/reset")
+    .post(reset);
 
 export default router;
