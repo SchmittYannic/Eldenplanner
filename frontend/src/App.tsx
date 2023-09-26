@@ -16,6 +16,7 @@ import PersistLogin from "./features/auth/PersistLogin";
 import VerifyEmail from "./features/auth/VerifyEmail";
 import Verify from "./features/auth/Verify";
 import Reset from "./features/auth/Reset";
+import ResetPassword from "./features/auth/ResetPassword";
 
 const App = (): ReactElement => {
 
@@ -32,6 +33,7 @@ const App = (): ReactElement => {
                     </Route>
                     <Route path="reset">
                         <Route index element={<Reset />} />
+                        <Route path=":resetPasswordToken" element={<ResetPassword />} />
                     </Route>
 
                     <Route path="charplanner" element={<Charplanner/>} />
