@@ -39,8 +39,6 @@ const Reset = ():ReactElement => {
         }
     };
 
-    console.log(error)
-
     return (
         <main className="resetpage">
             {!isMobile && (
