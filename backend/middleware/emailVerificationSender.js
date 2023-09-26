@@ -24,6 +24,8 @@ const emailVerificationSender = (email) => {
         },
     );
 
+    const url = process.env.NODE_ENV === "development" ? "http://localhost:5173" : process.env.FRONTEND_URL;
+
     const mailOptions = {
         from: `ELDENPLANNER <${process.env.BUSINESS_EMAIL_ADDRESS}>`,
         to: email,
@@ -31,12 +33,12 @@ const emailVerificationSender = (email) => {
         text: `You have recently visited 
         our website and entered your email.
         Please follow the given link to verify your email
-        http://localhost:5173/verify/${verificationToken} 
+        ${url}/verify/${verificationToken} 
         Thanks`,
         html: `<p>You have recently visited 
         our website and entered your email.
         Please follow the given link to verify your email
-        <a href="http://localhost:5173/verify/${verificationToken}" target="_blank">Verify Email Here</a>
+        <a href="${url}/verify/${verificationToken}" target="_blank">Verify Email Here</a>
         Thanks</p>`,
     };
 

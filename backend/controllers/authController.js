@@ -276,6 +276,8 @@ const sendresetemail = (req, res) => {
         }
     });
 
+    const url = process.env.NODE_ENV === "development" ? "http://localhost:5173" : process.env.FRONTEND_URL;
+
     const mailOptions = {
         from: `ELDENPLANNER <${process.env.BUSINESS_EMAIL_ADDRESS}>`,
         to: email,
@@ -283,14 +285,14 @@ const sendresetemail = (req, res) => {
         text: `You have requested a password reset.
         Please follow the given link to reset your password.
 
-        INSERT HERE
+        ${url}/reset/${resetPasswordToken} 
 
         If you didnt request a reset feel free to contact our support here:
         INSERT HERE`,
         html: `<p>You have requested a password reset.
         Please follow the given link to reset your password.</p>
 
-        <a href="INSERT HERE" target="_blank">Reset Password</a>
+        <a href="${url}/reset/${resetPasswordToken} " target="_blank">Reset Password</a>
 
         <p>If you didnt request a reset feel free to contact our support here:</p>
         <a href="INSERT HERE" target="_blank">Contact Support</a>`,
