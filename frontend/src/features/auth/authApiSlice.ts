@@ -74,7 +74,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-        })
+        }),
+        sendResetRequest: builder.mutation({
+            query: ( user ) => ({
+                url: "/auth/sendreset",
+                method: "POST",
+                body: { user },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+        }),
     }),
 });
 
@@ -84,4 +94,5 @@ export const {
     useRefreshMutation,
     useSendVerificationEmailMutation,
     useVerifyMutation,
+    useSendResetRequestMutation,
 } = authApiSlice;
