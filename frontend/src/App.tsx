@@ -15,6 +15,7 @@ import { ROLES } from "./config/roles";
 import PersistLogin from "./features/auth/PersistLogin";
 import VerifyEmail from "./features/auth/VerifyEmail";
 import Verify from "./features/auth/Verify";
+import Reset from "./features/auth/Reset";
 
 const App = (): ReactElement => {
 
@@ -28,6 +29,9 @@ const App = (): ReactElement => {
                     <Route path="verify">
                         <Route index element={<Verify />} />
                         <Route path=":verificationToken" element={<VerifyEmail />} />
+                    </Route>
+                    <Route path="reset">
+                        <Route index element={<Reset />} />
                     </Route>
 
                     <Route path="charplanner" element={<Charplanner/>} />
