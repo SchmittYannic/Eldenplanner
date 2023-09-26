@@ -131,6 +131,14 @@ textarea {
     display: flex;
 }
 
+.text-right {
+    text-align: right;
+}
+
+.text-sm {
+    font-size: v.$font-size-small;
+}
+
 .horizontal-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, hsl(v.$border-color) 15%, hsl(v.$border-color) 85%, transparent);
@@ -775,7 +783,9 @@ td {
         }
 
         #signup-password,
-        #login-password {
+        #login-password,
+        #reset-password,
+        #reset-confirm {
             border-right: none;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
