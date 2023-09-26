@@ -656,7 +656,8 @@ td {
 
 .loginpage,
 .signuppage,
-.verifypage {
+.verifypage,
+.resetpage {
     max-width: none;
     padding: 0;
     margin-top: v.$primary-nav-height;
@@ -673,14 +674,16 @@ td {
 
     .loginpage--rightside,
     .signuppage--rightside,
-    .verifypage--rightside {
+    .verifypage--rightside,
+    .resetpage--rightside {
         padding: 2rem; //only on lg
         max-width: 540px;
     }
 
     .loginpage--wrapper,
     .signuppage--wrapper,
-    .verifypage--wrapper {
+    .verifypage--wrapper,
+    .resetpage--wrapper {
         min-width: 200px; //min-width 640px
         max-width: 300px;
         display: flex;
@@ -692,7 +695,8 @@ td {
 
     .loginpage--form-header,
     .signuppage--form-header,
-    .verifypage--form-header {
+    .verifypage--form-header,
+    .resetpage--form-header {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -703,19 +707,20 @@ td {
             font-size: 1.5rem;
             line-height: 2rem;
             margin: 0;
+            margin-bottom: 0.5rem;
         }
 
         p {
             font-size: .875rem;
             line-height: 1.25rem;
             color: hsl(v.$muted-foreground);
-            margin-top: 0.5rem;
         }
     }
 
     .loginpage--form-wrapper,
     .signuppage--form-wrapper,
-    .verifypage--form-wrapper {
+    .verifypage--form-wrapper,
+    .resetpage--form-wrapper {
         display: grid;
         gap: 1.5rem;
         margin-top: 1.5rem;
@@ -723,7 +728,8 @@ td {
 
     .loginpage--input-wrapper,
     .signuppage--input-wrapper,
-    .verifypage--input-wrapper {
+    .verifypage--input-wrapper,
+    .resetpage--input-wrapper {
         display: grid;
         gap: .25rem;
 
@@ -779,7 +785,8 @@ td {
 
 .loginpage--img-wrapper,
 .signuppage--img-wrapper,
-.verifypage--img-wrapper {
+.verifypage--img-wrapper,
+.resetpage--img-wrapper {
     height: 100%;
 
     img {
@@ -967,14 +974,16 @@ td {
 
     .loginpage,
     .signuppage,
-    .verifypage {
+    .verifypage,
+    .resetpage {
         min-height: 400px;
         grid-template-columns: 1fr;
         align-items: start;
 
         .loginpage--rightside,
         .signuppage--rightside,
-        .verifypage--rightside {
+        .verifypage--rightside,
+        .resetpage--rightside {
             max-width: none;
         }
     }
