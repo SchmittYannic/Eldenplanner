@@ -119,6 +119,10 @@ const Login = (): ReactElement => {
                                         {isPasswordVisible ? "Hide" : "Show"}
                                     </button>
                                 </div>
+
+                                <Link className="text-right text-sm" to="/reset">
+                                    forgot password?
+                                </Link>
                             </div>
 
                             <div className="divider-4" />
