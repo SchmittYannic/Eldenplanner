@@ -301,11 +301,60 @@ const sendresetemail = (req, res) => {
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             logEvents(`VerificationEmailSender Error for: ${email}`, "ResetPasswordMailErrorLog.log");
-            res.status(400).json({ message: "Failed to send email - please contact support", action: "redirectSupport" });
+            return res.status(400).json({ message: "Failed to send email - please contact support", action: "redirectSupport" });
         } else {
-            res.status(200).json({ message: "An email with instructions how to reset your password was send."});
+            return res.status(200).json({ message: "An email with instructions how to reset your password was send."});
         }
     });
+};
+
+const reset = (req, res) => {
+    const { resetPasswordToken, password, confirm } = req.body;
+
+    if (!resetPasswordToken) {
+        return res.status(400).json({ message: "The Token was not send" });
+    }
+
+    if (!password || !confirm) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (password !== confirm) {
+        return res.status(400).json({ message: "New Password and Confirm dont match." });
+    }
+
+    jwt.verify(
+        resetPasswordToken,
+        process.env.RESET_PASSWORD_TOKEN_SECRET,
+        async (err, decoded) => {
+            if (err) return res.status(401).json({ message: "Password reset failed, your token is invalid or expired" });
+
+            const { userId } = decoded.UserInfo;
+
+            const tokens = await Tokens.findOne({ user: userId }).exec();
+            const user = await User.findById(userId);
+            const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
+
+            if (!tokens) {
+                return res.status(401).json({ message: "Password reset failed, your token was already used", action: "redirectReset" });
+            } else if (tokens.resetPasswordToken !== resetPasswordToken) {
+                return res.status(401).json({ message: "Password reset failed, your token is outdated", action: "redirectReset" });
+            } else if (!user) {
+                return res.status(400).json({ message: "Password reset failed. Failed to find user in database" });
+            } else {
+                user.password = hashedPwd;
+
+                const updatedUser = await user.save();
+                await tokens.deleteOne();
+
+                if (!updatedUser) {
+                    return res.status(400).json({ message: "Password reset failed. Failed to updated user in database" });
+                } else {
+                    return res.status(200).json({ message: "Password reset was successful", action: "redirectLogin"  });
+                }
+            }
+        }
+    );
 };
 
 export {
@@ -316,4 +365,5 @@ export {
     verify,
     sendreset,
     sendresetemail,
+    reset
 };
