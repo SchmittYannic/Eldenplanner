@@ -19,6 +19,7 @@ const EquipmentSection = (): ReactElement => {
             <div className="divider-2" />
             <div className="horizontal-divider" />
             <div className="divider-2" />
+            <div className="divider-1" />
             <EffectDisplay />
         </section>
     )
