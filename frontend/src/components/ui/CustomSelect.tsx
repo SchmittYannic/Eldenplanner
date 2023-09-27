@@ -91,7 +91,7 @@ const CustomSelect = ({
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         const { key } = e;
-        const optionsLength = options.length;
+        const optionsLength = filteredOptions.length;
         let nextIndexCount = 0;
 
         if (key === "ArrowDown") {
