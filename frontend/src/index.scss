@@ -374,8 +374,7 @@ textarea {
             gap: .5rem;
         }
 
-        &:hover p:before,
-        &:focus p:before {
+        &:hover p:before {
             content: "";
             position: absolute;
             left: 0;
@@ -386,7 +385,8 @@ textarea {
             animation: border_left_to_right_anim .3s linear forwards;
         }
 
-        &.active {
+        &.active,
+        &:focus {
             color: hsl(v.$accent-foreground);
         }
     }
