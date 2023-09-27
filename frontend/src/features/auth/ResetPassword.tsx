@@ -100,124 +100,133 @@ const ResetPassword = (): ReactElement => {
                         <div className="resetpage--wrapper">
                             <div className="resetpage--form-header">
                                 <h1>Reset Password</h1>
-                                <p>
-                                    <span>Type in your new password below</span>
-                                </p>
+                                {!isSuccess && !(isCustomError(error) && error.data.action === "redirectReset") && 
+                                    <p>
+                                        <span>Type in your new password below</span>
+                                    </p>
+                                }
                             </div>
         
-                            <div className="resetpage--form-wrapper">
-                                <form
-                                    className="resetpage--form"
-                                    method="post"
-                                >
-                                    <div className="resetpage--input-wrapper password">
-                                        <label htmlFor="reset-password">
-                                            New Password
-                                        </label>
-                                        <div className="divider-1" />
-                                        <div className="flex">
-                                            <input
-                                                id="reset-password"
-                                                type={isPasswordVisible ? "text" : "password"}
-                                                value={password}
-                                                onChange={onPasswordChange}
-                                                autoComplete="off"
-                                            />
-                                            <button
-                                                className="password-toggle button"
-                                                type="button"
-                                                onClick={onShowHidePasswordClicked}
-                                            >
-                                                {isPasswordVisible ? "Hide" : "Show"}
-                                            </button>
-                                        </div>
-                                    </div>
-        
-                                    <div className="divider-4" />
+                            {(isCustomError(error) && error.data.action === "redirectReset") ? (
+                                    <>
+                                        <div className="divider-4" />
 
-                                    <div className="resetpage--input-wrapper confirm">
-                                        <label htmlFor="reset-confirm">
-                                            Confirm
-                                        </label>
-                                        <div className="divider-1" />
-                                        <div className="flex">
-                                            <input
-                                                id="reset-confirm"
-                                                type={isConfirmVisible ? "text" : "password"}
-                                                value={confirm}
-                                                onChange={onConfirmChange}
-                                                autoComplete="off"
-                                            />
-                                            <button
-                                                className="password-toggle button"
-                                                type="button"
-                                                onClick={onShowHideConfirmClicked}
-                                            >
-                                                {isConfirmVisible ? "Hide" : "Show"}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className="divider-4" />
-        
-                                    {isSuccess && (
-                                        <div className="sm-alert succmsg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            <span>{responseMsg}</span>
-                                        </div>
-                                    )}
-        
-                                    {isError && (
                                         <div className="sm-alert errmsg">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             <span>{responseMsg}</span>
                                         </div>
-                                    )}
 
-                                    <div className="divider-4" />
+                                        <div className="divider-4" />
 
-                                    {isCustomError(error) && error.data.action === "redirectReset" && (
-                                        <>
-                                            <div className="resetpage--form-header">
-                                                <p>
-                                                    <span>Send a new token by email - <Link to="/reset">Here</Link></span>
-                                                </p>
+                                        <div className="resetpage--form-header">
+                                            <p>
+                                                <span>Send a new token by email - <Link to="/reset">Here</Link></span>
+                                            </p>
+                                        </div>
+                                    </>
+                                ) : isSuccess ? (
+                                    <>
+                                        <div className="divider-4" />
+
+                                        <div className="sm-alert succmsg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <span>{responseMsg}</span>
+                                        </div>
+
+                                        <div className="divider-4" />
+
+                                        <div className="resetpage--form-header">
+                                            <p>
+                                                <span>Proceed to <Link to="/login">login</Link></span>
+                                            </p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="resetpage--form-wrapper">
+                                        <form
+                                            className="resetpage--form"
+                                            method="post"
+                                        >
+                                            <div className="resetpage--input-wrapper password">
+                                                <label htmlFor="reset-password">
+                                                    New Password
+                                                </label>
+                                                <div className="divider-1" />
+                                                <div className="flex">
+                                                    <input
+                                                        id="reset-password"
+                                                        type={isPasswordVisible ? "text" : "password"}
+                                                        value={password}
+                                                        onChange={onPasswordChange}
+                                                        autoComplete="off"
+                                                    />
+                                                    <button
+                                                        className="password-toggle button"
+                                                        type="button"
+                                                        onClick={onShowHidePasswordClicked}
+                                                    >
+                                                        {isPasswordVisible ? "Hide" : "Show"}
+                                                    </button>
+                                                </div>
+                                            </div>
+                
+                                            <div className="divider-4" />
+
+                                            <div className="resetpage--input-wrapper confirm">
+                                                <label htmlFor="reset-confirm">
+                                                    Confirm
+                                                </label>
+                                                <div className="divider-1" />
+                                                <div className="flex">
+                                                    <input
+                                                        id="reset-confirm"
+                                                        type={isConfirmVisible ? "text" : "password"}
+                                                        value={confirm}
+                                                        onChange={onConfirmChange}
+                                                        autoComplete="off"
+                                                    />
+                                                    <button
+                                                        className="password-toggle button"
+                                                        type="button"
+                                                        onClick={onShowHideConfirmClicked}
+                                                    >
+                                                        {isConfirmVisible ? "Hide" : "Show"}
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div className="divider-4" />
-                                        </>
-                                    )}
+                
+                                            {isError && (
+                                                <div className="sm-alert errmsg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                    <span>{responseMsg}</span>
+                                                </div>
+                                            )}
 
-                                    {isSuccess && 
-                                        <>
-                                            <div className="resetpage--form-header">
-                                                <p>
-                                                    <span>go to <Link to="/login">login</Link></span>
-                                                </p>
-                                            </div>
-                                        </>
-                                    }
-
-                                     
-                                    <button
-                                        className="action-btn full"
-                                        type="submit"
-                                        onClick={onSubmitClicked}
-                                        disabled={isLoading ? true : false}
-                                    >
-                                        {!isLoading ? "Submit" :
-                                            <ClipLoader
-                                                color={"rgb(231, 214, 182)"}
-                                                loading={isLoading}
-                                                size={20}
-                                                aria-label="Loading Spinner"
-                                                data-testid="loader"
-                                            />
-                                        }
-                                    </button>
-                                    
-                                </form>
-                            </div>              
+                                            <div className="divider-4" />
+                                            
+                                            <button
+                                                className="action-btn full"
+                                                type="submit"
+                                                onClick={onSubmitClicked}
+                                                disabled={isLoading ? true : false}
+                                            >
+                                                {!isLoading ? "Submit" :
+                                                    <ClipLoader
+                                                        color={"rgb(231, 214, 182)"}
+                                                        loading={isLoading}
+                                                        size={20}
+                                                        aria-label="Loading Spinner"
+                                                        data-testid="loader"
+                                                    />
+                                                }
+                                            </button>
+                                            
+                                        </form>
+                                    </div>
+                                )
+                            }       
                         </div>
                     </div>
                 </main>
