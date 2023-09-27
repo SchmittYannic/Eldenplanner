@@ -126,19 +126,17 @@
             overflow: hidden;
     
             p {
+                padding: v.$OptionPadding;
                 user-select: none;
             }
         }
     
         li:not(.focused-option) p:not(.selected-option) {
-            line-height: 1.5;
-            padding: v.$OptionPadding;
             background-color: v.$default-option-background-color;
             color: v.$default-option-font-color;
         }
     
         .focused-option p:not(.selected-option) {
-            padding: v.$OptionPadding;
             background-color: #666666;
             color: v.$default-option-font-color;
         }
@@ -152,7 +150,6 @@
         }
     
         .selected-option {
-            padding: v.$OptionPadding;
             background-color: #544320;
             color:#ffba27;
         }
