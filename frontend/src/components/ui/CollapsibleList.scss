@@ -5,9 +5,8 @@
     padding-right: v.$FormPaddingRight;
 
     .CollButton {
-        margin-top: .5em;
         width: 100%;
-        padding: calc(.5em + 5px);
+        padding: 1.25rem 1.5rem;
         background-color: v.$default-option-background-color;
         color: v.$default-font-color;
         font-size: v.$font-size-normal;
@@ -44,15 +43,15 @@
     }
 
     .CollContent {
-        padding: 0 18px;
+        padding: 0 1.5rem;
         border-bottom-left-radius: .5em;
         border-bottom-right-radius: .5em;
         transition: max-height 0.2s ease-out;
         background-color: v.$default-option-background-color;
 
         li {  
-            margin-left: .5em;
-            padding: calc((.5em + 5px)/2);
+            margin-left: 1rem;
+            padding: .75rem 0;
             font-size: v.$font-size-normal;
         }
     }
