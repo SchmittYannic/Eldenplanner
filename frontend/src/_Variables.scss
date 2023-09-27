@@ -104,3 +104,12 @@ $default-focus-button-background-color: hsla($accent2);
         opacity: 0;
     }
 }
+
+@keyframes border_left_to_right_anim {
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 100%;
+    }
+}
