@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdLogout, MdMenu } from "react-icons/md";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
 import useAuth from "../hooks/useAuth";
@@ -51,52 +51,54 @@ const Header = (): ReactElement => {
                             ) : (
                                 <ul>
                                     <li>
-                                        <Link className="nav-link" to="/charplanner">
-                                            Charplanner
-                                        </Link>
+                                        <NavLink className="nav-link" to="/charplanner">
+                                            <p>Charplanner</p>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <Link className="nav-link" to="/builds">
-                                            Community Builds
-                                        </Link>
+                                        <NavLink className="nav-link" to="/builds">
+                                            <p>Community Builds</p>
+                                        </NavLink>
                                     </li>
                                     {(isAdmin || isDemoadmin) && (
                                         <li>
-                                            <Link className="nav-link" to="/users">
-                                                Users
-                                            </Link>
+                                            <NavLink className="nav-link" to="/users">
+                                                <p>Users</p>
+                                            </NavLink>
                                         </li>
                                     )}
                                     {status === "Visitor" && (
                                         <li>
-                                            <Link className="nav-link" to="/login">
-                                                Login
-                                            </Link>
+                                            <NavLink className="nav-link" to="/login">
+                                                <p>Login</p>
+                                            </NavLink>
                                         </li>
                                     )}
                                     {status === "Visitor" && (
                                         <li>
-                                            <Link className="nav-link" to="/signup">
-                                                Sign Up
-                                            </Link>
+                                            <NavLink className="nav-link" to="/signup">
+                                                <p>Sign Up</p>
+                                            </NavLink>
                                         </li>
                                     )}
                                     {(isUser || isDemoadmin || isAdmin) && (
                                         <li>
-                                            <Link className="nav-link" to={`/user/${userId}`}>
-                                                Your Profile
-                                            </Link>
+                                            <NavLink className="nav-link" to={`/user/${userId}`}>
+                                                <p>Your Profile</p>
+                                            </NavLink>
                                         </li>
                                     )}
                                     {status !== "Visitor" && (
                                         <li>
                                             <button
-                                                className="nav-link"
+                                                className="nav-link logout"
                                                 type="button"
                                                 onClick={sendLogout}
                                             >
-                                                <div>Logout</div>
-                                                <MdLogout />
+                                                <p>
+                                                    Logout
+                                                    <MdLogout />
+                                                </p>
                                             </button>
                                         </li>
                                     )}
