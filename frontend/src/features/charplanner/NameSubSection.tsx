@@ -66,6 +66,9 @@ const NameSubSection = (): ReactElement => {
                     setChecked={setGreatruneactive}
                 />
             </div>
+
+            <div className="divider-2" />
+
         </div>
     )
 }
