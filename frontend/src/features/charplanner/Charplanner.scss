@@ -37,14 +37,13 @@
 
 .NameSubSection .Row {
     display: flex;
+    align-items: end;
 
     .customselect {
         flex-grow: 1;
     }
 
     .checkbox {
-        padding-top: v.$FormPaddingTop;
-        padding-bottom: v.$FormPaddingBottom;
         padding-right: v.$FormPaddingRight;
     }
 }
