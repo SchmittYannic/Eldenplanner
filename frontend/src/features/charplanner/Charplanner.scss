@@ -120,12 +120,20 @@
             color: inherit;
             font-family: inherit;
             font-size: inherit;
-            background-color: inherit;
+            background-color: hsl(v.$background);
             width: 50px;
             border-color: v.$default-focus-label-font-color;
             border-radius: 5px;
             padding: .2em;
             outline: none;
+
+            &:hover {
+                background-color: hsl(v.$foreground);
+            }
+
+            &:focus {
+                border-color: orange;
+            }
         }
     
         span:not(:first-of-type) {
@@ -142,12 +150,30 @@
             align-items: center;
             background-color: inherit;
             border: none;
-            color: v.$default-font-color;
+            border-radius: 50%;
+            color: hsl(v.$muted-foreground);
             transform: scale(2);
+
+            &:not(:disabled):hover {
+                color: hsl(v.$accent-foreground);
+            }
     
             &:focus {
-                background-color: v.$default-focus-button-background-color;
-                border-radius: 50%;
+                background-color: hsl(v.$foreground);
+            }
+
+            &:not(:disabled):active {
+                svg {
+                    transition-property: transform;
+                    transition-timing-function: cubic-bezier(.4,0,.2,1);
+                    transition: transform .05s;
+                    transform: scale(.75);
+                }
+            }
+        
+            &:disabled {
+                cursor: default;
+                opacity: .5;
             }
         }
     }
