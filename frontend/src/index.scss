@@ -364,7 +364,29 @@ textarea {
         transition: color .15s;
         gap: .5rem;
 
-        &:hover {
+        p {
+            position: relative;
+        }
+
+        &.logout p{
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        &:hover p:before,
+        &:focus p:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            border: solid 1px hsl(v.$accent-foreground);
+            border-radius: v.$border-radius;
+            animation: border_left_to_right_anim .3s linear forwards;
+        }
+
+        &.active {
             color: hsl(v.$accent-foreground);
         }
     }
