@@ -23,7 +23,7 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
     const onDeleteClick = () => setIsDeleteTriggered(true);
 
     return (
-        <section className="Charplanner__actionscontainer">
+        <section className="charplanner__actionscontainer">
             {isBuildAuthor && (
                 <button
                     className="charplanner__delete button"
@@ -42,7 +42,7 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
                 className="Charplanner__Save action-btn"
                 type="button"
                 onClick={onSaveClicked}
-                title={status === "Visitor" ? "Requires Login" : "Save Build"}
+                title={status === "Visitor" ? "Requires Login" : isBuildAuthor ? "Update Build" : "Save Build"}
                 disabled={status === "Visitor"}
             >
                 {isBuildAuthor ? "Update" : "Save"}

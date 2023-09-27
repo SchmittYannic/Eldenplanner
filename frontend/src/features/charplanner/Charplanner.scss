@@ -273,11 +273,19 @@
 
 /* Charplanner__actionscontainer */
 
-.Charplanner__actionscontainer {
+.charplanner__actionscontainer {
     width: 100%;
+    padding: 2.5rem 0;
     grid-column-start: 1;
     grid-column-end: 4;
     display: flex;
+    gap: 1rem;
     justify-content: end;
     align-items: center;
+
+    .action-btn,
+    .button {
+        padding: 1.5rem 1.5rem;
+        font-size: 1.25rem;
+    }
 }
