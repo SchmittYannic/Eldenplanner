@@ -151,12 +151,14 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
             <span>{typeof totalStat === "number" && totalStat}</span>
             <span>
                 <button
+                    type="button"
                     onClick={(e) => handleArrowButton(e, -1)}
                     onKeyDown={(e) => handleArrowButton(e, -1)}
                 >
                     <MdExpandMore />
                 </button>
                 <button
+                    type="button"
                     onClick={(e) => handleArrowButton(e, 1)}
                     onKeyDown={(e) => handleArrowButton(e, 1)}
                 >
