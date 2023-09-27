@@ -68,13 +68,17 @@ const login = async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "15m" }
+        { 
+            expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+        }
     );
 
     const refreshToken = jwt.sign(
         { "username": foundUser.username },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "7d" }
+        {
+            expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+        }
     );
 
     // Create secure cookie with refresh token 
@@ -82,7 +86,7 @@ const login = async (req, res) => {
         httpOnly: true, //accessible only by web server 
         secure: true, //https
         sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
-        maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+        maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
     });
 
     // Send accessToken containing username and roles 
@@ -118,7 +122,9 @@ const refresh = (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "15m" }
+                { 
+                    expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m" 
+                }
             );
 
             res.json({ accessToken });
