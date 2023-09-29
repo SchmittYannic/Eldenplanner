@@ -1,6 +1,6 @@
 import { ReactElement, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { Alert } from "../../components/ui";
+import { Dialog, DialogButtons, DialogContent } from "../../components/ui";
 import { useDeleteBuildMutation } from "./charplannerApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -41,9 +41,19 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
     const isDELETE = inputValue === "DELETE";
 
     return (
-        <Alert classes="alert--deletebuild" setAlert={setTrigger}>
-            <div className="alert--content">
-                <h4>Confirm Deletion</h4>
+        <Dialog className="dialog__deletebuild" setAlert={setTrigger}>
+            <DialogContent dialogtype="warning">
+                <h3>Confirm Build Deletion</h3>
+
+                <div className="divider-4" />
+   
+                <p>
+                    Are you sure you want to delete this build?
+                    Deleted builds are unrecoverable and lost forever.
+                </p> 
+
+                <div className="divider-4" />
+
                 <div className="input-wrapper">
                     <label htmlFor="confirmdeletion">
                         To Confirm, type DELETE in the field below
@@ -60,31 +70,50 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                     />
                 </div>
 
-                {isError && (
-                    <div className="sm-alert errmsg">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>{responseMsg}</span>
-                    </div>
-                )}
-
+                {isError ? (
+                    <>
+                        <div className="divider-4" />
+                        <div className="sm-alert errmsg full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>{responseMsg}</span>
+                        </div>
+                    </>
+                ) : (<></>)}
+            </DialogContent>
+            <DialogButtons>
                 <button
                     className="action-btn"
                     type="submit"
                     onClick={onConfirmDeletionClicked}
                     disabled={!isDELETE}
+                    title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}
                 >
-                    {!isLoading ? "Confirm Deletion" :
-                        <ClipLoader
-                            color={"rgb(231, 214, 182)"}
-                            loading={isLoading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
+                    <p className={isLoading ? "hidden" : "visible"}>
+                        Delete
+                    </p>
+                    {isLoading &&
+                        <div className="cliploader-centered">
+                            <ClipLoader
+                                color={"rgb(231, 214, 182)"}
+                                loading={isLoading}
+                                size={20}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
                     }
                 </button>
-            </div>
-        </Alert>
+
+                <button
+                    className="button"
+                    type="button"
+                    onClick={() => setTrigger(false)}
+                    title="Cancel Deletion"
+                >
+                    Cancel
+                </button>
+            </DialogButtons>
+        </Dialog>
     )
 }
 
