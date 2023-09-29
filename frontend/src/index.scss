@@ -123,6 +123,14 @@ textarea {
     border-width: 0;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
 .full {
     width: 100%;
 }
@@ -149,6 +157,18 @@ textarea {
     background: linear-gradient(transparent, hsl(v.$border-color) 15%, hsl(v.$border-color) 85%, transparent);
 }
 
+.v-divider-1 {
+    width: 0.25rem;
+}
+
+.v-divider-2 {
+    width: 0.5rem;
+}
+
+.v-divider-4 {
+    width: 1rem;
+}
+
 .divider-1 {
     height: 0.25rem;
 }
@@ -163,9 +183,9 @@ textarea {
 
 .sm-alert {
     /* inspired by: https://daisyui.com/components/alert/ */
-    margin: 0 auto;
+    //margin: 0 auto;
     padding: v.$input-padding;
-    width: fit-content;
+    //width: fit-content;
     border-width: 1px;
     border-radius: calc(v.$border-radius - 2px);
 
@@ -460,12 +480,6 @@ td {
     display: grid;
 }
 
-// .table__thead {
-//     position: sticky;
-//     top: 0;
-//     z-index: 1;
-// }
-
 .table__cell a {
     color: hsl(v.$accent-foreground);
     text-decoration: none;
@@ -679,6 +693,15 @@ td {
         cursor: default;
         opacity: .5;
     }
+}
+
+.cliploader-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
 }
 
 
