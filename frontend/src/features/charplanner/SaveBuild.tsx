@@ -95,6 +95,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     <label htmlFor="buildtitle">
                         Build Title:
                     </label>
+                    <div className="divider-1" />
                     <input
                         name="buildtitle"
                         id="buildtitle"
@@ -121,6 +122,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     className="action-btn"
                     type="submit"
                     onClick={onSaveBuildClicked}
+                    title={buttonText + " Build"}
                 >
                     <p className={(isSaveLoading || isUpdateLoading) ? "hidden" : "visible"}>{buttonText}</p>
                     {((isSaveLoading || isUpdateLoading) && 
@@ -140,6 +142,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     className="button"
                     type="button"
                     onClick={() => setTrigger(false)}
+                    title={"Cancel " + buttonText}
                 >
                     Cancel
                 </button>
