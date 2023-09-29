@@ -5,7 +5,7 @@ import Alert from "./Alert";
 import CollapsibleList from "./CollapsibleList";
 import DebouncedInput from "./DebouncedInput";
 import MultiSelect from "./MultiSelect";
-import { Dialog, DialogButtons, DialogContent } from "./Dialog";
+import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "./Dialog";
 
 export {
     Checkbox,
@@ -18,4 +18,6 @@ export {
     Dialog,
     DialogButtons,
     DialogContent,
+    DialogMain,
+    DialogIcon,
 }
