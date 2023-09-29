@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
 import { selectCharplannerData } from "./charplannerSlice";
-import { Alert } from "../../components/ui";
+import { Dialog, DialogButtons, DialogContent } from "../../components/ui";
 import useAuth from "../../hooks/useAuth";
 import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
 import { RootState } from "../../app/store";
@@ -79,45 +79,72 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     }, [isSaveSuccess, isUpdateSuccess]);
 
     return (
-        <Alert classes="alert--savebuild" setAlert={setTrigger}>
-            <div className="alert--content">
-                <label htmlFor="buildtitle">
-                    Build Title:
-                </label>
-                <textarea
-                    name="buildtitle"
-                    id="buildtitle"
-                    cols={30}
-                    rows={5}
-                    maxLength={50}
-                    value={textareaInput}
-                    onChange={(e) => setTextareaInput(e.target.value)}
-                />
+        <Dialog className="dialog__savebuild" setAlert={setTrigger}>
+            <DialogContent dialogtype="save">
+                <h3>Save Build</h3>
 
-                {(isUpdateError || isSaveError) && (
-                    <div className="sm-alert errmsg">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>{responseMsg}</span>
-                    </div>
-                )}
+                <div className="divider-4" />
+   
+                <p>
+                    Give your build a fitting title, so other users can find your build under the Community Builds Tab.
+                </p>         
 
+                <div className="divider-4" />
+
+                <div className="input-wrapper">
+                    <label htmlFor="buildtitle">
+                        Build Title:
+                    </label>
+                    <input
+                        name="buildtitle"
+                        id="buildtitle"
+                        type="text"
+                        maxLength={50}
+                        value={textareaInput}
+                        onChange={(e) => setTextareaInput(e.target.value)}
+                    />
+                </div>
+
+                {(isUpdateError || isSaveError) ? (
+                    <>
+                        <div className="divider-4" />
+                        <div className="sm-alert errmsg full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>{responseMsg}</span>
+                        </div>
+                    </>
+                ) : (<></>)}
+
+            </DialogContent>
+            <DialogButtons>
                 <button
                     className="action-btn"
                     type="submit"
                     onClick={onSaveBuildClicked}
                 >
-                    {(!isSaveLoading && !isUpdateLoading) ? buttonText :
-                        <ClipLoader
-                            color={"rgb(231, 214, 182)"}
-                            loading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-                    }
+                    <p className={(isSaveLoading || isUpdateLoading) ? "hidden" : "visible"}>{buttonText}</p>
+                    {((isSaveLoading || isUpdateLoading) && 
+                        <div className="cliploader-centered">
+                            <ClipLoader
+                                color={"rgb(231, 214, 182)"}
+                                loading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
+                                size={20}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
+                    )}
                 </button>
-            </div>
-        </Alert>
+
+                <button
+                    className="button"
+                    type="button"
+                    onClick={() => setTrigger(false)}
+                >
+                    Cancel
+                </button>
+            </DialogButtons>
+        </Dialog>
     )
 }
 
