@@ -41,7 +41,7 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
     const isDELETE = inputValue === "DELETE";
 
     return (
-        <Dialog className="dialog__deletebuild" setAlert={setTrigger}>
+        <Dialog className="dialog__deletebuild" setDialog={setTrigger}>
             <DialogContent dialogtype="warning">
                 <h3>Confirm Build Deletion</h3>
 

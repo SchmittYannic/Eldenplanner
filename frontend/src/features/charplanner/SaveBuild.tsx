@@ -79,7 +79,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     }, [isSaveSuccess, isUpdateSuccess]);
 
     return (
-        <Dialog className="dialog__savebuild" setAlert={setTrigger}>
+        <Dialog className="dialog__savebuild" setDialog={setTrigger}>
             <DialogContent dialogtype="save">
                 <h3>Save Build</h3>
 

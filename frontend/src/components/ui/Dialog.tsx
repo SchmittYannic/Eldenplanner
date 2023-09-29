@@ -44,12 +44,12 @@ const DialogButtons = ({ children }: DialogButtonsPropsType ): ReactElement => {
 };
 
 type DialogPropsType = {
-    setAlert: React.Dispatch<React.SetStateAction<boolean>>,
+    setDialog: React.Dispatch<React.SetStateAction<boolean>>,
     className?: string,
     children: ReactElement[] | ReactElement,
 };
 
-const Dialog = ({ setAlert, className, children }: DialogPropsType ): ReactElement => {
+const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElement => {
 
     return (
         <div className={`dialog__background ${className}`}>
@@ -61,8 +61,8 @@ const Dialog = ({ setAlert, className, children }: DialogPropsType ): ReactEleme
                     <button 
                         className="close-dialog" 
                         tabIndex={0}
-                        onClick={() => setAlert(false)}
-                        onKeyDown={(e) => e.key === "Enter" ? setAlert(false) : null}
+                        onClick={() => setDialog(false)}
+                        onKeyDown={(e) => e.key === "Enter" ? setDialog(false) : null}
                         title="Close Dialog"
                     >
                         <MdClose />
