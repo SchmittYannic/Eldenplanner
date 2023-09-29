@@ -2,9 +2,10 @@ import { ReactElement, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
+import { MdSave } from "react-icons/md";
 import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
 import { selectCharplannerData } from "./charplannerSlice";
-import { Dialog, DialogButtons, DialogContent } from "../../components/ui";
+import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 import useAuth from "../../hooks/useAuth";
 import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
 import { RootState } from "../../app/store";
@@ -80,43 +81,48 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     return (
         <Dialog className="dialog__savebuild" setDialog={setTrigger}>
-            <DialogContent dialogtype="save">
-                <h3>Save Build</h3>
+            <DialogMain>
+                <DialogIcon>
+                    <MdSave />
+                </DialogIcon>
+                <DialogContent>
+                    <h3>Save Build</h3>
 
-                <div className="divider-4" />
-   
-                <p>
-                    Give your build a fitting title, so other users can find your build under the Community Builds Tab.
-                </p>         
+                    <div className="divider-4" />
+    
+                    <p>
+                        Give your build a fitting title, so other users can find your build under the Community Builds Tab.
+                    </p>         
 
-                <div className="divider-4" />
+                    <div className="divider-4" />
 
-                <div className="input-wrapper">
-                    <label htmlFor="buildtitle">
-                        Build Title:
-                    </label>
-                    <div className="divider-1" />
-                    <input
-                        name="buildtitle"
-                        id="buildtitle"
-                        type="text"
-                        maxLength={50}
-                        value={textareaInput}
-                        onChange={(e) => setTextareaInput(e.target.value)}
-                    />
-                </div>
+                    <div className="input-wrapper">
+                        <label htmlFor="buildtitle">
+                            Build Title:
+                        </label>
+                        <div className="divider-1" />
+                        <input
+                            name="buildtitle"
+                            id="buildtitle"
+                            type="text"
+                            maxLength={50}
+                            value={textareaInput}
+                            onChange={(e) => setTextareaInput(e.target.value)}
+                        />
+                    </div>
 
-                {(isUpdateError || isSaveError) ? (
-                    <>
-                        <div className="divider-4" />
-                        <div className="sm-alert errmsg full">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>{responseMsg}</span>
-                        </div>
-                    </>
-                ) : (<></>)}
+                    {(isUpdateError || isSaveError) ? (
+                        <>
+                            <div className="divider-4" />
+                            <div className="sm-alert errmsg full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>{responseMsg}</span>
+                            </div>
+                        </>
+                    ) : (<></>)}
 
-            </DialogContent>
+                </DialogContent>
+            </DialogMain>
             <DialogButtons>
                 <button
                     className="button"

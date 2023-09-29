@@ -1,6 +1,7 @@
 import { ReactElement, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { Dialog, DialogButtons, DialogContent } from "../../components/ui";
+import { MdWarningAmber } from "react-icons/md";
+import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 import { useDeleteBuildMutation } from "./charplannerApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -42,44 +43,49 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     return (
         <Dialog className="dialog__deletebuild" setDialog={setTrigger}>
-            <DialogContent dialogtype="warning">
-                <h3>Confirm Build Deletion</h3>
+            <DialogMain>
+                <DialogIcon>
+                    <MdWarningAmber />
+                </DialogIcon>
+                <DialogContent>
+                    <h3>Confirm Build Deletion</h3>
 
-                <div className="divider-4" />
-   
-                <p>
-                    Are you sure you want to delete this build?
-                    Deleted builds are unrecoverable and lost forever.
-                </p> 
+                    <div className="divider-4" />
+    
+                    <p>
+                        Are you sure you want to delete this build?
+                        Deleted builds are unrecoverable and lost forever.
+                    </p> 
 
-                <div className="divider-4" />
+                    <div className="divider-4" />
 
-                <div className="input-wrapper">
-                    <label htmlFor="confirmdeletion">
-                        To Confirm, type DELETE in the field below
-                    </label>
-                    <div className="divider-1" />
-                    <input
-                        id="confirmdeletion"
-                        name="confirmdeletion"
-                        type="text"
-                        maxLength={30}
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        autoComplete="off"
-                    />
-                </div>
+                    <div className="input-wrapper">
+                        <label htmlFor="confirmdeletion">
+                            To Confirm, type DELETE in the field below
+                        </label>
+                        <div className="divider-1" />
+                        <input
+                            id="confirmdeletion"
+                            name="confirmdeletion"
+                            type="text"
+                            maxLength={30}
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            autoComplete="off"
+                        />
+                    </div>
 
-                {isError ? (
-                    <>
-                        <div className="divider-4" />
-                        <div className="sm-alert errmsg full">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>{responseMsg}</span>
-                        </div>
-                    </>
-                ) : (<></>)}
-            </DialogContent>
+                    {isError ? (
+                        <>
+                            <div className="divider-4" />
+                            <div className="sm-alert errmsg full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>{responseMsg}</span>
+                            </div>
+                        </>
+                    ) : (<></>)}
+                </DialogContent>
+            </DialogMain>
             <DialogButtons>
                 <button
                     className="button"
