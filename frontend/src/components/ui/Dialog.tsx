@@ -16,6 +16,7 @@ const DialogContent = ({ children, dialogtype="" }: DialogContentPropsType ): Re
                         <MdSave />
                     </div>
                     <div className="v-divider-4" />
+                    <div className="v-divider-4" />
                 </>
             ) : (<></>)}
             <div className="dialog__content">
