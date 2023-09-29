@@ -36,6 +36,10 @@
                 width: 24px;
                 height: 24px;
                 color: hsl(v.$muted-foreground);
+
+                &:hover {
+                    color: hsl(v.$accent-foreground);
+                }
             }
         }
     }
@@ -56,7 +60,7 @@
 
     .dialog__button-wrapper {
         display: flex;
-        flex-direction: row-reverse;
+        justify-content: end;
         margin-top: 1rem;
         gap: .75rem;
     }
