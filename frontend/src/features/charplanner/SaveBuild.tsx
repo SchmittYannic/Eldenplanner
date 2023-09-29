@@ -119,6 +119,15 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
             </DialogContent>
             <DialogButtons>
                 <button
+                    className="button"
+                    type="button"
+                    onClick={() => setTrigger(false)}
+                    title={"Cancel " + buttonText}
+                >
+                    Cancel
+                </button>
+
+                <button
                     className="action-btn"
                     type="submit"
                     onClick={onSaveBuildClicked}
@@ -136,15 +145,6 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                             />
                         </div>
                     )}
-                </button>
-
-                <button
-                    className="button"
-                    type="button"
-                    onClick={() => setTrigger(false)}
-                    title={"Cancel " + buttonText}
-                >
-                    Cancel
                 </button>
             </DialogButtons>
         </Dialog>

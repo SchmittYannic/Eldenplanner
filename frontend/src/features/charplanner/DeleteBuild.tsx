@@ -82,6 +82,15 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
             </DialogContent>
             <DialogButtons>
                 <button
+                    className="button"
+                    type="button"
+                    onClick={() => setTrigger(false)}
+                    title="Cancel Deletion"
+                >
+                    Cancel
+                </button>
+
+                <button
                     className="action-btn"
                     type="submit"
                     onClick={onConfirmDeletionClicked}
@@ -102,15 +111,6 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                             />
                         </div>
                     }
-                </button>
-
-                <button
-                    className="button"
-                    type="button"
-                    onClick={() => setTrigger(false)}
-                    title="Cancel Deletion"
-                >
-                    Cancel
                 </button>
             </DialogButtons>
         </Dialog>
