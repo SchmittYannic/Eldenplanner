@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { MdClose, MdSave } from "react-icons/md";
+import { MdClose, MdSave, MdWarningAmber } from "react-icons/md";
 import "./Dialog.scss";
 
 type DialogContentPropsType = {
@@ -8,17 +8,22 @@ type DialogContentPropsType = {
 };
 
 const DialogContent = ({ children, dialogtype="" }: DialogContentPropsType ): ReactElement => {
+
+    const icon = dialogtype === "save" ? <MdSave /> 
+        : dialogtype === "warning" ? <MdWarningAmber />
+        : null;
+
     return (
         <div className="dialog__main">
-            {dialogtype === "save" ? (
+            {dialogtype &&
                 <>
                     <div className="dialog__image">
-                        <MdSave />
+                        {icon}
                     </div>
                     <div className="v-divider-4" />
                     <div className="v-divider-4" />
                 </>
-            ) : (<></>)}
+            }
             <div className="dialog__content">
                 { children }
             </div>
@@ -58,6 +63,7 @@ const Dialog = ({ setAlert, className, children }: DialogPropsType ): ReactEleme
                         tabIndex={0}
                         onClick={() => setAlert(false)}
                         onKeyDown={(e) => e.key === "Enter" ? setAlert(false) : null}
+                        title="Close Dialog"
                     >
                         <MdClose />
                     </button>
