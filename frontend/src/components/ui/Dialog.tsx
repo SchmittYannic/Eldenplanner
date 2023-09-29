@@ -1,32 +1,31 @@
 import { ReactElement } from "react";
-import { MdClose, MdSave, MdWarningAmber } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import "./Dialog.scss";
+
+type DialogIconPropsType = {
+    children: ReactElement[] | ReactElement,
+};
+
+const DialogIcon = ({ children }: DialogIconPropsType): ReactElement => {
+    return (
+        <>
+            <div className="dialog__image">
+                { children }
+            </div>
+            <div className="v-divider-4" />
+            <div className="v-divider-4" />
+        </>
+    )
+}
 
 type DialogContentPropsType = {
     children: ReactElement[] | ReactElement,
-    dialogtype?: string,
 };
 
-const DialogContent = ({ children, dialogtype="" }: DialogContentPropsType ): ReactElement => {
-
-    const icon = dialogtype === "save" ? <MdSave /> 
-        : dialogtype === "warning" ? <MdWarningAmber />
-        : null;
-
+const DialogContent = ({ children }: DialogContentPropsType ): ReactElement => {
     return (
-        <div className="dialog__main">
-            {dialogtype &&
-                <>
-                    <div className="dialog__image">
-                        {icon}
-                    </div>
-                    <div className="v-divider-4" />
-                    <div className="v-divider-4" />
-                </>
-            }
-            <div className="dialog__content">
-                { children }
-            </div>
+        <div className="dialog__content">
+            { children }
         </div>
     )
 };
@@ -38,6 +37,18 @@ type DialogButtonsPropsType = {
 const DialogButtons = ({ children }: DialogButtonsPropsType ): ReactElement => {
     return (
         <div className="dialog__button-wrapper">
+            { children }
+        </div>
+    )
+};
+
+type DialogMainPropsType = {
+    children: ReactElement[] | ReactElement,
+};
+
+const DialogMain = ({ children }: DialogMainPropsType ): ReactElement => {
+    return (
+        <div className="dialog__main">
             { children }
         </div>
     )
@@ -78,6 +89,8 @@ const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElem
 
 export {
     Dialog,
+    DialogMain,
     DialogButtons,
-    DialogContent
+    DialogContent,
+    DialogIcon,
 };

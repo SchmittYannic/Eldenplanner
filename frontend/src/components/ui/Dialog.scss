@@ -1,5 +1,7 @@
 @use "../../Variables" as v;
 
+/* general dialog styling */
+
 .dialog__background {
     position: absolute;
     inset: 0 0 0 0;
@@ -47,8 +49,9 @@
     .dialog__main {
         display: flex;
         align-items: flex-start;
-
+            
         .dialog__image svg {
+            display: block;
             width: 40px;
             height: 40px;
         }
@@ -64,4 +67,10 @@
         margin-top: 1rem;
         gap: .75rem;
     }
+}
+
+/* custom dialog styling */
+
+.dialog__deletebuild .dialog__image svg {
+    color: hsl(v.$err-background-color);   
 }
