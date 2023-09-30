@@ -10,11 +10,12 @@ const checkNewUserData = async (req, res, next) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,19}$/;
+    /* only Usernames with a length between 4 and 20 are valid*/
+    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{3,19}$/;
     const isValidUsername = validUsernameRegex.test(username);
 
     if (!isValidUsername) {
-        return res.status(400).json({ message: "Invalid username received" });
+        return res.status(400).json({ message: "Invalid username received", action: "showRequirements" });
     }
 
     /* Check for duplicate */
