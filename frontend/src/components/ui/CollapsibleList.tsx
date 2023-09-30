@@ -21,7 +21,7 @@ const CollapsibleList = ({ heading, items }: PropsType): ReactElement => {
             >
                 {heading}
             </button>
-            {active &&
+            {active && items.length !== 0 &&
                 <div className="CollContent">
                     <ul>
                         {items.map((item, idx) =>
