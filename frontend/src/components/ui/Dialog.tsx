@@ -56,7 +56,7 @@ const DialogMain = ({ children }: DialogMainPropsType ): ReactElement => {
 };
 
 type DialogPropsType = {
-    setDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    setDialog: Function,
     className?: string,
     children: ReactElement[] | ReactElement,
 };
