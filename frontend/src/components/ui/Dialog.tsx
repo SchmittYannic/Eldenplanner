@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import "./Dialog.scss";
 
@@ -62,11 +62,25 @@ type DialogPropsType = {
 
 const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElement => {
 
+    const ref = useRef<HTMLDivElement | null>(null);
+    const [top, setTop] = useState("");
+
+    useEffect(() => {
+        if (ref.current) {
+            setTop((window.innerHeight * .5).toString() + "px");
+            ref.current.scrollIntoView({
+                block: "center",
+            });
+        }
+    }, []);
+
     return (
         <div className={`dialog__background ${className}`}>
             <div 
                 id="dialog"  
                 tabIndex={0}
+                ref={ref}
+                style={{ top: top }}
             >
                 <div className="dialog__close-wrapper">
                     <button 
