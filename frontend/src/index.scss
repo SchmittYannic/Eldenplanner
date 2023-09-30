@@ -305,7 +305,7 @@ textarea {
     line-height: 1.5;
     background-color: hsl(v.$background);
     border-bottom: 1px solid hsl(v.$border-color);
-    z-index: 99;
+    z-index: 90;
 
     .page-padding {
         min-width: v.$min-page-width;
