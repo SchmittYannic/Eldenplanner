@@ -12,9 +12,9 @@ const CollapsibleList = ({ heading, items }: PropsType): ReactElement => {
     const emptyListStyle = !items.length ? { borderBottomLeftRadius: ".5em", borderBottomRightRadius: ".5em" } : {}
 
     return (
-        <div className="CollapsibleList">
+        <div className="collapsible-list">
             <button 
-                className={active ? "CollButton Active" : "CollButton"}
+                className={active ? "collapsible-list-button active" : "collapsible-list-button"}
                 tabIndex={0}
                 onClick={() => setActive(!active)}
                 style={emptyListStyle}
@@ -22,7 +22,7 @@ const CollapsibleList = ({ heading, items }: PropsType): ReactElement => {
                 {heading}
             </button>
             {active && items.length !== 0 &&
-                <div className="CollContent">
+                <div className="collapsible-list-content">
                     <ul>
                         {items.map((item, idx) =>
                             <li key={idx}>{item}</li>
