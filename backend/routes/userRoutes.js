@@ -18,7 +18,7 @@ const router = express.Router();
 router.route("/")
     .get(getAllUsers)
     .post(checkNewUserData, signupLimiter, createNewUser)
-    .patch(updateUser)
+    .patch(verifyJWT, updateUser)
     .delete(deleteUser);
 
 router.route("/admin")
