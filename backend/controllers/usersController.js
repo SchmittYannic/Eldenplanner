@@ -50,7 +50,7 @@ const updateUser = async (req, res) => {
     }
 
     const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{3,19}$/;
-    const isValidUsername = validUsernameRegex.test(username);
+    const isValidUsername = validUsernameRegex.test(newUsername);
 
     if (!isValidUsername) {
         return res.status(400).json({ message: "Invalid username received", action: "showRequirements" });
