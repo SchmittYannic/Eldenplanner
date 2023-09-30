@@ -71,6 +71,9 @@
 
 /* custom dialog styling */
 
-.dialog__deletebuild .dialog__image svg {
-    color: hsl(v.$err-background-color);   
+.dialog__deletebuild,
+.dialog__deleteuser {
+    .dialog__image svg {
+        color: hsl(v.$err-background-color);   
+    }
 }
