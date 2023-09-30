@@ -259,6 +259,18 @@ textarea {
             cursor: not-allowed;
         }
     }
+
+    .input-password {
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .password-toggle {
+        min-width: 65px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
 
 .input__number {
