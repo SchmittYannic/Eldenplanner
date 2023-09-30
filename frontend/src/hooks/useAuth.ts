@@ -3,20 +3,22 @@ import jwtDecode from "jwt-decode";
 import { selectCurrentToken } from "../features/auth/authSlice";
 
 type UseAuthReturnType = {
-    userId: string;
-    username: string;
-    roles: string[];
-    status: string;
-    isUser: boolean;
-    isDemoadmin: boolean;
-    isAdmin: boolean;
+    userId: string,
+    username: string,
+    email: string,
+    roles: string[],
+    status: string,
+    isUser: boolean,
+    isDemoadmin: boolean,
+    isAdmin: boolean,
 };
 
 type tokenType = {
     UserInfo: {
-        userId: string
-        username: string
-        roles: string[]
+        userId: string,
+        username: string,
+        email: string,
+        roles: string[],
     }
 }
 
@@ -30,7 +32,7 @@ const useAuth = (): UseAuthReturnType => {
     if (token) {
         const decoded: tokenType = jwtDecode(token);
 
-        const { userId, username, roles } = decoded.UserInfo;
+        const { userId, username, email, roles } = decoded.UserInfo;
 
         isUser = roles.includes("User");
         isDemoadmin = roles.includes("Demoadmin");
@@ -40,9 +42,9 @@ const useAuth = (): UseAuthReturnType => {
         if (isDemoadmin) status = "Demoadmin";
         if (isAdmin) status = "Admin";
 
-        return { userId, username, roles, status, isUser, isDemoadmin, isAdmin }
+        return { userId, username, email, roles, status, isUser, isDemoadmin, isAdmin }
     }
 
-    return { userId: "", username: "", roles: [], status, isUser, isDemoadmin, isAdmin }
+    return { userId: "", username: "", email: "", roles: [], status, isUser, isDemoadmin, isAdmin }
 }
 export default useAuth
