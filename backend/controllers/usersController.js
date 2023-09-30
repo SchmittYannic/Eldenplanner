@@ -38,45 +38,56 @@ const createNewUser = async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req, res) => {
-    const { id, username, email, roles, active, password, validated } = req.body;
+    const { userId, username } = req
+    const { newUsername, newEmail, newPassword } = req.body
 
-    // Confirm data
-    if (!id || !username || !email || !roles.length || typeof active !== "boolean" || typeof validated !== "boolean") {
-        return res.status(400).json({ message: "All fields are required" });
+    if (!newUsername) {
+        return res.status(400).json({ message: "Username field is required" });
     }
 
-    const user = await User.findById(id).exec();
+    if (!newEmail) {
+        return res.status(400).json({ message: "Email field is required" });
+    }
+
+    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{3,19}$/;
+    const isValidUsername = validUsernameRegex.test(username);
+
+    if (!isValidUsername) {
+        return res.status(400).json({ message: "Invalid username received", action: "showRequirements" });
+    }
+
+    if (!EmailValidator.validate(newEmail)) {
+        return res.status(400).json({ message: "Invalid email address received" });
+    }
+
+    const user = await User.findById(userId).exec();
 
     if (!user) {
         return res.status(400).json({ message: "User not found" });
     }
 
-    // Check for duplicate
-    const duplicateUsername = await User.findOne({ username }).lean().exec();
-    // Allow updates to the original user
-    if (duplicateUsername && duplicateUsername?._id.toString() !== id) {
-        return res.status(409).json({ message: "Duplicate username" });
+    const duplicateUsername = await User.findOne({ email: newUsername }).lean().exec();
+
+    if (duplicateUsername && duplicateUsername?._id.toString() !== userId) {
+        return res.status(409).json({ message: "Username already taken" });
     }
 
-    const duplicateEmail = await User.findOne({ email }).lean().exec();
+    const duplicateEmail = await User.findOne({ email: newEmail }).lean().exec();
     
-    if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
-        return res.status(409).json({ message: "Duplicate email" });
+    if (duplicateEmail && duplicateEmail?._id.toString() !== userId) {
+        return res.status(409).json({ message: "Email already in use" });
     }
 
-    if (!EmailValidator.validate(email)) {
-        return res.status(400).json({ message: "Invalid email address received" });
+    if (username !== newUsername) {
+        user.username = newUsername;
     }
 
-    user.username = username;
-    user.email = email;
-    user.roles = roles;
-    user.active = active;
-    user.validated = validated;
+    if(user.email !== newEmail) {
+        user.email = newEmail;
+    }
 
-    if (password) {
-        // Has password
-        user.password = await bcrypt.hash(password, 10);
+    if (newPassword) {
+        user.password = await bcrypt.hash(newPassword, 10);
     }
 
     const updateUser = await user.save();
