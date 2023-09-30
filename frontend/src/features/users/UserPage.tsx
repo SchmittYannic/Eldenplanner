@@ -1,16 +1,18 @@
 import { ReactElement } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import UserBuilds from "./UserBuilds";
 import { isCustomError } from "../../app/api/apiSlice";
+import EditUser from "./EditUser";
 
 const UserPage = (): ReactElement => {
 
     const param = useParams();
     const userId = param?.userId;
     const { username } = useAuth();
+    const navigate = useNavigate();
 
     const { 
         data: users,
@@ -28,7 +30,7 @@ const UserPage = (): ReactElement => {
     const isOwnProfile = user ? username === user?.username : false;
 
     const onEditProfileClicked = () => {
-
+        if (param?.userId) navigate(`/user/${param?.userId}/edit`);
     };
 
     if (user) {
@@ -47,11 +49,14 @@ const UserPage = (): ReactElement => {
                                 type="button"
                                 onClick={onEditProfileClicked}
                                 title="edit account"
+                                disabled={param?.edit === "edit" ? true : false}
                             >
-                                Edit Profile
+                                Edit Account
                             </button>
                         )}
                     </div>
+
+                    {param?.edit === "edit" && isOwnProfile && <EditUser />}
     
                     <div className="divider-4" />
     
