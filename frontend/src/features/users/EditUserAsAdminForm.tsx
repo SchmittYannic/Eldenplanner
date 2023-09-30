@@ -87,6 +87,7 @@ const EditUserAsAdminForm = ({ user }: PropsType): ReactElement => {
                         value={username}
                         onChange={onUsernameChanged}
                         autoComplete="off"
+                        maxLength={20}
                         title="change username"
                     />
                 </div>
