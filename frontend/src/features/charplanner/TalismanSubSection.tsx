@@ -1,5 +1,6 @@
 import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { MdWarningAmber } from "react-icons/md";
 import {
     talismanReduceractionsMap,
     TalismanReduceractionsMapType,
@@ -7,7 +8,7 @@ import {
     TalismanStateType
 } from "./charplannerSlice";
 import { TalismansNames, TalismansData } from "../../../data/TalismansData";
-import { Alert, CustomSelect } from "../../components/ui";
+import { CustomSelect, Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 
 const TalismanSubSection = (): ReactElement => {
 
@@ -32,21 +33,39 @@ const TalismanSubSection = (): ReactElement => {
         } else {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
             setIsConflict(true);
-            setAlertContent(`The selected Talisman "${value}" is in conflict with Talisman in different slot.`);
+            setAlertContent(`The selected Talisman "${value}" is in conflict with a Talisman in a different slot.`);
         }
     };
 
     return (
         <div className="TalismanSubSection">
             {isConflict && (
-                <Alert classes={"alert--conflict"} setAlert={setIsConflict}>
-                    <>
-                        <br />
-                        <p>Conflict detected!</p>
-                        <br />
-                        <p>{alertContent}</p>
-                    </>
-                </Alert>
+                <Dialog className="dialog__conflict" setDialog={setIsConflict}>
+                    <DialogMain>
+                        <DialogIcon>
+                            <MdWarningAmber />
+                        </DialogIcon>
+                        <DialogContent>
+                            <h3>Conflict detected!</h3>
+
+                            <div className="divider-4" />
+
+                            <p>{alertContent}</p>
+
+                            <div className="divider-4" />
+                        </DialogContent>
+                    </DialogMain>
+                    <DialogButtons>
+                        <button
+                            className="button"
+                            type="button"
+                            onClick={() => setIsConflict(false)}
+                            title={"Close Dialog"}
+                        >
+                            Close
+                        </button>
+                    </DialogButtons>
+                </Dialog>
             )}
             {TalismanSlots.map((slot, idx) => 
                 <CustomSelect
