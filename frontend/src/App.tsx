@@ -45,7 +45,7 @@ const App = (): ReactElement => {
                             <Route index element={<Builds/>} />
                         </Route>
 
-                        <Route path="user/:userId" element={<UserPage/>} />
+                        <Route path="user/:userId/:edit?" element={<UserPage/>} />
 
                         <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
                             <Route path="users">
