@@ -1,4 +1,5 @@
 import { ReactElement, useRef, useEffect, useState } from "react";
+import FocusTrap from "focus-trap-react";
 import { MdClose } from "react-icons/md";
 import "./Dialog.scss";
 
@@ -75,29 +76,31 @@ const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElem
     }, []);
 
     return (
-        <div className={`dialog__background ${className}`}>
-            <div 
-                id="dialog"  
-                tabIndex={0}
-                ref={ref}
-                style={{ top: top }}
-            >
-                <div className="dialog__close-wrapper">
-                    <button 
-                        className="close-dialog" 
-                        tabIndex={0}
-                        onClick={() => setDialog(false)}
-                        onKeyDown={(e) => e.key === "Enter" ? setDialog(false) : null}
-                        title="Close Dialog"
-                    >
-                        <MdClose />
-                    </button>
+        <FocusTrap>
+            <div className={`dialog__background ${className}`}>
+                <div 
+                    id="dialog"  
+                    tabIndex={0}
+                    ref={ref}
+                    style={{ top: top }}
+                >
+                    <div className="dialog__close-wrapper">
+                        <button 
+                            className="close-dialog" 
+                            tabIndex={0}
+                            onClick={() => setDialog(false)}
+                            onKeyDown={(e) => e.key === "Enter" ? setDialog(false) : null}
+                            title="Close Dialog"
+                        >
+                            <MdClose />
+                        </button>
+                    </div>
+
+                    { children }
+
                 </div>
-
-                { children }
-
             </div>
-        </div>
+        </FocusTrap>
     )
 }
 
