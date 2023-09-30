@@ -1,7 +1,8 @@
 import { ReactElement,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { Alert } from "../../components/ui";
+import { MdWarningAmber } from "react-icons/md";
+import { Dialog, DialogMain, DialogContent, DialogIcon, DialogButtons } from "../../components/ui";
 import { UserAsAdminType, useDeleteUserAsAdminMutation } from "./usersAsAdminApiSlice";
 
 type PropsType = {
@@ -39,50 +40,75 @@ const DeleteUserAsAdmin = ({ user, setTrigger }: PropsType): ReactElement => {
     const isUsername = inputValue === user.username;
 
     return (
-        <Alert classes="alert--deleteuser" setAlert={setTrigger}>
-            <div className="alert--content">
-                <h4>Confirm Deletion</h4>
-                <div className="input-wrapper">
-                    <label htmlFor="confirmdeletion">
-                        To Confirm, type the Username in the field below
-                    </label>
-                    <div className="divider-1" />
-                    <input
-                        id="confirmdeletion"
-                        name="confirmdeletion"
-                        type="text"
-                        maxLength={30}
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        autoComplete="off"
-                    />
-                </div>
+        <Dialog className="dialog__deleteuser" setDialog={setTrigger}>
+            <DialogMain>
+                <DialogIcon>
+                    <MdWarningAmber />
+                </DialogIcon>
+                <DialogContent>
+                    <h3>Confirm User Deletion</h3>
 
-                {isError && (
-                    <div className="sm-alert errmsg">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>{responseMsg}</span>
+                    <div className="divider-4" />
+
+                    <p>
+                        Are you sure you want to delete this build?
+                        Deleted builds are unrecoverable and lost forever.
+                    </p> 
+
+                    <div className="divider-4" />
+
+                    <div className="input-wrapper">
+                        <label htmlFor="confirm-user-deletion">
+                            To Confirm, type the Username in the field below
+                        </label>
+                        <div className="divider-1" />
+                        <input
+                            id="confirm-user-deletion"
+                            name="confirm-user-deletion"
+                            type="text"
+                            maxLength={30}
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            autoComplete="off"
+                        />
                     </div>
-                )}
 
+                    {isError ? (
+                        <>
+                            <div className="divider-4" />
+                            <div className="sm-alert errmsg full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>{responseMsg}</span>
+                            </div>
+                        </>
+                    ) : (<></>)}
+                </DialogContent>
+            </DialogMain>
+            <DialogButtons>
                 <button
                     className="action-btn"
                     type="submit"
                     onClick={onConfirmDeletionClicked}
                     disabled={!isUsername}
+                    title={!isUsername ? "type the username into the field above" : "Confirm Deletion"}
                 >
-                    {!isLoading ? "Confirm Deletion" :
-                        <ClipLoader
-                            color={"rgb(231, 214, 182)"}
-                            loading={isLoading}
-                            size={20}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
+                    <p className={isLoading ? "hidden" : "visible"}>
+                        Delete
+                    </p>
+                    {isLoading &&
+                        <div className="cliploader-centered">
+                            <ClipLoader
+                                color={"rgb(231, 214, 182)"}
+                                loading={isLoading}
+                                size={20}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
                     }
                 </button>
-            </div>
-        </Alert>
+            </DialogButtons>
+        </Dialog>
     )
 }
 
