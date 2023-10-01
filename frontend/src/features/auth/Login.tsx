@@ -1,9 +1,10 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
+import { addToast } from "../../components/toastSlice";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 import useWindowSize from "../../hooks/useWindowSize";
 
@@ -14,7 +15,11 @@ const Login = (): ReactElement => {
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
 
-    const [login, { isLoading, isError }] = useLoginMutation();
+    const [login, {
+        isLoading,
+        isError,
+        isSuccess
+    }] = useLoginMutation();
 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
@@ -38,13 +43,19 @@ const Login = (): ReactElement => {
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400 || err.status === 401 || err.status === 429) {
+            } else if ([400, 401, 429].includes(err.status)) {
                 setResponseMsg(err.data?.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(addToast({ type: "success", text: "login successful" }));
+        }
+    }, [isSuccess]);
 
     return (
         <main className="loginpage">
