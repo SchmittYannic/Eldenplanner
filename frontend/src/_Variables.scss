@@ -113,3 +113,12 @@ $default-focus-button-background-color: hsla($accent2);
         width: 100%;
     }
 }
+
+@keyframes toast-in-right {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
