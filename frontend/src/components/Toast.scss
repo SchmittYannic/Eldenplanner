@@ -1,0 +1,77 @@
+@use "../Variables" as v;
+
+.toast-list {
+	position: fixed;
+    max-height: calc(80vh - v.$primary-nav-height);
+    top: calc(v.$primary-nav-height + 1rem);
+	right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 1rem;
+    overflow: hidden;
+    z-index: 97;
+
+    .toast {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        padding: 1rem;
+        margin-right: 1rem;
+        border-radius: .5rem;
+        color: hsl(v.$accent-foreground);
+        background-color: hsl(v.$foreground);
+        transition: transform .6s ease-in-out;
+        animation: toast-in-right .7s;
+    
+        .toast-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            border-radius: .5rem;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            &.success svg {
+                color: hsl(v.$succ-background-color);
+            }
+        }
+    
+        .toast-text {
+            max-width: 200px;
+            font-weight: 400;
+            font-size: .875rem;
+            line-height: 1.25rem;
+            margin-left: .75rem;
+        }
+    
+        .toast-close-button {
+            padding: .375rem;
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            border-radius: .5rem;
+            color: hsl(v.$muted-foreground);
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            &:hover {
+                color: hsl(v.$accent-foreground);
+            }
+
+            &:active {
+                transition: transform .05s;
+                transform: scale(.70);
+            }
+        }
+    }
+}
