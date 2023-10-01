@@ -7,7 +7,9 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     define: {
-      'process.env.API_BASEURL': JSON.stringify(env.API_BASEURL)
+      'process.env.API_BASEURL': JSON.stringify(env.API_BASEURL),
+      'process.env.TOAST_AUTO_DELETE': JSON.stringify(env.TOAST_AUTO_DELETE),
+      'process.env.TOAST_AUTO_DELETE_TIME': JSON.stringify(env.TOAST_AUTO_DELETE_TIME),
     },
     plugins: [
       react(),
