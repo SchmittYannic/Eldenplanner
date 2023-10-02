@@ -957,7 +957,7 @@ td {
 
 /* users */
 .table--users {
-    grid-template-columns: 2fr 2fr 1fr 1fr 1fr 3fr 3fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr 1fr 1fr 3fr 3fr 1fr 1fr;
 
     td {
         padding: .7rem;
@@ -969,7 +969,7 @@ td {
         place-content: center start;
     }
 
-    &.active, &.validated, &.created, &.modified, &.edit {
+    &.active, &.validated, &.created, &.modified, &.edit, &.delete {
         place-content: center;
     }
 }
@@ -1006,7 +1006,8 @@ td {
     .table__cell {
         display: block;
 
-        &.edit .table__cell__body {
+        &.edit .table__cell__body,
+        &.delete .table__cell__body {
             display: flex;
             justify-content: center;
         }
