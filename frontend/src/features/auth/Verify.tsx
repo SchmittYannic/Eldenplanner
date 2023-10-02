@@ -1,7 +1,8 @@
 import { ChangeEvent, MouseEvent, KeyboardEvent, useState } from "react";
-import { ClipLoader } from "react-spinners";
+
 import { useSendVerificationEmailMutation } from "./authApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
+import { AsyncButton } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Verify = () => {
@@ -102,22 +103,16 @@ const Verify = () => {
 
                             <div className="divider-4" />
 
-                            <button
+                            <AsyncButton
+                                isLoading={isLoading}
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClicked}
                                 disabled={isLoading ? true : false}
+                                title="submit verification email request"
                             >
-                                {!isLoading ? "Submit" :
-                                    <ClipLoader
-                                        color={"rgb(231, 214, 182)"}
-                                        loading={isLoading}
-                                        size={20}
-                                        aria-label="Loading Spinner"
-                                        data-testid="loader"
-                                    />
-                                }
-                            </button>
+                                Submit
+                            </AsyncButton>
                         </form>
                     </div>
                     
