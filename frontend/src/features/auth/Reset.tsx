@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { isCustomError } from "../../app/api/apiSlice";
 import { useSendResetRequestMutation } from "./authApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton } from "../../components/ui";
+import { AsyncButton, FormInput } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Reset = ():ReactElement => {
@@ -71,21 +71,20 @@ const Reset = ():ReactElement => {
                         <form
                             className="resetpage--form"
                             method="post"
+                            onSubmit={(e) => e.preventDefault()}
                         >
-                            <div className="resetpage--input-wrapper user">
-                                <label htmlFor="reset-user">
-                                    Username or Email
-                                </label>
-                                <div className="divider-1" />
-                                <input
-                                    id="reset-user"
-                                    type="text"
-                                    value={user}
-                                    onChange={onUserChange}
-                                    autoComplete="off"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
+                            <FormInput
+                                id="reset-user"
+                                name="reset-user"
+                                type="text"
+                                maxLength={320}
+                                value={user}
+                                onChange={onUserChange}
+                                autoComplete="off"
+                                placeholder="name@example.com"
+                            >
+                                Username or Email
+                            </FormInput>
 
                             <div className="divider-4" />
 
