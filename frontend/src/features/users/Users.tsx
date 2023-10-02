@@ -1,10 +1,15 @@
 import { ReactElement } from "react";
+import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+
 import { isCustomError } from "../../app/api/apiSlice";
 import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList from "./UsersList";
+import EditUserAsAdmin from "./EditUserAsAdmin";
+import DeleteUserAsAdmin from "./DeleteUserAsAdmin";
 
 const Users = (): ReactElement => {
+
     const {
         data: users,
         isLoading,
@@ -15,6 +20,9 @@ const Users = (): ReactElement => {
         pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
 
+    const params = useParams();
+    const user = params.userId ? users?.entities[params.userId] : null;
+
     const tableData = isSuccess && users.ids.map(id => {
         return users.entities[id] as UserAsAdminType
     })
@@ -23,6 +31,8 @@ const Users = (): ReactElement => {
         return (
             <>
                 <UsersList data={tableData} />
+                {user && params.action === "edit" && <EditUserAsAdmin user={user as UserAsAdminType} />}
+                {user && params.action === "delete" && <DeleteUserAsAdmin user={user as UserAsAdminType} />}
             </>
         )
     } else if (isLoading) {
