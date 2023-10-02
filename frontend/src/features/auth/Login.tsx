@@ -23,13 +23,11 @@ const Login = (): ReactElement => {
 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const [responseMsg, setResponseMsg] = useState("");
 
     const onUserChange = (e: ChangeEvent<HTMLInputElement>) => setUser(e.target.value);
     const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
-    const onShowHideClicked = () => setIsPasswordVisible(!isPasswordVisible);
 
     const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -92,43 +90,30 @@ const Login = (): ReactElement => {
                                 id="login-user"
                                 name="login-user"
                                 type="text"
+                                label="Username or Email"
                                 maxLength={20}
                                 value={user}
                                 onChange={onUserChange}
                                 autoComplete="off"
                                 placeholder="name@example.com"
-                            >
-                                Username or Email
-                            </FormInput>
+                            />
 
                             <div className="divider-4" />
 
-                            <div className="loginpage--input-wrapper password">
-                                <label htmlFor="login-password">
-                                    Password
-                                </label>
-                                <div className="divider-1" />
-                                <div className="flex">
-                                    <input
-                                        id="login-password"
-                                        type={isPasswordVisible ? "text" : "password"}
-                                        value={password}
-                                        onChange={onPasswordChange}
-                                        autoComplete="off"
-                                    />
-                                    <button
-                                        className="password-toggle button"
-                                        type="button"
-                                        onClick={onShowHideClicked}
-                                    >
-                                        {isPasswordVisible ? "Hide" : "Show"}
-                                    </button>
-                                </div>
-
+                            <FormInput
+                                id="login-password"
+                                name="login-password"
+                                className="input-password"
+                                type="password"
+                                label="Password"
+                                value={password}
+                                onChange={onPasswordChange}
+                                autoComplete="off"
+                            >
                                 <Link className="text-right text-sm" to="/reset">
                                     forgot password?
                                 </Link>
-                            </div>
+                            </FormInput>
 
                             <div className="divider-4" />
 
