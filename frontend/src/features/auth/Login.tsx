@@ -6,7 +6,7 @@ import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
 import { addToast } from "../../components/toastSlice";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton } from "../../components/ui";
+import { AsyncButton, FormInput } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Login = (): ReactElement => {
@@ -86,21 +86,20 @@ const Login = (): ReactElement => {
                         <form
                             className="loginpage--form"
                             method="post"
+                            onSubmit={(e) => e.preventDefault()}
                         >
-                            <div className="loginpage--input-wrapper username">
-                                <label htmlFor="login-user">
-                                    Username or Email
-                                </label>
-                                <div className="divider-1" />
-                                <input
-                                    id="login-user"
-                                    type="text"
-                                    value={user}
-                                    onChange={onUserChange}
-                                    autoComplete="off"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
+                            <FormInput
+                                id="login-user"
+                                name="login-user"
+                                type="text"
+                                maxLength={20}
+                                value={user}
+                                onChange={onUserChange}
+                                autoComplete="off"
+                                placeholder="name@example.com"
+                            >
+                                Username or Email
+                            </FormInput>
 
                             <div className="divider-4" />
 
