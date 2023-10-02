@@ -161,7 +161,7 @@ const deleteBuild = async (req, res) => {
     const result = await build.deleteOne();
 
     if (result) {
-        res.status(200).json(`Build ${result.title} deleted`);
+        res.status(200).json({ message: `Build ${result.title} deleted` });
     } else {
         return res.status(400).json({ message: "Failed to delete Build from database" });
     }
