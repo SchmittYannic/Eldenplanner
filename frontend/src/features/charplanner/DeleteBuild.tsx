@@ -1,13 +1,19 @@
 import { ReactElement, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ClipLoader } from "react-spinners";
 import { MdWarningAmber } from "react-icons/md";
 
 import { useDeleteBuildMutation } from "./charplannerApiSlice";
 import { addToast } from "../../components/toastSlice";
 import useAuth from "../../hooks/useAuth";
-import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
+import {
+    AsyncButton,
+    Dialog,
+    DialogButtons,
+    DialogContent,
+    DialogIcon,
+    DialogMain
+} from "../../components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -103,28 +109,16 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                     Cancel
                 </button>
 
-                <button
+                <AsyncButton
+                    isLoading={isLoading}
                     className="action-btn"
                     type="submit"
                     onClick={onConfirmDeletionClicked}
                     disabled={!isDELETE}
                     title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}
                 >
-                    <p className={isLoading ? "hidden" : "visible"}>
-                        Delete
-                    </p>
-                    {isLoading &&
-                        <div className="cliploader-centered">
-                            <ClipLoader
-                                color={"rgb(231, 214, 182)"}
-                                loading={isLoading}
-                                size={20}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                        </div>
-                    }
-                </button>
+                    Delete
+                </AsyncButton>
             </DialogButtons>
         </Dialog>
     )
