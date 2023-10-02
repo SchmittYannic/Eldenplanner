@@ -76,7 +76,7 @@ const createNewBuild = async(req, res) => {
 
     if (build) {
         // created build successfully
-        res.status(201).json({ message: `New build of ${validCharactername} created by user ${user.username}` });
+        res.status(201).json({ message: `New build ${build.title} created`, action: build._id });
     } else {
         res.status(400).json({ message: "Invalid build data received" });
     }
@@ -125,7 +125,7 @@ const updateBuild = async (req, res) => {
     const updatedBuild = await build.save();
 
     if (updatedBuild) {
-        res.json({ message: `Build ${updatedBuild._id} updated`});
+        res.status(200).json({ message: `Build ${updatedBuild.title} updated`});
     } else {
         res.status(400).json({ message: "Failed to write changes into database" });
     }
@@ -161,7 +161,7 @@ const deleteBuild = async (req, res) => {
     const result = await build.deleteOne();
 
     if (result) {
-        res.status(200).json(`Build ${result._id} deleted`);
+        res.status(200).json(`Build ${result.title} deleted`);
     } else {
         return res.status(400).json({ message: "Failed to delete Build from database" });
     }
