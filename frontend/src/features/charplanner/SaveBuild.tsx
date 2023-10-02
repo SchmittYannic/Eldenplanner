@@ -3,13 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { MdSave } from "react-icons/md";
-import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
-import { selectCharplannerData } from "./charplannerSlice";
-import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
-import useAuth from "../../hooks/useAuth";
-import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
+
 import { RootState } from "../../app/store";
+import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
+import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
+import { selectCharplannerData } from "./charplannerSlice";
 import { addToast } from "../../components/toastSlice";
+import useAuth from "../../hooks/useAuth";
+import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -17,11 +18,11 @@ type PropsType = {
 
 const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
-    const { userId } = useAuth();
-    const param = useParams();
-    const charplannerData = useSelector(selectCharplannerData);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const charplannerData = useSelector(selectCharplannerData);
+    const param = useParams();
+    const { userId } = useAuth();
 
     const [addNewBuild, {
         isLoading: isSaveLoading,
@@ -72,7 +73,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400 || err.status === 401) {
+            } else if ([400, 401].includes(err.status)) {
                 setResponseMsg(err.data?.message);
             } else {
                 setResponseMsg("an error occured");
