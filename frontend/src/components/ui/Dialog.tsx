@@ -87,6 +87,7 @@ const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElem
                     <div className="dialog__close-wrapper">
                         <button 
                             className="close-dialog" 
+                            type="button"
                             tabIndex={0}
                             onClick={() => setDialog(false)}
                             onKeyDown={(e) => e.key === "Enter" ? setDialog(false) : null}
