@@ -1,21 +1,29 @@
-import { ReactElement, ChangeEvent, useState, useEffect } from "react";
+import { ReactElement, ChangeEvent, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
-import { Dialog, DialogMain, DialogIcon, DialogContent, DialogButtons } from "../../components/ui";
-import useAuth from "../../hooks/useAuth";
-import { useUpdateUserMutation } from "./usersApiSlice";
 
+import { useUpdateUserMutation } from "./usersApiSlice";
+import { addToast } from "../../components/toastSlice";
+import useAuth from "../../hooks/useAuth";
+import {
+    AsyncButton,
+    Dialog,
+    DialogMain,
+    DialogIcon,
+    DialogContent,
+    DialogButtons
+} from "../../components/ui";
 
 const EditUser = (): ReactElement => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const params = useParams();
     const { username, email } = useAuth();
 
     const [updateUser, {
         isLoading,
-        isSuccess,
         isError,
     }] = useUpdateUserMutation();
 
@@ -40,7 +48,8 @@ const EditUser = (): ReactElement => {
     const onSaveClicked = async () => {
         try {
             const { message } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
-            setResponseMsg(message);
+            closeDialog(false);
+            dispatch(addToast({ type: "success", text: message }));
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
@@ -51,12 +60,6 @@ const EditUser = (): ReactElement => {
             }
         }
     };
-
-    useEffect(() => {
-        if (isSuccess) {
-            closeDialog(false);
-        }
-    }, [isSuccess])
 
     return (
         <Dialog className="dialog__edituser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
@@ -155,25 +158,15 @@ const EditUser = (): ReactElement => {
                     Cancel
                 </button>
 
-                <button
+                <AsyncButton
+                    isLoading={isLoading}
                     className="action-btn"
                     type="submit"
                     onClick={onSaveClicked}
-                    title={"Edit Account"}
+                    title="Edit Account"
                 >
-                    <p className={isLoading ? "hidden" : "visible"}>Save</p>
-                    {(isLoading && 
-                        <div className="cliploader-centered">
-                            <ClipLoader
-                                color={"rgb(231, 214, 182)"}
-                                loading={isLoading}
-                                size={20}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                        </div>
-                    )}
-                </button>
+                    Save
+                </AsyncButton>
             </DialogButtons>
         </Dialog>
     )
