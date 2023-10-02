@@ -2,7 +2,7 @@ import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffe
 
 import { useAddNewUserMutation } from "../users/usersApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton } from "../../components/ui";
+import { AsyncButton, FormInput } from "../../components/ui";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
 
 const Signup = (): ReactElement => {
@@ -84,38 +84,35 @@ const Signup = (): ReactElement => {
                         <form
                             className="signuppage--form"
                             method="post"
+                            onSubmit={(e) => e.preventDefault()}
                         >
-                            <div className="signuppage--input-wrapper username">
-                                <label htmlFor="signup-username">
-                                    Username
-                                </label>
-                                <div className="divider-1" />
-                                <input
-                                    id="signup-username"
-                                    type="text"
-                                    value={username}
-                                    onChange={onChangeUsername}
-                                    autoComplete="off"
-                                    placeholder="JohnDoe"
-                                />
-                            </div>
+                            <FormInput
+                                id="signup-username"
+                                name="signup-username"
+                                type="text"
+                                maxLength={20}
+                                value={username}
+                                onChange={onChangeUsername}
+                                autoComplete="off"
+                                placeholder="JohnDoe"
+                            >
+                                Username
+                            </FormInput>
 
                             <div className="divider-4" />
 
-                            <div className="signuppage--input-wrapper email">
-                                <label htmlFor="signup-email">
-                                    Email
-                                </label>
-                                <div className="divider-1" />
-                                <input
-                                    id="signup-email"
-                                    type="email"
-                                    value={email}
-                                    onChange={onChangeEmail}
-                                    autoComplete="off"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
+                            <FormInput
+                                id="signup-email"
+                                name="signup-email"
+                                type="email"
+                                maxLength={320}
+                                value={email}
+                                onChange={onChangeEmail}
+                                autoComplete="off"
+                                placeholder="name@example.com"
+                            >
+                                Email
+                            </FormInput>
 
                             <div className="divider-4" />
 
