@@ -91,7 +91,7 @@ const login = async (req, res) => {
     });
 
     // Send accessToken containing username and roles 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ message: "login successful", accessToken });
 };
 
 // @desc Refresh
