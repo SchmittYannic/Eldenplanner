@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import { isCustomError } from "../../app/api/apiSlice";
 import { useResetMutation } from "./authApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton } from "../../components/ui";
+import { AsyncButton, FormInput } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const ResetPassword = (): ReactElement => {
@@ -27,15 +27,11 @@ const ResetPassword = (): ReactElement => {
     const [isToken, setIsToken] = useState(false);
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
     const [responseMsg, setResponseMsg] = useState("");
 
     const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
     const onConfirmChange = (e: ChangeEvent<HTMLInputElement>) => setConfirm(e.target.value);
-    const onShowHidePasswordClicked = () => setIsPasswordVisible(!isPasswordVisible);
-    const onShowHideConfirmClicked = () => setIsConfirmVisible(!isConfirmVisible);
 
     const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -148,54 +144,31 @@ const ResetPassword = (): ReactElement => {
                                         <form
                                             className="resetpage--form"
                                             method="post"
+                                            onSubmit={(e) => e.preventDefault()}
                                         >
-                                            <div className="resetpage--input-wrapper password">
-                                                <label htmlFor="reset-password">
-                                                    New Password
-                                                </label>
-                                                <div className="divider-1" />
-                                                <div className="flex">
-                                                    <input
-                                                        id="reset-password"
-                                                        type={isPasswordVisible ? "text" : "password"}
-                                                        value={password}
-                                                        onChange={onPasswordChange}
-                                                        autoComplete="off"
-                                                    />
-                                                    <button
-                                                        className="password-toggle button"
-                                                        type="button"
-                                                        onClick={onShowHidePasswordClicked}
-                                                    >
-                                                        {isPasswordVisible ? "Hide" : "Show"}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <FormInput
+                                                id="reset-password"
+                                                name="reset-password"
+                                                className="input-password"
+                                                type="password"
+                                                label="New Password"
+                                                value={password}
+                                                onChange={onPasswordChange}
+                                                autoComplete="off"
+                                            />
                 
                                             <div className="divider-4" />
 
-                                            <div className="resetpage--input-wrapper confirm">
-                                                <label htmlFor="reset-confirm">
-                                                    Confirm
-                                                </label>
-                                                <div className="divider-1" />
-                                                <div className="flex">
-                                                    <input
-                                                        id="reset-confirm"
-                                                        type={isConfirmVisible ? "text" : "password"}
-                                                        value={confirm}
-                                                        onChange={onConfirmChange}
-                                                        autoComplete="off"
-                                                    />
-                                                    <button
-                                                        className="password-toggle button"
-                                                        type="button"
-                                                        onClick={onShowHideConfirmClicked}
-                                                    >
-                                                        {isConfirmVisible ? "Hide" : "Show"}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <FormInput
+                                                id="reset-confirm"
+                                                name="reset-confirm"
+                                                className="input-password"
+                                                type="password"
+                                                label="Confirm"
+                                                value={confirm}
+                                                onChange={onConfirmChange}
+                                                autoComplete="off"
+                                            />
 
                                             <div className="divider-4" />
                 
