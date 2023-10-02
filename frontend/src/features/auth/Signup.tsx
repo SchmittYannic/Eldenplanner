@@ -1,8 +1,9 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+
 import { useAddNewUserMutation } from "../users/usersApiSlice";
-import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
 import useWindowSize from "../../hooks/useWindowSize";
+import { AsyncButton } from "../../components/ui";
+import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
 
 const Signup = (): ReactElement => {
 
@@ -159,22 +160,16 @@ const Signup = (): ReactElement => {
 
                             <div className="divider-4" />
 
-                            <button
+                            <AsyncButton
+                                isLoading={isLoading}
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClick}
                                 disabled={isLoading ? true : false}
+                                title="submit signup form"
                             >
-                                {!isLoading ? "Submit" :
-                                    <ClipLoader
-                                        color={"rgb(231, 214, 182)"}
-                                        loading={isLoading}
-                                        size={20}
-                                        aria-label="Loading Spinner"
-                                        data-testid="loader"
-                                    />
-                                }
-                            </button>
+                                Submit
+                            </AsyncButton>
                         </form>
                     </div>
                     
