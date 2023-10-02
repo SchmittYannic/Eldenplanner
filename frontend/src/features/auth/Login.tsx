@@ -1,12 +1,12 @@
 import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import ClipLoader from "react-spinners/ClipLoader";
 
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
 import { addToast } from "../../components/toastSlice";
 import useWindowSize from "../../hooks/useWindowSize";
+import { AsyncButton } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Login = (): ReactElement => {
@@ -142,22 +142,16 @@ const Login = (): ReactElement => {
 
                             <div className="divider-4" />
 
-                            <button
+                            <AsyncButton
+                                isLoading={isLoading}
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClicked}
                                 disabled={isLoading ? true : false}
+                                title="login"
                             >
-                                {!isLoading ? "Login" :
-                                    <ClipLoader
-                                        color={"rgb(231, 214, 182)"}
-                                        loading={isLoading}
-                                        size={20}
-                                        aria-label="Loading Spinner"
-                                        data-testid="loader"
-                                    />
-                                }
-                            </button>
+                                Login
+                            </AsyncButton>
                         </form>
                     </div>
                     
