@@ -2,10 +2,12 @@ import { ReactElement, ChangeEvent, MouseEvent, KeyboardEvent, useEffect, useSta
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
-import useWindowSize from "../../hooks/useWindowSize";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
-import { useResetMutation } from "./authApiSlice";
+
 import { isCustomError } from "../../app/api/apiSlice";
+import { useResetMutation } from "./authApiSlice";
+import useWindowSize from "../../hooks/useWindowSize";
+import { AsyncButton } from "../../components/ui";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const ResetPassword = (): ReactElement => {
 
@@ -206,22 +208,16 @@ const ResetPassword = (): ReactElement => {
 
                                             <div className="divider-4" />
                                             
-                                            <button
+                                            <AsyncButton
+                                                isLoading={isLoading}
                                                 className="action-btn full"
                                                 type="submit"
                                                 onClick={onSubmitClicked}
                                                 disabled={isLoading ? true : false}
+                                                title="submit reset password form"
                                             >
-                                                {!isLoading ? "Submit" :
-                                                    <ClipLoader
-                                                        color={"rgb(231, 214, 182)"}
-                                                        loading={isLoading}
-                                                        size={20}
-                                                        aria-label="Loading Spinner"
-                                                        data-testid="loader"
-                                                    />
-                                                }
-                                            </button>
+                                                Submit
+                                            </AsyncButton>
                                             
                                         </form>
                                     </div>
