@@ -32,12 +32,10 @@ const EditUser = (): ReactElement => {
     const [newUsername, setNewUsername] = useState(username);
     const [newEmail, setNewEmail] = useState(email);
     const [newPassword, setNewPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const onNewUsernameChange = (e: ChangeEvent<HTMLInputElement>) => setNewUsername(e.target.value);
     const onNewEmailChange = (e: ChangeEvent<HTMLInputElement>) => setNewEmail(e.target.value);
     const onNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value);
-    const onShowHideClicked = () => setIsPasswordVisible(!isPasswordVisible);
 
     const [responseMsg, setResponseMsg] = useState("");
 
@@ -86,13 +84,12 @@ const EditUser = (): ReactElement => {
                             id="edit-username"
                             name="edit-username"
                             type="text"
+                            label="Username"
                             maxLength={20}
                             value={newUsername}
                             onChange={onNewUsernameChange}
                             autoComplete="off"
-                        >
-                            Username
-                        </FormInput>
+                        />
 
                         <div className="divider-4" />
 
@@ -100,39 +97,25 @@ const EditUser = (): ReactElement => {
                             id="edit-email"
                             name="edit-email"
                             type="email"
+                            label="Email"
                             maxLength={320}
                             value={newEmail}
                             onChange={onNewEmailChange}
                             autoComplete="off"
-                        >
-                            Email
-                        </FormInput>
+                        />
 
                         <div className="divider-4" />
 
-                        <div className="input-wrapper">
-                            <label htmlFor="edit-password">
-                                Password:
-                            </label>
-                            <div className="divider-1" />
-                            <div className="flex">
-                                <input
-                                    id="edit-password"
-                                    className="input-password"
-                                    type={isPasswordVisible ? "text" : "password"}
-                                    value={newPassword}
-                                    onChange={onNewPasswordChange}
-                                    autoComplete="off"
-                                />
-                                <button
-                                    className="password-toggle button"
-                                    type="button"
-                                    onClick={onShowHideClicked}
-                                >
-                                    {isPasswordVisible ? "Hide" : "Show"}
-                                </button>
-                            </div>
-                        </div>
+                        <FormInput
+                            id="edit-password"
+                            name="edit-password"
+                            className="input-password"
+                            type="password"
+                            label="Password"
+                            value={newPassword}
+                            onChange={onNewPasswordChange}
+                            autoComplete="off"
+                        />
 
                         <div className="divider-4" />
 
