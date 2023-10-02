@@ -1,12 +1,13 @@
-import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent, ReactElement, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
+
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
 import { addToast } from "../../components/toastSlice";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 import useWindowSize from "../../hooks/useWindowSize";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Login = (): ReactElement => {
 
@@ -18,7 +19,6 @@ const Login = (): ReactElement => {
     const [login, {
         isLoading,
         isError,
-        isSuccess
     }] = useLoginMutation();
 
     const [user, setUser] = useState("");
@@ -34,12 +34,13 @@ const Login = (): ReactElement => {
     const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
-            const { accessToken } = await login({ user, password }).unwrap();
+            const { message, accessToken } = await login({ user, password }).unwrap();
 
             dispatch(setCredentials({ accessToken }));
             setUser("");
             setPassword("");
             navigate("/charplanner");
+            dispatch(addToast({ type: "success", text: message }));
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
@@ -50,12 +51,6 @@ const Login = (): ReactElement => {
             }
         }
     };
-
-    useEffect(() => {
-        if (isSuccess) {
-            dispatch(addToast({ type: "success", text: "login successful" }));
-        }
-    }, [isSuccess]);
 
     return (
         <main className="loginpage">
