@@ -39,11 +39,11 @@ const Verify = () => {
     };
 
     return (
-        <main className="verifypage">
+        <main id="verifypage" className="splitpage1">
             {!isMobile && (
-                <div className="verifypage--img-wrapper">
+                <div className="splitpage1__img-wrapper">
                     <img
-                        className="verifypage--img"
+                        className="splitpage1__img"
                         src={loginimg420w}
                         alt="elden ring wallpaper"
                         srcSet={
@@ -56,18 +56,18 @@ const Verify = () => {
                     />
                 </div>
             )}
-            <div className="verifypage--rightside">
-                <div className="verifypage--wrapper">
-                    <div className="verifypage--form-header">
+            <div className="splitpage1__rightside">
+                <div className="splitpage1__wrapper">
+                    <div className="splitpage1__form-header">
                         <h1>Verify Account</h1>
                         <p>
                             <span>Request verification email</span>
                         </p>
                     </div>
 
-                    <div className="verifypage--form-wrapper">
+                    <div className="splitpage1__form-wrapper">
                         <form
-                            className="verifypage--form"
+                            className="splitpage1__form"
                             method="post"
                             onSubmit={(e) => e.preventDefault()}
                         >

@@ -77,11 +77,11 @@ const ResetPassword = (): ReactElement => {
             }
 
             {isToken &&
-                <main className="resetpage">
+                <main id="resetpasswordpage" className="splitpage1">
                     {!isMobile && (
-                        <div className="resetpage--img-wrapper">
+                        <div className="splitpage1__img-wrapper">
                             <img
-                                className="resetpage--img"
+                                className="splitpage1__img"
                                 src={loginimg420w}
                                 alt="elden ring wallpaper"
                                 srcSet={
@@ -94,9 +94,9 @@ const ResetPassword = (): ReactElement => {
                             />
                         </div>
                     )}
-                    <div className="resetpage--rightside">
-                        <div className="resetpage--wrapper">
-                            <div className="resetpage--form-header">
+                    <div className="splitpage1__rightside">
+                        <div className="splitpage1__wrapper">
+                            <div className="splitpage1__form-header">
                                 <h1>Reset Password</h1>
                                 {!isSuccess && !(isCustomError(error) && error.data.action === "redirectReset") && 
                                     <p>
@@ -116,7 +116,7 @@ const ResetPassword = (): ReactElement => {
 
                                         <div className="divider-4" />
 
-                                        <div className="resetpage--form-header">
+                                        <div className="splitpage1__form-header">
                                             <p>
                                                 <span>Send a new token by email - <Link to="/reset">Here</Link></span>
                                             </p>
@@ -133,16 +133,16 @@ const ResetPassword = (): ReactElement => {
 
                                         <div className="divider-4" />
 
-                                        <div className="resetpage--form-header">
+                                        <div className="splitpage1__form-header">
                                             <p>
                                                 <span>Proceed to <Link to="/login">login</Link></span>
                                             </p>
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="resetpage--form-wrapper">
+                                    <div className="splitpage1__form-wrapper">
                                         <form
-                                            className="resetpage--form"
+                                            className="splitpage1__form"
                                             method="post"
                                             onSubmit={(e) => e.preventDefault()}
                                         >

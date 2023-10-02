@@ -51,11 +51,11 @@ const Signup = (): ReactElement => {
     }, [isSuccess]);
 
     return (
-        <main className="signuppage">
+        <main id="signuppage" className="splitpage1">
             {!isMobile && (
-                <div className="signuppage--img-wrapper">
+                <div className="splitpage1__img-wrapper">
                     <img
-                        className="signuppage--img"
+                        className="splitpage1__img"
                         src={signupimg420w}
                         alt="elden ring wallpaper"
                         srcSet={
@@ -68,18 +68,18 @@ const Signup = (): ReactElement => {
                     />
                 </div>
             )}
-            <div className="signuppage--rightside">
-                <div className="signuppage--wrapper">
-                    <div className="signuppage--form-header">
+            <div className="splitpage1__rightside">
+                <div className="splitpage1__wrapper">
+                    <div className="splitpage1__form-header">
                         <h1>Create an account</h1>
                         <p>
                             <span>Enter your details below to create your account</span>
                         </p>
                     </div>
 
-                    <div className="signuppage--form-wrapper">
+                    <div className="splitpage1__form-wrapper">
                         <form
-                            className="signuppage--form"
+                            className="splitpage1__form"
                             method="post"
                             onSubmit={(e) => e.preventDefault()}
                         >

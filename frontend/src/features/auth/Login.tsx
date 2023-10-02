@@ -51,11 +51,11 @@ const Login = (): ReactElement => {
     };
 
     return (
-        <main className="loginpage">
+        <main id="loginpage" className="splitpage1">
             {!isMobile && (
-                <div className="loginpage--img-wrapper">
+                <div className="splitpage1__img-wrapper">
                     <img
-                        className="loginpage--img"
+                        className="splitpage1__img"
                         src={loginimg420w}
                         alt="elden ring wallpaper"
                         srcSet={
@@ -68,9 +68,9 @@ const Login = (): ReactElement => {
                     />
                 </div>
             )}
-            <div className="loginpage--rightside">
-                <div className="loginpage--wrapper">
-                    <div className="loginpage--form-header">
+            <div className="splitpage1__rightside">
+                <div className="splitpage1__wrapper">
+                    <div className="splitpage1__form-header">
                         <h1>Log in to your account</h1>
                         <p>
                             <span>Don't have an account? </span>
@@ -80,9 +80,9 @@ const Login = (): ReactElement => {
                         </p>
                     </div>
 
-                    <div className="loginpage--form-wrapper">
+                    <div className="splitpage1__form-wrapper">
                         <form
-                            className="loginpage--form"
+                            className="splitpage1__form"
                             method="post"
                             onSubmit={(e) => e.preventDefault()}
                         >

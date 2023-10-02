@@ -41,11 +41,11 @@ const Reset = ():ReactElement => {
     };
 
     return (
-        <main className="resetpage">
+        <main id="resetpage" className="splitpage1">
             {!isMobile && (
-                <div className="resetpage--img-wrapper">
+                <div className="splitpage1__img-wrapper">
                     <img
-                        className="resetpage--img"
+                        className="splitpage1__img"
                         src={loginimg420w}
                         alt="elden ring wallpaper"
                         srcSet={
@@ -58,18 +58,18 @@ const Reset = ():ReactElement => {
                     />
                 </div>
             )}
-            <div className="resetpage--rightside">
-                <div className="resetpage--wrapper">
-                    <div className="resetpage--form-header">
+            <div className="splitpage1__rightside">
+                <div className="splitpage1__wrapper">
+                    <div className="splitpage1__form-header">
                         <h1>Reset Password</h1>
                         <p>
                             <span>To reset your password, enter the email or username you used to create your account.</span>
                         </p>
                     </div>
 
-                    <div className="resetpage--form-wrapper">
+                    <div className="splitpage1__form-wrapper">
                         <form
-                            className="resetpage--form"
+                            className="splitpage1__form"
                             method="post"
                             onSubmit={(e) => e.preventDefault()}
                         >
@@ -105,7 +105,7 @@ const Reset = ():ReactElement => {
 
                             {isCustomError(error) && error.data.action === "redirectVerify" && (
                                 <>
-                                    <div className="resetpage--form-header">
+                                    <div className="splitpage1__form-header">
                                         <p>
                                             <span>Send verification email - <Link to="/verify">Here</Link></span>
                                         </p>

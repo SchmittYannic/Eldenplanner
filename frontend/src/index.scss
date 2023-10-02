@@ -719,10 +719,7 @@ td {
 
 /* Login Page and Signup Page */
 
-.loginpage,
-.signuppage,
-.verifypage,
-.resetpage {
+.splitpage1 {
     max-width: none;
     padding: 0;
     margin-top: v.$primary-nav-height;
@@ -737,18 +734,12 @@ td {
     margin-right: auto;
     margin-left: auto;
 
-    .loginpage--rightside,
-    .signuppage--rightside,
-    .verifypage--rightside,
-    .resetpage--rightside {
+    .splitpage1__rightside {
         padding: 2rem; //only on lg
         max-width: 540px;
     }
 
-    .loginpage--wrapper,
-    .signuppage--wrapper,
-    .verifypage--wrapper,
-    .resetpage--wrapper {
+    .splitpage1__wrapper {
         min-width: 200px; //min-width 640px
         max-width: 300px;
         display: flex;
@@ -758,10 +749,7 @@ td {
         margin-left: auto;
     }
 
-    .loginpage--form-header,
-    .signuppage--form-header,
-    .verifypage--form-header,
-    .resetpage--form-header {
+    .splitpage1__form-header {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -782,78 +770,14 @@ td {
         }
     }
 
-    .loginpage--form-wrapper,
-    .signuppage--form-wrapper,
-    .verifypage--form-wrapper,
-    .resetpage--form-wrapper {
+    .splitpage1__form-wrapper {
         display: grid;
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
-
-    .loginpage--input-wrapper,
-    .signuppage--input-wrapper,
-    .verifypage--input-wrapper,
-    .resetpage--input-wrapper {
-        display: grid;
-        gap: .25rem;
-
-        label {
-            line-height: 1;
-            font-size: .875rem;
-            font-weight: 500;
-        }
-
-        input {
-            font-size: .875rem;
-            line-height: 1.25rem;
-            padding-top: .25rem;
-            padding-bottom: .25rem;
-            padding-left: .75rem;
-            padding-right: .75rem;
-            background-color: transparent;
-            border-color: hsl(v.$border-color);
-            border-width: 1px;
-            border-radius: calc(v.$border-radius - 2px);
-            width: 100%;
-            height: 2.25rem;
-            display: flex;
-            transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
-            transition-timing-function: cubic-bezier(.4,0,.2,1);
-            transition-duration: .15s;
-
-            &::placeholder {
-                color: hsl(v.$muted-foreground);
-                opacity: 1;
-            }
-
-            &:disabled {
-                opacity: .5;
-                cursor: not-allowed;
-            }
-        }
-
-        .password-toggle {
-            min-width: 65px;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        #signup-password,
-        #login-password,
-        #reset-password,
-        #reset-confirm {
-            border-right: none;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-    }
 }
 
-.loginpage--img-wrapper,
-.signuppage--img-wrapper,
-.verifypage--img-wrapper,
-.resetpage--img-wrapper {
+.splitpage1__img-wrapper {
     height: 100%;
 
     img {
@@ -1040,18 +964,12 @@ td {
         }
     }
 
-    .loginpage,
-    .signuppage,
-    .verifypage,
-    .resetpage {
+    .splitpage1 {
         min-height: 400px;
         grid-template-columns: 1fr;
         align-items: start;
 
-        .loginpage--rightside,
-        .signuppage--rightside,
-        .verifypage--rightside,
-        .resetpage--rightside {
+        .splitpage1__rightside {
             max-width: none;
         }
     }
