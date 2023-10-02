@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { MdSave } from "react-icons/md";
 import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
@@ -9,6 +9,7 @@ import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "..
 import useAuth from "../../hooks/useAuth";
 import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
 import { RootState } from "../../app/store";
+import { addToast } from "../../components/toastSlice";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,6 +20,8 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     const { userId } = useAuth();
     const param = useParams();
     const charplannerData = useSelector(selectCharplannerData);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [addNewBuild, {
         isLoading: isSaveLoading,
@@ -48,18 +51,23 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     const onSaveBuildClicked = async () => {
         try {
             if (isBuildAuthor) {
-                await updateBuild({
+                const { message } = await updateBuild({
                     buildId: param.buildId,
                     userId,
                     title: textareaInput,
                     data: charplannerData
                 }).unwrap();
+
+                dispatch(addToast({ type: "success", text: message }));
             } else {
-                await addNewBuild({
+                const { message, action } = await addNewBuild({
                     userId,
                     title: textareaInput,
                     data: charplannerData
                 }).unwrap();
+                
+                dispatch(addToast({ type: "success", text: message }));
+                navigate(`/charplanner/${action}`);
             }
         } catch (err: any) {
             if (!err.status) {
@@ -110,6 +118,8 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                             onChange={(e) => setTextareaInput(e.target.value)}
                         />
                     </div>
+
+                    <div className="divider-4" />
 
                     {(isUpdateError || isSaveError) ? (
                         <>
