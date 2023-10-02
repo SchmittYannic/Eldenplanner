@@ -14,11 +14,7 @@ const TextInput = ({ inputText, setInputText, label }: PropsType): ReactElement 
     };
 
     return (
-        <form 
-            className="InputForm"
-            action="" 
-            onSubmit={(e) => e.preventDefault()}
-        >
+        <div className="InputForm" >
             <label>
                 <input
                     type="text"
@@ -28,7 +24,7 @@ const TextInput = ({ inputText, setInputText, label }: PropsType): ReactElement 
                 />
                 <p>{label}</p>
             </label>
-        </form>
+        </div>
     )
 }
 
