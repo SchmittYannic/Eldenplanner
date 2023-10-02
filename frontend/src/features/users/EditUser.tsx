@@ -13,7 +13,8 @@ import {
     DialogMain,
     DialogIcon,
     DialogContent,
-    DialogButtons
+    DialogButtons,
+    FormInput,
 } from "../../components/ui";
 
 const EditUser = (): ReactElement => {
@@ -65,111 +66,108 @@ const EditUser = (): ReactElement => {
 
     return (
         <Dialog className="dialog__edituser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
-            <DialogMain>
-                <DialogIcon>
-                    <MdEdit />
-                </DialogIcon>
-                <DialogContent>
-                    <h3>Edit Account</h3>
+            <form action="" onSubmit={(e) => e.preventDefault()}>
+                <DialogMain>
+                    <DialogIcon>
+                        <MdEdit />
+                    </DialogIcon>
+                    <DialogContent>
+                        <h3>Edit Account</h3>
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <p>
-                        Change your account details below and click save to confirm.
-                    </p>         
+                        <p>
+                            Change your account details below and click save to confirm.
+                        </p>         
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <div className="input-wrapper">
-                        <label htmlFor="edit-username">
-                            Username:
-                        </label>
-                        <div className="divider-1" />
-                        <input
+                        <FormInput
                             id="edit-username"
+                            name="edit-username"
                             type="text"
+                            maxLength={20}
                             value={newUsername}
                             onChange={onNewUsernameChange}
-                            maxLength={20}
                             autoComplete="off"
-                        />                      
-                    </div>
+                        >
+                            Username
+                        </FormInput>
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <div className="input-wrapper">
-                        <label htmlFor="edit-email">
-                            Email:
-                        </label>
-                        <div className="divider-1" />
-                        <input
+                        <FormInput
                             id="edit-email"
+                            name="edit-email"
                             type="email"
+                            maxLength={320}
                             value={newEmail}
                             onChange={onNewEmailChange}
                             autoComplete="off"
-                        />
-                    </div>
+                        >
+                            Email
+                        </FormInput>
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <div className="input-wrapper">
-                        <label htmlFor="edit-password">
-                            Password:
-                        </label>
-                        <div className="divider-1" />
-                        <div className="flex">
-                            <input
-                                id="edit-password"
-                                className="input-password"
-                                type={isPasswordVisible ? "text" : "password"}
-                                value={newPassword}
-                                onChange={onNewPasswordChange}
-                                autoComplete="off"
-                            />
-                            <button
-                                className="password-toggle button"
-                                type="button"
-                                onClick={onShowHideClicked}
-                            >
-                                {isPasswordVisible ? "Hide" : "Show"}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="divider-4" />
-
-                    {isError ? (
-                        <>
-                            <div className="divider-4" />
-                            <div className="sm-alert errmsg full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{responseMsg}</span>
+                        <div className="input-wrapper">
+                            <label htmlFor="edit-password">
+                                Password:
+                            </label>
+                            <div className="divider-1" />
+                            <div className="flex">
+                                <input
+                                    id="edit-password"
+                                    className="input-password"
+                                    type={isPasswordVisible ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={onNewPasswordChange}
+                                    autoComplete="off"
+                                />
+                                <button
+                                    className="password-toggle button"
+                                    type="button"
+                                    onClick={onShowHideClicked}
+                                >
+                                    {isPasswordVisible ? "Hide" : "Show"}
+                                </button>
                             </div>
-                        </>
-                    ) : (<></>)}
-                </DialogContent>
-            </DialogMain>
-            <DialogButtons>
-                <button
-                    className="button"
-                    type="button"
-                    onClick={() => closeDialog(false)}
-                    title={"Cancel Edit"}
-                >
-                    Cancel
-                </button>
+                        </div>
 
-                <AsyncButton
-                    isLoading={isLoading}
-                    className="action-btn"
-                    type="submit"
-                    onClick={onSaveClicked}
-                    title="Edit Account"
-                >
-                    Save
-                </AsyncButton>
-            </DialogButtons>
+                        <div className="divider-4" />
+
+                        {isError ? (
+                            <>
+                                <div className="divider-4" />
+                                <div className="sm-alert errmsg full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
+                            </>
+                        ) : (<></>)}
+                    </DialogContent>
+                </DialogMain>
+                <DialogButtons>
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={() => closeDialog(false)}
+                        title={"Cancel Edit"}
+                    >
+                        Cancel
+                    </button>
+
+                    <AsyncButton
+                        isLoading={isLoading}
+                        className="action-btn"
+                        type="submit"
+                        onClick={onSaveClicked}
+                        title="Edit Account"
+                    >
+                        Save
+                    </AsyncButton>
+                </DialogButtons>
+            </form>
         </Dialog>
     )
 }
