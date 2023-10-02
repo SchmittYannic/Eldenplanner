@@ -1,6 +1,7 @@
 import { ReactElement, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdSwapVert, MdArrowDownward, MdArrowUpward, MdEdit } from "react-icons/md";
+import { BsFillTrashFill } from "react-icons/bs"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -41,7 +42,11 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const onEditClick = (userId: string) => {
-        navigate(`/users/${userId}`);
+        navigate(`/users/${userId}/edit`);
+    };
+
+    const onDeleteClick = (userId: string) => {
+        navigate(`/users/${userId}/delete`);
     };
 
     const columns = useMemo<ColumnDef<UserAsAdminType, any>[]>(
@@ -114,6 +119,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 cell: info => (
                     <button
                         className="button"
+                        type="button"
                         onClick={() => onEditClick(info.getValue())}
                         title="edit user"
                     >
@@ -122,6 +128,24 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 )  
                 ,
                 header: () => <span>Edit</span>,
+                enableColumnFilter: false,
+                enableSorting: false,
+            },
+            {
+                accessorFn: row => row.id,
+                id: "delete",
+                cell: info => (
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={() => onDeleteClick(info.getValue())}
+                        title="delete user"
+                    >
+                        <BsFillTrashFill />
+                    </button>
+                )  
+                ,
+                header: () => <span>Delete</span>,
                 enableColumnFilter: false,
                 enableSorting: false,
             },
