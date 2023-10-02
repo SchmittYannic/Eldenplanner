@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { ClipLoader } from "react-spinners";
 import { MdSave } from "react-icons/md";
 
 import { RootState } from "../../app/store";
@@ -10,7 +9,14 @@ import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
 import { selectCharplannerData } from "./charplannerSlice";
 import { addToast } from "../../components/toastSlice";
 import useAuth from "../../hooks/useAuth";
-import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
+import {
+    AsyncButton,
+    Dialog,
+    DialogButtons,
+    DialogContent,
+    DialogIcon,
+    DialogMain
+} from "../../components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -144,25 +150,15 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     Cancel
                 </button>
 
-                <button
+                <AsyncButton
+                    isLoading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
                     className="action-btn"
                     type="submit"
                     onClick={onSaveBuildClicked}
                     title={buttonText + " Build"}
                 >
-                    <p className={(isSaveLoading || isUpdateLoading) ? "hidden" : "visible"}>{buttonText}</p>
-                    {((isSaveLoading || isUpdateLoading) && 
-                        <div className="cliploader-centered">
-                            <ClipLoader
-                                color={"rgb(231, 214, 182)"}
-                                loading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
-                                size={20}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                        </div>
-                    )}
-                </button>
+                    {buttonText}
+                </AsyncButton>
             </DialogButtons>
         </Dialog>
     )
