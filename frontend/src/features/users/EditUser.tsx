@@ -132,6 +132,8 @@ const EditUser = (): ReactElement => {
                         </div>
                     </div>
 
+                    <div className="divider-4" />
+
                     {isError ? (
                         <>
                             <div className="divider-4" />
