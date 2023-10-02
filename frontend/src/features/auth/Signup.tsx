@@ -19,15 +19,12 @@ const Signup = (): ReactElement => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const [responseMsg, setResponseMsg] = useState("");
 
     const onChangeUsername = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
     const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
-
-    const onShowHideClicked = () => setIsPasswordVisible(!isPasswordVisible);
 
     const onSubmitClick = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -90,14 +87,13 @@ const Signup = (): ReactElement => {
                                 id="signup-username"
                                 name="signup-username"
                                 type="text"
+                                label="Username"
                                 maxLength={20}
                                 value={username}
                                 onChange={onChangeUsername}
                                 autoComplete="off"
                                 placeholder="JohnDoe"
-                            >
-                                Username
-                            </FormInput>
+                            />
 
                             <div className="divider-4" />
 
@@ -105,39 +101,26 @@ const Signup = (): ReactElement => {
                                 id="signup-email"
                                 name="signup-email"
                                 type="email"
+                                label="Email"
                                 maxLength={320}
                                 value={email}
                                 onChange={onChangeEmail}
                                 autoComplete="off"
                                 placeholder="name@example.com"
-                            >
-                                Email
-                            </FormInput>
+                            />
 
                             <div className="divider-4" />
 
-                            <div className="signuppage--input-wrapper password">
-                                <label htmlFor="signup-password">
-                                    Password
-                                </label>
-                                <div className="divider-1" />
-                                <div className="flex">
-                                    <input
-                                        id="signup-password"
-                                        type={isPasswordVisible ? "text" : "password"}
-                                        value={password}
-                                        onChange={onChangePassword}
-                                        autoComplete="off"
-                                    />
-                                    <button
-                                        className="password-toggle button"
-                                        type="button"
-                                        onClick={onShowHideClicked}
-                                    >
-                                        {isPasswordVisible ? "Hide" : "Show"}
-                                    </button>
-                                </div>
-                            </div>
+                            <FormInput
+                                id="signup-password"
+                                name="signup-password"
+                                className="input-password"
+                                type="password"
+                                label="Password"
+                                value={password}
+                                onChange={onChangePassword}
+                                autoComplete="off"
+                            />
 
                             <div className="divider-4" />
 
