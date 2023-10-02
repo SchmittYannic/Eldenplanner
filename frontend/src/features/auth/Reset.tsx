@@ -77,14 +77,13 @@ const Reset = ():ReactElement => {
                                 id="reset-user"
                                 name="reset-user"
                                 type="text"
+                                label="Username or Email"
                                 maxLength={320}
                                 value={user}
                                 onChange={onUserChange}
                                 autoComplete="off"
                                 placeholder="name@example.com"
-                            >
-                                Username or Email
-                            </FormInput>
+                            />
 
                             <div className="divider-4" />
 

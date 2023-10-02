@@ -51,7 +51,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     });
     const isBuildAuthor = userId === build?.user;
     const initialStateTextarea = isBuildAuthor ? build?.title : "";
-    const [textareaInput, setTextareaInput] = useState(initialStateTextarea);
+    const [inputValue, setInputValue] = useState(initialStateTextarea);
     const [responseMsg, setResponseMsg] = useState("");
 
     const buttonText = isBuildAuthor ? "Update" : "Save";
@@ -62,7 +62,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                 const { message } = await updateBuild({
                     buildId: param.buildId,
                     userId,
-                    title: textareaInput,
+                    title: inputValue,
                     data: charplannerData
                 }).unwrap();
 
@@ -70,7 +70,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
             } else {
                 const { message, action } = await addNewBuild({
                     userId,
-                    title: textareaInput,
+                    title: inputValue,
                     data: charplannerData
                 }).unwrap();
                 
@@ -90,7 +90,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     useEffect(() => {
         if(isSaveSuccess || isUpdateSuccess) {
-            setTextareaInput("");
+            setInputValue("");
             setTrigger(false);
         }
     }, [isSaveSuccess, isUpdateSuccess]);
@@ -117,12 +117,11 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                             id="buildtitle"
                             name="buildtitle"
                             type="text"
+                            label="Build Title"
                             maxLength={50}
-                            value={textareaInput}
-                            onChange={(e) => setTextareaInput(e.target.value)}
-                        >
-                            Build Title:
-                        </FormInput>
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                        />
 
                         <div className="divider-4" />
 

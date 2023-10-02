@@ -75,14 +75,13 @@ const Verify = () => {
                                 id="verify-email"
                                 name="verify-email"
                                 type="email"
+                                label="Email"
                                 maxLength={320}
                                 value={email}
                                 onChange={onEmailChange}
                                 autoComplete="off"
                                 placeholder="name@example.com"
-                            >
-                                Email
-                            </FormInput>
+                            />
 
                             <div className="divider-4" />
 

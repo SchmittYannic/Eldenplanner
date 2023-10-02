@@ -76,13 +76,12 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                             id="confirmdeletion"
                             name="confirmdeletion"
                             type="text"
+                            label="To Confirm, type DELETE in the field below"
                             maxLength={20}
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             autoComplete="off"
-                        >
-                            To Confirm, type DELETE in the field below
-                        </FormInput>
+                        />
 
                         <div className="divider-4" />
 
