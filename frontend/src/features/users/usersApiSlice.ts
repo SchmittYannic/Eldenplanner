@@ -81,7 +81,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: ({ id }) => ({
                 url: `/users`,
                 method: 'DELETE',
-                body: { id }
+                body: { id },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
             }),
             invalidatesTags: (arg) => {
                 if (arg) {

@@ -9,7 +9,10 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {
                     ...initialBuildData,
-                }
+                },
+                validateStatus: (response, result) => {
+                    return response.status === 201 && !result.isError
+                },
             }),
             invalidatesTags: [
                 { type: 'Build', id: "LIST" }
@@ -21,7 +24,10 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: {
                     ...initialBuildData,
-                }
+                },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
             }),
             invalidatesTags: (arg) => {
                 if (arg) {
@@ -38,6 +44,9 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 url: "/builds",
                 method: "DELETE",
                 body: { buildId },
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
             }),
             invalidatesTags: (arg) => {
                 if (arg) {
