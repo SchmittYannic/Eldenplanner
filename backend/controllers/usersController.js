@@ -1,6 +1,7 @@
-import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import * as EmailValidator from "email-validator";
+import User from "../models/User.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 
 // @desc Get all users
@@ -92,7 +93,38 @@ const updateUser = async (req, res) => {
 
     const updateUser = await user.save();
 
-    res.status(200).json({ message: `${updateUser.username} updated`});
+    const accessToken = jwt.sign(
+        {
+            "UserInfo": {
+                "userId": updateUser._id,
+                "username": updateUser.username,
+                "email": updateUser.email,
+                "roles": updateUser.roles,
+            }
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { 
+            expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+        }
+    );
+
+    const refreshToken = jwt.sign(
+        { "username": updateUser.username },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+        }
+    );
+
+    // Create secure cookie with refresh token 
+    res.cookie("jwt", refreshToken, {
+        httpOnly: true, //accessible only by web server 
+        secure: true, //https
+        sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
+        maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+    });
+
+    res.status(200).json({ message: `${updateUser.username} updated`, accessToken });
 };
 
 // @desc Delete a user
