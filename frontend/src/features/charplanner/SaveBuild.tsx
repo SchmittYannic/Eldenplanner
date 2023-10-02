@@ -15,7 +15,8 @@ import {
     DialogButtons,
     DialogContent,
     DialogIcon,
-    DialogMain
+    DialogMain,
+    FormInput,
 } from "../../components/ui";
 
 type PropsType = {
@@ -96,70 +97,68 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     return (
         <Dialog className="dialog__savebuild" setDialog={setTrigger}>
-            <DialogMain>
-                <DialogIcon>
-                    <MdSave />
-                </DialogIcon>
-                <DialogContent>
-                    <h3>Save Build</h3>
+            <form action="" onSubmit={(e) => e.preventDefault()}>
+                <DialogMain>
+                    <DialogIcon>
+                        <MdSave />
+                    </DialogIcon>
+                    <DialogContent>
+                        <h3>Save Build</h3>
 
-                    <div className="divider-4" />
-    
-                    <p>
-                        Give your build a fitting title, so other users can find your build under the Community Builds Tab.
-                    </p>         
+                        <div className="divider-4" />
+        
+                        <p>
+                            Give your build a fitting title, so other users can find your build under the Community Builds Tab.
+                        </p>         
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <div className="input-wrapper">
-                        <label htmlFor="buildtitle">
-                            Build Title:
-                        </label>
-                        <div className="divider-1" />
-                        <input
-                            name="buildtitle"
+                        <FormInput
                             id="buildtitle"
+                            name="buildtitle"
                             type="text"
                             maxLength={50}
                             value={textareaInput}
                             onChange={(e) => setTextareaInput(e.target.value)}
-                        />
-                    </div>
+                        >
+                            Build Title:
+                        </FormInput>
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    {(isUpdateError || isSaveError) ? (
-                        <>
-                            <div className="divider-4" />
-                            <div className="sm-alert errmsg full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{responseMsg}</span>
-                            </div>
-                        </>
-                    ) : (<></>)}
+                        {(isUpdateError || isSaveError) ? (
+                            <>
+                                <div className="divider-4" />
+                                <div className="sm-alert errmsg full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
+                            </>
+                        ) : (<></>)}
 
-                </DialogContent>
-            </DialogMain>
-            <DialogButtons>
-                <button
-                    className="button"
-                    type="button"
-                    onClick={() => setTrigger(false)}
-                    title={"Cancel " + buttonText}
-                >
-                    Cancel
-                </button>
+                    </DialogContent>
+                </DialogMain>
+                <DialogButtons>
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={() => setTrigger(false)}
+                        title={"Cancel " + buttonText}
+                    >
+                        Cancel
+                    </button>
 
-                <AsyncButton
-                    isLoading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
-                    className="action-btn"
-                    type="submit"
-                    onClick={onSaveBuildClicked}
-                    title={buttonText + " Build"}
-                >
-                    {buttonText}
-                </AsyncButton>
-            </DialogButtons>
+                    <AsyncButton
+                        isLoading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
+                        className="action-btn"
+                        type="submit"
+                        onClick={onSaveBuildClicked}
+                        title={buttonText + " Build"}
+                    >
+                        {buttonText}
+                    </AsyncButton>
+                </DialogButtons>
+            </form>
         </Dialog>
     )
 }
