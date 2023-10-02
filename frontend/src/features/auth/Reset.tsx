@@ -1,10 +1,11 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
-import useWindowSize from "../../hooks/useWindowSize";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
-import { useSendResetRequestMutation } from "./authApiSlice";
+
 import { isCustomError } from "../../app/api/apiSlice";
+import { useSendResetRequestMutation } from "./authApiSlice";
+import useWindowSize from "../../hooks/useWindowSize";
+import { AsyncButton } from "../../components/ui";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Reset = ():ReactElement => {
 
@@ -116,22 +117,16 @@ const Reset = ():ReactElement => {
                                 </>
                             )}
 
-                            <button
+                            <AsyncButton
+                                isLoading={isLoading}
                                 className="action-btn full"
                                 type="submit"
                                 onClick={onSubmitClicked}
                                 disabled={isLoading ? true : false}
+                                title="submit reset password request"
                             >
-                                {!isLoading ? "Submit" :
-                                    <ClipLoader
-                                        color={"rgb(231, 214, 182)"}
-                                        loading={isLoading}
-                                        size={20}
-                                        aria-label="Loading Spinner"
-                                        data-testid="loader"
-                                    />
-                                }
-                            </button>
+                                Submit
+                            </AsyncButton>
                         </form>
                     </div>              
                 </div>
