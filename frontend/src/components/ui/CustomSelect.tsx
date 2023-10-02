@@ -1,7 +1,6 @@
 import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { MdClose, MdExpandMore } from "react-icons/md";
 import "./CustomSelect.scss";
-import "./ListElement.scss";
 
 type SearchSelectPropsType = {
     id: string,
