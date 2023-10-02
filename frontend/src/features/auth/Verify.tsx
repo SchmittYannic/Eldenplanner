@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, KeyboardEvent, useState } from "react";
 
 import { useSendVerificationEmailMutation } from "./authApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton } from "../../components/ui";
+import { AsyncButton, FormInput } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
 const Verify = () => {
@@ -69,21 +69,20 @@ const Verify = () => {
                         <form
                             className="verifypage--form"
                             method="post"
+                            onSubmit={(e) => e.preventDefault()}
                         >
-                            <div className="verifypage--input-wrapper email">
-                                <label htmlFor="verify-email">
-                                    Email
-                                </label>
-                                <div className="divider-1" />
-                                <input
-                                    id="verify-email"
-                                    type="email"
-                                    value={email}
-                                    onChange={onEmailChange}
-                                    autoComplete="off"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
+                            <FormInput
+                                id="verify-email"
+                                name="verify-email"
+                                type="email"
+                                maxLength={320}
+                                value={email}
+                                onChange={onEmailChange}
+                                autoComplete="off"
+                                placeholder="name@example.com"
+                            >
+                                Email
+                            </FormInput>
 
                             <div className="divider-4" />
 
