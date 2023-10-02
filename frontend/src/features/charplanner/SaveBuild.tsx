@@ -66,8 +66,8 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     data: charplannerData
                 }).unwrap();
                 
-                dispatch(addToast({ type: "success", text: message }));
                 navigate(`/charplanner/${action}`);
+                dispatch(addToast({ type: "success", text: message }));
             }
         } catch (err: any) {
             if (!err.status) {
