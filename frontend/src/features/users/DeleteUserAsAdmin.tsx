@@ -1,35 +1,52 @@
-import { ReactElement,useState } from "react";
+import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
 import { MdWarningAmber } from "react-icons/md";
-import { Dialog, DialogMain, DialogContent, DialogIcon, DialogButtons } from "../../components/ui";
+
 import { UserAsAdminType, useDeleteUserAsAdminMutation } from "./usersAsAdminApiSlice";
+import { addToast } from "../../components/toastSlice";
+import {
+    AsyncButton,
+    Dialog,
+    DialogButtons,
+    DialogContent,
+    DialogIcon,
+    DialogMain,
+    FormInput,
+} from "../../components/ui";
 
-type PropsType = {
+type DeleteUserAsAdminPropsType = {
     user: UserAsAdminType,
-    setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
-}
+};
 
-const DeleteUserAsAdmin = ({ user, setTrigger }: PropsType): ReactElement => {
+const DeleteUserAsAdmin = ({ user }: DeleteUserAsAdminPropsType): ReactElement => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [DeleteUserAsAdmin, {
         isLoading,
         isError,
     }] = useDeleteUserAsAdminMutation();
 
-    const navigate = useNavigate();
-
     const [inputValue, setInputValue] = useState("");
     const [responseMsg, setResponseMsg] = useState("");
 
+    const closeDialog = (boolean: boolean) => {
+        if (!boolean) {
+            navigate(`/users`);
+        }
+    };
+
     const onConfirmDeletionClicked = async () => {
         try {
-            await DeleteUserAsAdmin(user).unwrap();
-            navigate("/users")
+            const { message } = await DeleteUserAsAdmin(user).unwrap();
+            navigate("/users");
+            dispatch(addToast({ type: "success", text: message }));
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
-            } else if (err.status === 400 || err.status === 401) {
+            } else if ([400, 401].includes(err.status)) {
                 setResponseMsg(err.data?.message);
             } else {
                 setResponseMsg("an error occured");
@@ -40,7 +57,7 @@ const DeleteUserAsAdmin = ({ user, setTrigger }: PropsType): ReactElement => {
     const isUsername = inputValue === user.username;
 
     return (
-        <Dialog className="dialog__deleteuser" setDialog={setTrigger}>
+        <Dialog className="dialog__deleteuser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
             <DialogMain>
                 <DialogIcon>
                     <MdWarningAmber />
@@ -57,21 +74,16 @@ const DeleteUserAsAdmin = ({ user, setTrigger }: PropsType): ReactElement => {
 
                     <div className="divider-4" />
 
-                    <div className="input-wrapper">
-                        <label htmlFor="confirm-user-deletion">
-                            To Confirm, type the Username in the field below
-                        </label>
-                        <div className="divider-1" />
-                        <input
-                            id="confirm-user-deletion"
-                            name="confirm-user-deletion"
-                            type="text"
-                            maxLength={30}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            autoComplete="off"
-                        />
-                    </div>
+                    <FormInput
+                        id="confirm-user-deletion"
+                        name="confirm-user-deletion"
+                        type="text"
+                        label="To Confirm, type the Username in the field below"
+                        maxLength={20}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        autoComplete="off"
+                    />
 
                     {isError ? (
                         <>
@@ -85,28 +97,16 @@ const DeleteUserAsAdmin = ({ user, setTrigger }: PropsType): ReactElement => {
                 </DialogContent>
             </DialogMain>
             <DialogButtons>
-                <button
+                <AsyncButton
+                    isLoading={isLoading}
                     className="action-btn"
                     type="submit"
                     onClick={onConfirmDeletionClicked}
                     disabled={!isUsername}
                     title={!isUsername ? "type the username into the field above" : "Confirm Deletion"}
                 >
-                    <p className={isLoading ? "hidden" : "visible"}>
-                        Delete
-                    </p>
-                    {isLoading &&
-                        <div className="cliploader-centered">
-                            <ClipLoader
-                                color={"rgb(231, 214, 182)"}
-                                loading={isLoading}
-                                size={20}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                        </div>
-                    }
-                </button>
+                    Delete
+                </AsyncButton>
             </DialogButtons>
         </Dialog>
     )
