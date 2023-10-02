@@ -56,7 +56,7 @@
             height: 40px;
         }
 
-        p {
+        .dialog__content > p {
             color: hsl(v.$muted-foreground)
         }
     }
