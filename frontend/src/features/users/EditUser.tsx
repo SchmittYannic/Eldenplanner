@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 
 import { useUpdateUserMutation } from "./usersApiSlice";
+import { setCredentials } from "../auth/authSlice";
 import { addToast } from "../../components/toastSlice";
 import useAuth from "../../hooks/useAuth";
 import {
@@ -47,8 +48,9 @@ const EditUser = (): ReactElement => {
 
     const onSaveClicked = async () => {
         try {
-            const { message } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
+            const { message, accessToken } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
             closeDialog(false);
+            dispatch(setCredentials({ accessToken }));
             dispatch(addToast({ type: "success", text: message }));
         } catch (err: any) {
             if (!err.status) {
