@@ -1,10 +1,13 @@
 import { ReactElement, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { MdWarningAmber } from "react-icons/md";
-import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
+
 import { useDeleteBuildMutation } from "./charplannerApiSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { addToast } from "../../components/toastSlice";
 import useAuth from "../../hooks/useAuth";
+import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -12,9 +15,10 @@ type PropsType = {
 
 const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const params = useParams();
     const { userId } = useAuth();
-    const navigate = useNavigate();
 
     const [deleteBuild, {
         isLoading,
@@ -26,8 +30,9 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     const onConfirmDeletionClicked = async () => {
         try {
-            await deleteBuild(params.buildId).unwrap();
+            const { message } = await deleteBuild(params.buildId).unwrap();
             navigate(`/user/${userId}`);
+            dispatch(addToast({ type: "success", text: message }));
         } catch (err: any) {
             if (!err.status) {
                 setResponseMsg("No Server Response");
@@ -74,6 +79,8 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                             autoComplete="off"
                         />
                     </div>
+
+                    <div className="divider-4" />
 
                     {isError ? (
                         <>
