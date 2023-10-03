@@ -11,8 +11,8 @@ const usersAsAdminAdapter = createEntityAdapter({});
 const initialState = usersAsAdminAdapter.getInitialState();
 
 export type UserAsAdminType = {
-    _id: number
-    id: number
+    _id: string
+    id: string
     username: string
     email: string
     validated: boolean
@@ -20,6 +20,31 @@ export type UserAsAdminType = {
     roles: string[]
     createdAt: string
     updatedAt: string
+};
+
+export const isUserAsAdminType = (object: any): object is UserAsAdminType => {
+    if (!object) return false
+    if (typeof object !== "object") return false
+    if (!("_id" in object)) return false
+    if (typeof object._id !== "string") return false
+    if (!("id" in object)) return false
+    if (typeof object.id !== "string") return false
+    if (!("username" in object)) return false
+    if (typeof object.username !== "string") return false
+    if (!("email" in object)) return false
+    if (typeof object.email !== "string") return false
+    if (!("validated" in object)) return false
+    if (typeof object.validated !== "boolean") return false
+    if (!("active" in object)) return false
+    if (typeof object.active !== "boolean") return false
+    if (!("roles" in object)) return false
+    if (!Array.isArray(object.roles)) return false
+    if (object.roles.some((value: any) => typeof value !== "string")) return false
+    if (!("createdAt" in object)) return false
+    if (typeof object.createdAt !== "string") return false
+    if (!("updatedAt" in object)) return false
+    if (typeof object.updatedAt !== "string") return false
+    return true
 };
 
 export const usersAsAdminApiSlice = apiSlice.injectEndpoints({

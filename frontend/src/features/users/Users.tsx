@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
 import { isCustomError } from "../../app/api/apiSlice";
-import { UserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
+import { UserAsAdminType, isUserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList from "./UsersList";
 import EditUserAsAdmin from "./EditUserAsAdmin";
 import DeleteUserAsAdmin from "./DeleteUserAsAdmin";
@@ -31,8 +31,8 @@ const Users = (): ReactElement => {
         return (
             <>
                 <UsersList data={tableData} />
-                {user && params.action === "edit" && <EditUserAsAdmin user={user as UserAsAdminType} />}
-                {user && params.action === "delete" && <DeleteUserAsAdmin user={user as UserAsAdminType} />}
+                {isUserAsAdminType(user) && params.action === "edit" && <EditUserAsAdmin user={user} />}
+                {isUserAsAdminType(user) && params.action === "delete" && <DeleteUserAsAdmin user={user} />}
             </>
         )
     } else if (isLoading) {
