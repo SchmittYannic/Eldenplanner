@@ -36,7 +36,7 @@ const Header = (): ReactElement => {
                                 </Link>
                             ) : (
                                 <Link className="nav-logo" to={"/"}>
-                                    <div>ELDENPLANNER</div>
+                                    <div className="gold-text-background">ELDENPLANNER</div>
                                 </Link>
                             )}
 

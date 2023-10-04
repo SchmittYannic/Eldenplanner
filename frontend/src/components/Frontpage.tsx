@@ -20,7 +20,7 @@ const Frontpage = (): ReactElement => {
                     {!isMobile && <ParticlesHeroBg />}
                     <div className="hero-foreground">
                         <div className="hero-text">
-                            <h1>ELDENPLANNER</h1>
+                            <h1 className="gold-text-background">ELDENPLANNER</h1>
                             <div className="divider-4" />
                             <div className="divider-4" />
                             <p>
