@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
@@ -11,8 +11,7 @@ const UserPage = (): ReactElement => {
 
     const param = useParams();
     const userId = param?.userId;
-    const { username } = useAuth();
-    const navigate = useNavigate();
+    const { username, isAdmin, isDemoadmin } = useAuth();
 
     const { 
         data: users,
@@ -29,10 +28,6 @@ const UserPage = (): ReactElement => {
 
     const isOwnProfile = user ? username === user?.username : false;
 
-    const onEditProfileClicked = () => {
-        if (param?.userId) navigate(`/user/${param?.userId}/edit`);
-    };
-
     if (user) {
         return (
             <main className="main--userpage">
@@ -42,18 +37,29 @@ const UserPage = (): ReactElement => {
                         <div className="divider-2" />
                         <p>Joined {month} {year}</p>
                         <div className="divider-2" />
-                        {isOwnProfile && (
-                            // turn into Link later
-                            <button
-                                className="button"
-                                type="button"
-                                onClick={onEditProfileClicked}
-                                title="edit account"
-                                disabled={param?.edit === "edit" ? true : false}
-                            >
-                                Edit Account
-                            </button>
-                        )}
+                        <div className="flex">
+                            {isOwnProfile && (
+                                <Link
+                                    to={`/user/${param?.userId}/edit`}
+                                    className="button"
+                                    title="edit account"
+                                >
+                                    Edit Account
+                                </Link>
+                            )}
+                            {(isAdmin || isDemoadmin) && (
+                                <>
+                                    <div className="v-divider-4" />
+                                    <Link
+                                        to={"/users"}
+                                        className="action-btn"
+                                        title="go to Admin Panel"
+                                    >
+                                        Admin Panel
+                                    </Link>
+                                </>
+                            )}
+                        </div>
                     </div>
 
                     {param?.edit === "edit" && isOwnProfile && <EditUser />}
