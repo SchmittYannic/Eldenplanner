@@ -13,7 +13,7 @@ const Header = (): ReactElement => {
     const [sendLogout, {}] = useSendLogoutMutation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const isSmallDesktop = windowSize.width && windowSize.width < 1040;
+    const isSmallDesktop = windowSize.width && windowSize.width < 920;
     const isMobile = windowSize.width && windowSize.width < 850;
 
     const closeMenu = () => setIsMenuOpen(false);
