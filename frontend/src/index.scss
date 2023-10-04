@@ -303,8 +303,8 @@ textarea {
 }
 
 .gold-text-background {
-    background: #efd159;
-    background-color: #efd159;
+    background: v.$gold;
+    background-color: v.$gold;
     background-image: url("/highqualitygold.jpg");
     background-clip: text;
     -webkit-background-clip: text;
@@ -730,14 +730,14 @@ td {
         width: 600px;
         height: 600px;
         transform: translate(-350px, -100px);
-        background-image: radial-gradient(circle, hsla(v.$elden-ring-color), transparent 50%);
+        background-image: radial-gradient(circle, hsla(v.$elden-ring-color-transparent), transparent 50%);
     }
 
     &.right {
         width: 400px;
         height: 400px;
         transform: translate(200px, 60px);
-        background-image: radial-gradient(circle, hsla(v.$elden-ring-color), transparent 50%);
+        background-image: radial-gradient(circle, hsla(v.$elden-ring-color-transparent), transparent 50%);
     }
 }
 
@@ -787,6 +787,14 @@ td {
             font-size: 1.125rem;
             line-height: 2rem;
             font-weight: 400;
+
+            > a {
+                color: v.$gold; //hsl(v.$elden-ring-color);
+
+                &:visited {
+                    color: v.$gold;
+                }
+            }
         }
 
         > .action-btn {
