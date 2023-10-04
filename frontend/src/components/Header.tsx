@@ -60,13 +60,6 @@ const Header = (): ReactElement => {
                                             <p>Community Builds</p>
                                         </NavLink>
                                     </li>
-                                    {(isAdmin || isDemoadmin) && (
-                                        <li>
-                                            <NavLink className="nav-link" to="/users">
-                                                <p>Users</p>
-                                            </NavLink>
-                                        </li>
-                                    )}
                                     {status === "Visitor" && (
                                         <li>
                                             <NavLink className="nav-link" to="/login">
@@ -112,34 +105,23 @@ const Header = (): ReactElement => {
                     <div className="mobile-menu">
                         <ul>
                             <li>
-                                <Link
+                                <NavLink
                                     className="nav-link"
                                     to="/charplanner"
                                     onClick={closeMenu}
                                 >
-                                    Charplanner
-                                </Link>
+                                    <p>Charplanner</p>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
+                                <NavLink
                                     className="nav-link"
                                     to="/builds"
                                     onClick={closeMenu}
                                 >
-                                    Community Builds
-                                </Link>
+                                    <p>Community Builds</p>
+                                </NavLink>
                             </li>
-                            {(isAdmin || isDemoadmin) && (
-                                <li>
-                                    <Link
-                                        className="nav-link"
-                                        to="/users"
-                                        onClick={closeMenu}
-                                    >
-                                        Users
-                                    </Link>
-                                </li>
-                            )}
                         </ul>
 
                         <div className="horizontal-divider" />
@@ -147,46 +129,48 @@ const Header = (): ReactElement => {
                         <ul>
                             {status === "Visitor" && (
                                 <li>
-                                    <Link
+                                    <NavLink
                                         className="nav-link"
                                         to="/login"
                                         onClick={closeMenu}
                                     >
-                                        Login
-                                    </Link>
+                                        <p>Login</p>
+                                    </NavLink>
                                 </li>
                             )}
                             {status === "Visitor" && (
                                 <li>
-                                    <Link
+                                    <NavLink
                                         className="nav-link"
                                         to="/signup"
                                         onClick={closeMenu}
                                     >
-                                        Sign Up
-                                    </Link>
+                                        <p>Sign Up</p>
+                                    </NavLink>
                                 </li>
                             )}
-                            {(isUser || isDemoadmin || isAdmin) && (
+                            {status !== "Visitor" && (
                                 <li>
-                                    <Link
+                                    <NavLink
                                         className="nav-link"
                                         to={`/user/${userId}`}
                                         onClick={closeMenu}
                                     >
-                                        Your Profile
-                                    </Link>
+                                        <p>Your Profile</p>
+                                    </NavLink>
                                 </li>
                             )}
                             {status !== "Visitor" && (
                                 <li>
                                     <button
-                                        className="nav-link"
+                                        className="nav-link logout"
                                         type="button"
                                         onClick={onLogoutClick}
                                     >
-                                        <div>Logout</div>
-                                        <MdLogout />
+                                        <p>
+                                            Logout
+                                            <MdLogout />
+                                        </p>
                                     </button>
                                 </li>
                             )}
