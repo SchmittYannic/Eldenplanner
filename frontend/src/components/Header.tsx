@@ -31,8 +31,8 @@ const Header = (): ReactElement => {
                         <div className="nav-inner">
                             {isSmallDesktop ? (
                                 <Link className="nav-logo" to={"/"}>
-                                    <img src={navbarlogo} alt="" />
-                                    <div>EP</div>
+                                    <img src={navbarlogo} alt="navbarlogo" />
+                                    <div className="gold-text-background">EP</div>
                                 </Link>
                             ) : (
                                 <Link className="nav-logo" to={"/"}>
