@@ -23,9 +23,11 @@ const Frontpage = (): ReactElement => {
                             <h1 className="gold-text-background">ELDENPLANNER</h1>
                             <div className="divider-4" />
                             <div className="divider-4" />
+                            <div className="divider-4" />
                             <p>
                                 A Character Build Planner for the game Elden Ring. The perfect starting point for your next adventure through the Lands Between.
                             </p>
+                            <div className="divider-4" />
                             <div className="divider-4" />
                             <div className="divider-4" />
                             <Link to={"/charplanner"} className="action-btn">

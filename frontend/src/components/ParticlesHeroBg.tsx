@@ -569,7 +569,7 @@ const ParticlesHeroBg = () => {
                         y: 0,
                     },
                     "draw": {
-                        "enable": true,
+                        "enable": false,
                         "stroke": {
                             "color": {
                                 "value": "rgba(237, 208, 106, 1)" //"rgba(206,192,143,1)"
