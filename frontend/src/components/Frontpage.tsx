@@ -1,12 +1,20 @@
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
+
+import useWindowSize from "../hooks/useWindowSize";
 import ParticlesHeroBg from "./ParticlesHeroBg";
+import { herobg } from "../assets";
 
 const Frontpage = (): ReactElement => {
+
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
+
     return (
         <main className="frontpage">
             <section className="hero">
-                <ParticlesHeroBg />
+                <img className="hero-img" src={herobg} alt="elden-planner-logo-outline" />
+                {!isMobile && <ParticlesHeroBg />}
                 <div className="hero-foreground">
                     <div className="hero-text">
                         <h1>ELDENPLANNER</h1>
