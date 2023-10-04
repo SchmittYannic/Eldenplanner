@@ -688,6 +688,7 @@ td {
     border-radius: calc(v.$border-radius - 2px);
     border-style: solid;
     cursor: pointer;
+    text-decoration: none;
     transition-property: color, background-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .15;
