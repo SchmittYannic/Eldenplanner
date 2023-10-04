@@ -11,27 +11,31 @@ const Frontpage = (): ReactElement => {
     const isMobile = windowSize.width && windowSize.width < 850;
 
     return (
-        <main className="frontpage">
-            <section className="hero">
-                <img className="hero-img" src={herobg} alt="elden-planner-logo-outline" />
-                {!isMobile && <ParticlesHeroBg />}
-                <div className="hero-foreground">
-                    <div className="hero-text">
-                        <h1>ELDENPLANNER</h1>
-                        <div className="divider-4" />
-                        <div className="divider-4" />
-                        <p>
-                            A Character Build Planner for the game Elden Ring. The perfect starting point for your next adventure through the Lands Between.
-                        </p>
-                        <div className="divider-4" />
-                        <div className="divider-4" />
-                        <Link to={"/charplanner"} className="action-btn">
-                            Get started
-                        </Link>
+        <>
+            <div className="radial-glow left"></div>
+            <div className="radial-glow right"></div>
+            <main className="frontpage">
+                <section className="hero">
+                    <img className="hero-img" src={herobg} alt="elden-planner-logo-outline" />
+                    {!isMobile && <ParticlesHeroBg />}
+                    <div className="hero-foreground">
+                        <div className="hero-text">
+                            <h1>ELDENPLANNER</h1>
+                            <div className="divider-4" />
+                            <div className="divider-4" />
+                            <p>
+                                A Character Build Planner for the game Elden Ring. The perfect starting point for your next adventure through the Lands Between.
+                            </p>
+                            <div className="divider-4" />
+                            <div className="divider-4" />
+                            <Link to={"/charplanner"} className="action-btn">
+                                Get started
+                            </Link>
+                        </div>
                     </div>
-                </div>
-            </section>          
-        </main>
+                </section>          
+            </main>
+        </>
     )
 };
 
