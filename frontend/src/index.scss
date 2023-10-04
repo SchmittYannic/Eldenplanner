@@ -739,12 +739,10 @@ td {
     .hero-foreground {
         position: absolute;
         inset: 0;
-        display: flex;
-        align-items: center;
     }
 
     .hero-text {
-        margin: 0 auto;
+        margin: 7rem auto 0 auto;
         max-width: 36rem;
         display: flex;
         flex-direction: column;
@@ -1027,6 +1025,26 @@ td {
 
         .splitpage1__rightside {
             max-width: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .hero .hero-text {
+        > h1 {
+            font-size: 1.85rem; /* 60px */
+            line-height: 1;
+        }
+
+        > p {
+            font-size: 1rem;
+            line-height: 1.75rem;
+            font-weight: 400;
+        }
+
+        > .action-btn {
+            padding: 1.25rem 1.25rem;
+            font-size: 1rem;
         }
     }
 }
