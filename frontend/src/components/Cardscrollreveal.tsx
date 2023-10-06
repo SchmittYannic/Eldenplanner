@@ -35,10 +35,10 @@ const Cardscrollreveal = () => {
     return (
         <section className="cardscrollreveal-section">
             <div className="cardscrollreveal-container" ref={containerRef}>
-                <div className="img-wrapper img-above">
+                <div className="card-wrapper card-above">
                     <img src="" alt="" />
                 </div>
-                <div className="img-wrapper img-below" ref={imgBelowWrapperRef}>
+                <div className="card-wrapper card-below" ref={imgBelowWrapperRef}>
                     <img src="" alt="" />
                 </div>
             </div>
