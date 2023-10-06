@@ -127,3 +127,9 @@ $default-focus-button-background-color: hsla($accent2);
         transform: translateX(0);
     }
 }
+
+@keyframes scale-up {
+    to {
+        transform: scale(1);
+    }
+}
