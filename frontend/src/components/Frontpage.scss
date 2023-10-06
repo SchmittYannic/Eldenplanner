@@ -1,0 +1,125 @@
+@use "../Variables" as v;
+
+.radial-glow {
+    position: absolute;
+    top: 0;
+    transform-origin: top center;
+    overflow: hidden;
+
+    &.left {
+        width: 600px;
+        height: 600px;
+        transform: translate(-350px, -100px);
+        background-image: radial-gradient(circle, hsla(v.$elden-ring-color-transparent), transparent 50%);
+    }
+
+    &.right {
+        width: 400px;
+        height: 400px;
+        transform: translate(200px, 60px);
+        background-image: radial-gradient(circle, hsla(v.$elden-ring-color-transparent), transparent 50%);
+    }
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 500px;
+
+    #tsparticles,
+    .hero-img {
+        position: absolute;
+        left: 50%;
+        width: 500px;
+        height: 500px;
+        transform: translate(-50%, 0);
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-foreground {
+        position: absolute;
+        inset: 0;
+    }
+
+    .hero-text {
+        margin: 7rem auto 0 auto;
+        max-width: 36rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > h1 {
+            text-align: center;
+            font-size: 3.75rem; /* 60px */
+            line-height: 1;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: "mantiniaregular";
+        }
+
+        > p {
+            text-align: center;
+            max-width: 32rem;
+            color: hsl(v.$accent-foreground);
+            font-size: 1.125rem;
+            line-height: 2rem;
+            font-weight: 400;
+
+            > a {
+                color: v.$gold; //hsl(v.$elden-ring-color);
+
+                &:visited {
+                    color: v.$gold;
+                }
+            }
+        }
+
+        > .action-btn {
+            padding: 1.5rem 1.5rem;
+            font-size: 1.25rem;
+        }
+    }
+}
+
+.slideimg-section {
+    width: 100%;
+    //height: 1250px; // height of 2 imgs + margin-top
+
+    .slideimg-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slideimg-wrapper {
+        width: 100%;
+        height: 600px;
+        background-color: black;
+        border: 1px solid white;
+    }
+
+    .img-above {
+        position: relative;
+        z-index: 2;
+    }
+
+    .img-below {
+        position: sticky;
+        bottom: calc(((100vh - 700px) / 2));
+        margin-top: 50px;
+        transform: scale(0.95);
+        z-index: 1;
+        animation: scale-up 1s linear infinite;
+        animation-play-state: paused;
+        animation-delay: calc(var(--scroll) * -1s);
+        animation-iteration-count: 1;
+        animation-fill-mode: both;
+
+        img {
+            height: 100%;
+        }
+    }
+}
