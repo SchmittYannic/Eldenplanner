@@ -92,18 +92,66 @@
         position: relative;
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .card-wrapper {
+        position: relative;
         width: 100%;
         height: 600px;
-        background-color: black;
-        border: 1px solid white;
+        background-color: hsl(v.$accent);
+        border: 1px solid hsl(v.$border-color);
+        border-radius: v.$border-radius;
+        box-shadow: 0 4px 20px rgba(0,0,0,.3);
+
+        .card-text-wrapper {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            max-width: 500px;
+            height: 100%;
+            padding: 0 2rem 0 2rem;
+            border-radius: v.$border-radius;
+            background-image: linear-gradient(to left, rgba(0, 0, 0, .8), rgba(23, 23, 23, .8) 90%, transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: end;
+
+            h2 {
+                letter-spacing: -.03em;
+                font-size: 48px;
+                font-weight: 600;
+                line-height: 1.1;
+                color: v.$gold;
+            }
+
+            p {
+                max-width: 400px;
+                margin-top: 30px;
+                line-height: 1.5;
+                font-size: 19px;
+                color: hsla(v.$elden-ring-color);
+            }
+        }
     }
 
     .card-above {
         position: relative;
+        background-image: url("nettunnelbg.png");
+        background-position: 50%;
+        background-size: cover;
         z-index: 2;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top left;
+            border-radius: v.$border-radius;
+        }
     }
 
     .card-below {
@@ -111,15 +159,48 @@
         bottom: calc(((100vh - 700px) / 2));
         margin-top: 50px;
         transform: scale(0.95);
+        background-image: url("onofframpsbg.png");
+        background-position: 50%;
+        background-size: cover;
         z-index: 1;
         animation: scale-up 1s linear infinite;
         animation-play-state: paused;
         animation-delay: calc(var(--scroll) * -1s);
         animation-iteration-count: 1;
         animation-fill-mode: both;
+    }
+}
 
-        img {
-            height: 100%;
+@media only screen and (max-width: 620px) {
+    .hero .hero-text {
+        > h1 {
+            font-size: 1.85rem; /* 60px */
+            line-height: 1;
+        }
+
+        > p {
+            font-size: 1rem;
+            line-height: 1.75rem;
+            font-weight: 400;
+        }
+
+        > .action-btn {
+            padding: 1.25rem 1.25rem;
+            font-size: 1rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 849px) {
+    .cardscrollreveal-section {
+        margin: 0 auto;
+        .card-wrapper {
+            max-width: 400px;
+            max-height: 400px;
+
+            .card-text-wrapper {
+                background-image: none;
+            }
         }
     }
 }
