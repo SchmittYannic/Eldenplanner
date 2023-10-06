@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
+import { charplannerpng } from "../assets";
+import useWindowSize from "../hooks/useWindowSize";
 
 const Cardscrollreveal = () => {
+
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const imgBelowWrapperRef = useRef<HTMLDivElement>(null);
@@ -36,7 +41,13 @@ const Cardscrollreveal = () => {
         <section className="cardscrollreveal-section">
             <div className="cardscrollreveal-container" ref={containerRef}>
                 <div className="card-wrapper card-above">
-                    <img src="" alt="" />
+                    {!isMobile && <img src={charplannerpng} alt="" />}
+                    <div className="card-text-wrapper">
+                        <h2>All in one</h2>
+                        <p>
+                            No more excel spreadsheets and standalone calculators. Everything you will ever need to know about your character in one planner.
+                        </p>
+                    </div>
                 </div>
                 <div className="card-wrapper card-below" ref={imgBelowWrapperRef}>
                     <img src="" alt="" />
