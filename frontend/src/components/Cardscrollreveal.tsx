@@ -19,9 +19,11 @@ const Cardscrollreveal = () => {
                 const bottomPosition = (windowHeight - 700) / 2; // img bottom position in css
                 
                 const img2scrolledinpx = ((windowHeight - bottomPosition) - (heightOfContentBefore + img2DifToTop + img2Height - scrollY));
-                const img2scrolledinpercent = img2scrolledinpx / img2HeightNoScale;
+                const img2scrolledinpercent = (img2scrolledinpx / img2HeightNoScale) < 0 ? 0 
+                : (img2scrolledinpx / img2HeightNoScale) > 1 ? 1 
+                : (img2scrolledinpx / img2HeightNoScale);
                 
-                document.body.style.setProperty("--scroll", (img2scrolledinpercent).toString());
+                containerRef.current.style.setProperty("--scroll", (img2scrolledinpercent).toString());
             }
         }
 
@@ -31,12 +33,12 @@ const Cardscrollreveal = () => {
     }, []);
 
     return (
-        <section className="slideimg-section">
-            <div className="slideimg-container" ref={containerRef}>
-                <div className="slideimg-wrapper img-above">
+        <section className="cardscrollreveal-section">
+            <div className="cardscrollreveal-container" ref={containerRef}>
+                <div className="img-wrapper img-above">
                     <img src="" alt="" />
                 </div>
-                <div className="slideimg-wrapper img-below" ref={imgBelowWrapperRef}>
+                <div className="img-wrapper img-below" ref={imgBelowWrapperRef}>
                     <img src="" alt="" />
                 </div>
             </div>
