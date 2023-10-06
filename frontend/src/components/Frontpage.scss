@@ -171,7 +171,32 @@
     }
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and (max-width: 849px) {
+    .hero .hero-text {
+        > h1 {
+            font-size: 3rem; /* 60px */
+            line-height: 1;
+        }
+    }
+
+    .cardscrollreveal-section {
+        margin: 0 auto;
+        .card-wrapper {
+            max-width: 400px;
+            max-height: 400px;
+
+            .card-text-wrapper {
+                background-image: none;
+
+                h2 {
+                    font-size: 2.5rem;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
     .hero .hero-text {
         > h1 {
             font-size: 1.85rem; /* 60px */
@@ -187,20 +212,6 @@
         > .action-btn {
             padding: 1.25rem 1.25rem;
             font-size: 1rem;
-        }
-    }
-}
-
-@media only screen and (max-width: 849px) {
-    .cardscrollreveal-section {
-        margin: 0 auto;
-        .card-wrapper {
-            max-width: 400px;
-            max-height: 400px;
-
-            .card-text-wrapper {
-                background-image: none;
-            }
         }
     }
 }
