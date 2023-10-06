@@ -7,7 +7,8 @@ import signupimg980w from "./signupimg980w.jpg";
 import signupimg1680w from "./signupimg1680w.jpg";
 import signupimg from "./signupimg.jpg";
 import navbarlogo from "./navbarlogo.svg";
-import herobg from "./herobg.svg"
+import herobg from "./herobg.svg";
+import charplannerpng from "./charplannerpng.png";
 
 export {
     loginimg420w,
@@ -20,4 +21,5 @@ export {
     signupimg,
     navbarlogo,
     herobg,
+    charplannerpng,
 }
