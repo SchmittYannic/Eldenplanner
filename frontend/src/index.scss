@@ -977,26 +977,6 @@ td {
     }
 }
 
-@media only screen and (max-width: 620px) {
-    .hero .hero-text {
-        > h1 {
-            font-size: 1.85rem; /* 60px */
-            line-height: 1;
-        }
-
-        > p {
-            font-size: 1rem;
-            line-height: 1.75rem;
-            font-weight: 400;
-        }
-
-        > .action-btn {
-            padding: 1.25rem 1.25rem;
-            font-size: 1rem;
-        }
-    }
-}
-
 @media only screen and (min-width: 850px) {
     tr {
         td:first-of-type, th:first-of-type {
