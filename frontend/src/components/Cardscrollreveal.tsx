@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { charplannerpng } from "../assets";
+import { buildspng, charplannerpng } from "../assets";
 import useWindowSize from "../hooks/useWindowSize";
 
 const Cardscrollreveal = () => {
@@ -41,7 +41,7 @@ const Cardscrollreveal = () => {
         <section className="cardscrollreveal-section">
             <div className="cardscrollreveal-container" ref={containerRef}>
                 <div className="card-wrapper card-above">
-                    {!isMobile && <img src={charplannerpng} alt="" />}
+                    {!isMobile && <img src={charplannerpng} alt="image of charplanner" />}
                     <div className="card-text-wrapper">
                         <h2>All in one</h2>
                         <p>
@@ -50,7 +50,13 @@ const Cardscrollreveal = () => {
                     </div>
                 </div>
                 <div className="card-wrapper card-below" ref={imgBelowWrapperRef}>
-                    <img src="" alt="" />
+                    {!isMobile && <img src={buildspng} alt="image of community builds" />}
+                    <div className="card-text-wrapper">
+                        <h2>Community</h2>
+                        <p>
+                            New to Elden Ring and build creation? Browse our communities creations and discover the perfect build for you.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
