@@ -107,6 +107,14 @@
         border-radius: v.$border-radius;
         box-shadow: 0 4px 20px rgba(0,0,0,.3);
 
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: top left;
+            border-radius: v.$border-radius;
+        }
+
         .card-text-wrapper {
             position: absolute;
             bottom: 0;
@@ -145,14 +153,6 @@
         background-position: 50%;
         background-size: cover;
         z-index: 2;
-
-        img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: top left;
-            border-radius: v.$border-radius;
-        }
     }
 
     .card-below {
