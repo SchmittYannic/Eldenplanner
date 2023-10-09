@@ -41,7 +41,7 @@ const Cardscrollreveal = () => {
         <section className="cardscrollreveal-section">
             <div className="cardscrollreveal-container" ref={containerRef}>
                 <div className="card-wrapper card-above">
-                    {!isMobile && <img src={charplannerpng} alt="image of charplanner" />}
+                    {!isMobile && <img src={charplannerpng} alt="image of charplanner" loading="lazy" />}
                     <div className="card-text-wrapper">
                         <h2>All in one</h2>
                         <p>
@@ -50,7 +50,7 @@ const Cardscrollreveal = () => {
                     </div>
                 </div>
                 <div className="card-wrapper card-below" ref={imgBelowWrapperRef}>
-                    {!isMobile && <img src={buildspng} alt="image of community builds" />}
+                    {!isMobile && <img src={buildspng} alt="image of community builds" loading="lazy" />}
                     <div className="card-text-wrapper">
                         <h2>Community</h2>
                         <p>
