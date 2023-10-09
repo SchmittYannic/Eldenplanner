@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Build from "../models/Build.js";
 import bcrypt from "bcrypt";
 import * as EmailValidator from "email-validator";
 
@@ -112,6 +113,8 @@ const deleteUserAsAdmin = async (req, res) => {
     if (!user) {
         return res.status(400).json({ message: "User not found" });
     }
+
+    await Build.deleteMany({ user: id });
 
     const result = await user.deleteOne();
 
