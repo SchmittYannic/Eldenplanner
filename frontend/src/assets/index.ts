@@ -9,6 +9,7 @@ import signupimg from "./signupimg.jpg";
 import navbarlogo from "./navbarlogo.svg";
 import herobg from "./herobg.svg";
 import charplannerpng from "./charplannerpng.png";
+import buildspng from "./buildspng.png";
 
 export {
     loginimg420w,
@@ -22,4 +23,5 @@ export {
     navbarlogo,
     herobg,
     charplannerpng,
+    buildspng,
 }
