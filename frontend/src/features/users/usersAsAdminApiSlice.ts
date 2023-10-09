@@ -104,7 +104,8 @@ export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: (arg) => {
                 if (arg) {
                     return [
-                        { type: "User", id: arg.id }
+                        { type: "User", id: arg.id },
+                        { type: "Build", user: arg.id }
                     ]
                 } else {
                     return []
