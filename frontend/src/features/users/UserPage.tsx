@@ -47,7 +47,7 @@ const UserPage = (): ReactElement => {
                                     Edit Account
                                 </Link>
                             )}
-                            {(isAdmin || isDemoadmin) && (
+                            {isOwnProfile && (isAdmin || isDemoadmin) && (
                                 <>
                                     <div className="v-divider-4" />
                                     <Link
