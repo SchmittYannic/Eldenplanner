@@ -105,7 +105,14 @@
                 filter: blur(160px);
                 border-radius: 1000px;
                 position: absolute;
-                background: linear-gradient(267.56deg, #232428 22.11%, #5E7CF1 40.73%, #1E6BFF 54.78%, #133E04 69.88%, #9BCFF2 89.56%);
+                background: linear-gradient(
+                    267.56deg,
+                    #232428 22.11%,
+                    #5E7CF1 40.73%,
+                    #1E6BFF 54.78%,
+                    #133E04 69.88%,
+                    #9BCFF2 89.56%
+                );
                 filter: blur(160px);
             }
         }
