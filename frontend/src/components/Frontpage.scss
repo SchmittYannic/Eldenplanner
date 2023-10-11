@@ -1,5 +1,13 @@
 @use "../Variables" as v;
 
+.frontpage section:first-of-type {
+    padding-bottom: 3rem;
+}
+
+.frontpage section:not(:first-of-type) {
+    padding: 3rem 0;
+}
+
 .radial-glow {
     position: absolute;
     top: 0;
@@ -24,8 +32,7 @@
 .hero {
     position: relative;
     width: 100%;
-    height: 500px;
-    margin-bottom: 6rem;
+    height: calc(500px + 3rem);
 
     #tsparticles,
     .hero-img {
@@ -181,7 +188,7 @@
     }
 
     .cardscrollreveal-section {
-        margin: 0 auto;
+        margin: 0 auto 6rem auto;
         .card-wrapper {
             max-width: 400px;
             max-height: 400px;

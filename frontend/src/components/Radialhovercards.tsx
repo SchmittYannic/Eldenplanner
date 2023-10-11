@@ -1,13 +1,27 @@
 import { ReactElement, MouseEvent, useRef } from "react";
 import "./Radialhovercards.scss";
 
-const Radialhovercard = ({ children }: { children: ReactElement }): ReactElement => {
+const Radialhovercardimg = ({ children }: { children: ReactElement }): ReactElement => {
+    return (
+        <div className="radialhovercard-img">
+            { children }
+        </div>
+    )
+};
+
+const Radialhovercardtext = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
+    return (
+        <div className="radialhovercard-text">
+            { children }
+        </div>
+    )
+};
+
+const Radialhovercard = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
     return (
         <div className="radialhovercard">
             <div className="radialhovercard-content">
-                <div className="radialhovercard-text">
-                    { children }
-                </div>
+                { children }
             </div>
         </div>
     )
@@ -46,5 +60,7 @@ const Radialhovercards = ({ children }: { children: ReactElement | ReactElement[
 
 export {
     Radialhovercards,
-    Radialhovercard
+    Radialhovercard,
+    Radialhovercardtext,
+    Radialhovercardimg,
 }
