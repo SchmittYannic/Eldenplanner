@@ -1,0 +1,72 @@
+@use "../Variables" as v;
+
+.radialhovercards {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    // max-width: 916px;
+    // width: calc(100% - 20px);
+
+    &:hover > .radialhovercard::after {
+        opacity: 1;
+    }
+
+    .radialhovercard {
+        position: relative;
+        width: 300px;
+        height: 260px;
+        display: flex;
+        flex-direction: column;
+        background-color: hsl(v.$border-color);
+        border-radius: v.$border-radius;
+
+        &:hover::before {
+            opacity: 1;
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 100%;
+            width: 100%;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 500ms;
+        }
+
+        &::before {
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.06),
+                transparent 40%
+            );
+            z-index: 3;
+        }
+
+        &::after {  
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.4),
+                transparent 40%
+            );
+            z-index: 1;
+        }
+
+        .radialhovercard-content {
+            background-color: hsl(v.$accent);
+            border-radius: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            inset: 1px;
+            padding: 10px;
+            position: absolute;
+            z-index: 2;
+        }
+    }
+}
