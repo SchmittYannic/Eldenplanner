@@ -47,9 +47,9 @@
 
         &::after {  
             background: radial-gradient(
-                600px circle at var(--mouse-x) var(--mouse-y), 
-                rgba(255, 255, 255, 0.4),
-                transparent 40%
+                500px at var(--mouse-x) var(--mouse-y),
+                rgba(255, 254, 241, 0.3),
+                transparent 40% 
             );
             z-index: 1;
         }
@@ -57,28 +57,57 @@
         .radialhovercard-content {
             position: absolute;
             inset: 1px;
-            padding: 1.5rem;
+            padding: 0 2px 30px 2px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             flex-grow: 1;
-            gap: 2rem;
             background-color: hsl(v.$accent);
             border-radius: inherit;
             z-index: 2;
-        }
+            overflow: hidden;
 
-        /* app specific */
+            .radialhovercard-img {
+                height: 190px;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                align-self: center;
+                align-items: center;
 
-        .radialhovercard-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+                svg {
+                    width: 60px;
+                    height: 60px;
+                }
+            }
 
-        svg {
-            width: 60px;
-            height: 60px;
+            .radialhovercard-text {
+                padding: 0 28px;
+
+                h3 {
+                    font-size: 19px;
+                    font-weight: 500;
+                    line-height: 1.2;
+                }
+
+                p {
+                    color: #96958d;
+                    margin-top: 5px;
+                    font-size: 15px;
+                }
+            }
+
+            .radialhovercard-bg {
+                left: -260px;
+                top: -225px;
+                width: 764px;
+                height: 305px;
+                opacity: .4;
+                filter: blur(160px);
+                border-radius: 1000px;
+                position: absolute;
+                background: linear-gradient(267.56deg, #232428 22.11%, #5E7CF1 40.73%, #1E6BFF 54.78%, #133E04 69.88%, #9BCFF2 89.56%);
+                filter: blur(160px);
+            }
         }
     }
 }
