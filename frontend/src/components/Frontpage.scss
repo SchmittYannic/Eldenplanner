@@ -216,6 +216,48 @@
     }
 }
 
+.contact-section {
+    position: relative;
+
+    .header-gradient-bg {
+        position: absolute;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            312.23deg,
+            hsl(v.$elden-ring-color) -3.97%,
+            rgba(251, 131, 160, 0) 125.5%
+        );
+        opacity: .3;
+        filter: blur(50px);
+        transform: translate(-50%, 0);
+    }
+
+    h2 {
+        color: v.$gold;
+        font-size: 3rem;
+        text-align: center;
+        margin: 3rem auto;
+    }
+
+    p {
+        max-width: 400px;
+        font-size: 1.2rem;
+    }
+
+    .contact-section-content {
+        display: flex;
+        justify-content: space-evenly;
+
+        > .action-btn {
+            padding: 1.5rem 1.5rem;
+            font-size: 1.25rem;
+            max-width: fit-content;
+        }
+    }
+}
+
 @media only screen and (max-width: 849px) {
     .hero .hero-text {
         > h1 {
@@ -251,6 +293,25 @@
     .cards-section {   
         h2 {
             font-size: 2rem;
+            padding: 0 1rem;
+        }
+    }
+
+    .contact-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            font-size: 2rem;
+            padding: 0 1rem;
+        }
+
+        .contact-section-content {
+            max-width: 400px;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 0 1rem;
         }
     }
 }
