@@ -41,6 +41,7 @@ const Cardscrollreveal = () => {
         <section className="cardscrollreveal-section">
             <div className="cardscrollreveal-container" ref={containerRef}>
                 <div className="card-wrapper card-above">
+                    <div className="card-border-top border-bg-img-1" />
                     {!isMobile && <img src={charplannerpng} alt="image of charplanner" loading="lazy" />}
                     <div className="card-text-wrapper">
                         <h2>All in one</h2>
@@ -48,8 +49,10 @@ const Cardscrollreveal = () => {
                             No more excel spreadsheets and standalone calculators. Everything you will ever need to know about your character in one planner.
                         </p>
                     </div>
+                    <div className="card-border-bottom border-bg-img-1" />
                 </div>
                 <div className="card-wrapper card-below" ref={imgBelowWrapperRef}>
+                    <div className="card-border-top border-bg-img-2" />
                     {!isMobile && <img src={buildspng} alt="image of community builds" loading="lazy" />}
                     <div className="card-text-wrapper">
                         <h2>Community</h2>
@@ -57,6 +60,7 @@ const Cardscrollreveal = () => {
                             New to Elden Ring and build creation? Browse our communities creations and discover the perfect build for you.
                         </p>
                     </div>
+                    <div className="card-border-bottom border-bg-img-2" />
                 </div>
             </div>
         </section>

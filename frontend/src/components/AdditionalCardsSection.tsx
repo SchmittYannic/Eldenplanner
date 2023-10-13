@@ -18,7 +18,6 @@ const AdditionalCardsSection = (): ReactElement => {
                         <h3>Free</h3>
                         <p>Eldenplanner is completely free of charge.</p>
                     </Radialhovercardtext>
-                    <div className="radialhovercard-bg" />
                 </Radialhovercard>
                 <Radialhovercard>
                     <Radialhovercardimg>
@@ -28,7 +27,6 @@ const AdditionalCardsSection = (): ReactElement => {
                         <h3>Up to date</h3>
                         <p>Using the most recent gameversion for the calculations.</p>
                     </Radialhovercardtext>
-                    <div className="radialhovercard-bg" />
                 </Radialhovercard>
                 <Radialhovercard>
                     <Radialhovercardimg>
@@ -38,7 +36,6 @@ const AdditionalCardsSection = (): ReactElement => {
                         <h3>Continuous Development</h3>
                         <p>More features rolling out soon.</p>
                     </Radialhovercardtext>
-                    <div className="radialhovercard-bg" />
                 </Radialhovercard>
             </Radialhovercards>
         </section>

@@ -110,9 +110,33 @@
         width: 100%;
         height: 600px;
         background-color: hsl(v.$accent);
-        border: 1px solid hsl(v.$border-color);
+        //border: 1px solid hsl(v.$border-color);
         border-radius: v.$border-radius;
         box-shadow: 0 4px 20px rgba(0,0,0,.3);
+
+        .card-border-top {
+            position: absolute;
+            top: -20px;
+            bottom: unset;
+            width: 100%;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 6;
+        }
+
+        .card-border-bottom {
+            position: absolute;
+            top: unset;
+            bottom: -20px;
+            width: 100%;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 6;
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
 
         img {
             height: 100%;
@@ -165,8 +189,8 @@
     .card-below {
         position: sticky;
         bottom: calc(((100vh - 700px) / 2));
-        margin-top: 50px;
-        transform: scale(0.95);
+        margin-top: 6rem;
+        transform: scale(0.80);
         background-image: url("onofframpsbg.png");
         background-position: 50%;
         background-size: cover;
@@ -205,6 +229,14 @@
         .card-wrapper {
             max-width: 400px;
             max-height: 400px;
+
+            .card-border-top {
+                top: -8px;
+            }
+
+            .card-border-bottom {
+                bottom: -30px;
+            }
 
             .card-text-wrapper {
                 background-image: none;

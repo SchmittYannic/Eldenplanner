@@ -88,30 +88,10 @@
                 }
 
                 p {
-                    color: #96958d;
+                    color: hsl(v.$muted-foreground);
                     margin-top: 5px;
                     font-size: 15px;
                 }
-            }
-
-            .radialhovercard-bg {
-                left: -260px;
-                top: -225px;
-                width: 764px;
-                height: 305px;
-                opacity: .4;
-                filter: blur(160px);
-                border-radius: 1000px;
-                position: absolute;
-                // background: linear-gradient(
-                //     267.56deg,
-                //     hsl(v.$background) 22.11%,
-                //     hsl(v.$hero-muted-foreground) 40.73%,
-                //     hsl(v.$muted-foreground) 54.78%,
-                //     v.$gold 69.88%,
-                //     hsl(v.$accent2) 89.56%
-                // );
-                filter: blur(160px);
             }
         }
     }
