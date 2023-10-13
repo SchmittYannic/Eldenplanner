@@ -179,6 +179,19 @@
     }
 }
 
+.cards-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h2 {
+        color: v.$gold;
+        font-size: 3rem;
+        text-align: center;
+        margin: 3rem auto;
+    }
+}
+
 @media only screen and (max-width: 849px) {
     .hero .hero-text {
         > h1 {
@@ -200,6 +213,12 @@
                     font-size: 2.5rem;
                 }
             }
+        }
+    }
+
+    .cards-section {   
+        h2 {
+            font-size: 2rem;
         }
     }
 }

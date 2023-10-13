@@ -7,6 +7,7 @@ import { Radialhovercard, Radialhovercardimg, Radialhovercards, Radialhovercardt
 const AdditionalCardsSection = (): ReactElement => {
     return (
         <section className="cards-section full">
+            <div className="horizontal-divider" />
             <h2>Why use Eldenplanner?</h2>
             <Radialhovercards>
                 <Radialhovercard>
