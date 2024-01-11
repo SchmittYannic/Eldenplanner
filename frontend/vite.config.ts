@@ -10,6 +10,9 @@ export default defineConfig(({ command, mode }) => {
       'process.env.API_BASEURL': JSON.stringify(env.API_BASEURL),
       'process.env.TOAST_AUTO_DELETE': JSON.stringify(env.TOAST_AUTO_DELETE),
       'process.env.TOAST_AUTO_DELETE_TIME': JSON.stringify(env.TOAST_AUTO_DELETE_TIME),
+      'process.env.EMAILJS_SERVICE_ID': JSON.stringify(env.EMAILJS_SERVICE_ID),
+      'process.env.EMAILJS_TEMPLATE_ID': JSON.stringify(env.EMAILJS_TEMPLATE_ID),
+      'process.env.EMAILJS_PUBLIC_KEY': JSON.stringify(env.EMAILJS_PUBLIC_KEY),
     },
     plugins: [
       react(),
