@@ -57,7 +57,8 @@
         }
 
         .dialog__content > p {
-            color: hsl(v.$muted-foreground)
+            color: hsl(v.$muted-foreground);
+            font-size: v.$font-size-normal;
         }
     }
 
