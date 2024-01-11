@@ -1,4 +1,10 @@
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import emailjs from "@emailjs/browser";
+import { MdMessage } from "react-icons/md";
+
+import { addToast } from "./toastSlice";
 import { 
     AsyncButton,
     Dialog,
@@ -8,16 +14,21 @@ import {
     DialogButtons,
     FormInput,
     FormTextArea,
-} from "./ui"
-import { ChangeEvent, useState } from "react";
+} from "./ui";
 
 const ContactDialog = () => {
 
+    const serviceId = String(process.env.EMAILJS_SERVICE_ID);
+    const templateId = String(process.env.EMAILJS_TEMPLATE_ID);
+    const publicKey = String(process.env.EMAILJS_PUBLIC_KEY);
+
     const navigate = useNavigate();
-    const isLoading = false;
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
     const [contactMsg, setContactMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
     const onContactMsgChange = (e: ChangeEvent<HTMLTextAreaElement>) => setContactMsg(e.target.value);
@@ -29,23 +40,45 @@ const ContactDialog = () => {
     };
 
     const onSendClicked = async () => {
+        setIsLoading(true);
+        setIsError(false);
 
+        emailjs.send(
+            serviceId,
+            templateId,
+            {
+                to_name: "EldenplannerSupport",
+                from_email: email === "" ? "Anonymous" : email,
+                to_email: "eldenplanner@gmail.com",
+                message: contactMsg
+            },
+            publicKey,
+        ).then(() => {
+            setIsLoading(false);
+            closeDialog(false);
+            dispatch(addToast({ type: "success", text: "message send" }));
+        }, () => {
+            setIsLoading(false);
+            setIsError(true);
+        });
     };
 
     return (
         <Dialog className="dialog__contactform" setDialog={(boolean: boolean) => closeDialog(boolean)}>
             <form action="" onSubmit={(e) => e.preventDefault()}>
                 <DialogMain>
-                    {/* <DialogIcon>
-                        Icon
-                    </DialogIcon> */}
+                    <DialogIcon>
+                        <MdMessage />
+                    </DialogIcon>
                     <DialogContent>
+
                         <h3>Contact</h3>
 
                         <div className="divider-4" />
 
                         <p>
-                            Write your contact details and message below
+                            Write your message below.
+                            If you contact us for account related support please provide us with your contact details.
                         </p>
 
                         <div className="divider-4" />
@@ -55,6 +88,7 @@ const ContactDialog = () => {
                             name="contact-email"
                             type="text"
                             label="Email"
+                            placeholder="Anonymous"
                             maxLength={320}
                             value={email}
                             onChange={onEmailChange}
@@ -73,6 +107,22 @@ const ContactDialog = () => {
                             onChange={onContactMsgChange}
                             autoComplete="off"
                         />
+
+                        {isError ? (
+                            <>
+                                <div className="divider-4" />
+                                <div className="sm-alert errmsg full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>
+                                        An error has occured. Please try again later or contact us directly at&nbsp;
+                                        <a href= "mailto:eldenplanner@gmail.com" style={{color: "white"}}>
+                                            eldenplanner@gmail.com
+                                        </a>
+                                    </span>
+                                </div>
+                            </>
+                        ) : (<></>)}
+
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
