@@ -5,6 +5,7 @@ import CustomSelect from "./CustomSelect";
 import DebouncedInput from "./DebouncedInput";
 import { Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "./Dialog";
 import FormInput from "./FormInput";
+import FormTextArea from "./FormTextArea";
 import MultiSelect from "./MultiSelect";
 import TextInput from "./TextInput";
 import { Radialhovercard, Radialhovercardimg, Radialhovercards, Radialhovercardtext } from "./Radialhovercards";
@@ -21,6 +22,7 @@ export {
     DialogMain,
     DialogIcon,
     FormInput,
+    FormTextArea,
     MultiSelect,
     TextInput,
     Radialhovercard,
