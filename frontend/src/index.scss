@@ -109,6 +109,11 @@ button {
 
 textarea {
     resize: none;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: hsl(v.$accent-foreground);
 }
 
 .sr-only {
@@ -231,7 +236,8 @@ textarea {
         font-weight: 500;
     }
 
-    input {
+    input,
+    textarea {
         font-size: .875rem;
         line-height: 1.25rem;
         padding-top: .25rem;
@@ -243,7 +249,6 @@ textarea {
         border-width: 1px;
         border-radius: calc(v.$border-radius - 2px);
         width: 100%;
-        height: 2.25rem;
         display: flex;
         transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
         transition-timing-function: cubic-bezier(.4,0,.2,1);
@@ -258,6 +263,10 @@ textarea {
             opacity: .5;
             cursor: not-allowed;
         }
+    }
+
+    input {
+        height: 2.25rem;
     }
 
     .input-password {
