@@ -24,6 +24,7 @@ const App = (): ReactElement => {
             <Route path="/" element={<Layout />} >
                 <Route element={<PersistLogin />}>
                     <Route index element={<Frontpage />} />
+                    <Route path=":params?" element={<Frontpage />} />
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="verify">
