@@ -4,6 +4,7 @@ import Herosection from "./Herosection";
 import Cardscrollreveal from "./Cardscrollreveal";
 import AdditionalCardsSection from "./AdditionalCardsSection";
 import ContactSection from "./ContactSection";
+import BottomSection from "./BottomSection";
 import "./Frontpage.scss";
 
 const Frontpage = (): ReactElement => {
@@ -16,6 +17,7 @@ const Frontpage = (): ReactElement => {
                 <Cardscrollreveal />
                 <AdditionalCardsSection />
                 <ContactSection />
+                <BottomSection />
             </main>
         </>
     )
