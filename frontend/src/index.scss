@@ -1,15 +1,16 @@
 @use "./Variables" as v;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500&family=Rubik:wght@400;500;700&display=swap');
+
 @font-face {
     font-family: "mantiniaregular";
     src: url("/mantinia_regular-webfont.woff2") format('woff2'),
-         url("/mantinia_regular-webfont.woff") format('woff');
+        url("/mantinia_regular-webfont.woff") format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
-*, 
-*::after, 
+*,
+*::after,
 *::before {
     margin: 0;
     padding: 0;
@@ -27,7 +28,7 @@ input {
     border-color: hsl(v.$border-color);
     border-radius: calc(v.$border-radius - 2px);
     transition-property: color, background-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15;
 
     &:hover {
@@ -50,7 +51,7 @@ select {
     border: 1px solid hsl(v.$border-color);
     border-radius: calc(v.$border-radius - 2px);
     transition-property: color, background-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15;
 
     &:hover {
@@ -58,7 +59,8 @@ select {
     }
 }
 
-th, td {
+th,
+td {
     display: inline;
 }
 
@@ -71,7 +73,7 @@ body {
     background-color: hsl(v.$background);
     color: white;
     font-weight: 300;
-    font-family: "inter",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: "inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 #root {
@@ -82,7 +84,8 @@ body {
     align-items: center;
 }
 
-main, header {
+main,
+header {
     width: 100%;
     min-width: v.$min-page-width;
     max-width: 1080px;
@@ -250,8 +253,8 @@ textarea {
         border-radius: calc(v.$border-radius - 2px);
         width: 100%;
         display: flex;
-        transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
-        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(.4, 0, .2, 1);
         transition-duration: .15s;
 
         &::placeholder {
@@ -305,7 +308,7 @@ textarea {
         color: hsl(v.$muted-foreground);
     }
 
-    &::after{
+    &::after {
         content: " ->";
         font-weight: 700;
     }
@@ -426,7 +429,7 @@ textarea {
             position: relative;
         }
 
-        &.logout p{
+        &.logout p {
             display: flex;
             align-items: center;
             gap: .5rem;
@@ -478,7 +481,8 @@ tr {
     display: contents;
 }
 
-td, th {
+td,
+th {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
@@ -521,7 +525,7 @@ td {
         color: hsl(v.$muted-foreground);
     }
 
-    &::after{
+    &::after {
         content: " ->";
         font-weight: 700;
     }
@@ -564,12 +568,12 @@ td {
 .arrow-downward,
 .swap-vert {
     display: flex;
-    align-items: center;  
+    align-items: center;
 }
 
 .arrow-upward,
 .arrow-downward {
-    color: hsl(v.$accent-foreground); 
+    color: hsl(v.$accent-foreground);
 }
 
 .table--filter-text {
@@ -603,6 +607,7 @@ td {
         -webkit-appearance: none;
         margin: 0;
     }
+
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
@@ -642,10 +647,10 @@ td {
     padding-bottom: .5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: rgb(234	178	84);
+    color: rgb(234 178 84);
     background-color: hsl(v.$background);
     opacity: .9;
-    border: 1px solid rgb(234	178	84);
+    border: 1px solid rgb(234 178 84);
     border-radius: calc(v.$border-radius - 2px);
     display: inline-flex;
     justify-content: center;
@@ -654,7 +659,7 @@ td {
     cursor: pointer;
     text-decoration: none;
     transition-property: filter, transform, opacity, color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .35s;
 
     &:not(:disabled):hover {
@@ -676,7 +681,7 @@ td {
         transform: scale(.95);
     }
 
-    &:disabled {      
+    &:disabled {
         cursor: default;
         opacity: .5;
         color: rgb(231, 214, 182);
@@ -707,7 +712,7 @@ td {
     cursor: pointer;
     text-decoration: none;
     transition-property: color, background-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15;
 
     &:not(:disabled):hover {
@@ -746,7 +751,7 @@ td {
     min-height: 800px;
     height: calc(100vh - v.$primary-nav-height);
     display: grid;
-    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-content: center;
     align-items: center;
     position: relative;
@@ -840,8 +845,8 @@ td {
             width: 100%;
             height: 2.25rem;
             display: flex;
-            transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
-            transition-timing-function: cubic-bezier(.4,0,.2,1);
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(.4, 0, .2, 1);
             transition-duration: .15s;
 
             &::placeholder {
@@ -877,7 +882,10 @@ td {
         place-content: center start;
     }
 
-    &.level, &.stars, &.created, &.modified {
+    &.level,
+    &.stars,
+    &.created,
+    &.modified {
         place-content: center;
     }
 }
@@ -889,11 +897,16 @@ td {
 }
 
 .table__cell {
-    &.title, &.author {
+
+    &.title,
+    &.author {
         place-content: center start;
     }
 
-    &.level, &.stars, &.created, &.modified {
+    &.level,
+    &.stars,
+    &.created,
+    &.modified {
         place-content: center;
     }
 }
@@ -908,11 +921,19 @@ td {
 }
 
 .table__cell {
-    &.username, &.email, &.roles {
+
+    &.username,
+    &.email,
+    &.roles {
         place-content: center start;
     }
 
-    &.active, &.validated, &.created, &.modified, &.edit, &.delete {
+    &.active,
+    &.validated,
+    &.created,
+    &.modified,
+    &.edit,
+    &.delete {
         place-content: center;
     }
 }
@@ -968,7 +989,7 @@ td {
         .table--filter {
             grid-template-columns: 1fr;
 
-            > div {
+            >div {
                 width: 100%;
             }
         }
@@ -976,6 +997,7 @@ td {
 
     .table--pagination {
         flex-direction: column;
+
         .button-wrapper {
             display: flex;
             flex-direction: row;
@@ -996,33 +1018,36 @@ td {
 
 @media only screen and (min-width: 850px) {
     tr {
-        td:first-of-type, th:first-of-type {
+
+        td:first-of-type,
+        th:first-of-type {
             border-left: 1px solid hsl(v.$border-color);
         }
-    
-        td:last-of-type, th:last-of-type {
+
+        td:last-of-type,
+        th:last-of-type {
             border-right: 1px solid hsl(v.$border-color);
         }
-    
+
         &:first-of-type {
             th:last-of-type {
                 border-top-right-radius: calc(v.$border-radius - 2px);
             }
-        
+
             th:first-of-type {
                 border-top-left-radius: calc(v.$border-radius - 2px);
             }
         }
-    
+
         &:last-of-type {
             td {
                 border-bottom: 1px solid hsl(v.$border-color);
             }
-    
+
             td:first-of-type {
                 border-bottom-left-radius: calc(v.$border-radius - 2px);
             }
-    
+
             td:last-of-type {
                 border-bottom-right-radius: calc(v.$border-radius - 2px);
             }
