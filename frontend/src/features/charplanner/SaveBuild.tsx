@@ -73,7 +73,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                     title: inputValue,
                     data: charplannerData
                 }).unwrap();
-                
+
                 navigate(`/charplanner/${action}`);
                 dispatch(addToast({ type: "success", text: message }));
             }
@@ -89,7 +89,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
     };
 
     useEffect(() => {
-        if(isSaveSuccess || isUpdateSuccess) {
+        if (isSaveSuccess || isUpdateSuccess) {
             setInputValue("");
             setTrigger(false);
         }
@@ -106,10 +106,10 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                         <h3>Save Build</h3>
 
                         <div className="divider-4" />
-        
+
                         <p>
-                            Give your build a fitting title, so other users can find your build under the Community Builds Tab.
-                        </p>         
+                            Add a descriptive title to your build so others can easily find it in the Community Builds section.
+                        </p>
 
                         <div className="divider-4" />
 
