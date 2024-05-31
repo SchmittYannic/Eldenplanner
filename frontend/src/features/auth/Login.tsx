@@ -91,7 +91,7 @@ const Login = (): ReactElement => {
                                 name="login-user"
                                 type="text"
                                 label="Username or Email"
-                                maxLength={20}
+                                maxLength={320}
                                 value={user}
                                 onChange={onUserChange}
                                 autoComplete="off"
@@ -138,7 +138,7 @@ const Login = (): ReactElement => {
                             </AsyncButton>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </main>
