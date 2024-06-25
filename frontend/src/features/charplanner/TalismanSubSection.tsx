@@ -7,7 +7,7 @@ import {
     selectTalisman,
     TalismanStateType
 } from "./charplannerSlice";
-import { TalismansNames, TalismansData } from "../../../data/TalismansData";
+import { TalismansOptions, TalismansData } from "../../../data/TalismanData";
 import { CustomSelect, Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
 
 const TalismanSubSection = (): ReactElement => {
@@ -21,19 +21,21 @@ const TalismanSubSection = (): ReactElement => {
     const TalismanSlots: string[] = ["talisman1", "talisman2", "talisman3", "talisman4"];
 
     const setSelectedTalisman = (value: string, slot: string) => {
-        const conflicts: string[] = [];
+        const conflicts: number[] = [];
         const otherSlots = TalismanSlots.filter(item => item !== slot);
         for (let s in otherSlots) {
             const slot = otherSlots[s] as keyof TalismanStateType
-            talisman[slot] && conflicts.push(...TalismansData[talisman[slot]]["conflicts"] as string[]);
+            talisman[slot] && conflicts.push(TalismansData[talisman[slot]]["accessoryGroup"]);
         }
 
-        if(!conflicts.includes(value)) {
+        if (value && !conflicts.includes(TalismansData[value]["accessoryGroup"])) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](value));
-        } else {
+        } else if (value && conflicts.includes(TalismansData[value]["accessoryGroup"])) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
             setIsConflict(true);
             setAlertContent(`The selected Talisman "${value}" is in conflict with a Talisman in a different slot.`);
+        } else {
+            dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
         }
     };
 
@@ -67,13 +69,13 @@ const TalismanSubSection = (): ReactElement => {
                     </DialogButtons>
                 </Dialog>
             )}
-            {TalismanSlots.map((slot, idx) => 
+            {TalismanSlots.map((slot, idx) =>
                 <CustomSelect
                     key={idx}
                     id={slot}
                     value={talisman[slot as keyof TalismanStateType]}
                     setValue={(value: string) => setSelectedTalisman(value, slot)}
-                    options={TalismansNames}
+                    options={TalismansOptions}
                     label={"Talisman " + slot.slice(-1)}
                     enableDelete={true}
                     searchable={true}
