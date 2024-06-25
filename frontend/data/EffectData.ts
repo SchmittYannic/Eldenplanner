@@ -4,6 +4,7 @@ data source:
 2. table: EffectData
 3. get csv of table
 4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+5. Important!!: Check for #REF! because some fields reference max hp and other values
 */
 
 type Data = {
