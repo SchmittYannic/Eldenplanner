@@ -1,3 +1,11 @@
+/* 
+data source:
+1. ER - Build Planner spreadsheet
+2. table: EffectData
+3. get csv of table
+4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+*/
+
 type Data = {
     [key: string]: number | string
 }
