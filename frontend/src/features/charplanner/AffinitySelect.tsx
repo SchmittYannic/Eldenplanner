@@ -34,7 +34,7 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
             setDisableAffinity(true);
             setAffinity("");
         } else {
-            const isInfuse = WeaponsData[weapon]["Affinity"] !== "-";
+            const isInfuse = WeaponsData[weapon]["isInfuse"] === "TRUE";
             isInfuse ? setDisableAffinity(false) : setDisableAffinity(true);
             !isInfuse && setAffinity("");
         }
