@@ -738,7 +738,7 @@ export const ArmorLegsData: ArmorDataType = {
     "Fire Prelate Greaves": 360300
 }
 
-export const headOptions = Object.keys(ArmorHeadData);
-export const chestOptions = Object.keys(ArmorChestData);
-export const handsOptions = Object.keys(ArmorHandsData);
-export const legsOptions = Object.keys(ArmorLegsData);
+export const HeadOptions = Object.keys(ArmorHeadData);
+export const ChestOptions = Object.keys(ArmorChestData);
+export const HandsOptions = Object.keys(ArmorHandsData);
+export const LegsOptions = Object.keys(ArmorLegsData);
