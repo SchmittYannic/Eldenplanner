@@ -1722,3 +1722,5 @@ export const TalismansData: TalismansDataType = {
         "residentSpEffectId4": 20382404
     }
 }
+
+export const TalismansOptions = Object.keys(TalismansData);
