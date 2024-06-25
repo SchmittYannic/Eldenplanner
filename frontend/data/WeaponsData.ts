@@ -9,7 +9,18 @@ data source:
 */
 
 type WeaponType = {
-    [key: string]: string | number
+    "Weapon Class": string,
+    "ID": number,
+    "isInfuse": string,
+    "isReinforce": string,
+    "isUnique": string,
+    "bothHandsAtkBonus": string,
+    "throwable": string,
+    "waAttackElementCorrectId": string,
+    "specialStatusSpEffectId": number | string,
+    "castingBonusType": string,
+    "castingBonusRate": number | string,
+    "defaultPhysType": string
 }
 
 type WeaponsDataType = {
@@ -19,10 +30,10 @@ type WeaponsDataType = {
 export const WeaponsData: WeaponsDataType = {
     "Dagger": {
         "Weapon Class": "Dagger",
-        "ID": 1000000,
-        "isInfuse": "TRUE",
-        "isReinforce": "TRUE",
-        "isUnique": "FALSE",
+        "ID": 1000000, //benötigt
+        "isInfuse": "TRUE", //benötigt
+        "isReinforce": "TRUE", //benötigt
+        "isUnique": "FALSE", //benötigt
         "bothHandsAtkBonus": "TRUE",
         "throwable": "FALSE",
         "waAttackElementCorrectId": "",
@@ -6893,7 +6904,7 @@ export const WeaponsData: WeaponsDataType = {
     },
     "Rot Pot": {
         "Weapon Class": "Consumable",
-        "ID": "",
+        "ID": NaN,
         "isInfuse": "FALSE",
         "isReinforce": "FALSE",
         "isUnique": "FALSE",
@@ -6921,7 +6932,7 @@ export const WeaponsData: WeaponsDataType = {
     },
     "Freezing Pot": {
         "Weapon Class": "Consumable",
-        "ID": "",
+        "ID": NaN,
         "isInfuse": "FALSE",
         "isReinforce": "FALSE",
         "isUnique": "FALSE",
