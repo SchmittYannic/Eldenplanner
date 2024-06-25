@@ -2027,7 +2027,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.04⌋ + 40 HP when an enemy dies"
     },
     "Golden Order Greatsword": {
         "vigor": 0,
@@ -3395,7 +3395,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.025⌋ + 25 HP when an enemy dies"
     },
     "Magma Blade": {
         "vigor": 0,
@@ -5181,7 +5181,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit"
     },
     "Gargoyle's Great Axe": {
         "vigor": 0,
@@ -6435,7 +6435,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit"
     },
     "Greathorn Hammer": {
         "vigor": 0,
@@ -6473,7 +6473,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.02⌋ + 20 HP when an enemy dies"
     },
     "Envoy's Long Horn": {
         "vigor": 0,
@@ -38773,7 +38773,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "raises physical attack power depending on equipped weight"
     },
     "Magic Scorpion Charm": {
         "vigor": 0,
@@ -39229,7 +39229,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.1⌋ + 85 HP on crit"
     },
     "Assassin's Cerulean Dagger": {
         "vigor": 0,
@@ -39419,7 +39419,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP with continuous attacks"
     },
     "Kindred of Rot's Exultation": {
         "vigor": 0,
@@ -39533,7 +39533,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP when an enemy dies"
     },
     "Ancestral Spirit's Horn": {
         "vigor": 0,
@@ -40027,7 +40027,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.07⌋ + 80 HP when an enemy dies"
     },
     "Radahn's Great Rune": {
         "vigor": 0,
@@ -40217,7 +40217,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.5⌋ HP"
     },
     "Crimson Crystal Tear 2": {
         "vigor": 0,
@@ -40255,7 +40255,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.5⌋ HP"
     },
     "Crimsonspill Crystal Tear": {
         "vigor": 0,
@@ -40369,7 +40369,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxFP * 0.5⌋ FP"
     },
     "Cerulean Crystal Tear 2": {
         "vigor": 0,
@@ -40407,7 +40407,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxFP * 0.5⌋ FP"
     },
     "Greenspill Crystal Tear": {
         "vigor": 0,
@@ -41167,7 +41167,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.3⌋ HP when below 21% MaxHP for 180 seconds; effect removed on proc"
     },
     "Crimsonwhorl Bubbletear": {
         "vigor": 0,
@@ -41205,7 +41205,7 @@ export const EffectData: EffectDataType = {
         "focusAddRate": 0,
         "vitalityAddRate": 0,
         "itemDiscovery": 0,
-        "Effects": "#REF!"
+        "Effects": "Restores ⌊MaxHP * 0.05⌋ HP when hit for 15 seconds"
     },
     "Opaline Bubbletear": {
         "vigor": 0,
