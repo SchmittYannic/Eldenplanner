@@ -7,6 +7,7 @@ import {
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
 import { WeaponsData } from "../../../data/WeaponsData";
+import { AffinityOptions } from "../../../data/AffinityData"
 import { CustomSelect } from "../../components/ui";
 
 type PropsType = {
@@ -26,8 +27,6 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
     const setAffinity = (input: string) => dispatch(armamentReduceractionsMap[idAffinity as keyof ArmamentReduceractionsMapType](input));
 
     const [disableAffinity, setDisableAffinity] = useState(true);
-
-    const AffinityOptions = ["None", "Heavy", "Keen", "Quality", "Fire", "Flame Art", "Lightning", "Sacred", "Magic", "Cold", "Poison", "Blood", "Occult"];
 
     useEffect(() => {
         if (weapon === "") {
