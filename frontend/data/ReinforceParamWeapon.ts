@@ -1,4 +1,41 @@
-export const ReinforceParamWeapon = {
+type DataType = {
+    "physicsAtkRate": number,
+    "magicAtkRate": number,
+    "fireAtkRate": number,
+    "thunderAtkRate": number,
+    "staminaAtkRate": number,
+    "saWeaponAtkRate": number,
+    "saDurabilityRate": number,
+    "correctStrengthRate": number,
+    "correctAgilityRate": number,
+    "correctMagicRate": number,
+    "correctFaithRate": number,
+    "physicsGuardCutRate": number,
+    "magicGuardCutRate": number,
+    "fireGuardCutRate": number,
+    "thunderGuardCutRate": number,
+    "poisonGuardResistRate": number,
+    "diseaseGuardResistRate": number,
+    "bloodGuardResistRate": number,
+    "curseGuardResistRate": number,
+    "staminaGuardDefRate": number,
+    "spEffectId1": number,
+    "spEffectId2": number,
+    "spEffectId3": number,
+    "darkAtkRate": number,
+    "darkGuardCutRate": number,
+    "correctLuckRate": number,
+    "freezeGuardDefRate": number,
+    "sleepGuardDefRate": number,
+    "madnessGuardDefRate": number,
+    "baseAtkRate": number
+}
+
+type ReinforceParamWeaponType = {
+    [key: string]: DataType
+}
+
+export const ReinforceParamWeapon: ReinforceParamWeaponType = {
     "0": {
         "physicsAtkRate": 1,
         "magicAtkRate": 1,
