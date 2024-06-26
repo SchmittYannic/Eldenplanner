@@ -330,11 +330,11 @@ export function calcWeaponAttackRating(
 
     const totalAR = Math.floor(PhysAtk + MagAtk + FireAtk + LightningAtk + HolyAtk);
 
-    console.log(
-        "PhysAtk: " + PhysAtk,
-        "scalePhysAtk: " + scalePhysAtk,
-        "atkPhysical: " + atkPhysical,
-    )
+    // console.log(
+    //     "PhysAtk: " + PhysAtk,
+    //     "scalePhysAtk: " + scalePhysAtk,
+    //     "atkPhysical: " + atkPhysical,
+    // )
 
     let tooltipString;
 
