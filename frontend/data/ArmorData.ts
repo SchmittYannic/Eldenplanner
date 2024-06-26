@@ -6,15 +6,15 @@ data source:
 4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Array
 5. use https://jsoneditoronline.org/ to format
 6. function for formatting:
-    function query (data) {
-        const filteredData = data.filter(item => item["Type"] === "Head");
-        const reducedData = filteredData.reduce((acc, item) => {
+function query(data) {
+    const filteredData = data.filter(item => item["Type"] === "Head");
+    const reducedData = filteredData.reduce((acc, item) => {
         acc[item['Armor PIece']] = item['ID'];
         return acc;
-        }, {});
-    
-        return reducedData 
-    }
+    }, {});
+
+    return reducedData
+}
 7. Important to change filter from Head to other types to create 4 different objects.
 */
 
