@@ -226,8 +226,28 @@ export function calcWeaponAttackRating(
     const statusAtkPenalty = !isArcReq
 
     const scalePhys = correctStr * 0.01 * StrengthCorrect_byPhysics * 0.01 + correctDex * 0.01 * DexterityCorrect_byPhysics * 0.01 + correctInt * 0.01 * MagicCorrect_byPhysics * 0.01 + correctFai * 0.01 * FaithCorrect_byPhysics * 0.01 + correctArc * 0.01 * LuckCorrect_byPhysics * 0.01;
+    const scaleMag = correctStr * 0.01 * StrengthCorrect_byMagic * 0.01 + correctDex * 0.01 * DexterityCorrect_byMagic * 0.01 + correctInt * 0.01 * MagicCorrect_byMagic * 0.01 + correctFai * 0.01 * FaithCorrect_byMagic * 0.01 + correctArc * 0.01 * LuckCorrect_byMagic * 0.01;
+    const scaleFire = correctStr * 0.01 * StrengthCorrect_byFire * 0.01 + correctDex * 0.01 * DexterityCorrect_byFire * 0.01 + correctInt * 0.01 * MagicCorrect_byFire * 0.01 + correctFai * 0.01 * FaithCorrect_byFire * 0.01 + correctArc * 0.01 * LuckCorrect_byFire * 0.01;
+    const scaleThunder = correctStr * 0.01 * StrengthCorrect_byThunder * 0.01 + correctDex * 0.01 * DexterityCorrect_byThunder * 0.01 + correctInt * 0.01 * MagicCorrect_byThunder * 0.01 + correctFai * 0.01 * FaithCorrect_byThunder * 0.01 + correctArc * 0.01 * LuckCorrect_byThunder * 0.01;
+    const scaleDark = correctStr * 0.01 * StrengthCorrect_byDark * 0.01 + correctDex * 0.01 * DexterityCorrect_byDark * 0.01 + correctInt * 0.01 * MagicCorrect_byDark * 0.01 + correctFai * 0.01 * FaithCorrect_byDark * 0.01 + correctArc * 0.01 * LuckCorrect_byDark * 0.01;
 
-    const PhysAtk = atkPhysical + atkPhysical * (physAtkPenalty ? -0.4 : scalePhys)
+    const lowStatus_AtkPowDown = 0.4;
 
-    return PhysAtk
+    // CN2 - CR2
+    // !important there is one more multiplier in the OG spreadsheet, which is currently excluded
+    const PhysAtk = atkPhysical + atkPhysical * (physAtkPenalty ? -lowStatus_AtkPowDown : scalePhys);
+    const MagAtk = atkMagic + atkMagic * (magAtkPenalty ? -lowStatus_AtkPowDown : scaleMag);
+    const FireAtk = atkFire + atkFire * (fireAtkPenalty ? -lowStatus_AtkPowDown : scaleFire);
+    const LightningAtk = atkLightning + atkLightning * (thunAtkPenalty ? -lowStatus_AtkPowDown : scaleThunder);
+    const HolyAtk = atkHoly + atkHoly * (darkAtkPenalty ? -lowStatus_AtkPowDown : scaleDark);
+
+    console.log(
+        "PhysAtk: " + PhysAtk,
+        "MagAtk: " + MagAtk,
+        "FireAtk: " + FireAtk,
+        "LightningAtk: " + LightningAtk,
+        "HolyAtk: " + HolyAtk,
+    )
+
+    return scalePhys
 }
