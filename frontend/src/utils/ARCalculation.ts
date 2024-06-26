@@ -14,6 +14,11 @@ export function calcWeaponAttackRating(
     totalStats: StatsStateType,
     twoHandChecked: boolean
 ) {
+
+    // console.log(
+    //     "ARCalculation for weapon: " + selectedWeapon,
+    // )
+
     const str = twoHandChecked ? Math.floor(1.5 * totalStats["strength"]) : totalStats["strength"];
     const dex = totalStats["dexterity"];
     const int = totalStats["intelligence"];
@@ -111,6 +116,19 @@ export function calcWeaponAttackRating(
     const correctType_Madness = weaponParameter["correctType_Madness"]; // BG2
     const AttackElementCorrectId = weaponParameter["attackElementCorrectId"]; // BH2
 
+    // console.log(
+    //     "correctType_Physics: " + correctType_Physics,
+    //     "correctType_Magic: " + correctType_Magic,
+    //     "correctType_Fire: " + correctType_Fire,
+    //     "correctType_Thunder: " + correctType_Thunder,
+    //     "correctType_Dark: " + correctType_Dark,
+    //     "correctType_Poison: " + correctType_Poison,
+    //     "correctType_Blood: " + correctType_Blood,
+    //     "correctType_Sleep: " + correctType_Sleep,
+    //     "correctType_Madness: " + correctType_Madness,
+    //     "AttackElementCorrectId: " + AttackElementCorrectId,
+    // )
+
     const weaponAttackElementCorrect = AttackElementCorrectParam[AttackElementCorrectId];
 
     const isStrengthCorrect_byPhysics = weaponAttackElementCorrect["isStrengthCorrect_byPhysics"];
@@ -171,6 +189,45 @@ export function calcWeaponAttackRating(
     const FaithCorrect_byDark = isFaithCorrect_byDark ? CalcCorrectGraph_Dark[fai] : 0;  // CB2
     const LuckCorrect_byDark = isLuckCorrect_byDark ? CalcCorrectGraph_Dark[arc] : 0;  // CG2
 
+    // console.log(
+    //     "StrengthCorrect_byPhysics: " + StrengthCorrect_byPhysics,
+    //     "DexterityCorrect_byPhysics: " + DexterityCorrect_byPhysics,
+    //     "MagicCorrect_byPhysics: " + MagicCorrect_byPhysics,
+    //     "FaithCorrect_byPhysics: " + FaithCorrect_byPhysics,
+    //     "LuckCorrect_byPhysics: " + LuckCorrect_byPhysics,
+    //     "StrengthCorrect_byMagic: " + StrengthCorrect_byMagic,
+    //     "DexterityCorrect_byMagic: " + DexterityCorrect_byMagic,
+    //     "MagicCorrect_byMagic: " + MagicCorrect_byMagic,
+    //     "FaithCorrect_byMagic: " + FaithCorrect_byMagic,
+    //     "LuckCorrect_byMagic: " + LuckCorrect_byMagic,
+    //     "StrengthCorrect_byFire: " + StrengthCorrect_byFire,
+    //     "DexterityCorrect_byFire: " + DexterityCorrect_byFire,
+    //     "MagicCorrect_byFire: " + MagicCorrect_byFire,
+    //     "FaithCorrect_byFire: " + FaithCorrect_byFire,
+    //     "LuckCorrect_byFire: " + LuckCorrect_byFire,
+    //     "StrengthCorrect_byThunder: " + StrengthCorrect_byThunder,
+    //     "DexterityCorrect_byThunder: " + DexterityCorrect_byThunder,
+    //     "MagicCorrect_byThunder: " + MagicCorrect_byThunder,
+    //     "FaithCorrect_byThunder: " + FaithCorrect_byThunder,
+    //     "LuckCorrect_byThunder: " + LuckCorrect_byThunder,
+    //     "StrengthCorrect_byDark: " + StrengthCorrect_byDark,
+    //     "DexterityCorrect_byDark: " + DexterityCorrect_byDark,
+    //     "MagicCorrect_byDark: " + MagicCorrect_byDark,
+    //     "FaithCorrect_byDark: " + FaithCorrect_byDark,
+    //     "LuckCorrect_byDark: " + LuckCorrect_byDark,
+    // )
 
-    return FaithCorrect_byDark
+    // CH2 - CM2 
+    const physAtkPenalty = (!isStrReq && StrengthCorrect_byPhysics > 0) || (!isDexReq && DexterityCorrect_byPhysics > 0) || (!isIntReq && MagicCorrect_byPhysics > 0) || (!isFaiReq && FaithCorrect_byPhysics > 0) || (!isArcReq && LuckCorrect_byPhysics > 0);
+    const magAtkPenalty = (!isStrReq && StrengthCorrect_byMagic > 0) || (!isDexReq && DexterityCorrect_byMagic > 0) || (!isIntReq && MagicCorrect_byMagic > 0) || (!isFaiReq && FaithCorrect_byMagic > 0) || (!isArcReq && LuckCorrect_byMagic > 0);
+    const fireAtkPenalty = (!isStrReq && StrengthCorrect_byFire > 0) || (!isDexReq && DexterityCorrect_byFire > 0) || (!isIntReq && MagicCorrect_byFire > 0) || (!isFaiReq && FaithCorrect_byFire > 0) || (!isArcReq && LuckCorrect_byFire > 0);
+    const thunAtkPenalty = (!isStrReq && StrengthCorrect_byThunder > 0) || (!isDexReq && DexterityCorrect_byThunder > 0) || (!isIntReq && MagicCorrect_byThunder > 0) || (!isFaiReq && FaithCorrect_byThunder > 0) || (!isArcReq && LuckCorrect_byThunder > 0);
+    const darkAtkPenalty = (!isStrReq && StrengthCorrect_byDark > 0) || (!isDexReq && DexterityCorrect_byDark > 0) || (!isIntReq && MagicCorrect_byDark > 0) || (!isFaiReq && FaithCorrect_byDark > 0) || (!isArcReq && LuckCorrect_byDark > 0);
+    const statusAtkPenalty = !isArcReq
+
+    const scalePhys = correctStr * 0.01 * StrengthCorrect_byPhysics * 0.01 + correctDex * 0.01 * DexterityCorrect_byPhysics * 0.01 + correctInt * 0.01 * MagicCorrect_byPhysics * 0.01 + correctFai * 0.01 * FaithCorrect_byPhysics * 0.01 + correctArc * 0.01 * LuckCorrect_byPhysics * 0.01;
+
+    const PhysAtk = atkPhysical + atkPhysical * (physAtkPenalty ? -0.4 : scalePhys)
+
+    return PhysAtk
 }
