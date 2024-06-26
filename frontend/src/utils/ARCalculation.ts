@@ -14,7 +14,7 @@ export function calcWeaponAttackRating(
     selectedAffinity: string,
     totalStats: StatsStateType,
     twoHandChecked: boolean
-) {
+): string[] {
 
     // console.log(
     //     "ARCalculation for weapon: " + selectedWeapon,
@@ -234,13 +234,19 @@ export function calcWeaponAttackRating(
 
     const lowStatus_AtkPowDown = 0.4;
 
+    const scalePhysAtk = atkPhysical * (physAtkPenalty ? -lowStatus_AtkPowDown : scalePhys);
+    const scaleMagAtk = atkMagic * (magAtkPenalty ? -lowStatus_AtkPowDown : scaleMag);
+    const scaleFireAtk = atkFire * (fireAtkPenalty ? -lowStatus_AtkPowDown : scaleFire);
+    const scaleLightningAtk = atkLightning * (thunAtkPenalty ? -lowStatus_AtkPowDown : scaleThunder);
+    const scaleHolyAtk = atkHoly * (darkAtkPenalty ? -lowStatus_AtkPowDown : scaleDark);
+
     // CN2 - CR2
     // !important there is one more multiplier in the OG spreadsheet, which is currently excluded
-    const PhysAtk = atkPhysical + atkPhysical * (physAtkPenalty ? -lowStatus_AtkPowDown : scalePhys);
-    const MagAtk = atkMagic + atkMagic * (magAtkPenalty ? -lowStatus_AtkPowDown : scaleMag);
-    const FireAtk = atkFire + atkFire * (fireAtkPenalty ? -lowStatus_AtkPowDown : scaleFire);
-    const LightningAtk = atkLightning + atkLightning * (thunAtkPenalty ? -lowStatus_AtkPowDown : scaleThunder);
-    const HolyAtk = atkHoly + atkHoly * (darkAtkPenalty ? -lowStatus_AtkPowDown : scaleDark);
+    const PhysAtk = atkPhysical + scalePhysAtk;
+    const MagAtk = atkMagic + scaleMagAtk;
+    const FireAtk = atkFire + scaleFireAtk;
+    const LightningAtk = atkLightning + scaleLightningAtk;
+    const HolyAtk = atkHoly + scaleHolyAtk;
 
     // console.log(
     //     "PhysAtk: " + PhysAtk,
@@ -304,7 +310,7 @@ export function calcWeaponAttackRating(
     const AtkMadness = Math.floor(madnessAttackPower + madnessAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleMadness));
     const AtkRot = Math.floor(diseaseAttackPower);
     const AtkFrost = Math.floor(freezeAttackPower);
-    const AtkDeath = Math.floor(diseaseAttackPower);
+    const AtkDeath = Math.floor(curseAttackPower);
 
     // console.log(
     //     "AtkPoison: " + AtkPoison,
@@ -316,5 +322,65 @@ export function calcWeaponAttackRating(
     //     "AtkDeath: " + AtkDeath,
     // )
 
-    return AtkPoison
+    const strScalingLetter = translateScalingToLetter(correctStr);
+    const dexScalingLetter = translateScalingToLetter(correctDex);
+    const intScalingLetter = translateScalingToLetter(correctInt);
+    const faiScalingLetter = translateScalingToLetter(correctFai);
+    const arcScalingLetter = translateScalingToLetter(correctArc);
+
+    const totalAR = Math.floor(PhysAtk + MagAtk + FireAtk + LightningAtk + HolyAtk);
+
+    console.log(
+        "PhysAtk: " + PhysAtk,
+        "scalePhysAtk: " + scalePhysAtk,
+        "atkPhysical: " + atkPhysical,
+    )
+
+    let tooltipString;
+
+    if (isStrReq && isDexReq && isIntReq && isFaiReq && isArcReq) {
+        tooltipString = "Attack\xa0\xa0Power:\n\n";
+        tooltipString += "\xa0\xa0Physical:\xa0" + Math.floor(atkPhysical) + (atkPhysical === 0 ? "" : "+\xa0" + Math.floor(scalePhysAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Magic:\xa0" + Math.floor(atkMagic) + (atkMagic === 0 ? "" : "+\xa0" + Math.floor(scaleMagAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Fire:\xa0" + Math.floor(atkFire) + (atkFire === 0 ? "" : "+\xa0" + Math.floor(scaleFireAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Lightning:\xa0" + Math.floor(atkLightning) + (atkLightning === 0 ? "" : "+\xa0" + Math.floor(scaleLightningAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Holy:\xa0" + Math.floor(atkHoly) + (atkHoly === 0 ? "" : "+\xa0" + Math.floor(scaleHolyAtk)) + "\n\n";
+
+        tooltipString += "\nScaling:\n\n";
+        tooltipString += (strScalingLetter === "-" ? "" : "\xa0\xa0Strength:\xa0" + strScalingLetter + "\n\n");
+        tooltipString += (dexScalingLetter === "-" ? "" : "\xa0\xa0Dexterity:\xa0" + dexScalingLetter + "\n\n");
+        tooltipString += (intScalingLetter === "-" ? "" : "\xa0\xa0Intelligence:\xa0" + intScalingLetter + "\n\n");
+        tooltipString += (faiScalingLetter === "-" ? "" : "\xa0\xa0Faith:\xa0" + faiScalingLetter + "\n\n");
+        tooltipString += (arcScalingLetter === "-" ? "" : "\xa0\xa0Arcane:\xa0" + arcScalingLetter + "\n\n");
+        tooltipString = tooltipString.trim();
+    } else {
+        tooltipString = "";
+    }
+
+    return ["Total AR: " + totalAR, tooltipString];
 }
+
+/*function translates the scaling value used to calculate scaling damage into the letter, that gets displayed by the game*/
+/*takes the scaling value as input*/
+function translateScalingToLetter(scaling: number): string {
+    if (scaling === 0) {
+        return "-";
+    } else {
+        let result = "";
+        if (scaling > 175) {
+            result += "S";
+        } else if (scaling >= 140) {
+            result += "A";
+        } else if (scaling >= 90) {
+            result += "B";
+        } else if (scaling >= 60) {
+            result += "C";
+        } else if (scaling >= 25) {
+            result += "D";
+        } else {
+            result += "E";
+        }
+        result += " (" + Math.floor(scaling) + ")";
+        return result;
+    }
+};
