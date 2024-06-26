@@ -7,15 +7,34 @@ data source:
 5. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
 */
 
-type Data = {
-    [key: string]: number
+type DataType = {
+    "ID": number,
+    "refId": number,
+    "weight": number,
+    "sortId": number,
+    "accessoryGroup": number,
+    "residentSpEffectId1": number,
+    "residentSpEffectId2": number,
+    "residentSpEffectId3": number,
+    "residentSpEffectId4": number
 }
 
 type TalismansDataType = {
-    [key: string]: Data
+    [key: string]: DataType
 }
 
 export const TalismansData: TalismansDataType = {
+    "": {
+        "ID": 999999999,
+        "refId": 361100,
+        "weight": 0.8,
+        "sortId": 9999999,
+        "accessoryGroup": 6100,
+        "residentSpEffectId1": 0,
+        "residentSpEffectId2": 0,
+        "residentSpEffectId3": 0,
+        "residentSpEffectId4": 0
+    },
     "Crimson Amber Medallion": {
         "ID": 1000,
         "refId": 310000,
