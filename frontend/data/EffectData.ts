@@ -7,7 +7,7 @@ data source:
 5. Important!!: Check for #REF! because some fields reference max hp and other values
 */
 
-type DataType = {
+export type ItemEffectDataType = {
     "Ported Effects": string,
     "conditionHp": number,
     "conditionHpRate": number,
@@ -57,7 +57,7 @@ type DataType = {
 }
 
 type EffectDataType = {
-    [key: string]: DataType
+    [key: string]: ItemEffectDataType
 }
 
 export const EffectData: EffectDataType = {

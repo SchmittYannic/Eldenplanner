@@ -6,7 +6,7 @@ data source:
 4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
 */
 
-type DataType = {
+export type EquipParamType = {
     "Name": string,
     "sortId": number,
     "resistSleep": number,
@@ -33,7 +33,7 @@ type DataType = {
 }
 
 type EquipParamProtectorType = {
-    [key: string]: DataType
+    [key: string]: EquipParamType
 }
 
 export const EquipParamProtector: EquipParamProtectorType = {
