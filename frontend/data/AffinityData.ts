@@ -1,3 +1,9 @@
+/*
+1. ER - Build Planner spreadsheet
+2. table: WeaponsData
+3. column o and p
+*/
+
 export type AffinityDataType = {
     [key: string]: number
 }
