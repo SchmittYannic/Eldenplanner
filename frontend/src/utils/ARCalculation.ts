@@ -241,13 +241,19 @@ export function calcWeaponAttackRating(
     const LightningAtk = atkLightning + atkLightning * (thunAtkPenalty ? -lowStatus_AtkPowDown : scaleThunder);
     const HolyAtk = atkHoly + atkHoly * (darkAtkPenalty ? -lowStatus_AtkPowDown : scaleDark);
 
-    console.log(
-        "PhysAtk: " + PhysAtk,
-        "MagAtk: " + MagAtk,
-        "FireAtk: " + FireAtk,
-        "LightningAtk: " + LightningAtk,
-        "HolyAtk: " + HolyAtk,
-    )
+    // console.log(
+    //     "PhysAtk: " + PhysAtk,
+    //     "MagAtk: " + MagAtk,
+    //     "FireAtk: " + FireAtk,
+    //     "LightningAtk: " + LightningAtk,
+    //     "HolyAtk: " + HolyAtk,
+    // )
 
-    return scalePhys
+    const canWeaponCast = weaponParameter["enableMagic"] || weaponParameter["enableMiracle"];
+    const isPenalty = physAtkPenalty || magAtkPenalty || fireAtkPenalty || thunAtkPenalty || darkAtkPenalty;
+
+    // possible to calc intspellbuff and faithspellbuff seperately
+    const spellbuff = canWeaponCast ? 100 + 100 * (isPenalty ? -lowStatus_AtkPowDown : scaleMag) : 0 ?? 0;
+
+    return spellbuff
 }
