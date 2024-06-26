@@ -5,6 +5,7 @@ import { ConsumableData } from "../../data/ConsumableData";
 import { ReinforceParamWeapon } from "../../data/ReinforceParamWeapon";
 import { AttackElementCorrectParam } from "../../data/AttackElementCorrectParam";
 import { CalcCorrectGraphEz } from "../../data/CalcCorrectGraphEz";
+import { StatusEffectData } from "../../data/StatusEffectData";
 import { StatsStateType } from "../features/charplanner/charplannerSlice";
 
 export function calcWeaponAttackRating(
@@ -255,5 +256,65 @@ export function calcWeaponAttackRating(
     // possible to calc intspellbuff and faithspellbuff seperately
     const spellbuff = canWeaponCast ? 100 + 100 * (isPenalty ? -lowStatus_AtkPowDown : scaleMag) : 0 ?? 0;
 
-    return spellbuff
+    // status calculations
+    // CV2 - CZ2
+    const specialStatusSpEffectId = weaponData["specialStatusSpEffectId"];
+    const StatusSpEffectId1 = specialStatusSpEffectId && typeof specialStatusSpEffectId !== "string" ? specialStatusSpEffectId : weaponParameter["spEffectBehaviorId0"];
+    const StatusSpEffectId2 = weaponParameter["spEffectBehaviorId1"];
+    const SpEffectId1Offset = reinforcedWeaponParameter["spEffectId1"] ?? 0;
+    const SpEffectId2Offset = reinforcedWeaponParameter["spEffectId2"] ?? 0;
+
+    const StatusSpEffectFullId1 = StatusSpEffectId1 + SpEffectId1Offset;
+    const StatusSpEffectFullId2 = StatusSpEffectId2 + SpEffectId2Offset;
+
+    // DA2 - DD2
+    const PoisonArc = CalcCorrectGraphEz[correctType_Poison][arc] ?? 0;
+    const BleedArc = CalcCorrectGraphEz[correctType_Blood][arc] ?? 0;
+    const SleepArc = CalcCorrectGraphEz[correctType_Sleep][arc] ?? 0;
+    const MadnessArc = CalcCorrectGraphEz[correctType_Madness][arc] ?? 0;
+
+    // DE2 - DK2
+    const poisonAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["poizonAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["poizonAttackPower"] ?? 0);
+    const bloodAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["bloodAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["bloodAttackPower"] ?? 0);
+    const sleepAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["sleepAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["sleepAttackPower"] ?? 0);
+    const madnessAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["madnessAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["madnessAttackPower"] ?? 0);
+    const diseaseAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["diseaseAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["diseaseAttackPower"] ?? 0);
+    const freezeAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["freezeAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["freezeAttackPower"] ?? 0);
+    const curseAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["curseAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["curseAttackPower"] ?? 0);
+
+    // console.log(
+    //     "poisonAttackPower: " + poisonAttackPower,
+    //     "bloodAttackPower: " + bloodAttackPower,
+    //     "sleepAttackPower: " + sleepAttackPower,
+    //     "madnessAttackPower: " + madnessAttackPower,
+    //     "diseaseAttackPower: " + diseaseAttackPower,
+    //     "freezeAttackPower: " + freezeAttackPower,
+    //     "curseAttackPower: " + curseAttackPower,
+    // )
+
+    const scalePoison = correctArc * 0.01 * PoisonArc * 0.01;
+    const scaleBleed = correctArc * 0.01 * BleedArc * 0.01;
+    const scaleSleep = correctArc * 0.01 * SleepArc * 0.01;
+    const scaleMadness = correctArc * 0.01 * MadnessArc * 0.01;
+
+    // DL2 - DR2
+    const AtkPoison = Math.floor(poisonAttackPower + poisonAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scalePoison));
+    const AtkBleed = Math.floor(bloodAttackPower + bloodAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleBleed));
+    const AtkSleep = Math.floor(sleepAttackPower + sleepAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleSleep));
+    const AtkMadness = Math.floor(madnessAttackPower + madnessAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleMadness));
+    const AtkRot = Math.floor(diseaseAttackPower);
+    const AtkFrost = Math.floor(freezeAttackPower);
+    const AtkDeath = Math.floor(diseaseAttackPower);
+
+    // console.log(
+    //     "AtkPoison: " + AtkPoison,
+    //     "AtkBleed: " + AtkBleed,
+    //     "AtkSleep: " + AtkSleep,
+    //     "AtkMadness: " + AtkMadness,
+    //     "AtkRot: " + AtkRot,
+    //     "AtkFrost: " + AtkFrost,
+    //     "AtkDeath: " + AtkDeath,
+    // )
+
+    return AtkPoison
 }
