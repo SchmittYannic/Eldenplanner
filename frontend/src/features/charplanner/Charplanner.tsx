@@ -34,7 +34,7 @@ const Charplanner = (): ReactElement => {
 
     // if build exists select builds author
     const buildAuthor = useSelector((state: RootState) => {
-        if(build?.user) {
+        if (build?.user) {
             return selectUserById(state, build.user) as UserType
         }
         return null
