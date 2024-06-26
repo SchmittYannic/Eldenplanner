@@ -1,3 +1,35 @@
+/* 
+data source:
+1. ER - Build Planner spreadsheet
+2. table: ReinforceParamWeapon
+3. get csv of table
+4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+5. use https://jsoneditoronline.org/ to format
+function query(data) {
+    const transformedData = {};
+
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            const obj = data[key];
+            const newObj = {};
+
+            for (const prop in obj) {
+                if (obj.hasOwnProperty(prop) && prop !== 'Name') {
+                    const value = obj[prop];
+                    
+                        newObj[prop] = value;
+                    
+                }
+            }
+
+            transformedData[key] = newObj;
+        }
+    }
+
+    return transformedData
+}
+*/
+
 type DataType = {
     "physicsAtkRate": number,
     "magicAtkRate": number,
