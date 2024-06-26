@@ -148,7 +148,7 @@ export const charplannerSlice = createSlice({
         },
 
         /* general */
-        
+
         changeCharactername: (state, action) => {
             state.general.charactername = action.payload;
         },
@@ -329,6 +329,7 @@ export const selectFaith = (state: RootState): number => state.charplanner.stats
 export const selectArcane = (state: RootState): number => state.charplanner.stats.arcane;
 
 
+export const selectArmament = (state: RootState): ArmamentStateType => state.charplanner.armament;
 export const selectLefthand1Weapon = (state: RootState): string => state.charplanner.armament.lefthand1.weapon;
 export const selectLefthand1Aow = (state: RootState): string => state.charplanner.armament.lefthand1.aow;
 export const selectLefthand1Upgrade = (state: RootState): string => state.charplanner.armament.lefthand1.upgrade;
@@ -390,12 +391,12 @@ export const statSelectorsMap: statSelectorMapType = {
 };
 
 const armamentMapKeys = [
-    "lefthand1Weapon", "lefthand1Aow" , "lefthand1Upgrade", "lefthand1Affinity",
-    "lefthand2Weapon", "lefthand2Aow" , "lefthand2Upgrade", "lefthand2Affinity",
-    "lefthand3Weapon", "lefthand3Aow" , "lefthand3Upgrade", "lefthand3Affinity",
-    "righthand1Weapon", "righthand1Aow" , "righthand1Upgrade", "righthand1Affinity",
-    "righthand2Weapon", "righthand2Aow" , "righthand2Upgrade", "righthand2Affinity",
-    "righthand3Weapon", "righthand3Aow" , "righthand3Upgrade", "righthand3Affinity",
+    "lefthand1Weapon", "lefthand1Aow", "lefthand1Upgrade", "lefthand1Affinity",
+    "lefthand2Weapon", "lefthand2Aow", "lefthand2Upgrade", "lefthand2Affinity",
+    "lefthand3Weapon", "lefthand3Aow", "lefthand3Upgrade", "lefthand3Affinity",
+    "righthand1Weapon", "righthand1Aow", "righthand1Upgrade", "righthand1Affinity",
+    "righthand2Weapon", "righthand2Aow", "righthand2Upgrade", "righthand2Affinity",
+    "righthand3Weapon", "righthand3Aow", "righthand3Upgrade", "righthand3Affinity",
 ] as const;
 
 type armamentMapKeysType = typeof armamentMapKeys[number];
@@ -431,7 +432,7 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
     righthand3Affinity: selectRighthand3Affinity,
 };
 
-export const { 
+export const {
     resetCharplanner,
     loadBuild,
     changeCharactername,
@@ -539,20 +540,6 @@ export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
     talisman2: changeTalisman2,
     talisman3: changeTalisman3,
     talisman4: changeTalisman4,
-};
-
-export type ArmorReduceractionsMapType = {
-    head: ActionCreatorWithPayload<any, string>,
-    chest: ActionCreatorWithPayload<any, string>,
-    hands: ActionCreatorWithPayload<any, string>,
-    legs: ActionCreatorWithPayload<any, string>,
-};
-
-export const armorReduceractionsMap: ArmorReduceractionsMapType = {
-    head: changeHead,
-    chest: changeChest,
-    hands: changeHands,
-    legs: changeLegs,
 };
 
 export default charplannerSlice.reducer;
