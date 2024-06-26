@@ -6,12 +6,34 @@ data source:
 4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
 */
 
-type Data = {
-    [key: string]: number | string
+type DataType = {
+    "Name": string,
+    "sortId": number,
+    "resistSleep": number,
+    "resistMadness": number,
+    "toughnessCorrectRate": number,
+    "weight": number,
+    "residentSpEffectId": number,
+    "residentSpEffectId2": number,
+    "residentSpEffectId3": number,
+    "resistPoison": number,
+    "resistDisease": number,
+    "resistBlood": number,
+    "resistCurse": number,
+    "protectorCategory": number,
+    "neutralDamageCutRate": number,
+    "slashDamageCutRate": number,
+    "blowDamageCutRate": number,
+    "thrustDamageCutRate": number,
+    "magicDamageCutRate": number,
+    "fireDamageCutRate": number,
+    "thunderDamageCutRate": number,
+    "darkDamageCutRate": number,
+    "resistFreeze": number
 }
 
 type EquipParamProtectorType = {
-    [key: string]: Data
+    [key: string]: DataType
 }
 
 export const EquipParamProtector: EquipParamProtectorType = {
@@ -20514,5 +20536,5 @@ export const EquipParamProtector: EquipParamProtectorType = {
         "thunderDamageCutRate": 0.966,
         "darkDamageCutRate": 0.955,
         "resistFreeze": 29
-    },
+    }
 }
