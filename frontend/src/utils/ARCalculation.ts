@@ -30,11 +30,12 @@ export function calcWeaponAttackRating(
 
     const weaponId = weaponData["ID"] // PlannerData R2
 
+    const weaponClass = weaponData["Weapon Class"];
+
     if (typeof weaponId === "undefined") {
         throw new Error(`Weapon ID for selected weapon (${selectedWeapon}) is undefined`);
     }
 
-    const isInfuse = weaponData["isInfuse"];
     const isThrowable = weaponData["throwable"]; // X2
     const affinityId = AffinityData[selectedAffinity] ?? 0 // PlannerData S2
 
@@ -336,6 +337,9 @@ export function calcWeaponAttackRating(
     //     "atkPhysical: " + atkPhysical,
     // )
 
+    // if the weapon is a staff or seal the spellbuff is the more important stat and will be displayed primarily instead of the AR
+    const displayString = weaponClass === "Glintstone Staff" || weaponClass === "Sacred Seal" ? "Spellbuff: " + Math.floor(spellbuff) : "Total AR: " + totalAR;
+
     let tooltipString;
 
     if (isStrReq && isDexReq && isIntReq && isFaiReq && isArcReq) {
@@ -352,12 +356,24 @@ export function calcWeaponAttackRating(
         tooltipString += (intScalingLetter === "-" ? "" : "\xa0\xa0Intelligence:\xa0" + intScalingLetter + "\n\n");
         tooltipString += (faiScalingLetter === "-" ? "" : "\xa0\xa0Faith:\xa0" + faiScalingLetter + "\n\n");
         tooltipString += (arcScalingLetter === "-" ? "" : "\xa0\xa0Arcane:\xa0" + arcScalingLetter + "\n\n");
+
+        if (AtkPoison || AtkBleed || AtkSleep || AtkMadness || AtkRot || AtkFrost || AtkDeath) {
+            tooltipString += "\nStatus:\n\n";
+            tooltipString += AtkPoison ? "\xa0\xa0Poison:\xa0" + AtkPoison + "\n\n" : "";
+            tooltipString += AtkBleed ? "\xa0\xa0Bleed:\xa0" + AtkBleed + "\n\n" : "";
+            tooltipString += AtkSleep ? "\xa0\xa0Sleep:\xa0" + AtkSleep + "\n\n" : "";
+            tooltipString += AtkMadness ? "\xa0\xa0Madness:\xa0" + AtkMadness + "\n\n" : "";
+            tooltipString += AtkRot ? "\xa0\xa0Rot:\xa0" + AtkRot + "\n\n" : "";
+            tooltipString += AtkFrost ? "\xa0\xa0Frost:\xa0" + AtkFrost + "\n\n" : "";
+            tooltipString += AtkDeath ? "\xa0\xa0Death:\xa0" + AtkDeath + "\n\n" : "";
+        }
+
         tooltipString = tooltipString.trim();
     } else {
         tooltipString = "";
     }
 
-    return ["Total AR: " + totalAR, tooltipString];
+    return [displayString, tooltipString];
 }
 
 /*function translates the scaling value used to calculate scaling damage into the letter, that gets displayed by the game*/
