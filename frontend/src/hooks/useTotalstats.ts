@@ -60,9 +60,9 @@ const useTotalstats = (statName?: keyof StatsStateType): StatsStateType | number
             loop through the array, calculate the stat change of
             every stat and update the value in the totalStats object
         */
-        for ( let stat in statsArray) {
+        for (let stat in statsArray) {
             const statName = statsArray[stat]
-            const statChange = calcStatChange(statName, talisman, armor, greatrune, greatruneactive);
+            const statChange = calcStatChange(statName as keyof StatsStateType, talisman, armor, greatrune, greatruneactive);
             const statCurrent = (stats as StatsStateType)[statName as keyof StatsStateType];
             if (statChange !== 0) {
                 const statNew = statCurrent + statChange > 99 ? 99 : statCurrent + statChange;
