@@ -11,14 +11,14 @@ export type ItemEffectDataType = {
     "Ported Effects": string, // used
     "conditionHp": number, // used
     "conditionHpRate": number, // used
-    "addLifeForceStatus": number,
-    "addWillpowerStatus": number,
-    "addEndureStatus": number,
-    "addStrengthStatus": number,
-    "addDexterityStatus": number,
-    "addMagicStatus": number,
-    "addFaithStatus": number,
-    "addLuckStatus": number,
+    "addLifeForceStatus": number, // used
+    "addWillpowerStatus": number, // used
+    "addEndureStatus": number, // used
+    "addStrengthStatus": number, // used
+    "addDexterityStatus": number, // used
+    "addMagicStatus": number, // used
+    "addFaithStatus": number, // used
+    "addLuckStatus": number, // used
     "maxHpRate": number, // used
     "maxMpRate": number, // used
     "maxStaminaRate": number, // used
