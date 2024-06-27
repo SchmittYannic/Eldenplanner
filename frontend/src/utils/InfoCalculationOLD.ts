@@ -81,6 +81,58 @@ function calcStatusModifier(
     }
 };
 
+function calcStatusModifier2(
+    rateName: keyof ItemEffectDataType,
+    head: string,
+    chest: string,
+    hands: string,
+    legs: string,
+    talisman1: string,
+    talisman2: string,
+    talisman3: string,
+    talisman4: string,
+    greatrune: string,
+    active: boolean,
+    rh1: string,
+    rh2: string,
+    rh3: string,
+    lh1: string,
+    lh2: string,
+    lh3: string,
+    tear1: string,
+    tear2: string,
+    tearactive: boolean,
+    rain: boolean,
+    wet: boolean,
+    lowHp: boolean,
+    fullHp: boolean,
+    modification = "multiplication",
+    def = 1
+): number {
+    const ignoreList = ["Rakshasa's Great Katana", "Blue Dancer Charm", "Crucible Scale Talisman"];
+    const ignore = {
+        head: ignoreList.includes(head),
+        chest: ignoreList.includes(chest),
+        hands: ignoreList.includes(hands),
+        legs: ignoreList.includes(legs),
+        talisman1: ignoreList.includes(talisman1),
+        talisman2: ignoreList.includes(talisman2),
+        talisman3: ignoreList.includes(talisman3),
+        talisman4: ignoreList.includes(talisman4),
+        greatrune: ignoreList.includes(greatrune),
+        rh1: ignoreList.includes(rh1),
+        rh2: ignoreList.includes(rh2),
+        rh3: ignoreList.includes(rh3),
+        lh1: ignoreList.includes(lh1),
+        lh2: ignoreList.includes(lh2),
+        lh3: ignoreList.includes(lh3),
+        tear1: ignoreList.includes(tear1),
+        tear2: ignoreList.includes(tear2),
+    }
+
+    const test = 
+}
+
 function calcAbsBase(
     rateName: keyof EquipParamType,
     headParam: EquipParamType | undefined,
@@ -222,6 +274,15 @@ export function calcStatus(
     const robustness_base = Math.floor(CalcCorrectGraphEz["112"][totalAmount] + CalcCorrectGraphEz["122"][endurance]);  //I13
     const focus_base = Math.floor(CalcCorrectGraphEz["114"][totalAmount] + CalcCorrectGraphEz["124"][mind]);  //I14
     const vitality_base = Math.floor(CalcCorrectGraphEz["116"][totalAmount] + CalcCorrectGraphEz["126"][arcane]);  //I15
+
+
+
+
+
+
+
+
+
 
     const hp_modifier = calcStatusModifier("maxHpRate", head, chest, hands, legs, talisman1, talisman2, talisman3, talisman4, greatRune, greatRuneChecked, rh1.weapon, rh2.weapon, rh3.weapon, lh1.weapon, lh2.weapon, lh3.weapon);  //J2
     const fp_modifier = calcStatusModifier("maxMpRate", head, chest, hands, legs, talisman1, talisman2, talisman3, talisman4, greatRune, greatRuneChecked, rh1.weapon, rh2.weapon, rh3.weapon, lh1.weapon, lh2.weapon, lh3.weapon);  //J3
