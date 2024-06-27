@@ -1220,6 +1220,7 @@ export const CompatibleAowData: CompatibleAowDataType = {
         "Vow of the Indomitable",
         "Golden Parry",
         "Holy Ground",
+        "Shield Strike",
     ],
     "Medium Shield": [
         "Parry",
@@ -1233,6 +1234,7 @@ export const CompatibleAowData: CompatibleAowDataType = {
         "Vow of the Indomitable",
         "Golden Parry",
         "Holy Ground",
+        "Shield Strike",
     ],
     "Greatshield": [
         "No Skill",
@@ -1241,6 +1243,7 @@ export const CompatibleAowData: CompatibleAowDataType = {
         "Shield Bash",
         "Vow of the Indomitable",
         "Holy Ground",
+        "Shield Strike",
     ],
     "Crossbow": [],
     "Ballista": [],
