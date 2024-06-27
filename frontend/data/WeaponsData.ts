@@ -50,15 +50,15 @@ function query(data) {
 
 
 type WeaponType = {
-    "Weapon Class": string,
-    "ID": number,
-    "isInfuse": boolean,
-    "isReinforce": boolean,
-    "isUnique": boolean,
-    "bothHandsAtkBonus": boolean,
+    "Weapon Class": string,  // used
+    "ID": number,  // used
+    "isInfuse": boolean,  // used
+    "isReinforce": boolean,  // used
+    "isUnique": boolean, // used
+    "bothHandsAtkBonus": boolean, // used
     "throwable": boolean,
     "waAttackElementCorrectId": string,
-    "specialStatusSpEffectId": number | string,
+    "specialStatusSpEffectId": number | string,  // used
     "castingBonusType": string,
     "castingBonusRate": number | string,
     "defaultPhysType": string

@@ -31,17 +31,17 @@ function query(data) {
 */
 
 type DataType = {
-    "physicsAtkRate": number,
-    "magicAtkRate": number,
-    "fireAtkRate": number,
-    "thunderAtkRate": number,
+    "physicsAtkRate": number, // used
+    "magicAtkRate": number, // used
+    "fireAtkRate": number, // used
+    "thunderAtkRate": number, // used
     "staminaAtkRate": number,
     "saWeaponAtkRate": number,
     "saDurabilityRate": number,
-    "correctStrengthRate": number,
-    "correctAgilityRate": number,
-    "correctMagicRate": number,
-    "correctFaithRate": number,
+    "correctStrengthRate": number, // used
+    "correctAgilityRate": number, // used
+    "correctMagicRate": number, // used
+    "correctFaithRate": number, // used
     "physicsGuardCutRate": number,
     "magicGuardCutRate": number,
     "fireGuardCutRate": number,
@@ -51,12 +51,12 @@ type DataType = {
     "bloodGuardResistRate": number,
     "curseGuardResistRate": number,
     "staminaGuardDefRate": number,
-    "spEffectId1": number,
-    "spEffectId2": number,
+    "spEffectId1": number, // used
+    "spEffectId2": number, // used
     "spEffectId3": number,
-    "darkAtkRate": number,
+    "darkAtkRate": number, // used
     "darkGuardCutRate": number,
-    "correctLuckRate": number,
+    "correctLuckRate": number, // used
     "freezeGuardDefRate": number,
     "sleepGuardDefRate": number,
     "madnessGuardDefRate": number,

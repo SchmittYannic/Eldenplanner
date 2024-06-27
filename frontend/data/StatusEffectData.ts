@@ -8,13 +8,13 @@ data source:
 
 type DataType = {
     "statusType": string,
-    "poizonAttackPower": number,
-    "diseaseAttackPower": number,
-    "bloodAttackPower": number,
-    "freezeAttackPower": number,
-    "sleepAttackPower": number,
-    "madnessAttackPower": number,
-    "curseAttackPower": number,
+    "poizonAttackPower": number, // used
+    "diseaseAttackPower": number, // used
+    "bloodAttackPower": number, // used
+    "freezeAttackPower": number, // used
+    "sleepAttackPower": number, // used
+    "madnessAttackPower": number, // used
+    "curseAttackPower": number, // used
     "effectEndurance": number,
     "changeHpRate": number,
     "changeHpPoint": number,

@@ -11,8 +11,8 @@ export type EquipParamType = {
     "sortId": number,
     "resistSleep": number,
     "resistMadness": number,
-    "toughnessCorrectRate": number,
-    "weight": number,
+    "toughnessCorrectRate": number, // used
+    "weight": number, // used
     "residentSpEffectId": number,
     "residentSpEffectId2": number,
     "residentSpEffectId3": number,

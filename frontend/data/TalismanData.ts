@@ -10,9 +10,9 @@ data source:
 type DataType = {
     "ID": number,
     "refId": number,
-    "weight": number,
+    "weight": number, // used
     "sortId": number,
-    "accessoryGroup": number,
+    "accessoryGroup": number, // used
     "residentSpEffectId1": number,
     "residentSpEffectId2": number,
     "residentSpEffectId3": number,

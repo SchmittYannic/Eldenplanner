@@ -62,7 +62,7 @@ type EffectDataType = {
 
 export const EffectData: EffectDataType = {
     "Celebrant's Sickle": {
-        "Ported Effects": "Gain 10 runes on hit",
+        "Ported Effects": "Gain 10 runes on hit", // used
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,

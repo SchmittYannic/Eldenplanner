@@ -36,31 +36,31 @@ function query(data) {
 */
 
 type DataType = {
-    "isStrengthCorrect_byPhysics": boolean,
-    "isDexterityCorrect_byPhysics": boolean,
-    "isMagicCorrect_byPhysics": boolean,
-    "isFaithCorrect_byPhysics": boolean,
-    "isLuckCorrect_byPhysics": boolean,
-    "isStrengthCorrect_byMagic": boolean,
-    "isDexterityCorrect_byMagic": boolean,
-    "isMagicCorrect_byMagic": boolean,
-    "isFaithCorrect_byMagic": boolean,
-    "isLuckCorrect_byMagic": boolean,
-    "isStrengthCorrect_byFire": boolean,
-    "isDexterityCorrect_byFire": boolean,
-    "isMagicCorrect_byFire": boolean,
-    "isFaithCorrect_byFire": boolean,
-    "isLuckCorrect_byFire": boolean,
-    "isStrengthCorrect_byThunder": boolean,
-    "isDexterityCorrect_byThunder": boolean,
-    "isMagicCorrect_byThunder": boolean,
-    "isFaithCorrect_byThunder": boolean,
-    "isLuckCorrect_byThunder": boolean,
-    "isStrengthCorrect_byDark": boolean,
-    "isDexterityCorrect_byDark": boolean,
-    "isMagicCorrect_byDark": boolean,
-    "isFaithCorrect_byDark": boolean,
-    "isLuckCorrect_byDark": boolean,
+    "isStrengthCorrect_byPhysics": boolean, // used
+    "isDexterityCorrect_byPhysics": boolean, // used
+    "isMagicCorrect_byPhysics": boolean, // used
+    "isFaithCorrect_byPhysics": boolean, // used
+    "isLuckCorrect_byPhysics": boolean, // used
+    "isStrengthCorrect_byMagic": boolean, // used
+    "isDexterityCorrect_byMagic": boolean, // used
+    "isMagicCorrect_byMagic": boolean, // used
+    "isFaithCorrect_byMagic": boolean, // used
+    "isLuckCorrect_byMagic": boolean, // used
+    "isStrengthCorrect_byFire": boolean, // used
+    "isDexterityCorrect_byFire": boolean, // used
+    "isMagicCorrect_byFire": boolean, // used
+    "isFaithCorrect_byFire": boolean, // used
+    "isLuckCorrect_byFire": boolean, // used
+    "isStrengthCorrect_byThunder": boolean, // used
+    "isDexterityCorrect_byThunder": boolean, // used
+    "isMagicCorrect_byThunder": boolean, // used
+    "isFaithCorrect_byThunder": boolean, // used
+    "isLuckCorrect_byThunder": boolean, // used
+    "isStrengthCorrect_byDark": boolean, // used
+    "isDexterityCorrect_byDark": boolean, // used
+    "isMagicCorrect_byDark": boolean, // used
+    "isFaithCorrect_byDark": boolean, // used
+    "isLuckCorrect_byDark": boolean, // used
     "pad1": number,
     "overwriteStrengthCorrectRate_byPhysics": number,
     "overwriteDexterityCorrectRate_byPhysics": number,
