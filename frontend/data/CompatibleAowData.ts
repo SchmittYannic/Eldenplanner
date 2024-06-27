@@ -1,4 +1,8 @@
-const CompatibleAowData = {
+type CompatibleAowDataType = {
+    [key: string]: string[]
+}
+
+export const CompatibleAowData: CompatibleAowDataType = {
     "Dagger": [
         "Parry",
         "Repeating Thrusts",
