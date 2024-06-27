@@ -6,8 +6,9 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
-import { CompatibleAow } from "../../../data/CompatibleAow";
+import { CompatibleAowData } from "../../../data/CompatibleAowData";
 import { CustomSelect } from "../../components/ui";
+import { WeaponsData } from "../../../data/WeaponsData";
 
 type PropsType = {
     id: string
@@ -29,18 +30,19 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
     const [aowOptions, setAowOptions] = useState<string[]>([]);
 
     useEffect(() => {
-        if (weapon === "") {
+        const weaponClass = weapon ? WeaponsData[weapon]["Weapon Class"] : undefined;
+        const isInfuse = weapon ? WeaponsData[weapon]["isInfuse"] : undefined;
+        const compatibleAow = weaponClass ? CompatibleAowData[weaponClass] : undefined;
+        //const defaultAowName = "default"; // add into future dataset the default aow of weapons
+
+        if (weapon === "" || !compatibleAow || compatibleAow.length === 0 || !isInfuse) {
             setDisableAow(true);
             setAowOptions([]);
             setAow("");
         } else {
-            const compatibleAow = CompatibleAow[weapon];
-            const defaultAowName = compatibleAow["Default Ash of War"];
-            const aowKeys = Object.keys(compatibleAow).filter(option => option !== "Default Ash of War");
-            const aowOptionNames = aowKeys.map((keyName) => compatibleAow[keyName]).filter(option => option !== "");
-            aowOptionNames.length === 0 ? setDisableAow(true) : setDisableAow(false);
-            setAowOptions(aowOptionNames);
-            setAow(defaultAowName);
+            setDisableAow(false);
+            setAowOptions(compatibleAow);
+            setAow("");
         }
     }, [weapon])
 
