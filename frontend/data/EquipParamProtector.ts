@@ -9,26 +9,26 @@ data source:
 export type EquipParamType = {
     "Name": string,
     "sortId": number,
-    "resistSleep": number,
+    "resistSleep": number, // used
     "resistMadness": number,
     "toughnessCorrectRate": number, // used
     "weight": number, // used
     "residentSpEffectId": number,
     "residentSpEffectId2": number,
     "residentSpEffectId3": number,
-    "resistPoison": number,
+    "resistPoison": number, // used
     "resistDisease": number,
-    "resistBlood": number,
-    "resistCurse": number,
+    "resistBlood": number, // used
+    "resistCurse": number, // used
     "protectorCategory": number,
-    "neutralDamageCutRate": number,
-    "slashDamageCutRate": number,
-    "blowDamageCutRate": number,
-    "thrustDamageCutRate": number,
-    "magicDamageCutRate": number,
-    "fireDamageCutRate": number,
-    "thunderDamageCutRate": number,
-    "darkDamageCutRate": number,
+    "neutralDamageCutRate": number, // used
+    "slashDamageCutRate": number, // used
+    "blowDamageCutRate": number, // used
+    "thrustDamageCutRate": number, // used
+    "magicDamageCutRate": number, // used
+    "fireDamageCutRate": number, // used
+    "thunderDamageCutRate": number, // used
+    "darkDamageCutRate": number, // used
     "resistFreeze": number
 }
 

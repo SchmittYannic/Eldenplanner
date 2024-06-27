@@ -8,9 +8,9 @@ data source:
 */
 
 export type ItemEffectDataType = {
-    "Ported Effects": string,
-    "conditionHp": number,
-    "conditionHpRate": number,
+    "Ported Effects": string, // used
+    "conditionHp": number, // used
+    "conditionHpRate": number, // used
     "addLifeForceStatus": number,
     "addWillpowerStatus": number,
     "addEndureStatus": number,
@@ -19,18 +19,18 @@ export type ItemEffectDataType = {
     "addMagicStatus": number,
     "addFaithStatus": number,
     "addLuckStatus": number,
-    "maxHpRate": number,
-    "maxMpRate": number,
-    "maxStaminaRate": number,
-    "equipWeightChangeRate": number,
-    "neutralDamageCutRate": number,
-    "blowDamageCutRate": number,
-    "slashDamageCutRate": number,
-    "thrustDamageCutRate": number,
-    "magicDamageCutRate": number,
-    "fireDamageCutRate": number,
-    "thunderDamageCutRate": number,
-    "darkDamageCutRate": number,
+    "maxHpRate": number, // used
+    "maxMpRate": number, // used
+    "maxStaminaRate": number, // used
+    "equipWeightChangeRate": number, // used
+    "neutralDamageCutRate": number, // used
+    "blowDamageCutRate": number, // used
+    "slashDamageCutRate": number, // used
+    "thrustDamageCutRate": number, // used
+    "magicDamageCutRate": number, // used
+    "fireDamageCutRate": number, // used
+    "thunderDamageCutRate": number, // used
+    "darkDamageCutRate": number, // used
     "defEnemyDmgCorrectRate_Physics": number,
     "defEnemyDmgCorrectRate_Magic": number,
     "defEnemyDmgCorrectRate_Fire": number,
@@ -41,19 +41,19 @@ export type ItemEffectDataType = {
     "defPlayerDmgCorrectRate_Fire": number,
     "defPlayerDmgCorrectRate_Thunder": number,
     "defPlayerDmgCorrectRate_Dark": number,
-    "changePoisonResistPoint": number,
+    "changePoisonResistPoint": number, // used
     "changeDiseaseResistPoint": number,
-    "changeBloodResistPoint": number,
+    "changeBloodResistPoint": number, // used
     "changeFreezeResistPoint": number,
-    "changeSleepResistPoint": number,
+    "changeSleepResistPoint": number, // used
     "changeMadnessResistPoint": number,
-    "changeCurseResistPoint": number,
+    "changeCurseResistPoint": number, // used
     "physicsAttackPowerRate": number,
     "magicAttackPowerRate": number,
     "fireAttackPowerRate": number,
     "thunderAttackPowerRate": number,
     "darkAttackPowerRate": number,
-    "itemDropRate": number
+    "itemDropRate": number // used
 }
 
 type EffectDataType = {
