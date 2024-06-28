@@ -1,454 +1,402 @@
-import { AttackData } from "../../data/AttackData";
+import { AffinityData } from "../../data/AffinityData";
 import { WeaponsData } from "../../data/WeaponsData";
-import CalcCorrectGraph_ID from "../../data/CalcCorrectGraph_ID";
-import ScalingData from "../../data/ScalingData";
-import AttackElementCorrectParam from "../../data/AttackElementCorrectParam";
+import { EquipParamWeapon } from "../../data/EquipParamWeapon";
+import { ConsumableData } from "../../data/ConsumableData";
+import { ReinforceParamWeapon } from "../../data/ReinforceParamWeapon";
+import { AttackElementCorrectParam } from "../../data/AttackElementCorrectParam";
+import { CalcCorrectGraphEz } from "../../data/CalcCorrectGraphEz";
+import { StatusEffectData } from "../../data/StatusEffectData";
 import { StatsStateType } from "../features/charplanner/charplannerSlice";
 
-
-
-/*function calculates Weapon AR for the selected weapon*/
-/*takes the div element, which will later display the total AR and the value of the weapon select element (which is the name of the selected weapon)*/
-/*this function replicates the calculations done in the Excel sheet Elden Ring Weapon Calculator (1.06) -> table Calculations*/
-/*https://docs.google.com/spreadsheets/d/1xLMP8BXDFdl1A1TbttVzdBr2Je-WNVQ9y6_HqIMymXI/copy*/
-/*the variables reflect cells in the sheet -> see comments*/
 export function calcWeaponAttackRating(
-    selectedWeapon: string, 
-    selectedUpgrade: string,  
-    selectedAffinity: string, 
+    selectedWeapon: string,
+    selectedUpgrade: string,
+    selectedAffinity: string,
     totalStats: StatsStateType,
     twoHandChecked: boolean
-    ): string[] {
-    let str = totalStats["strength"];
+): string[] {
+
+    // console.log(
+    //     "ARCalculation for weapon: " + selectedWeapon,
+    // )
+
+    const str = twoHandChecked ? Math.floor(1.5 * totalStats["strength"]) : totalStats["strength"];
     const dex = totalStats["dexterity"];
     const int = totalStats["intelligence"];
     const fai = totalStats["faith"];
     const arc = totalStats["arcane"];
 
-    let weaponName = selectedWeapon; //F2
-    let upgradeLevel = selectedUpgrade;
-    let affinity = selectedAffinity;
-    
-    let physAttack, magAttack, fireAttack, lighAttack, holyAttack, attackElementCorrectID; //A4 B4 C4 D4 E4 F4
+    const weaponData = WeaponsData[selectedWeapon];
 
-    let strScaling, dexScaling, intScaling, faiScaling, arcScaling; //A6 B6 C6 D6 E6
+    const weaponId = weaponData["ID"] // PlannerData R2
 
-    let strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement; //L2 L4 L6 L8 L10
+    const weaponClass = weaponData["Weapon Class"];
 
-    let physCalcID, magCalcID, fireCalcID, lighCalcID, holyCalcID  //, passiveArcaneCalcCorrect; //A8 B8 C8 D8 E8 F8
+    if (typeof weaponId === "undefined") {
+        throw new Error(`Weapon ID for selected weapon (${selectedWeapon}) is undefined`);
+    }
 
-    let physScalesOnStr, physScalesOnDex, physScalesOnInt, physScalesOnFai, physScalesOnArc; //G10 H10 I10 J10 K10
-    let magScalesOnStr, magScalesOnDex, magScalesOnInt, magScalesOnFai, magScalesOnArc; //G12 H12 I12 J12 K12
-    let fireScalesOnStr, fireScalesOnDex, fireScalesOnInt, fireScalesOnFai, fireScalesOnArc; //G14 H14 I14 J14 K14
-    let lighScalesOnStr, lighScalesOnDex, lighScalesOnInt, lighScalesOnFai, lighScalesOnArc; //G16 H16 I16 J16 K16
-    let holyScalesOnStr, holyScalesOnDex, holyScalesOnInt, holyScalesOnFai, holyScalesOnArc; //G18 H18 I18 J18 K18
+    const isThrowable = weaponData["throwable"]; // X2
+    const affinityId = AffinityData[selectedAffinity] ?? 0 // PlannerData S2
 
-    let physStrCalcCorrect, physDexCalcCorrect, physIntCalcCorrect, physFaiCalcCorrect, physArcCalcCorrect; //A10 B10 C10 D10 E10
-    let magStrCalcCorrect, magDexCalcCorrect, magIntCalcCorrect, magFaiCalcCorrect, magArcCalcCorrect; //A12 B12 C12 D12 E12
-    let fireStrCalcCorrect, fireDexCalcCorrect, fireIntCalcCorrect, fireFaiCalcCorrect, fireArcCalcCorrect; //A14 B14 C14 D14 E14
-    let lighStrCalcCorrect, lighDexCalcCorrect, lighIntCalcCorrect, lighFaiCalcCorrect, lighArcCalcCorrect; //A16 B16 C16 D16 E16
-    let holyStrCalcCorrect, holyDexCalcCorrect, holyIntCalcCorrect, holyFaiCalcCorrect, holyArcCalcCorrect; //A18 B18 C18 D18 E18
+    const weaponIdWithAffinity = weaponId + affinityId;
 
-    let physStrDamage, physDexDamage, physIntDamage, physFaiDamage, physArcDamage; //A20 B20 C20 D20 E20
-    let magStrDamage, magDexDamage, magIntDamage, magFaiDamage, magArcDamage; //A22 B22 C22 D22 E22
-    let fireStrDamage, fireDexDamage, fireIntDamage, fireFaiDamage, fireArcDamage; //A24 B24 C24 D24 E24
-    let lighStrDamage, lighDexDamage, lighIntDamage, lighFaiDamage, lighArcDamage; //A26 B26 C26 D26 E26
-    let holyStrDamage, holyDexDamage, holyIntDamage, holyFaiDamage, holyArcDamage; //A28 B28 C28 D28 E28
+    if (isNaN(weaponIdWithAffinity)) {
+        throw new Error(`Weapon ID with Affinity is not allowed to be NaN`);
+    }
 
-    let physRequirementMet, magRequirementMet, fireRequirementMet, lighRequirementMet, holyRequirementMet; //L24 L26 L28 L30 L32
+    const weaponParameter = EquipParamWeapon[weaponIdWithAffinity];
 
-    let physDamage, magDamage, fireDamage, lighDamage, holyDamage; //A30 B30 C30 D30 E30
+    const reinforceTypeId = weaponParameter["reinforceTypeId"]; // U2
+    const reinforceFullId = reinforceTypeId + Number(selectedUpgrade);
 
-    let physDamageFloored, magDamageFloored, fireDamageFloored, lighDamageFloored, holyDamageFloored; //A32 B32 C32 D32 E32
+    if (isNaN(reinforceFullId)) {
+        throw new Error(`reinforceFullId is not allowed to be NaN`);
+    }
 
-    let physResultSummed, magResultSummed, fireResultSummed, lighResultSummed, holyResultSummed; //A34 B34 C34 D34 E34
+    //weapon stat requirements
+    const strReq = weaponParameter["properStrength"] ?? 0; // Y2
+    const dexReq = weaponParameter["properAgility"] ?? 0; // Z2
+    const intReq = weaponParameter["properMagic"] ?? 0; // AA2
+    const faiReq = weaponParameter["properFaith"] ?? 0; // AB2
+    const arcReq = weaponParameter["properLuck"] ?? 0; // AC2
 
-    // let physResultSummedFloored, magResultSummedFloored, fireResultSummedFloored, lighResultSummedFloored, holyResultSummedFloored; //A36 B36 C36 D36 E36
+    const isStrReq = str >= strReq; // AD2
+    const isDexReq = dex >= dexReq; // AE2
+    const isIntReq = int >= intReq; // AF2
+    const isFaiReq = fai >= faiReq; // AG2
+    const isArcReq = arc >= arcReq; // AH2
 
-    let strScalingLetter, dexScalingLetter, intScalingLetter, faiScalingLetter, arcScalingLetter;
+    // base ar portion of weapon without scaling
+    const atkBasePhysical = isThrowable ? ConsumableData[selectedWeapon]["attackBasePhysics"] : weaponParameter["attackBasePhysics"];
+    const atkBaseMagic = isThrowable ? ConsumableData[selectedWeapon]["attackBaseMagic"] : weaponParameter["attackBaseMagic"];
+    const atkBaseFire = isThrowable ? ConsumableData[selectedWeapon]["attackBaseFire"] : weaponParameter["attackBaseFire"];
+    const atkBaseLightning = isThrowable ? ConsumableData[selectedWeapon]["attackBaseThunder"] : weaponParameter["attackBaseThunder"];
+    const atkBaseHoly = isThrowable ? ConsumableData[selectedWeapon]["attackBaseDark"] : weaponParameter["attackBaseDark"];
 
-    let totalAR;
+    const reinforcedWeaponParameter = ReinforceParamWeapon[reinforceFullId];
+
+    const physicsAtkRate = reinforcedWeaponParameter["physicsAtkRate"];
+    const magicAtkRate = reinforcedWeaponParameter["magicAtkRate"];
+    const fireAtkRate = reinforcedWeaponParameter["fireAtkRate"];
+    const lightningAtkRate = reinforcedWeaponParameter["thunderAtkRate"];
+    const holyAtkRate = reinforcedWeaponParameter["darkAtkRate"];
+
+    const atkPhysical = Math.round(atkBasePhysical * physicsAtkRate * 1000) / 1000; // AI2
+    const atkMagic = Math.round(atkBaseMagic * magicAtkRate * 1000) / 1000; // AJ2
+    const atkFire = Math.round(atkBaseFire * fireAtkRate * 1000) / 1000; // AK2
+    const atkLightning = Math.round(atkBaseLightning * lightningAtkRate * 1000) / 1000; // AL2
+    const atkHoly = Math.round(atkBaseHoly * holyAtkRate * 1000) / 1000; // AM2
+
+
+    const correctBaseStr = weaponParameter["correctStrength"];
+    const correctBaseDex = weaponParameter["correctAgility"];
+    const correctBaseInt = weaponParameter["correctMagic"];
+    const correctBaseFai = weaponParameter["correctFaith"];
+    const correctBaseArc = weaponParameter["correctLuck"];
+
+    const correctStrRate = reinforcedWeaponParameter["correctStrengthRate"];
+    const correctDexRate = reinforcedWeaponParameter["correctAgilityRate"];
+    const correctIntRate = reinforcedWeaponParameter["correctMagicRate"];
+    const correctFaiRate = reinforcedWeaponParameter["correctFaithRate"];
+    const correctArcRate = reinforcedWeaponParameter["correctLuckRate"];
+
+    const correctStr = Math.round(correctBaseStr * correctStrRate * 1000) / 1000 ?? 0; // AN2
+    const correctDex = Math.round(correctBaseDex * correctDexRate * 1000) / 1000 ?? 0; // AO2
+    const correctInt = Math.round(correctBaseInt * correctIntRate * 1000) / 1000 ?? 0; // AP2
+    const correctFai = Math.round(correctBaseFai * correctFaiRate * 1000) / 1000 ?? 0; // AQ2
+    const correctArc = Math.round(correctBaseArc * correctArcRate * 1000) / 1000 ?? 0; // AR2
+
+    const correctType_Physics = weaponParameter["correctType_Physics"]; // AY2
+    const correctType_Magic = weaponParameter["correctType_Magic"]; // AZ2
+    const correctType_Fire = weaponParameter["correctType_Fire"]; // BA2
+    const correctType_Thunder = weaponParameter["correctType_Thunder"]; // BB2
+    const correctType_Dark = weaponParameter["correctType_Dark"]; // BC2
+    const correctType_Poison = weaponParameter["correctType_Poison"]; // BD2
+    const correctType_Blood = weaponParameter["correctType_Blood"]; // BE2
+    const correctType_Sleep = weaponParameter["correctType_Sleep"]; // BF2
+    const correctType_Madness = weaponParameter["correctType_Madness"]; // BG2
+    const AttackElementCorrectId = weaponParameter["attackElementCorrectId"]; // BH2
+
+    // console.log(
+    //     "correctType_Physics: " + correctType_Physics,
+    //     "correctType_Magic: " + correctType_Magic,
+    //     "correctType_Fire: " + correctType_Fire,
+    //     "correctType_Thunder: " + correctType_Thunder,
+    //     "correctType_Dark: " + correctType_Dark,
+    //     "correctType_Poison: " + correctType_Poison,
+    //     "correctType_Blood: " + correctType_Blood,
+    //     "correctType_Sleep: " + correctType_Sleep,
+    //     "correctType_Madness: " + correctType_Madness,
+    //     "AttackElementCorrectId: " + AttackElementCorrectId,
+    // )
+
+    const weaponAttackElementCorrect = AttackElementCorrectParam[AttackElementCorrectId];
+
+    const isStrengthCorrect_byPhysics = weaponAttackElementCorrect["isStrengthCorrect_byPhysics"];
+    const isDexterityCorrect_byPhysics = weaponAttackElementCorrect["isDexterityCorrect_byPhysics"];
+    const isMagicCorrect_byPhysics = weaponAttackElementCorrect["isMagicCorrect_byPhysics"];
+    const isFaithCorrect_byPhysics = weaponAttackElementCorrect["isFaithCorrect_byPhysics"];
+    const isLuckCorrect_byPhysics = weaponAttackElementCorrect["isLuckCorrect_byPhysics"];
+    const isStrengthCorrect_byMagic = weaponAttackElementCorrect["isStrengthCorrect_byMagic"];
+    const isDexterityCorrect_byMagic = weaponAttackElementCorrect["isDexterityCorrect_byMagic"];
+    const isMagicCorrect_byMagic = weaponAttackElementCorrect["isMagicCorrect_byMagic"];
+    const isFaithCorrect_byMagic = weaponAttackElementCorrect["isFaithCorrect_byMagic"];
+    const isLuckCorrect_byMagic = weaponAttackElementCorrect["isLuckCorrect_byMagic"];
+    const isStrengthCorrect_byFire = weaponAttackElementCorrect["isStrengthCorrect_byFire"];
+    const isDexterityCorrect_byFire = weaponAttackElementCorrect["isDexterityCorrect_byFire"];
+    const isMagicCorrect_byFire = weaponAttackElementCorrect["isMagicCorrect_byFire"];
+    const isFaithCorrect_byFire = weaponAttackElementCorrect["isFaithCorrect_byFire"];
+    const isLuckCorrect_byFire = weaponAttackElementCorrect["isLuckCorrect_byFire"];
+    const isStrengthCorrect_byThunder = weaponAttackElementCorrect["isStrengthCorrect_byThunder"];
+    const isDexterityCorrect_byThunder = weaponAttackElementCorrect["isDexterityCorrect_byThunder"];
+    const isMagicCorrect_byThunder = weaponAttackElementCorrect["isMagicCorrect_byThunder"];
+    const isFaithCorrect_byThunder = weaponAttackElementCorrect["isFaithCorrect_byThunder"];
+    const isLuckCorrect_byThunder = weaponAttackElementCorrect["isLuckCorrect_byThunder"];
+    const isStrengthCorrect_byDark = weaponAttackElementCorrect["isStrengthCorrect_byDark"];
+    const isDexterityCorrect_byDark = weaponAttackElementCorrect["isDexterityCorrect_byDark"];
+    const isMagicCorrect_byDark = weaponAttackElementCorrect["isMagicCorrect_byDark"];
+    const isFaithCorrect_byDark = weaponAttackElementCorrect["isFaithCorrect_byDark"];
+    const isLuckCorrect_byDark = weaponAttackElementCorrect["isLuckCorrect_byDark"];
+
+    const CalcCorrectGraph_Physics = CalcCorrectGraphEz[correctType_Physics];
+    const CalcCorrectGraph_Magic = CalcCorrectGraphEz[correctType_Magic];
+    const CalcCorrectGraph_Fire = CalcCorrectGraphEz[correctType_Fire];
+    const CalcCorrectGraph_Thunder = CalcCorrectGraphEz[correctType_Thunder];
+    const CalcCorrectGraph_Dark = CalcCorrectGraphEz[correctType_Dark];
+
+    const StrengthCorrect_byPhysics = isStrengthCorrect_byPhysics ? CalcCorrectGraph_Physics[str] : 0; // BI2
+    const DexterityCorrect_byPhysics = isDexterityCorrect_byPhysics ? CalcCorrectGraph_Physics[dex] : 0;  // BN2
+    const MagicCorrect_byPhysics = isMagicCorrect_byPhysics ? CalcCorrectGraph_Physics[int] : 0; // BS2
+    const FaithCorrect_byPhysics = isFaithCorrect_byPhysics ? CalcCorrectGraph_Physics[fai] : 0; // BX2
+    const LuckCorrect_byPhysics = isLuckCorrect_byPhysics ? CalcCorrectGraph_Physics[arc] : 0;  // CC2
+    const StrengthCorrect_byMagic = isStrengthCorrect_byMagic ? CalcCorrectGraph_Magic[str] : 0; // BJ2
+    const DexterityCorrect_byMagic = isDexterityCorrect_byMagic ? CalcCorrectGraph_Magic[dex] : 0;  // BO2
+    const MagicCorrect_byMagic = isMagicCorrect_byMagic ? CalcCorrectGraph_Magic[int] : 0;  // BT2
+    const FaithCorrect_byMagic = isFaithCorrect_byMagic ? CalcCorrectGraph_Magic[fai] : 0;  // BY2
+    const LuckCorrect_byMagic = isLuckCorrect_byMagic ? CalcCorrectGraph_Magic[arc] : 0;  // CD2
+    const StrengthCorrect_byFire = isStrengthCorrect_byFire ? CalcCorrectGraph_Fire[str] : 0;  // BK2
+    const DexterityCorrect_byFire = isDexterityCorrect_byFire ? CalcCorrectGraph_Fire[dex] : 0; // BP2
+    const MagicCorrect_byFire = isMagicCorrect_byFire ? CalcCorrectGraph_Fire[int] : 0; // BU2
+    const FaithCorrect_byFire = isFaithCorrect_byFire ? CalcCorrectGraph_Fire[fai] : 0; // BZ2
+    const LuckCorrect_byFire = isLuckCorrect_byFire ? CalcCorrectGraph_Fire[arc] : 0;  // CE2
+    const StrengthCorrect_byThunder = isStrengthCorrect_byThunder ? CalcCorrectGraph_Thunder[str] : 0;  // BL2
+    const DexterityCorrect_byThunder = isDexterityCorrect_byThunder ? CalcCorrectGraph_Thunder[dex] : 0;  // BQ2
+    const MagicCorrect_byThunder = isMagicCorrect_byThunder ? CalcCorrectGraph_Thunder[int] : 0; // BV2
+    const FaithCorrect_byThunder = isFaithCorrect_byThunder ? CalcCorrectGraph_Thunder[fai] : 0; // CA2
+    const LuckCorrect_byThunder = isLuckCorrect_byThunder ? CalcCorrectGraph_Thunder[arc] : 0;  // CF2
+    const StrengthCorrect_byDark = isStrengthCorrect_byDark ? CalcCorrectGraph_Dark[str] : 0;  // BM2
+    const DexterityCorrect_byDark = isDexterityCorrect_byDark ? CalcCorrectGraph_Dark[dex] : 0;  // BR2
+    const MagicCorrect_byDark = isMagicCorrect_byDark ? CalcCorrectGraph_Dark[int] : 0; // BW2
+    const FaithCorrect_byDark = isFaithCorrect_byDark ? CalcCorrectGraph_Dark[fai] : 0;  // CB2
+    const LuckCorrect_byDark = isLuckCorrect_byDark ? CalcCorrectGraph_Dark[arc] : 0;  // CG2
+
+    // console.log(
+    //     "StrengthCorrect_byPhysics: " + StrengthCorrect_byPhysics,
+    //     "DexterityCorrect_byPhysics: " + DexterityCorrect_byPhysics,
+    //     "MagicCorrect_byPhysics: " + MagicCorrect_byPhysics,
+    //     "FaithCorrect_byPhysics: " + FaithCorrect_byPhysics,
+    //     "LuckCorrect_byPhysics: " + LuckCorrect_byPhysics,
+    //     "StrengthCorrect_byMagic: " + StrengthCorrect_byMagic,
+    //     "DexterityCorrect_byMagic: " + DexterityCorrect_byMagic,
+    //     "MagicCorrect_byMagic: " + MagicCorrect_byMagic,
+    //     "FaithCorrect_byMagic: " + FaithCorrect_byMagic,
+    //     "LuckCorrect_byMagic: " + LuckCorrect_byMagic,
+    //     "StrengthCorrect_byFire: " + StrengthCorrect_byFire,
+    //     "DexterityCorrect_byFire: " + DexterityCorrect_byFire,
+    //     "MagicCorrect_byFire: " + MagicCorrect_byFire,
+    //     "FaithCorrect_byFire: " + FaithCorrect_byFire,
+    //     "LuckCorrect_byFire: " + LuckCorrect_byFire,
+    //     "StrengthCorrect_byThunder: " + StrengthCorrect_byThunder,
+    //     "DexterityCorrect_byThunder: " + DexterityCorrect_byThunder,
+    //     "MagicCorrect_byThunder: " + MagicCorrect_byThunder,
+    //     "FaithCorrect_byThunder: " + FaithCorrect_byThunder,
+    //     "LuckCorrect_byThunder: " + LuckCorrect_byThunder,
+    //     "StrengthCorrect_byDark: " + StrengthCorrect_byDark,
+    //     "DexterityCorrect_byDark: " + DexterityCorrect_byDark,
+    //     "MagicCorrect_byDark: " + MagicCorrect_byDark,
+    //     "FaithCorrect_byDark: " + FaithCorrect_byDark,
+    //     "LuckCorrect_byDark: " + LuckCorrect_byDark,
+    // )
+
+    // CH2 - CM2 
+    const physAtkPenalty = (!isStrReq && StrengthCorrect_byPhysics > 0) || (!isDexReq && DexterityCorrect_byPhysics > 0) || (!isIntReq && MagicCorrect_byPhysics > 0) || (!isFaiReq && FaithCorrect_byPhysics > 0) || (!isArcReq && LuckCorrect_byPhysics > 0);
+    const magAtkPenalty = (!isStrReq && StrengthCorrect_byMagic > 0) || (!isDexReq && DexterityCorrect_byMagic > 0) || (!isIntReq && MagicCorrect_byMagic > 0) || (!isFaiReq && FaithCorrect_byMagic > 0) || (!isArcReq && LuckCorrect_byMagic > 0);
+    const fireAtkPenalty = (!isStrReq && StrengthCorrect_byFire > 0) || (!isDexReq && DexterityCorrect_byFire > 0) || (!isIntReq && MagicCorrect_byFire > 0) || (!isFaiReq && FaithCorrect_byFire > 0) || (!isArcReq && LuckCorrect_byFire > 0);
+    const thunAtkPenalty = (!isStrReq && StrengthCorrect_byThunder > 0) || (!isDexReq && DexterityCorrect_byThunder > 0) || (!isIntReq && MagicCorrect_byThunder > 0) || (!isFaiReq && FaithCorrect_byThunder > 0) || (!isArcReq && LuckCorrect_byThunder > 0);
+    const darkAtkPenalty = (!isStrReq && StrengthCorrect_byDark > 0) || (!isDexReq && DexterityCorrect_byDark > 0) || (!isIntReq && MagicCorrect_byDark > 0) || (!isFaiReq && FaithCorrect_byDark > 0) || (!isArcReq && LuckCorrect_byDark > 0);
+    const statusAtkPenalty = !isArcReq
+
+    const scalePhys = correctStr * 0.01 * StrengthCorrect_byPhysics * 0.01 + correctDex * 0.01 * DexterityCorrect_byPhysics * 0.01 + correctInt * 0.01 * MagicCorrect_byPhysics * 0.01 + correctFai * 0.01 * FaithCorrect_byPhysics * 0.01 + correctArc * 0.01 * LuckCorrect_byPhysics * 0.01;
+    const scaleMag = correctStr * 0.01 * StrengthCorrect_byMagic * 0.01 + correctDex * 0.01 * DexterityCorrect_byMagic * 0.01 + correctInt * 0.01 * MagicCorrect_byMagic * 0.01 + correctFai * 0.01 * FaithCorrect_byMagic * 0.01 + correctArc * 0.01 * LuckCorrect_byMagic * 0.01;
+    const scaleFire = correctStr * 0.01 * StrengthCorrect_byFire * 0.01 + correctDex * 0.01 * DexterityCorrect_byFire * 0.01 + correctInt * 0.01 * MagicCorrect_byFire * 0.01 + correctFai * 0.01 * FaithCorrect_byFire * 0.01 + correctArc * 0.01 * LuckCorrect_byFire * 0.01;
+    const scaleThunder = correctStr * 0.01 * StrengthCorrect_byThunder * 0.01 + correctDex * 0.01 * DexterityCorrect_byThunder * 0.01 + correctInt * 0.01 * MagicCorrect_byThunder * 0.01 + correctFai * 0.01 * FaithCorrect_byThunder * 0.01 + correctArc * 0.01 * LuckCorrect_byThunder * 0.01;
+    const scaleDark = correctStr * 0.01 * StrengthCorrect_byDark * 0.01 + correctDex * 0.01 * DexterityCorrect_byDark * 0.01 + correctInt * 0.01 * MagicCorrect_byDark * 0.01 + correctFai * 0.01 * FaithCorrect_byDark * 0.01 + correctArc * 0.01 * LuckCorrect_byDark * 0.01;
+
+    const lowStatus_AtkPowDown = 0.4;
+
+    const scalePhysAtk = atkPhysical * (physAtkPenalty ? -lowStatus_AtkPowDown : scalePhys);
+    const scaleMagAtk = atkMagic * (magAtkPenalty ? -lowStatus_AtkPowDown : scaleMag);
+    const scaleFireAtk = atkFire * (fireAtkPenalty ? -lowStatus_AtkPowDown : scaleFire);
+    const scaleLightningAtk = atkLightning * (thunAtkPenalty ? -lowStatus_AtkPowDown : scaleThunder);
+    const scaleHolyAtk = atkHoly * (darkAtkPenalty ? -lowStatus_AtkPowDown : scaleDark);
+
+    // CN2 - CR2
+    // !important there is one more multiplier in the OG spreadsheet, which is currently excluded
+    const PhysAtk = Math.floor(atkPhysical) + Math.floor(scalePhysAtk);
+    const MagAtk = Math.floor(atkMagic) + Math.floor(scaleMagAtk);
+    const FireAtk = Math.floor(atkFire) + Math.floor(scaleFireAtk);
+    const LightningAtk = Math.floor(atkLightning) + Math.floor(scaleLightningAtk);
+    const HolyAtk = Math.floor(atkHoly) + Math.floor(scaleHolyAtk);
+
+    // console.log(
+    //     "PhysAtk: " + PhysAtk,
+    //     "MagAtk: " + MagAtk,
+    //     "FireAtk: " + FireAtk,
+    //     "LightningAtk: " + LightningAtk,
+    //     "HolyAtk: " + HolyAtk,
+    // )
+
+    const canWeaponCast = weaponParameter["enableMagic"] || weaponParameter["enableMiracle"];
+    const isPenalty = physAtkPenalty || magAtkPenalty || fireAtkPenalty || thunAtkPenalty || darkAtkPenalty;
+
+    // possible to calc intspellbuff and faithspellbuff seperately
+    const spellbuff = canWeaponCast ? 100 + 100 * (isPenalty ? -lowStatus_AtkPowDown : scaleMag) : 0 ?? 0;
+
+    // status calculations
+    // CV2 - CZ2
+    const specialStatusSpEffectId = weaponData["specialStatusSpEffectId"];
+    const StatusSpEffectId1 = specialStatusSpEffectId && typeof specialStatusSpEffectId !== "string" ? specialStatusSpEffectId : weaponParameter["spEffectBehaviorId0"];
+    const StatusSpEffectId2 = weaponParameter["spEffectBehaviorId1"];
+    const SpEffectId1Offset = reinforcedWeaponParameter["spEffectId1"] ?? 0;
+    const SpEffectId2Offset = reinforcedWeaponParameter["spEffectId2"] ?? 0;
+
+    const StatusSpEffectFullId1 = StatusSpEffectId1 + SpEffectId1Offset;
+    const StatusSpEffectFullId2 = StatusSpEffectId2 + SpEffectId2Offset;
+
+    // DA2 - DD2
+    const PoisonArc = CalcCorrectGraphEz[correctType_Poison][arc] ?? 0;
+    const BleedArc = CalcCorrectGraphEz[correctType_Blood][arc] ?? 0;
+    const SleepArc = CalcCorrectGraphEz[correctType_Sleep][arc] ?? 0;
+    const MadnessArc = CalcCorrectGraphEz[correctType_Madness][arc] ?? 0;
+
+    // DE2 - DK2
+    const poisonAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["poizonAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["poizonAttackPower"] ?? 0);
+    const bloodAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["bloodAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["bloodAttackPower"] ?? 0);
+    const sleepAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["sleepAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["sleepAttackPower"] ?? 0);
+    const madnessAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["madnessAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["madnessAttackPower"] ?? 0);
+    const diseaseAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["diseaseAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["diseaseAttackPower"] ?? 0);
+    const freezeAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["freezeAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["freezeAttackPower"] ?? 0);
+    const curseAttackPower = Math.max(StatusEffectData[StatusSpEffectFullId1]?.["curseAttackPower"] ?? 0, StatusEffectData[StatusSpEffectFullId2]?.["curseAttackPower"] ?? 0);
+
+    // console.log(
+    //     "poisonAttackPower: " + poisonAttackPower,
+    //     "bloodAttackPower: " + bloodAttackPower,
+    //     "sleepAttackPower: " + sleepAttackPower,
+    //     "madnessAttackPower: " + madnessAttackPower,
+    //     "diseaseAttackPower: " + diseaseAttackPower,
+    //     "freezeAttackPower: " + freezeAttackPower,
+    //     "curseAttackPower: " + curseAttackPower,
+    // )
+
+    const scalePoison = correctArc * 0.01 * PoisonArc * 0.01;
+    const scaleBleed = correctArc * 0.01 * BleedArc * 0.01;
+    const scaleSleep = correctArc * 0.01 * SleepArc * 0.01;
+    const scaleMadness = correctArc * 0.01 * MadnessArc * 0.01;
+
+    // DL2 - DR2
+    const AtkPoison = Math.floor(poisonAttackPower + poisonAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scalePoison));
+    const AtkBleed = Math.floor(bloodAttackPower + bloodAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleBleed));
+    const AtkSleep = Math.floor(sleepAttackPower + sleepAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleSleep));
+    const AtkMadness = Math.floor(madnessAttackPower + madnessAttackPower * (statusAtkPenalty ? -lowStatus_AtkPowDown : scaleMadness));
+    const AtkRot = Math.floor(diseaseAttackPower);
+    const AtkFrost = Math.floor(freezeAttackPower);
+    const AtkDeath = Math.floor(curseAttackPower);
+
+    // console.log(
+    //     "AtkPoison: " + AtkPoison,
+    //     "AtkBleed: " + AtkBleed,
+    //     "AtkSleep: " + AtkSleep,
+    //     "AtkMadness: " + AtkMadness,
+    //     "AtkRot: " + AtkRot,
+    //     "AtkFrost: " + AtkFrost,
+    //     "AtkDeath: " + AtkDeath,
+    // )
+
+    const strScalingLetter = translateScalingToLetter(correctStr);
+    const dexScalingLetter = translateScalingToLetter(correctDex);
+    const intScalingLetter = translateScalingToLetter(correctInt);
+    const faiScalingLetter = translateScalingToLetter(correctFai);
+    const arcScalingLetter = translateScalingToLetter(correctArc);
+
+    const totalAR = Math.floor(PhysAtk + MagAtk + FireAtk + LightningAtk + HolyAtk);
+
+    // console.log(
+    //     "PhysAtk: " + PhysAtk,
+    //     "scalePhysAtk: " + scalePhysAtk,
+    //     "atkPhysical: " + atkPhysical,
+    // )
+
+    // if the weapon is a staff or seal the spellbuff is the more important stat and will be displayed primarily instead of the AR
+    const displayString = weaponClass === "Glintstone Staff" || weaponClass === "Sacred Seal" ? "Spellbuff: " + Math.floor(spellbuff) : "Total AR: " + totalAR;
 
     let tooltipString;
 
-    if (affinity === "Standard" || affinity === "None") {
-        /*do nothing*/
-    } else {
-        let regex = /\w+'*\w*/g ///\w+\'*\w*/g
-        let words = weaponName.match(regex)!;
-        if (affinity === "Flame Art") {
-            words.push("Flame");
-            words.push("Art");
-        } else {
-            words.push(affinity);
-        }
-        let keys = Object.keys(AttackData)
-        for (let key in keys) {
-            if (arrayCompare(words, keys[key].match(regex)!)) {
-                weaponName = keys[key];
-            }
-        }
-    }
-
-    /*change str depending on the state of the two-hand checkbox and if the weapon can get a str bonus from two handing*/
-    if ((twoHandChecked === false || WeaponsData[selectedWeapon]["2H Str Bonus"] === "No") && !(WeaponsData[selectedWeapon]["Weapon Type"] === "Bow" || WeaponsData[selectedWeapon]["Weapon Type"] === "Light Bow" || WeaponsData[selectedWeapon]["Weapon Type"] === "Greatbow")) {
-        /*keep str*/
-    } else if (str*1.5>150) {
-        str = 150;
-    } else {
-        str = Math.floor(str*1.5);
-    }
-
-    physAttack = AttackData[weaponName]["Phys +" + upgradeLevel];
-    magAttack = AttackData[weaponName]["Mag +" + upgradeLevel];
-    fireAttack = AttackData[weaponName]["Fire +" + upgradeLevel];
-    lighAttack = AttackData[weaponName]["Ligh +" + upgradeLevel];
-    holyAttack = AttackData[weaponName]["Holy +" + upgradeLevel];
-    attackElementCorrectID = CalcCorrectGraph_ID[weaponName]["AttackElementCorrect ID"];
-
-    strScaling = ScalingData[weaponName]["Str +" + upgradeLevel];
-    dexScaling = ScalingData[weaponName]["Dex +" + upgradeLevel];
-    intScaling = ScalingData[weaponName]["Int +" + upgradeLevel];
-    faiScaling = ScalingData[weaponName]["Fai +" + upgradeLevel];
-    arcScaling = ScalingData[weaponName]["Arc +" + upgradeLevel];
-
-    strRequirement = WeaponsData[selectedWeapon]["Required (Str)"];
-    dexRequirement = WeaponsData[selectedWeapon]["Required (Dex)"];
-    intRequirement = WeaponsData[selectedWeapon]["Required (Int)"];
-    faiRequirement = WeaponsData[selectedWeapon]["Required (Fai)"];
-    arcRequirement = WeaponsData[selectedWeapon]["Required (Arc)"];
-
-    physCalcID = CalcCorrectGraph_ID[weaponName]["Physical"];
-    magCalcID = CalcCorrectGraph_ID[weaponName]["Magic"];
-    fireCalcID = CalcCorrectGraph_ID[weaponName]["Fire"];
-    lighCalcID = CalcCorrectGraph_ID[weaponName]["Lightning"];
-    holyCalcID = CalcCorrectGraph_ID[weaponName]["Holy"];
-    // passiveArcaneCalcCorrect = (arc>60 ? 90+10*((arc-60)/39) 
-    //                             : arc>45 ? 75+15*((arc-45)/15)
-    //                             : arc>25 ? 10+65*((arc-25)/20)
-    //                             : 10*((arc-1)/24)) / 100
-    // ;
-
-    physScalesOnStr = AttackElementCorrectParam[attackElementCorrectID]["isStrengthCorrect_byPhysics"];
-    physScalesOnDex = AttackElementCorrectParam[attackElementCorrectID]["isDexterityCorrect_byPhysics"];
-    physScalesOnInt = AttackElementCorrectParam[attackElementCorrectID]["isMagicCorrect_byPhysics"];
-    physScalesOnFai = AttackElementCorrectParam[attackElementCorrectID]["isFaithCorrect_byPhysics"];
-    physScalesOnArc = AttackElementCorrectParam[attackElementCorrectID]["isLuckCorrect_byPhysics"];
-    magScalesOnStr = AttackElementCorrectParam[attackElementCorrectID]["isStrengthCorrect_byMagic"];
-    magScalesOnDex = AttackElementCorrectParam[attackElementCorrectID]["isDexterityCorrect_byMagic"];
-    magScalesOnInt = AttackElementCorrectParam[attackElementCorrectID]["isMagicCorrect_byMagic"];
-    magScalesOnFai = AttackElementCorrectParam[attackElementCorrectID]["isFaithCorrect_byMagic"];
-    magScalesOnArc = AttackElementCorrectParam[attackElementCorrectID]["isLuckCorrect_byMagic"];
-    fireScalesOnStr = AttackElementCorrectParam[attackElementCorrectID]["isStrengthCorrect_byFire"];
-    fireScalesOnDex = AttackElementCorrectParam[attackElementCorrectID]["isDexterityCorrect_byFire"];
-    fireScalesOnInt = AttackElementCorrectParam[attackElementCorrectID]["isMagicCorrect_byFire"];
-    fireScalesOnFai = AttackElementCorrectParam[attackElementCorrectID]["isFaithCorrect_byFire"];
-    fireScalesOnArc = AttackElementCorrectParam[attackElementCorrectID]["isLuckCorrect_byFire"];
-    lighScalesOnStr = AttackElementCorrectParam[attackElementCorrectID]["isStrengthCorrect_byThunder"];
-    lighScalesOnDex = AttackElementCorrectParam[attackElementCorrectID]["isDexterityCorrect_byThunder"];
-    lighScalesOnInt = AttackElementCorrectParam[attackElementCorrectID]["isMagicCorrect_byThunder"];
-    lighScalesOnFai = AttackElementCorrectParam[attackElementCorrectID]["isFaithCorrect_byThunder"];
-    lighScalesOnArc = AttackElementCorrectParam[attackElementCorrectID]["isLuckCorrect_byThunder"];
-    holyScalesOnStr = AttackElementCorrectParam[attackElementCorrectID]["isStrengthCorrect_byDark"];
-    holyScalesOnDex = AttackElementCorrectParam[attackElementCorrectID]["isDexterityCorrect_byDark"];
-    holyScalesOnInt = AttackElementCorrectParam[attackElementCorrectID]["isMagicCorrect_byDark"];
-    holyScalesOnFai = AttackElementCorrectParam[attackElementCorrectID]["isFaithCorrect_byDark"];
-    holyScalesOnArc = AttackElementCorrectParam[attackElementCorrectID]["isLuckCorrect_byDark"];
-    
-    physStrCalcCorrect = calcElementStatCalcCorrect(physScalesOnStr, physCalcID, str);
-    physDexCalcCorrect = calcElementStatCalcCorrect(physScalesOnDex, physCalcID, dex);
-    physIntCalcCorrect = calcElementStatCalcCorrect(physScalesOnInt, physCalcID, int);
-    physFaiCalcCorrect = calcElementStatCalcCorrect(physScalesOnFai, physCalcID, fai);
-    physArcCalcCorrect = calcElementStatCalcCorrect(physScalesOnArc, physCalcID, arc);
-    magStrCalcCorrect = calcElementStatCalcCorrect(magScalesOnStr, magCalcID, str);
-    magDexCalcCorrect = calcElementStatCalcCorrect(magScalesOnDex, magCalcID, dex);
-    magIntCalcCorrect = calcElementStatCalcCorrect(magScalesOnInt, magCalcID, int);
-    magFaiCalcCorrect = calcElementStatCalcCorrect(magScalesOnFai, magCalcID, fai);
-    magArcCalcCorrect = calcElementStatCalcCorrect(magScalesOnArc, magCalcID, arc);
-    fireStrCalcCorrect = calcElementStatCalcCorrect(fireScalesOnStr, fireCalcID, str);
-    fireDexCalcCorrect = calcElementStatCalcCorrect(fireScalesOnDex, fireCalcID, dex);
-    fireIntCalcCorrect = calcElementStatCalcCorrect(fireScalesOnInt, fireCalcID, int);
-    fireFaiCalcCorrect = calcElementStatCalcCorrect(fireScalesOnFai, fireCalcID, fai);
-    fireArcCalcCorrect = calcElementStatCalcCorrect(fireScalesOnArc, fireCalcID, arc);
-    lighStrCalcCorrect = calcElementStatCalcCorrect(lighScalesOnStr, lighCalcID, str);
-    lighDexCalcCorrect = calcElementStatCalcCorrect(lighScalesOnDex, lighCalcID, dex);
-    lighIntCalcCorrect = calcElementStatCalcCorrect(lighScalesOnInt, lighCalcID, int);
-    lighFaiCalcCorrect = calcElementStatCalcCorrect(lighScalesOnFai, lighCalcID, fai);
-    lighArcCalcCorrect = calcElementStatCalcCorrect(lighScalesOnArc, lighCalcID, arc);
-    holyStrCalcCorrect = calcElementStatCalcCorrect(holyScalesOnStr, holyCalcID, str);
-    holyDexCalcCorrect = calcElementStatCalcCorrect(holyScalesOnDex, holyCalcID, dex);
-    holyIntCalcCorrect = calcElementStatCalcCorrect(holyScalesOnInt, holyCalcID, int);
-    holyFaiCalcCorrect = calcElementStatCalcCorrect(holyScalesOnFai, holyCalcID, fai);
-    holyArcCalcCorrect = calcElementStatCalcCorrect(holyScalesOnArc, holyCalcID, arc);
-
-    physStrDamage = calcElementStatDamage(physAttack, strScaling, physStrCalcCorrect);
-    physDexDamage = calcElementStatDamage(physAttack, dexScaling, physDexCalcCorrect);
-    physIntDamage = calcElementStatDamage(physAttack, intScaling, physIntCalcCorrect);
-    physFaiDamage = calcElementStatDamage(physAttack, faiScaling, physFaiCalcCorrect);
-    physArcDamage = calcElementStatDamage(physAttack, arcScaling, physArcCalcCorrect);
-    magStrDamage = calcElementStatDamage(magAttack, strScaling, magStrCalcCorrect);
-    magDexDamage = calcElementStatDamage(magAttack, dexScaling, magDexCalcCorrect);
-    magIntDamage = calcElementStatDamage(magAttack, intScaling, magIntCalcCorrect);
-    magFaiDamage = calcElementStatDamage(magAttack, faiScaling, magFaiCalcCorrect);
-    magArcDamage = calcElementStatDamage(magAttack, arcScaling, magArcCalcCorrect);
-    fireStrDamage = calcElementStatDamage(fireAttack, strScaling, fireStrCalcCorrect);
-    fireDexDamage = calcElementStatDamage(fireAttack, dexScaling, fireDexCalcCorrect);
-    fireIntDamage = calcElementStatDamage(fireAttack, intScaling, fireIntCalcCorrect);
-    fireFaiDamage = calcElementStatDamage(fireAttack, faiScaling, fireFaiCalcCorrect);
-    fireArcDamage = calcElementStatDamage(fireAttack, arcScaling, fireArcCalcCorrect);
-    lighStrDamage = calcElementStatDamage(lighAttack, strScaling, lighStrCalcCorrect);
-    lighDexDamage = calcElementStatDamage(lighAttack, dexScaling, lighDexCalcCorrect);
-    lighIntDamage = calcElementStatDamage(lighAttack, intScaling, lighIntCalcCorrect);
-    lighFaiDamage = calcElementStatDamage(lighAttack, faiScaling, lighFaiCalcCorrect);
-    lighArcDamage = calcElementStatDamage(lighAttack, arcScaling, lighArcCalcCorrect);
-    holyStrDamage = calcElementStatDamage(holyAttack, strScaling, holyStrCalcCorrect);
-    holyDexDamage = calcElementStatDamage(holyAttack, dexScaling, holyDexCalcCorrect);
-    holyIntDamage = calcElementStatDamage(holyAttack, intScaling, holyIntCalcCorrect);
-    holyFaiDamage = calcElementStatDamage(holyAttack, faiScaling, holyFaiCalcCorrect);
-    holyArcDamage = calcElementStatDamage(holyAttack, arcScaling, holyArcCalcCorrect);
-
-    physRequirementMet = checkElementRequirementMet([str, dex, int, fai, arc], [strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement] as number[], [physScalesOnStr, physScalesOnDex, physScalesOnInt, physScalesOnFai, physScalesOnArc]);
-    magRequirementMet  = checkElementRequirementMet([str, dex, int, fai, arc], [strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement] as number[], [magScalesOnStr, magScalesOnDex, magScalesOnInt, magScalesOnFai, magScalesOnArc]);
-    fireRequirementMet  = checkElementRequirementMet([str, dex, int, fai, arc], [strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement] as number[], [fireScalesOnStr, fireScalesOnDex, fireScalesOnInt, fireScalesOnFai, fireScalesOnArc]);
-    lighRequirementMet  = checkElementRequirementMet([str, dex, int, fai, arc], [strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement] as number[], [lighScalesOnStr, lighScalesOnDex, lighScalesOnInt, lighScalesOnFai, lighScalesOnArc]);
-    holyRequirementMet  = checkElementRequirementMet([str, dex, int, fai, arc], [strRequirement, dexRequirement, intRequirement, faiRequirement, arcRequirement] as number[], [holyScalesOnStr, holyScalesOnDex, holyScalesOnInt, holyScalesOnFai, holyScalesOnArc]);
-
-    physDamage = calcElementDamage(physRequirementMet, physAttack, [physStrDamage, physDexDamage, physIntDamage, physFaiDamage, physArcDamage]);
-    magDamage = calcElementDamage(magRequirementMet, magAttack, [magStrDamage, magDexDamage, magIntDamage, magFaiDamage, magArcDamage]);
-    fireDamage = calcElementDamage(fireRequirementMet, fireAttack, [fireStrDamage, fireDexDamage, fireIntDamage, fireFaiDamage, fireArcDamage]);
-    lighDamage = calcElementDamage(lighRequirementMet, lighAttack, [lighStrDamage, lighDexDamage, lighIntDamage, lighFaiDamage, lighArcDamage]);
-    holyDamage = calcElementDamage(holyRequirementMet, holyAttack, [holyStrDamage, holyDexDamage, holyIntDamage, holyFaiDamage, holyArcDamage]);
-
-    physDamageFloored = Math.floor(physDamage);
-    magDamageFloored = Math.floor(magDamage);
-    fireDamageFloored = Math.floor(fireDamage);
-    lighDamageFloored = Math.floor(lighDamage);
-    holyDamageFloored = Math.floor(holyDamage);
-
-    physResultSummed = physAttack + physDamage;
-    magResultSummed = magAttack + magDamage;
-    fireResultSummed = fireAttack + fireDamage;
-    lighResultSummed = lighAttack + lighDamage;
-    holyResultSummed = holyAttack + holyDamage;
-
-    // physResultSummedFloored = Math.floor(physResultSummed);
-    // magResultSummedFloored = Math.floor(magResultSummed);
-    // fireResultSummedFloored = Math.floor(fireResultSummed);
-    // lighResultSummedFloored = Math.floor(lighResultSummed);
-    // holyResultSummedFloored = Math.floor(holyResultSummed);
-
-    strScalingLetter = translateScalingToLetter(strScaling);
-    dexScalingLetter = translateScalingToLetter(dexScaling);
-    intScalingLetter = translateScalingToLetter(intScaling);
-    faiScalingLetter = translateScalingToLetter(faiScaling);
-    arcScalingLetter = translateScalingToLetter(arcScaling);
-
-    totalAR = Math.floor(physResultSummed + magResultSummed + fireResultSummed + lighResultSummed + holyResultSummed);
-
-    if (physRequirementMet && magRequirementMet && fireRequirementMet && lighRequirementMet && holyRequirementMet) {
+    if (isStrReq && isDexReq && isIntReq && isFaiReq && isArcReq) {
         tooltipString = "Attack\xa0\xa0Power:\n\n";
-        tooltipString += "\xa0\xa0Physical:\xa0" + Math.floor(physAttack) + (physAttack===0 ? "" : "+\xa0" + physDamageFloored) + "\n\n";
-        tooltipString += "\xa0\xa0Magic:\xa0" + Math.floor(magAttack) + (magAttack===0 ? "" : "+\xa0" + magDamageFloored) + "\n\n";
-        tooltipString += "\xa0\xa0Fire:\xa0" + Math.floor(fireAttack) + (fireAttack===0 ? "" : "+\xa0" + fireDamageFloored) + "\n\n";
-        tooltipString += "\xa0\xa0Lightning:\xa0" + Math.floor(lighAttack) + (lighAttack===0 ? "" : "+\xa0" + lighDamageFloored) + "\n\n";
-        tooltipString += "\xa0\xa0Holy:\xa0" + Math.floor(holyAttack) + (holyAttack===0 ? "" : "+\xa0" + holyDamageFloored) + "\n\n";
+        tooltipString += "\xa0\xa0Physical:\xa0" + Math.floor(atkPhysical) + (atkPhysical === 0 ? "" : "+\xa0" + Math.floor(scalePhysAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Magic:\xa0" + Math.floor(atkMagic) + (atkMagic === 0 ? "" : "+\xa0" + Math.floor(scaleMagAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Fire:\xa0" + Math.floor(atkFire) + (atkFire === 0 ? "" : "+\xa0" + Math.floor(scaleFireAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Lightning:\xa0" + Math.floor(atkLightning) + (atkLightning === 0 ? "" : "+\xa0" + Math.floor(scaleLightningAtk)) + "\n\n";
+        tooltipString += "\xa0\xa0Holy:\xa0" + Math.floor(atkHoly) + (atkHoly === 0 ? "" : "+\xa0" + Math.floor(scaleHolyAtk)) + "\n\n";
 
         tooltipString += "\nScaling:\n\n";
-        tooltipString += (strScalingLetter==="-" ? "" : "\xa0\xa0Strength:\xa0" + strScalingLetter + "\n\n");
-        tooltipString += (dexScalingLetter==="-" ? "" : "\xa0\xa0Dexterity:\xa0" + dexScalingLetter + "\n\n");
-        tooltipString += (intScalingLetter==="-" ? "" : "\xa0\xa0Intelligence:\xa0" + intScalingLetter + "\n\n");
-        tooltipString += (faiScalingLetter==="-" ? "" : "\xa0\xa0Faith:\xa0" + faiScalingLetter + "\n\n");
-        tooltipString += (arcScalingLetter==="-" ? "" : "\xa0\xa0Arcane:\xa0" + arcScalingLetter + "\n\n");
-        tooltipString = tooltipString.trim();
+        tooltipString += (strScalingLetter === "-" ? "" : "\xa0\xa0Strength:\xa0" + strScalingLetter + "\n\n");
+        tooltipString += (dexScalingLetter === "-" ? "" : "\xa0\xa0Dexterity:\xa0" + dexScalingLetter + "\n\n");
+        tooltipString += (intScalingLetter === "-" ? "" : "\xa0\xa0Intelligence:\xa0" + intScalingLetter + "\n\n");
+        tooltipString += (faiScalingLetter === "-" ? "" : "\xa0\xa0Faith:\xa0" + faiScalingLetter + "\n\n");
+        tooltipString += (arcScalingLetter === "-" ? "" : "\xa0\xa0Arcane:\xa0" + arcScalingLetter + "\n\n");
 
-        //document.getElementById(handId + "-attackRating-tooltip").innerText = tooltipString;
-        //document.getElementById(handId + "-attackRating-tooltip").style.padding = '10px';
+        if (AtkPoison || AtkBleed || AtkSleep || AtkMadness || AtkRot || AtkFrost || AtkDeath) {
+            tooltipString += "\nStatus:\n\n";
+            tooltipString += AtkPoison ? "\xa0\xa0Poison:\xa0" + AtkPoison + "\n\n" : "";
+            tooltipString += AtkBleed ? "\xa0\xa0Bleed:\xa0" + AtkBleed + "\n\n" : "";
+            tooltipString += AtkSleep ? "\xa0\xa0Sleep:\xa0" + AtkSleep + "\n\n" : "";
+            tooltipString += AtkMadness ? "\xa0\xa0Madness:\xa0" + AtkMadness + "\n\n" : "";
+            tooltipString += AtkRot ? "\xa0\xa0Rot:\xa0" + AtkRot + "\n\n" : "";
+            tooltipString += AtkFrost ? "\xa0\xa0Frost:\xa0" + AtkFrost + "\n\n" : "";
+            tooltipString += AtkDeath ? "\xa0\xa0Death:\xa0" + AtkDeath + "\n\n" : "";
+        }
+
+        tooltipString = tooltipString.trim();
     } else {
         tooltipString = "";
-        //document.getElementById(handId + "-attackRating-tooltip").innerText = "";
-        //document.getElementById(handId + "-attackRating-tooltip").style.padding = '0px';
     }
 
-    return ["Total AR: " + totalAR, tooltipString];
-};
-
-/*function compares two arrays to find out if they have the same values*/
-/*from https://stackoverflow.com/questions/6229197/how-to-know-if-two-arrays-have-the-same-values */
-function arrayCompare(_arr1: string[], _arr2: string[]): boolean {
-    if (
-      !Array.isArray(_arr1)
-      || !Array.isArray(_arr2)
-      || _arr1.length !== _arr2.length
-      ) {
-        return false;
-      }
-    
-    // .concat() to not mutate arguments
-    const arr1 = _arr1.concat().sort();
-    const arr2 = _arr2.concat().sort();
-    
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false;
-         }
-    }
-    
-    return true;
-};
-
-/*function calculates the elementStatCalcCorrect for different stats*/
-/*function used in calcWeaponAttackRating*/
-function calcElementStatCalcCorrect(elementScalesOnStat: number, elementCalcID: number, stat: number): number {
-    if (elementScalesOnStat === 0) {
-        return 0;
-    } else {
-        switch(elementCalcID) {
-            case 0:
-                return stat>80 ? 90+20*(stat-80)/70
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>18 ? 25+50*(1-(Math.pow((1-((stat-18)/42)), 1.2)))
-                        : 25*(Math.pow(((stat-1)/17), 1.2));
-            case 1:
-                return stat>80 ? 90+20*(stat-80)/70
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>20 ? 35+40*(1-(Math.pow((1-((stat-20)/40)), 1.2)))
-                        : 35*(Math.pow(((stat-1)/19), 1.2));
-            case 2:
-                return stat>80 ? 90+20*(stat-80)/70
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>20 ? 35+40*(1-(Math.pow((1-((stat-20)/40)), 1.2)))
-                        : 35*(Math.pow(((stat-1)/19), 1.2));
-            case 4:
-                return stat>80 ? 95+5*(stat-80)/19
-                        : stat>50 ? 80+15*(stat-50)/30
-                        : stat>20 ? 40+40*(stat-20)/30
-                        : 40*((stat-1)/19);
-            case 7:
-                return stat>80 ? 90+20*(stat-80)/70
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>20 ? 35+40*(1-(Math.pow((1-((stat-20)/40)), 1.2)))
-                        : 35*(Math.pow(((stat-1)/19), 1.2));
-            case 8:
-                return stat>80 ? 90+20*(stat-80)/70
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>16 ? 25+50*(1-(Math.pow((1-((stat-16)/44)), 1.2)))
-                        : 25*(Math.pow(((stat-1)/15), 1.2));
-            case 12:
-                return stat>45 ? 75+25*(stat-45)/54
-                        : stat>30 ? 55+20*(stat-30)/15
-                        : stat>15 ? 10+45*(stat-15)/15
-                        : 10*((stat-1)/14);
-            case 14:
-                return stat>80 ? 85+15*(stat-80)/19
-                        : stat>40 ? 60+25*(stat-40)/40
-                        : stat>20 ? 40+20*(stat-20)/20
-                        : 40*((stat-1)/19);
-            case 15:
-                return stat>80 ? 95+5*(stat-80)/19
-                        : stat>60 ? 65+30*(stat-60)/20
-                        : stat>25 ? 25+40*(stat-25)/35
-                        : 25*((stat-1)/24);
-            case 16:
-                return stat>80 ? 90+10*(stat-80)/19
-                        : stat>60 ? 75+15*(stat-60)/20
-                        : stat>18 ? 20+55*(stat-18)/42
-                        : 20*((stat-1)/17);
-            default:
-                throw new Error("Error in calcElementStatCalcCorrect")
-        }
-    }
-};
-
-/*function calculates the elementStatDamage for different element types and stats*/
-/*function used in calcWeaponAttackRating*/
-function calcElementStatDamage(elementAttack: number, statScaling: number, elementStatCalcCorrect: number): number {
-    if (elementAttack > 0) {
-        return elementAttack*(statScaling*(elementStatCalcCorrect/100));
-    } else {
-        return 0;
-    }
-};
-
-/*function checks if the stat requirement of a specific stat is met for an element type considering the element scales of that stat*/
-/*returns true if stat requirement is met for that element type.*/
-function checkElementStatRequirementsMet(stat: number, requirement: number, elementScalesOnStat: number): boolean {
-    let statRequirementMet = false;
-    let elementStatRequirementMet = false;
-
-    if (stat >= requirement) {
-        statRequirementMet = true;
-    } else {
-        statRequirementMet = false;
-    }
-
-    if (elementScalesOnStat === 1 && statRequirementMet === false) {
-        elementStatRequirementMet = false;
-    } else {
-        elementStatRequirementMet = true;
-    }
-    return elementStatRequirementMet;
+    return [displayString, tooltipString];
 }
-
-/*function checks if all stat requirements are met for that element type*/
-/*takes in 3 arrays*/
-/*stats array contains the current character stats for strength, dexterity, intelligence, faith, arcane*/
-/*requirements array contains the weapon requirements for the aforementioned stats*/
-/*elementScalesOnStats array contains information about the existence of stat scaling for this damage type (1 = true, 0 = false)*/
-/*returns ture if all element requirements are met*/
-function checkElementRequirementMet(stats: number[], requirements: number[], elementScalesOnStats: number[]): boolean {
-    let elementRequirementMet = true;
-    for (let s in stats) {
-        if (!checkElementStatRequirementsMet(stats[s], requirements[s], elementScalesOnStats[s])) {
-            elementRequirementMet = false;
-        }
-    }
-    return elementRequirementMet;
-};
-
-/*function calculate the damage of a damage type*/
-/*elementRequirementMet is a bool reflecting, if the requirement for an element is met*/
-/*elementAttack is an integer reflecting the base element Attack Rating*/
-/*elementStatDamage Array is an array containing the scaling damage of each stat*/
-/*returns the element damage*/
-function calcElementDamage(elementRequirementMet: boolean, elementAttack: number, elementStatDamageArray: number[]): number {
-    if (!elementRequirementMet) {
-        let result = elementAttack*(-0.4);
-        if (result === 0) {
-            return 0
-        }
-        return result;
-    } else {
-        let result = 0;
-        for (let d in elementStatDamageArray) {
-            result += elementStatDamageArray[d];
-        }
-        return result;
-    }
-};
 
 /*function translates the scaling value used to calculate scaling damage into the letter, that gets displayed by the game*/
 /*takes the scaling value as input*/
-function translateScalingToLetter(scaling: number):string {
+function translateScalingToLetter(scaling: number): string {
     if (scaling === 0) {
         return "-";
     } else {
         let result = "";
-        if (scaling > 1.75) {
+        if (scaling > 175) {
             result += "S";
-        } else if (scaling >= 1.4) {
+        } else if (scaling >= 140) {
             result += "A";
-        } else if (scaling >= 0.9) {
+        } else if (scaling >= 90) {
             result += "B";
-        } else if (scaling >= 0.6) {
+        } else if (scaling >= 60) {
             result += "C";
-        } else if (scaling >= 0.25) {
+        } else if (scaling >= 25) {
             result += "D";
         } else {
             result += "E";
         }
-        result += " (" + Math.floor(scaling*100) + ")";
+        result += " (" + Math.floor(scaling) + ")";
         return result;
     }
 };
-
-export default calcWeaponAttackRating

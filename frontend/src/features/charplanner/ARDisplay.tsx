@@ -8,7 +8,9 @@ import {
 } from "./charplannerSlice";
 import useTotalstats from "../../hooks/useTotalstats";
 import { WeaponsData } from "../../../data/WeaponsData";
-import calcWeaponAttackRating from "../../utils/ARCalculation";
+import { EquipParamWeapon } from "../../../data/EquipParamWeapon";
+import { AffinityData } from "../../../data/AffinityData";
+import { calcWeaponAttackRating } from "../../utils/ARCalculation";
 
 type PropsType = {
     id: string
@@ -21,27 +23,40 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
     const idWeapon = id + "Weapon";
     const idUpgrade = id + "Upgrade";
     const idAffinity = id + "Affinity";
-    
+
     const weapon = useSelector(armamentSelectorMap[(idWeapon) as keyof ArmamentSelectorMapType]);
     const upgrade = useSelector(armamentSelectorMap[(idUpgrade) as keyof ArmamentSelectorMapType]);
     const affinity = useSelector(armamentSelectorMap[(idAffinity) as keyof ArmamentSelectorMapType]);
     const twohand = useSelector(selectTwohand);
 
-    const reqStr: number = weapon ? WeaponsData[weapon]["Required (Str)"] as number : 0;
-    const reqDex = weapon ? WeaponsData[weapon]["Required (Dex)"] as number : 0;
-    const reqInt = weapon ? WeaponsData[weapon]["Required (Int)"] as number : 0;
-    const reqFai = weapon ? WeaponsData[weapon]["Required (Fai)"] as number : 0;
-    const reqArc = weapon ? WeaponsData[weapon]["Required (Arc)"] as number : 0;
+    let reqStr = 0;
+    let reqDex = 0;
+    let reqInt = 0;
+    let reqFai = 0;
+    let reqArc = 0;
+
+    if (weapon) {
+        const affinityId = AffinityData[affinity] ?? 0;
+        const weaponIdWithAffinity = WeaponsData[weapon]?.["ID"] + affinityId;
+
+        const weaponParameter = EquipParamWeapon[weaponIdWithAffinity];
+
+        reqStr = weaponParameter["properStrength"] ?? 0;
+        reqDex = weaponParameter["properAgility"] ?? 0;
+        reqInt = weaponParameter["properMagic"] ?? 0;
+        reqFai = weaponParameter["properFaith"] ?? 0;
+        reqArc = weaponParameter["properLuck"] ?? 0;
+    }
 
     const text = weapon ? "Req: " + reqStr + "/" + reqDex + "/" + reqInt + "/" + reqFai + "/" + reqArc : "disabled";
-    const tooltipText = weapon ? "Weapon\xa0Requirements:\n\n" 
+    const tooltipText = weapon ? "Weapon\xa0Requirements:\n\n"
         + "\xa0\xa0Strength:\xa0" + reqStr + "\n\n"
         + "\xa0\xa0Dexterity:\xa0" + reqDex + "\n\n"
         + "\xa0\xa0Intelligence:\xa0" + reqInt + "\n\n"
         + "\xa0\xa0Faith:\xa0" + reqFai + "\n\n"
         + "\xa0\xa0Arcane:\xa0" + reqArc
         : ""
-    ;
+        ;
 
     let isFulfilled = true;
     if (
@@ -59,7 +74,7 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
         }
     }
 
-    const ARCalculation = weapon ? calcWeaponAttackRating(weapon, upgrade, affinity, totalStats, twohand) : "disabled";
+    const ARCalculation = weapon ? calcWeaponAttackRating(weapon, upgrade, affinity, totalStats, twohand) : ["disabled", "disabled"];
 
     return (
         <div className={weapon ? "ARDisplay" : "ARDisplay Invisible"}>

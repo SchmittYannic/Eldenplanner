@@ -9,7 +9,7 @@ type PropsType = {
     label: string
 };
 
-const Weaponslot = ({ label }: PropsType): ReactElement  => {
+const Weaponslot = ({ label }: PropsType): ReactElement => {
 
     const id = label.replace(/\s/g, '').toLowerCase();
 
@@ -19,8 +19,8 @@ const Weaponslot = ({ label }: PropsType): ReactElement  => {
             <ARDisplay id={id} />
             <div className="weaponslot-details">
                 <AowSelect id={id} />
-                <div className="upgrade-affinity-wrapper">              
-                    <UpgradeSelect id={id} />               
+                <div className="upgrade-affinity-wrapper">
+                    <UpgradeSelect id={id} />
                     <AffinitySelect id={id} />
                 </div>
             </div>

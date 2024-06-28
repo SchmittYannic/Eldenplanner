@@ -1,9 +1,8 @@
 import { ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ArmorReduceractionsMapType, ArmorStateType, armorReduceractionsMap, selectArmor } from "./charplannerSlice";
-import { ArmorOptions, accType } from "../../../data/ArmorData";
+import { changeChest, changeHands, changeHead, changeLegs, selectArmor } from "./charplannerSlice";
+import { ChestOptions, HandsOptions, HeadOptions, LegsOptions } from "../../../data/ArmorData";
 import { CustomSelect } from "../../components/ui";
-import { capitalizeFirstLetter } from "../../utils/functions";
 
 const ArmorSubSection = (): ReactElement => {
 
@@ -11,24 +10,49 @@ const ArmorSubSection = (): ReactElement => {
 
     const armor = useSelector(selectArmor);
 
-    const setSelectedArmor = (value: string, slot: string) => {
-        dispatch(armorReduceractionsMap[slot as keyof ArmorReduceractionsMapType](value));
-    };
+    const setHead = (value: string) => dispatch(changeHead(value));
+    const setChest = (value: string) => dispatch(changeChest(value));
+    const setHands = (value: string) => dispatch(changeHands(value));
+    const setLegs = (value: string) => dispatch(changeLegs(value));
 
     return (
         <div className="ArmorSubSection">
-            {Object.keys(ArmorOptions).map((slot, idx) => 
-                <CustomSelect
-                    key={idx}
-                    id={slot}
-                    value={armor[slot as keyof ArmorStateType]}
-                    setValue={(value: string) => setSelectedArmor(value, slot)}
-                    options={ArmorOptions[slot as keyof accType]}
-                    label={capitalizeFirstLetter(slot)}
-                    enableDelete={true}
-                    searchable={true}
-                />
-            )}
+            <CustomSelect
+                id="head"
+                value={armor.head}
+                setValue={setHead}
+                options={HeadOptions}
+                label="Head"
+                enableDelete={true}
+                searchable={true}
+            />
+            <CustomSelect
+                id="chest"
+                value={armor.chest}
+                setValue={setChest}
+                options={ChestOptions}
+                label="Chest"
+                enableDelete={true}
+                searchable={true}
+            />
+            <CustomSelect
+                id="hands"
+                value={armor.hands}
+                setValue={setHands}
+                options={HandsOptions}
+                label="Hands"
+                enableDelete={true}
+                searchable={true}
+            />
+            <CustomSelect
+                id="legs"
+                value={armor.legs}
+                setValue={setLegs}
+                options={LegsOptions}
+                label="Legs"
+                enableDelete={true}
+                searchable={true}
+            />
         </div>
     )
 }

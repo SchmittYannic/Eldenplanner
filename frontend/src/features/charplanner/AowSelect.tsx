@@ -6,8 +6,9 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
-import { CompatibleAow } from "../../../data/CompatibleAow";
+import { CompatibleAowData } from "../../../data/CompatibleAowData";
 import { CustomSelect } from "../../components/ui";
+import { WeaponsData } from "../../../data/WeaponsData";
 
 type PropsType = {
     id: string
@@ -29,18 +30,28 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
     const [aowOptions, setAowOptions] = useState<string[]>([]);
 
     useEffect(() => {
+        const weaponsData = weapon ? WeaponsData[weapon] : undefined;
+        const weaponClass = weaponsData ? weaponsData["Weapon Class"] : undefined;
+        const isInfuse = weapon ? WeaponsData[weapon]["isInfuse"] : undefined;
+        const compatibleAow = weaponClass ? CompatibleAowData[weaponClass] : [];
+        const defaultAow = weaponsData ? weaponsData["Default Ash of War"] : "";
+        //const defaultAowName = "default"; // add into future dataset the default aow of weapons
+
         if (weapon === "") {
+            // if no weapon is selected
             setDisableAow(true);
             setAowOptions([]);
             setAow("");
+        } else if (weapon && (!compatibleAow || compatibleAow.length === 0 || !isInfuse)) {
+            // if weapon is selected but it cant be infused or no compatible Aow exist
+            setDisableAow(true);
+            setAowOptions([]);
+            setAow(defaultAow);
         } else {
-            const compatibleAow = CompatibleAow[weapon];
-            const defaultAowName = compatibleAow["Default Ash of War"];
-            const aowKeys = Object.keys(compatibleAow).filter(option => option !== "Default Ash of War");
-            const aowOptionNames = aowKeys.map((keyName) => compatibleAow[keyName]).filter(option => option !== "");
-            aowOptionNames.length === 0 ? setDisableAow(true) : setDisableAow(false);
-            setAowOptions(aowOptionNames);
-            setAow(defaultAowName);
+            // if weapon is selected and compatible Aow exist
+            setDisableAow(false);
+            setAowOptions(compatibleAow);
+            setAow(defaultAow);
         }
     }, [weapon])
 

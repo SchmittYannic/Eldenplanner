@@ -6,7 +6,7 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType,
 } from "./charplannerSlice";
-import { WeaponsNames } from "../../../data/WeaponsData";
+import { WeaponsOptions } from "../../../data/WeaponsData";
 import { CustomSelect } from "../../components/ui";
 
 type PropsType = {
@@ -28,7 +28,7 @@ const WeaponSelect = ({ id, label }: PropsType): ReactElement => {
             id={idWeapon}
             value={weapon}
             setValue={setWeapon}
-            options={WeaponsNames}
+            options={WeaponsOptions}
             label={label}
             enableDelete={true}
             searchable={true}

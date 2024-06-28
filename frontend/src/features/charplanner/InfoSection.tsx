@@ -2,20 +2,14 @@ import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import {
     StatsStateType,
+    selectArmament,
     selectArmor,
     selectGreatrune,
     selectGreatruneactive,
-    selectLefthand1Weapon,
-    selectLefthand2Weapon,
-    selectLefthand3Weapon,
-    selectRighthand1Weapon,
-    selectRighthand2Weapon,
-    selectRighthand3Weapon,
     selectTalisman
 } from "./charplannerSlice";
 import useTotalstats from "../../hooks/useTotalstats";
 import calcStatus from "../../utils/InfoCalculation";
-import { EquipedWeaponsType } from "../../utils/Types";
 
 
 const InfoSection = (): ReactElement => {
@@ -24,25 +18,11 @@ const InfoSection = (): ReactElement => {
     const greatruneactive = useSelector(selectGreatruneactive);
     const talisman = useSelector(selectTalisman);
     const armor = useSelector(selectArmor);
-    const lefthand1Weapon = useSelector(selectLefthand1Weapon);
-    const lefthand2Weapon = useSelector(selectLefthand2Weapon);
-    const lefthand3Weapon = useSelector(selectLefthand3Weapon);
-    const righthand1Weapon = useSelector(selectRighthand1Weapon);
-    const righthand2Weapon = useSelector(selectRighthand2Weapon);
-    const righthand3Weapon = useSelector(selectRighthand3Weapon);
-    
-    const weapons: EquipedWeaponsType = {
-        lefthand1Weapon,
-        lefthand2Weapon,
-        lefthand3Weapon,
-        righthand1Weapon,
-        righthand2Weapon,
-        righthand3Weapon
-    };
+    const armament = useSelector(selectArmament);
 
     const totalStats = useTotalstats() as StatsStateType;
 
-    const InfoObj = calcStatus(greatrune, greatruneactive, totalStats, talisman, armor, weapons);
+    const InfoObj = calcStatus(greatrune, greatruneactive, totalStats, talisman, armor, armament);
     return (
         <section className="InfoSection">
             <div className="DetailSubSection">
