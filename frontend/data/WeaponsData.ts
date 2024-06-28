@@ -44,7 +44,7 @@ function query(data) {
     }
     const convertedObj = convertStringsToBooleans(data);
 
-    let keysToKeep = ["Weapon Class", "ID", "isInfuse", "isReinforce", "isUnique", "bothHandsAtkBonus", "specialStatusSpEffectId"];  // Add any other keys you want to keep
+    let keysToKeep = ["Weapon Class", "ID", "isInfuse", "isReinforce", "isUnique", "bothHandsAtkBonus", "specialStatusSpEffectId", "throwable"];  // Add any other keys you want to keep
 
     let newObj = {};
 
@@ -81,7 +81,7 @@ type WeaponType = {
     "isReinforce": boolean,  // used
     "isUnique": boolean, // used
     "bothHandsAtkBonus": boolean, // used
-    // "throwable": boolean,
+    "throwable": boolean, // used
     // "waAttackElementCorrectId": string,
     "specialStatusSpEffectId": number | string,  // used
     // "castingBonusType": string,
@@ -102,6 +102,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -112,6 +113,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -122,6 +124,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -132,6 +135,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -142,6 +146,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -152,6 +157,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -162,6 +168,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -172,6 +179,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -182,6 +190,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -192,6 +201,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -202,6 +212,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -212,6 +223,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -222,6 +234,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Repeating Thrust"
     },
@@ -232,6 +245,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -242,6 +256,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Glintstone Dart"
     },
@@ -252,6 +267,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Reduvia Blood Blade"
     },
@@ -262,6 +278,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Blade of Gold"
     },
@@ -272,6 +289,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Blade of Death"
     },
@@ -282,6 +300,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -292,6 +311,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -302,6 +322,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -312,6 +333,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -322,6 +344,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -332,6 +355,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -342,6 +366,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -352,6 +377,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Square Off"
     },
@@ -362,6 +388,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -372,6 +399,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -382,6 +410,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Glintstone Pebble"
     },
@@ -392,6 +421,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Carian Grandeur"
     },
@@ -402,6 +432,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -412,6 +443,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -422,6 +454,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sacred Blade"
     },
@@ -432,6 +465,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Golden Tempering"
     },
@@ -442,6 +476,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Last Rites"
     },
@@ -452,6 +487,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mists of Slumber"
     },
@@ -462,6 +498,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -472,6 +509,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Eochaid's Dancing Blade"
     },
@@ -482,6 +520,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Unblockable Blade"
     },
@@ -492,6 +531,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Night-and-Flame Stance"
     },
@@ -502,6 +542,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -512,6 +553,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -522,6 +564,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -532,6 +575,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -542,6 +586,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -552,6 +597,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -562,6 +608,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Lion's Claw"
     },
@@ -572,6 +619,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -582,6 +630,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -592,6 +641,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -602,6 +652,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -612,6 +663,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -622,6 +674,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -632,6 +685,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -642,6 +696,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Vacuum Slice"
     },
@@ -652,6 +707,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Corpse Wax Cutter"
     },
@@ -662,6 +718,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sacred Blade"
     },
@@ -672,6 +729,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shriek of Milos"
     },
@@ -682,6 +740,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Eochaid's Dancing Blade"
     },
@@ -692,6 +751,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -702,6 +762,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Ordovis's Vortex"
     },
@@ -712,6 +773,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Alabaster Lords' Pull"
     },
@@ -722,6 +784,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Ghostflame Ignition"
     },
@@ -732,6 +795,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Ruinous Ghostflame"
     },
@@ -742,6 +806,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Taker's Flames"
     },
@@ -752,6 +817,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Establish Order"
     },
@@ -762,6 +828,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Moonlight Greatsword"
     },
@@ -772,6 +839,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -782,6 +850,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wave of Gold"
     },
@@ -792,6 +861,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -802,6 +872,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -812,6 +883,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Stamp (Upward Cut)"
     },
@@ -822,6 +894,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -832,6 +905,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Troll's Roar"
     },
@@ -842,6 +916,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Troll's Roar"
     },
@@ -852,6 +927,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -862,6 +938,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wolf's Assault"
     },
@@ -872,6 +949,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Oath of Vengeance"
     },
@@ -882,6 +960,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wave of Destruction"
     },
@@ -892,6 +971,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -902,6 +982,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Starcaller Cry"
     },
@@ -912,6 +993,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -922,6 +1004,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -932,6 +1015,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "The Queen's Black Flame"
     },
@@ -942,6 +1026,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Destined Death"
     },
@@ -952,6 +1037,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -962,6 +1048,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -972,6 +1059,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -982,6 +1070,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -992,6 +1081,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Repeating Thrust"
     },
@@ -1002,6 +1092,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -1012,6 +1103,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -1022,6 +1114,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1032,6 +1125,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1042,6 +1136,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -1052,6 +1147,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1062,6 +1158,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Dynast's Finesse"
     },
@@ -1072,6 +1169,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Thundercloud Form"
     },
@@ -1082,6 +1180,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1092,6 +1191,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1102,6 +1202,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1112,6 +1213,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1122,6 +1224,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1132,6 +1235,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1142,6 +1246,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1152,6 +1257,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1162,6 +1268,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1172,6 +1279,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1182,6 +1290,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1192,6 +1301,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1202,6 +1312,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Magma Shower"
     },
@@ -1212,6 +1323,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1222,6 +1334,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Flowing Form"
     },
@@ -1232,6 +1345,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Nebula"
     },
@@ -1242,6 +1356,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1252,6 +1367,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1262,6 +1378,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1272,6 +1389,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Death Flare"
     },
@@ -1282,6 +1400,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1292,6 +1411,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1302,6 +1422,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1312,6 +1433,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1322,6 +1444,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1332,6 +1455,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bloodhound's Finesse"
     },
@@ -1342,6 +1466,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Onyx Lords' Repulsion"
     },
@@ -1352,6 +1477,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Zamor Ice Storm"
     },
@@ -1362,6 +1488,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Magma Guillotine"
     },
@@ -1372,6 +1499,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1382,6 +1510,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Cursed-Blood Slice"
     },
@@ -1392,6 +1521,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1402,6 +1532,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1412,6 +1543,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1422,6 +1554,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Unsheathe"
     },
@@ -1432,6 +1565,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Unsheathe"
     },
@@ -1442,6 +1576,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Double Slash"
     },
@@ -1452,6 +1587,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Gravitas"
     },
@@ -1462,6 +1598,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Transient Moonlight"
     },
@@ -1472,6 +1609,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1482,6 +1620,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Corpse Piler"
     },
@@ -1492,6 +1631,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Ice Lightning Sword"
     },
@@ -1502,6 +1642,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1512,6 +1653,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Waterfowl Dance"
     },
@@ -1522,6 +1664,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1532,6 +1675,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1542,6 +1686,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1552,6 +1697,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1562,6 +1708,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1572,6 +1719,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1582,6 +1730,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Black Flame Tornado"
     },
@@ -1592,6 +1741,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1602,6 +1752,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -1612,6 +1763,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bloodblade Dance"
     },
@@ -1622,6 +1774,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1632,6 +1785,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -1642,6 +1796,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -1652,6 +1807,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1662,6 +1818,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1672,6 +1829,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1682,6 +1840,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1692,6 +1851,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1702,6 +1862,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1712,6 +1873,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1722,6 +1884,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1732,6 +1895,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1742,6 +1906,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1752,6 +1917,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Hoarfrost Stomp"
     },
@@ -1762,6 +1928,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1772,6 +1939,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Thunderstorm"
     },
@@ -1782,6 +1950,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Rosus's Summons"
     },
@@ -1792,6 +1961,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1802,6 +1972,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1812,6 +1983,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1822,6 +1994,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1832,6 +2005,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1842,6 +2016,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Wild Strikes"
     },
@@ -1852,6 +2027,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1862,6 +2038,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1872,6 +2049,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1882,6 +2060,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1892,6 +2071,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "War Cry"
     },
@@ -1902,6 +2082,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1912,6 +2093,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Soul Stifler"
     },
@@ -1922,6 +2104,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "I Command Thee"
     },
@@ -1932,6 +2115,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -1942,6 +2126,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1952,6 +2137,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1962,6 +2148,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -1972,6 +2159,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -1982,6 +2170,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -1992,6 +2181,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -2002,6 +2192,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -2012,6 +2203,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -2022,6 +2214,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -2032,6 +2225,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2042,6 +2236,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Oracular Bubble"
     },
@@ -2052,6 +2247,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Flowing Form"
     },
@@ -2062,6 +2258,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Claw Flick"
     },
@@ -2072,6 +2269,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Knowledge Above All"
     },
@@ -2082,6 +2280,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2092,6 +2291,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Gold Breaker"
     },
@@ -2102,6 +2302,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Chain"
     },
@@ -2112,6 +2313,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Chain"
     },
@@ -2122,6 +2324,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Chain"
     },
@@ -2132,6 +2335,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Familal Rancor"
     },
@@ -2142,6 +2346,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2152,6 +2357,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Nebula"
     },
@@ -2162,6 +2368,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2172,6 +2379,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2182,6 +2390,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2192,6 +2401,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2202,6 +2412,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2212,6 +2423,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Braggart's Roar"
     },
@@ -2222,6 +2434,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Braggart's Roar"
     },
@@ -2232,6 +2445,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2242,6 +2456,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2252,6 +2467,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2262,6 +2478,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2272,6 +2489,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2282,6 +2500,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bubble Shower"
     },
@@ -2292,6 +2511,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Surge of Faith"
     },
@@ -2302,6 +2522,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Regal Beastclaw"
     },
@@ -2312,6 +2533,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Devourer of Worlds"
     },
@@ -2322,6 +2544,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2332,6 +2555,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2342,6 +2566,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2352,6 +2577,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2362,6 +2588,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Prelate's Charge"
     },
@@ -2372,6 +2599,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Golden Land"
     },
@@ -2382,6 +2610,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Troll's Roar"
     },
@@ -2392,6 +2621,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -2402,6 +2632,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2412,6 +2643,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sorcery of the Crozier"
     },
@@ -2422,6 +2654,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Erdtree Slam"
     },
@@ -2432,6 +2665,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Erdtree Slam"
     },
@@ -2442,6 +2676,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Great Oracular Bubble"
     },
@@ -2452,6 +2687,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Wheel"
     },
@@ -2462,6 +2698,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Gravity Bolt"
     },
@@ -2472,6 +2709,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2482,6 +2720,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2492,6 +2731,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Regal Roar"
     },
@@ -2502,6 +2742,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2512,6 +2753,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2522,6 +2764,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2532,6 +2775,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2542,6 +2786,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2552,6 +2797,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2562,6 +2808,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2572,6 +2819,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2582,6 +2830,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2592,6 +2841,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2602,6 +2852,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2612,6 +2863,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2622,6 +2874,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barbaric Roar"
     },
@@ -2632,6 +2885,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2642,6 +2896,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2652,6 +2907,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2662,6 +2918,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -2672,6 +2929,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2682,6 +2940,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sacred Phalanx"
     },
@@ -2692,6 +2951,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spearcall Ritual"
     },
@@ -2702,6 +2962,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Ancient Lightning Spear"
     },
@@ -2712,6 +2973,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2722,6 +2984,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2732,6 +2995,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sacred Order"
     },
@@ -2742,6 +3006,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Great-Serpent Hunt"
     },
@@ -2752,6 +3017,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Siluria's Woe"
     },
@@ -2762,6 +3028,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Frenzyflame Thrust"
     },
@@ -2772,6 +3039,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2782,6 +3050,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2792,6 +3061,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bloodboon Ritual"
     },
@@ -2802,6 +3072,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2812,6 +3083,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2822,6 +3094,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2832,6 +3105,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Charge Forth"
     },
@@ -2842,6 +3116,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2852,6 +3127,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2862,6 +3138,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2872,6 +3149,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2882,6 +3160,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2892,6 +3171,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2902,6 +3182,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2912,6 +3193,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2922,6 +3204,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2932,6 +3215,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Golden Vow"
     },
@@ -2942,6 +3226,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -2952,6 +3237,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Loretta's Slash"
     },
@@ -2962,6 +3248,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Rallying Standard"
     },
@@ -2972,6 +3259,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2982,6 +3270,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -2992,6 +3281,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -3002,6 +3292,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Slash"
     },
@@ -3012,6 +3303,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Miquella's Ring of Light"
     },
@@ -3022,6 +3314,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Angel's Wings"
     },
@@ -3032,6 +3325,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3042,6 +3336,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3052,6 +3347,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3062,6 +3358,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3072,6 +3369,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3082,6 +3380,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3092,6 +3391,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Sea of Magma"
     },
@@ -3102,6 +3402,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Flame Dance"
     },
@@ -3112,6 +3413,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3122,6 +3424,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -3132,6 +3435,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -3142,6 +3446,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Impaling Thrust"
     },
@@ -3152,6 +3457,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3162,6 +3468,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -3172,6 +3479,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Endure"
     },
@@ -3182,6 +3490,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Lifesteal Fist"
     },
@@ -3192,6 +3501,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Storm Kick"
     },
@@ -3202,6 +3512,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Unblockable Blade"
     },
@@ -3212,6 +3523,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3222,6 +3534,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3232,6 +3545,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3242,6 +3556,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3252,6 +3567,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bear Witness!"
     },
@@ -3262,6 +3578,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3272,6 +3589,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3282,6 +3600,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -3292,6 +3611,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Bloodhound's Step"
     },
@@ -3302,6 +3622,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -3312,6 +3633,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Quickstep"
     },
@@ -3322,6 +3644,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3332,6 +3655,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3342,6 +3666,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3352,6 +3677,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3362,6 +3688,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3372,6 +3699,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3382,6 +3710,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3392,6 +3721,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": false,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3402,6 +3732,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barrage"
     },
@@ -3412,6 +3743,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3422,6 +3754,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barrage"
     },
@@ -3432,6 +3765,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barrage"
     },
@@ -3442,6 +3776,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barrage"
     },
@@ -3452,6 +3787,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3462,6 +3798,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3472,6 +3809,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3482,6 +3820,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barrage"
     },
@@ -3492,6 +3831,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3502,6 +3842,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3512,6 +3853,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3522,6 +3864,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": 1939,
         "Default Ash of War": "Mighty Shot"
     },
@@ -3532,6 +3875,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Mighty Shot"
     },
@@ -3542,6 +3886,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Through and Through"
     },
@@ -3552,6 +3897,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Through and Through"
     },
@@ -3562,6 +3908,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Through and Through"
     },
@@ -3572,6 +3919,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3582,6 +3930,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Radahn's Rain"
     },
@@ -3592,6 +3941,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3602,6 +3952,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3612,6 +3963,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3622,6 +3974,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3632,6 +3985,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3642,6 +3996,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3652,6 +4007,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3662,6 +4018,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3672,6 +4029,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3682,6 +4040,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3692,6 +4051,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Kick"
     },
@@ -3702,6 +4062,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3712,6 +4073,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3722,6 +4084,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3732,6 +4095,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3742,6 +4106,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3752,6 +4117,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3762,6 +4128,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3772,6 +4139,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3782,6 +4150,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3792,6 +4161,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3802,6 +4172,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Spinning Weapon"
     },
@@ -3812,6 +4183,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3822,6 +4194,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3832,6 +4205,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3842,6 +4216,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3852,6 +4227,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3862,6 +4238,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3872,6 +4249,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3882,6 +4260,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3892,6 +4271,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3902,6 +4282,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3912,6 +4293,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3922,6 +4304,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3932,6 +4315,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3942,6 +4326,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3952,6 +4337,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3962,6 +4348,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -3972,6 +4359,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3982,6 +4370,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -3992,6 +4381,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4002,6 +4392,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4012,6 +4403,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4022,6 +4414,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4032,6 +4425,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Torch Attack"
     },
@@ -4042,6 +4436,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Torch Attack"
     },
@@ -4052,6 +4447,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Firebreather"
     },
@@ -4062,6 +4458,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Torch Attack"
     },
@@ -4072,6 +4469,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Torch Attack"
     },
@@ -4082,6 +4480,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Fires of Slumber"
     },
@@ -4092,6 +4491,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4102,6 +4502,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4112,6 +4513,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4122,6 +4524,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4132,6 +4535,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4142,6 +4546,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4152,6 +4557,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4162,6 +4568,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4172,6 +4579,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Buckler Parry"
     },
@@ -4182,6 +4590,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4192,6 +4601,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4202,6 +4612,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4212,6 +4623,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4222,6 +4634,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4232,6 +4645,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4242,6 +4656,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4252,6 +4667,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4262,6 +4678,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4272,6 +4689,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Viper Bite"
     },
@@ -4282,6 +4700,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4292,6 +4711,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4302,6 +4722,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4312,6 +4733,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4322,6 +4744,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4332,6 +4755,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4342,6 +4766,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4352,6 +4777,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4362,6 +4788,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4372,6 +4799,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4382,6 +4810,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4392,6 +4821,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4402,6 +4832,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4412,6 +4843,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4422,6 +4854,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4432,6 +4865,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4442,6 +4876,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4452,6 +4887,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4462,6 +4898,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4472,6 +4909,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4482,6 +4920,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4492,6 +4931,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4502,6 +4942,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4512,6 +4953,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4522,6 +4964,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4532,6 +4975,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4542,6 +4986,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4552,6 +4997,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Parry"
     },
@@ -4562,6 +5008,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4572,6 +5019,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4582,6 +5030,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4592,6 +5041,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Barricade Shield"
     },
@@ -4602,6 +5052,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4612,6 +5063,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4622,6 +5074,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4632,6 +5085,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4642,6 +5096,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4652,6 +5107,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4662,6 +5118,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4672,6 +5129,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4682,6 +5140,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4692,6 +5151,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4702,6 +5162,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4712,6 +5173,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4722,6 +5184,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4732,6 +5195,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4742,6 +5206,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4752,6 +5217,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4762,6 +5228,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4772,6 +5239,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4782,6 +5250,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4792,6 +5261,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4802,6 +5272,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4812,6 +5283,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "No Skill"
     },
@@ -4822,6 +5294,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Shield Bash"
     },
@@ -4832,6 +5305,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Golden Retaliation"
     },
@@ -4842,6 +5316,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Contagious Fury"
     },
@@ -4852,6 +5327,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Tongues of Fire"
     },
@@ -4862,6 +5338,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": "Flame Spit"
     },
@@ -4872,6 +5349,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": true,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4882,6 +5360,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4892,6 +5371,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": true,
         "isUnique": false,
         "bothHandsAtkBonus": true,
+        "throwable": false,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4902,6 +5382,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4912,6 +5393,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4922,6 +5404,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4932,6 +5415,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4942,6 +5426,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4952,6 +5437,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4962,6 +5448,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4972,6 +5459,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4982,6 +5470,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -4992,6 +5481,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500370,
         "Default Ash of War": ""
     },
@@ -5002,6 +5492,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 3120,
         "Default Ash of War": ""
     },
@@ -5012,6 +5503,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500670,
         "Default Ash of War": ""
     },
@@ -5022,6 +5514,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 3126,
         "Default Ash of War": ""
     },
@@ -5032,6 +5525,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500360,
         "Default Ash of War": ""
     },
@@ -5042,6 +5536,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500640,
         "Default Ash of War": ""
     },
@@ -5052,6 +5547,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5062,6 +5558,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5072,6 +5569,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5082,6 +5580,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5092,6 +5591,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5102,6 +5602,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5112,6 +5613,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500440,
         "Default Ash of War": ""
     },
@@ -5122,6 +5624,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500430,
         "Default Ash of War": ""
     },
@@ -5132,6 +5635,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 500470,
         "Default Ash of War": ""
     },
@@ -5142,6 +5646,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5152,6 +5657,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5162,6 +5668,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 503580,
         "Default Ash of War": ""
     },
@@ -5172,6 +5679,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5182,6 +5690,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 501720,
         "Default Ash of War": ""
     },
@@ -5192,6 +5701,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5202,6 +5712,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5212,6 +5723,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 3115,
         "Default Ash of War": ""
     },
@@ -5222,6 +5734,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5232,6 +5745,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5242,6 +5756,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 501840,
         "Default Ash of War": ""
     },
@@ -5252,6 +5767,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": 501841,
         "Default Ash of War": ""
     },
@@ -5262,6 +5778,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5272,6 +5789,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5282,6 +5800,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5292,6 +5811,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5302,6 +5822,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5312,6 +5833,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5322,6 +5844,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5332,6 +5855,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5342,6 +5866,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5352,6 +5877,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5362,6 +5888,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5372,6 +5899,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
@@ -5382,6 +5910,7 @@ export const WeaponsData: WeaponsDataType = {
         "isReinforce": false,
         "isUnique": false,
         "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     }
