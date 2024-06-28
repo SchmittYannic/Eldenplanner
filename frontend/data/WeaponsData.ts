@@ -126,7 +126,7 @@ export const WeaponsData: WeaponsDataType = {
         "bothHandsAtkBonus": true,
         "throwable": false,
         "specialStatusSpEffectId": "",
-        "Default Ash of War": ""
+        "Default Ash of War": "Quickstep"
     },
     "Great Knife": {
         "Weapon Class": "Dagger",
