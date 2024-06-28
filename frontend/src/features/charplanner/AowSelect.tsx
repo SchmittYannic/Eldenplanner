@@ -30,19 +30,28 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
     const [aowOptions, setAowOptions] = useState<string[]>([]);
 
     useEffect(() => {
-        const weaponClass = weapon ? WeaponsData[weapon]["Weapon Class"] : undefined;
+        const weaponsData = weapon ? WeaponsData[weapon] : undefined;
+        const weaponClass = weaponsData ? weaponsData["Weapon Class"] : undefined;
         const isInfuse = weapon ? WeaponsData[weapon]["isInfuse"] : undefined;
-        const compatibleAow = weaponClass ? CompatibleAowData[weaponClass] : undefined;
+        const compatibleAow = weaponClass ? CompatibleAowData[weaponClass] : [];
+        const defaultAow = weaponsData ? weaponsData["Default Ash of War"] : "";
         //const defaultAowName = "default"; // add into future dataset the default aow of weapons
 
-        if (weapon === "" || !compatibleAow || compatibleAow.length === 0 || !isInfuse) {
+        if (weapon === "") {
+            // if no weapon is selected
             setDisableAow(true);
             setAowOptions([]);
             setAow("");
+        } else if (weapon && (!compatibleAow || compatibleAow.length === 0 || !isInfuse)) {
+            // if weapon is selected but it cant be infused or no compatible Aow exist
+            setDisableAow(true);
+            setAowOptions([]);
+            setAow(defaultAow);
         } else {
+            // if weapon is selected and compatible Aow exist
             setDisableAow(false);
             setAowOptions(compatibleAow);
-            setAow("");
+            setAow(defaultAow);
         }
     }, [weapon])
 
