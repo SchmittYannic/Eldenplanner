@@ -5,7 +5,7 @@ data source:
 3. get csv of table
 4. swap ID and Name column so Name is first
 5. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
-5. use https://jsoneditoronline.org/ to format
+6. use https://jsoneditoronline.org/ to format
 function query(data) {
     let keysToKeep = ["weight", "accessoryGroup"];  // Add any other keys you want to keep
 
