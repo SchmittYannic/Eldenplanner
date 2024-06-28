@@ -243,11 +243,11 @@ export function calcWeaponAttackRating(
 
     // CN2 - CR2
     // !important there is one more multiplier in the OG spreadsheet, which is currently excluded
-    const PhysAtk = atkPhysical + scalePhysAtk;
-    const MagAtk = atkMagic + scaleMagAtk;
-    const FireAtk = atkFire + scaleFireAtk;
-    const LightningAtk = atkLightning + scaleLightningAtk;
-    const HolyAtk = atkHoly + scaleHolyAtk;
+    const PhysAtk = Math.floor(atkPhysical) + Math.floor(scalePhysAtk);
+    const MagAtk = Math.floor(atkMagic) + Math.floor(scaleMagAtk);
+    const FireAtk = Math.floor(atkFire) + Math.floor(scaleFireAtk);
+    const LightningAtk = Math.floor(atkLightning) + Math.floor(scaleLightningAtk);
+    const HolyAtk = Math.floor(atkHoly) + Math.floor(scaleHolyAtk);
 
     // console.log(
     //     "PhysAtk: " + PhysAtk,
