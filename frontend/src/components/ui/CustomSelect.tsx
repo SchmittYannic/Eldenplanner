@@ -19,15 +19,15 @@ const CustomSelect = ({
     value: currentSelectedOption,
     setValue,
     options,
-    className="customselect",
-    label="",
-    enableDelete=false,
-    searchable=false,
-    disabled=false,
+    className = "customselect",
+    label = "",
+    enableDelete = false,
+    searchable = false,
+    disabled = false,
 }: SearchSelectPropsType): ReactElement => {
 
     const [inputValue, setInputValue] = useState<string>(currentSelectedOption);
-    const [filteredOptions, setFilteredOptions] = useState<string []>(options);
+    const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
     const [showOptions, setShowOptions] = useState<boolean>(false);
 
     const [focusedOption, setFocusedOption] = useState(-1);
@@ -38,7 +38,7 @@ const CustomSelect = ({
         setInputValue(currentInputValue);
 
         const newFilteredOptions = options.filter((option) => option
-        .toLowerCase().includes(currentInputValue.toLowerCase()));
+            .toLowerCase().includes(currentInputValue.toLowerCase()));
         setFilteredOptions(newFilteredOptions);
 
         setShowOptions(true);
@@ -61,9 +61,12 @@ const CustomSelect = ({
     };
 
     const handleBlur = () => {
-        /* if inputValue is an option set the selected value of the select box */
-        if (options.includes(inputValue)) {
+        /* if inputValue is an option and the inputValue is not the currentSelectedOption set the selected value of the select box */
+        if (options.includes(inputValue) && inputValue !== currentSelectedOption) {
             setValue(inputValue);
+            setInputValue(currentSelectedOption);
+        } else if (options.includes(inputValue) && inputValue === currentSelectedOption) {
+            /* if inputValue is an option and the inputValue is the currentSelectedOption only reset the inputValue */
             setInputValue(currentSelectedOption);
         } else if (!options.includes(inputValue) && !enableDelete) {
             /* if inputValue is not an option AND you are not allowed to select nothing 
@@ -77,7 +80,7 @@ const CustomSelect = ({
             the currentSelectedOption starts with the inputValue THEN
             reset the select box to its previous value */
             setInputValue(currentSelectedOption);
-            setValue(currentSelectedOption);
+            //setValue(currentSelectedOption);
         } else {
             /* else select nothing */
             handleReset();
@@ -140,7 +143,7 @@ const CustomSelect = ({
 
     const handleButtonKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
         const { key } = e;
-        if (key === "Enter") inputValue==="" ? handleClickExpandButton() : handleReset();
+        if (key === "Enter") inputValue === "" ? handleClickExpandButton() : handleReset();
     };
 
     useEffect(() => {
@@ -152,7 +155,7 @@ const CustomSelect = ({
     }, [currentSelectedOption]);
 
     useEffect(() => {
-        if(!optionContainer.current) return;
+        if (!optionContainer.current) return;
 
         optionContainer.current.scrollIntoView({
             block: "center",
@@ -178,27 +181,27 @@ const CustomSelect = ({
             </label>
             <div className="ddBtn-container">
                 <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
-                    {enableDelete ? 
-                        inputValue === "" ? 
-                        <MdExpandMore  className="ddBtn" onClick={handleClickExpandButton} /> : 
-                        <MdClose className="ddBtn" onMouseDown={handleReset} />
-                    : <MdExpandMore  className="ddBtn" onClick={handleClickExpandButton} /> 
+                    {enableDelete ?
+                        inputValue === "" ?
+                            <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
+                            <MdClose className="ddBtn" onMouseDown={handleReset} />
+                        : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
                     }
                 </button>
             </div>
 
-            {showOptions && 
+            {showOptions &&
                 <ul className="optionslist">
                     {filteredOptions.map((option, idx) => {
-                        
+
                         const regEscape = (v: string) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
                         const strArr = option.split(new RegExp("(" + regEscape(inputValue) + ")", "ig"));
 
-                        return(
-                            <li 
+                        return (
+                            <li
                                 key={idx}
                                 ref={idx === focusedOption ? optionContainer : null}
-                                className={idx === focusedOption ? "focused-option": ""}
+                                className={idx === focusedOption ? "focused-option" : ""}
                                 onMouseDown={() => handleSelection(idx)}
                             >
                                 <p className={option === currentSelectedOption ? "selected-option" : ""}>
