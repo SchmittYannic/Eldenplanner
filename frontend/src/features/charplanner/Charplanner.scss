@@ -228,6 +228,7 @@
     padding-left: v.$FormPaddingLeft;
     padding-right: v.$FormPaddingRight;
     font-size: v.$font-size-small;
+    line-height: 1;
     color: v.$default-label-font-color;
     display: flex;
     flex-direction: row;
@@ -236,6 +237,11 @@
 
     span {
         padding-bottom: v.$FormPaddingBottom;
+    }
+
+    .arText,
+    .reqText {
+        min-height: v.$font-size-small;
     }
 
     .redText {

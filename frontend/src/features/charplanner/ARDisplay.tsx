@@ -79,11 +79,11 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
     return (
         <div className={weapon ? "ARDisplay" : "ARDisplay Invisible"}>
             <span className={isFulfilled ? "" : "redText"}>
-                <div>{text}</div>
+                <div className="reqText">{text}</div>
                 <div className="Tooltip">{tooltipText}</div>
             </span>
             <span className={isFulfilled ? "" : "Invisible"}>
-                <div>{ARCalculation[0]}</div>
+                <div className="arText">{ARCalculation[0]}</div>
                 <div className="Tooltip">{ARCalculation[1]}</div>
             </span>
         </div>
