@@ -9,10 +9,10 @@ const Builds = () => {
 
     const {
         data: builds,
-        isLoading: isBuildsLoading, 
+        isLoading: isBuildsLoading,
         isSuccess: isBuildsSuccess,
         isError: isBuildsError,
-        error: buildsError,   
+        error: buildsError,
     } = useGetBuildsQuery("buildsList", {
         pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
@@ -26,7 +26,7 @@ const Builds = () => {
     } = useGetUsersQuery("usersList", {
         pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
-    
+
     const tableData = isBuildsSuccess && isUsersSuccess && builds.ids.map((buildId) => {
         const build = builds.entities[buildId] as BuildType;
         const author = users.entities[build.user] as UserType;
@@ -35,11 +35,11 @@ const Builds = () => {
 
         const runelevel = sumStats - 79;
 
-        if(!author) {
+        if (!author) {
             throw new Error("Builds tableData not complete");
         }
 
-        return { 
+        return {
             buildId: build.id,
             authorId: build.user,
             title: build.title,
@@ -63,7 +63,7 @@ const Builds = () => {
                 <ClipLoader
                     color={"rgb(231, 214, 182)"}
                     loading={isBuildsLoading ? isBuildsLoading : isUsersLoading}
-                    size={20}
+                    size={30}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                 />

@@ -41,7 +41,7 @@ const Users = (): ReactElement => {
                 <ClipLoader
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
-                    size={20}
+                    size={30}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                 />

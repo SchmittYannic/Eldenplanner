@@ -21,7 +21,7 @@ const UserBuilds = ({ author }: PropsType): ReactElement => {
     } = useGetBuildsQuery("buildsList");
 
     const allBuilds = buildsAsEntityState && Object.values(buildsAsEntityState.entities) as BuildType[];
-    
+
     const ownBuilds = allBuilds && allBuilds.filter((build) => build.user === author.id.toString());
 
     const tableData = ownBuilds && ownBuilds.map((build) => {
@@ -29,7 +29,7 @@ const UserBuilds = ({ author }: PropsType): ReactElement => {
         const sumStats = calcSumObjectValues(build.stats);
         const runelevel = sumStats - 79;
 
-        return { 
+        return {
             buildId: build.id,
             authorId: build.user,
             title: build.title,
@@ -56,7 +56,7 @@ const UserBuilds = ({ author }: PropsType): ReactElement => {
             <ClipLoader
                 color={"rgb(231, 214, 182)"}
                 loading={isLoading}
-                size={20}
+                size={30}
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />

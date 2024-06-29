@@ -13,7 +13,7 @@ const UserPage = (): ReactElement => {
     const userId = param?.userId;
     const { username, isAdmin, isDemoadmin } = useAuth();
 
-    const { 
+    const {
         data: users,
         isLoading,
         isSuccess,
@@ -63,9 +63,9 @@ const UserPage = (): ReactElement => {
                     </div>
 
                     {param?.edit === "edit" && isOwnProfile && <EditUser />}
-    
+
                     <div className="divider-4" />
-    
+
                     <div className="userpage__userbuilds">
                         {userId && <UserBuilds author={user} />}
                     </div>
@@ -78,7 +78,7 @@ const UserPage = (): ReactElement => {
                 <ClipLoader
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
-                    size={20}
+                    size={30}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                 />
