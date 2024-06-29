@@ -53,13 +53,13 @@
     }
 
     .hero-text {
-        margin: 7rem auto 0 auto;
+        margin: 8.5rem auto 0 auto;
         max-width: 36rem;
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        > h1 {
+        >h1 {
             text-align: center;
             font-size: 3.75rem;
             line-height: 1;
@@ -68,7 +68,7 @@
             font-family: "mantiniaregular";
         }
 
-        > p {
+        >p {
             text-align: center;
             max-width: 32rem;
             color: hsl(v.$accent-foreground);
@@ -76,7 +76,7 @@
             line-height: 2rem;
             font-weight: 400;
 
-            > a {
+            >a {
                 color: v.$gold;
 
                 &:visited {
@@ -85,7 +85,7 @@
             }
         }
 
-        > .action-btn {
+        >.action-btn {
             padding: 1.5rem 1.5rem;
             font-size: 1.25rem;
         }
@@ -111,7 +111,7 @@
         background-color: hsl(v.$accent);
         border: 1px solid hsl(v.$border-color);
         border-radius: v.$border-radius;
-        box-shadow: 0 4px 20px rgba(0,0,0,.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
 
         .card-border-top {
             position: absolute;
@@ -211,7 +211,7 @@
         color: v.$gold;
         font-size: 3rem;
         text-align: center;
-        margin: 3rem auto;
+        margin: 3rem auto 2rem auto;
     }
 }
 
@@ -223,11 +223,9 @@
         left: 50%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(
-            312.23deg,
-            hsl(v.$elden-ring-color) -3.97%,
-            rgba(251, 131, 160, 0) 125.5%
-        );
+        background: linear-gradient(312.23deg,
+                hsl(v.$elden-ring-color) -3.97%,
+                rgba(251, 131, 160, 0) 125.5%);
         opacity: .3;
         filter: blur(50px);
         transform: translate(-50%, 0);
@@ -237,7 +235,7 @@
         color: v.$gold;
         font-size: 3rem;
         text-align: center;
-        margin: 3rem auto;
+        margin: 3rem auto 2rem auto;
     }
 
     p {
@@ -248,10 +246,13 @@
     }
 
     .contact-section-content {
+        max-width: 700px;
+        margin: 0 auto;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
+        align-items: center;
 
-        > .action-btn {
+        >.action-btn {
             padding: 1.5rem 1.5rem;
             font-size: 1.25rem;
             max-width: fit-content;
@@ -268,16 +269,15 @@
         width: 100%;
         display: grid;
         align-items: center;
-        gap: 1.5rem;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
 
         .bottom-section-text {
             text-align: center;
-            margin-top: 1rem;
+            margin-bottom: 1.5rem;
 
             .headtext {
-                margin: 3rem auto 1.5rem auto;
+                margin: 3rem auto 2rem auto;
                 color: v.$gold;
                 font-weight: 700;
                 letter-spacing: -0.05em;
@@ -286,10 +286,10 @@
             }
 
             .subtext {
+                text-align: left;
                 color: white;
                 margin-left: auto;
                 margin-right: auto;
-                margin-top: 1rem;
                 max-width: 700px;
                 font-size: 1.125rem;
                 line-height: 2rem;
@@ -303,7 +303,7 @@
             flex-direction: row;
             justify-content: center;
 
-            > .action-btn {
+            >.action-btn {
                 padding: 1.5rem 1.5rem;
                 font-size: 1.25rem;
                 max-width: fit-content;
@@ -314,7 +314,7 @@
 
 @media only screen and (max-width: 849px) {
     .hero .hero-text {
-        > h1 {
+        >h1 {
             font-size: 3rem;
             line-height: 1;
         }
@@ -322,6 +322,7 @@
 
     .cardscrollreveal-section {
         margin: 0 auto;
+
         .card-wrapper {
             max-width: 400px;
             max-height: 400px;
@@ -344,7 +345,7 @@
         }
     }
 
-    .cards-section {   
+    .cards-section {
         h2 {
             font-size: 2rem;
             padding: 0 1rem;
@@ -365,7 +366,7 @@
             max-width: 400px;
             flex-direction: column;
             gap: 2rem;
-            padding: 0 1rem;
+            //padding: 0 1.5rem;
         }
     }
 
@@ -374,9 +375,9 @@
             .headtext {
                 font-size: 2rem;
             }
-    
+
             .subtext {
-                max-width: 400px;         
+                max-width: 400px;
             }
         }
     }
@@ -384,12 +385,12 @@
 
 @media only screen and (max-width: 480px) {
     .hero .hero-text {
-        > h1 {
+        >h1 {
             font-size: 1.85rem;
             line-height: 1;
         }
 
-        > p {
+        >p {
             // font-size: 1rem;
             // line-height: 1.75rem;
             // font-weight: 400;
@@ -399,9 +400,13 @@
             font-weight: 400;
         }
 
-        > .action-btn {
+        >.action-btn {
             padding: 1.25rem 1.25rem;
             font-size: 1rem;
         }
+    }
+
+    .contact-section .contact-section-content {
+        padding: 0 1.5rem;
     }
 }
