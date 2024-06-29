@@ -18,10 +18,18 @@ const WeaponSelect = ({ id, label }: PropsType): ReactElement => {
     const dispatch = useDispatch();
 
     const idWeapon = id + "Weapon";
+    const idUpgrade = id + "Upgrade";
+    const idAffinity = id + "Affinity";
+    const idAow = id + "Aow";
 
     const weapon = useSelector(armamentSelectorMap[(idWeapon) as keyof ArmamentSelectorMapType]);
 
-    const setWeapon = (input: string) => dispatch(armamentReduceractionsMap[idWeapon as keyof ArmamentReduceractionsMapType](input));
+    const setWeapon = (input: string) => {
+        dispatch(armamentReduceractionsMap[idUpgrade as keyof ArmamentReduceractionsMapType]("0"));
+        dispatch(armamentReduceractionsMap[idAffinity as keyof ArmamentReduceractionsMapType](""));
+        dispatch(armamentReduceractionsMap[idAow as keyof ArmamentReduceractionsMapType](""))
+        dispatch(armamentReduceractionsMap[idWeapon as keyof ArmamentReduceractionsMapType](input));
+    }
 
     return (
         <CustomSelect
