@@ -48,7 +48,7 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
         reqArc = weaponParameter["properLuck"] ?? 0;
     }
 
-    const text = weapon ? "Req: " + reqStr + "/" + reqDex + "/" + reqInt + "/" + reqFai + "/" + reqArc : "disabled";
+    const text = weapon ? "Req: " + reqStr + "/" + reqDex + "/" + reqInt + "/" + reqFai + "/" + reqArc : "";
     const tooltipText = weapon ? "Weapon\xa0Requirements:\n\n"
         + "\xa0\xa0Strength:\xa0" + reqStr + "\n\n"
         + "\xa0\xa0Dexterity:\xa0" + reqDex + "\n\n"
@@ -74,7 +74,7 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
         }
     }
 
-    const ARCalculation = weapon ? calcWeaponAttackRating(weapon, upgrade, affinity, totalStats, twohand) : ["disabled", "disabled"];
+    const ARCalculation = weapon ? calcWeaponAttackRating(weapon, upgrade, affinity, totalStats, twohand) : ["", ""];
 
     return (
         <div className={weapon ? "ARDisplay" : "ARDisplay Invisible"}>
