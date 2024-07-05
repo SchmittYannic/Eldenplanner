@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 const BottomSection = () => {
     return (
         <section className="bottom-section">
-            <div className="horizontal-divider full" />
             <div className="bottom-section-content">
                 <div className="bottom-section-text">
                     <h2 className="headtext">

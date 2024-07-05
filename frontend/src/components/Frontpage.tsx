@@ -15,8 +15,11 @@ const Frontpage = (): ReactElement => {
             <main className="frontpage">
                 <Herosection />
                 <Cardscrollreveal />
+                <div className="horizontal-divider full" />
                 <AdditionalCardsSection />
+                <div className="horizontal-divider full" />
                 <ContactSection />
+                <div className="horizontal-divider full" />
                 <BottomSection />
             </main>
         </>

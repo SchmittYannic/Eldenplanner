@@ -8,7 +8,6 @@ const ContactSection = () => {
 
     return (
         <section className="contact-section full">
-            <div className="horizontal-divider full" />
             <div className="header-gradient-bg" />
             <h2>
                 Are we lacking a feature?
