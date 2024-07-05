@@ -1,0 +1,47 @@
+@use "../Variables" as v;
+
+.impressum {
+    .max-container {
+        max-width: v.$max-content-width;
+        width: 100%;
+        min-width: v.$min-page-width;
+    }
+
+    h1 {
+        font-size: 3rem;
+        color: v.$gold;
+    }
+
+    .impressum-content {
+        margin-top: 2rem;
+
+        p {
+            font-size: 1.125rem;
+            line-height: 2rem;
+            font-weight: 400;
+        }
+
+        a {
+            color: hsla(v.$elden-ring-color);
+            text-decoration: none;
+
+            &:hover {
+                color: v.$gold;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 849px) {
+    .impressum h1 {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .impressum .impressum-content p {
+        font-size: 1rem;
+        line-height: 1.85rem;
+    }
+}
