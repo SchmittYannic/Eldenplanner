@@ -88,7 +88,7 @@ main,
 header {
     width: 100%;
     min-width: v.$min-page-width;
-    max-width: 1080px;
+    max-width: v.$max-content-width;
 }
 
 main {
@@ -355,7 +355,7 @@ textarea {
 
     .container-large {
         width: 100%;
-        max-width: 1080px;
+        max-width: v.$max-content-width;
         margin-left: auto;
         margin-right: auto;
     }
@@ -472,6 +472,34 @@ textarea {
     }
 }
 
+/* || Footer - GENERAL */
+
+.footer {
+    margin: 0 auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid hsla(55.714, 100%, 97%, 0.1);
+
+    a {
+        color: white;
+        font-size: 1.125rem;
+        line-height: 2rem;
+        font-weight: 400;
+        text-decoration: none;
+
+        &:hover {
+            color: v.$gold;
+            text-decoration: underline;
+        }
+
+        &:focus {
+            color: hsla(v.$elden-ring-color);
+        }
+    }
+}
 
 /* || TABLES - GENERAL */
 
