@@ -16,6 +16,7 @@ import VerifyEmail from "./features/auth/VerifyEmail";
 import Verify from "./features/auth/Verify";
 import Reset from "./features/auth/Reset";
 import ResetPassword from "./features/auth/ResetPassword";
+import Impressum from "./components/Impressum";
 
 const App = (): ReactElement => {
 
@@ -36,28 +37,30 @@ const App = (): ReactElement => {
                         <Route path=":resetPasswordToken" element={<ResetPassword />} />
                     </Route>
 
-                    <Route path="charplanner" element={<Charplanner/>} />
+                    <Route path="charplanner" element={<Charplanner />} />
 
                     <Route element={<Prefetch />}>
-                        <Route path="charplanner/:buildId" element={<Charplanner/>} />
-                    
+                        <Route path="charplanner/:buildId" element={<Charplanner />} />
+
                         <Route path="builds">
-                            <Route index element={<Builds/>} />
+                            <Route index element={<Builds />} />
                         </Route>
 
-                        <Route path="user/:userId/:edit?" element={<UserPage/>} />
+                        <Route path="user/:userId/:edit?" element={<UserPage />} />
 
-                        <Route element={<RequireAuth allowedRoles={[ ROLES.Demoadmin, ROLES.Admin ]} />}>
+                        <Route element={<RequireAuth allowedRoles={[ROLES.Demoadmin, ROLES.Admin]} />}>
                             <Route path="users">
-                                <Route index element={<Users/>} />
+                                <Route index element={<Users />} />
                                 <Route path=":userId/:action" element={<Users />} />
                             </Route>
                         </Route>
                     </Route>
+
+                    <Route path="impressum" element={<Impressum />} />
                 </Route>
 
                 {/* if route doesnt exist redirect back to frontpage */}
-                <Route path="*" element={ <Navigate to="/" /> }/>
+                <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>
     )
