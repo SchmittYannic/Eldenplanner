@@ -1,11 +1,7 @@
 @use "../Variables" as v;
 
-.frontpage section:first-of-type {
-    padding-bottom: 3rem;
-}
-
 .frontpage section:not(:first-of-type) {
-    padding: 3rem 0;
+    padding: 4rem 0;
 }
 
 .radial-glow {
@@ -32,7 +28,7 @@
 .hero {
     position: relative;
     width: 100%;
-    height: calc(500px + 3rem);
+    height: calc(500px + 1rem);
 
     #tsparticles,
     .hero-img {
@@ -211,7 +207,7 @@
         color: v.$gold;
         font-size: 3rem;
         text-align: center;
-        margin: 3rem auto 2rem auto;
+        margin: 0 auto 2rem auto;
     }
 }
 
@@ -220,12 +216,14 @@
 
     .header-gradient-bg {
         position: absolute;
+        top: 0;
         left: 50%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(312.23deg,
-                hsl(v.$elden-ring-color) -3.97%,
-                rgba(251, 131, 160, 0) 125.5%);
+        background: linear-gradient(0deg,
+                rgba(251, 131, 160, 0) 0%,
+                hsl(v.$elden-ring-color) 50%,
+                rgba(251, 131, 160, 0) 100%);
         opacity: .3;
         filter: blur(50px);
         transform: translate(-50%, 0);
@@ -235,7 +233,7 @@
         color: v.$gold;
         font-size: 3rem;
         text-align: center;
-        margin: 3rem auto 2rem auto;
+        margin: 0 auto 2rem auto;
     }
 
     p {
@@ -277,7 +275,7 @@
             margin-bottom: 1.5rem;
 
             .headtext {
-                margin: 3rem auto 2rem auto;
+                margin: 0 auto 2rem auto;
                 color: v.$gold;
                 font-weight: 700;
                 letter-spacing: -0.05em;
@@ -391,10 +389,6 @@
         }
 
         >p {
-            // font-size: 1rem;
-            // line-height: 1.75rem;
-            // font-weight: 400;
-
             font-size: 1.125rem;
             line-height: 2rem;
             font-weight: 400;
