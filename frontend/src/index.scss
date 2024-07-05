@@ -494,14 +494,14 @@ textarea {
         justify-content: center;
 
         a {
-            color: white;
+            color: hsl(v.$muted-foreground);
             font-size: 1.125rem;
             line-height: 2rem;
             font-weight: 400;
             text-decoration: none;
 
             &:hover {
-                color: v.$gold;
+                color: hsl(v.$accent-foreground);
                 text-decoration: underline;
             }
 
