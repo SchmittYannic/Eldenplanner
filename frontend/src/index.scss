@@ -69,6 +69,7 @@ html {
 }
 
 body {
+    height: 100vh;
     position: relative;
     background-color: hsl(v.$background);
     color: white;
@@ -77,10 +78,9 @@ body {
 }
 
 #root {
-    flex-grow: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
@@ -96,8 +96,8 @@ main {
     padding: 0 v.$mobile-page-padding;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    flex-grow: 1;
 }
 
 button {
@@ -331,6 +331,12 @@ textarea {
     background-image: url("border2.png");
 }
 
+.max-container {
+    max-width: v.$max-content-width;
+    width: 100%;
+    min-width: v.$min-page-width;
+}
+
 /* || NAVBAR - GENERAL */
 
 .primary-nav {
@@ -483,20 +489,25 @@ textarea {
     justify-content: center;
     border-top: 1px solid hsla(55.714, 100%, 97%, 0.1);
 
-    a {
-        color: white;
-        font-size: 1.125rem;
-        line-height: 2rem;
-        font-weight: 400;
-        text-decoration: none;
+    .footer-content {
+        display: flex;
+        justify-content: center;
 
-        &:hover {
-            color: v.$gold;
-            text-decoration: underline;
-        }
+        a {
+            color: white;
+            font-size: 1.125rem;
+            line-height: 2rem;
+            font-weight: 400;
+            text-decoration: none;
 
-        &:focus {
-            color: hsla(v.$elden-ring-color);
+            &:hover {
+                color: v.$gold;
+                text-decoration: underline;
+            }
+
+            &:focus {
+                color: hsla(v.$elden-ring-color);
+            }
         }
     }
 }
@@ -777,7 +788,7 @@ td {
     margin-top: v.$primary-nav-height;
     width: 100%;
     min-height: 800px;
-    height: calc(100vh - v.$primary-nav-height);
+    //height: calc(100vh - v.$primary-nav-height);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-content: center;
@@ -843,7 +854,7 @@ td {
 /* EditAsAdmin Page */
 .editasadminpage {
     min-height: 450px;
-    height: calc(100vh - v.$primary-nav-height);
+    //height: calc(100vh - v.$primary-nav-height);
 
     .editasadmin--form {
         width: 250px;
