@@ -364,7 +364,6 @@
             max-width: 400px;
             flex-direction: column;
             gap: 2rem;
-            //padding: 0 1.5rem;
         }
     }
 
@@ -414,5 +413,15 @@
         .contact-section .contact-section-content {
             padding: 0 1.5rem;
         }
+    }
+
+    .contact-section .contact-section-content p {
+        font-size: 1rem;
+        line-height: 1.85rem;
+    }
+
+    .bottom-section .bottom-section-content .bottom-section-text .subtext {
+        font-size: 1rem;
+        line-height: 1.85rem;
     }
 }
