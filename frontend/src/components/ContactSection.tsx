@@ -9,19 +9,21 @@ const ContactSection = () => {
     return (
         <section className="contact-section full">
             <div className="header-gradient-bg" />
-            <h2>
-                Are we lacking a feature?
-            </h2>
             <div className="contact-section-content">
-                <p>
-                    Contact us here and give us feedback about how we can improve Eldenplanner even more.
-                </p>
+                <h2>
+                    Are we lacking a feature?
+                </h2>
+                <div className="contact-section-text">
+                    <p>
+                        Contact us here and give us feedback about how we can improve Eldenplanner even more.
+                    </p>
 
-                <Link to={"/contactform"} className="action-btn">
-                    Contact
-                </Link>
+                    <Link to={"/contactform"} className="action-btn">
+                        Contact
+                    </Link>
 
-                {params?.params === "contactform" && <ContactDialog />}
+                    {params?.params === "contactform" && <ContactDialog />}
+                </div>
             </div>
         </section>
     )

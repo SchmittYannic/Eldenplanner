@@ -244,7 +244,7 @@
         font-weight: 400;
     }
 
-    .contact-section-content {
+    .contact-section-text {
         max-width: 700px;
         margin: 0 auto;
         display: flex;
@@ -346,10 +346,9 @@
 
         h2 {
             font-size: 2rem;
-            padding: 0 1rem;
         }
 
-        .contact-section-content {
+        .contact-section-text {
             max-width: 400px;
             flex-direction: column;
             gap: 2rem;
@@ -394,14 +393,18 @@
             }
         }
 
-        .contact-section .contact-section-content {
+        .contact-section .contact-section-text {
             padding: 0 1.5rem;
         }
     }
 
-    .contact-section .contact-section-content p {
-        font-size: 1rem;
-        line-height: 1.85rem;
+    .contact-section .contact-section-content {
+        padding: 0 1.5rem;
+
+        .contact-section-text p {
+            font-size: 1rem;
+            line-height: 1.85rem;
+        }
     }
 
     .bottom-section .bottom-section-content .bottom-section-text .subtext {
