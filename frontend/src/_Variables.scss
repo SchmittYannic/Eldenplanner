@@ -31,6 +31,10 @@ $primary-nav-logo-height: 48px;
 $mobile-page-padding: .7rem;
 
 $min-page-width: calc(2 * $mobile-page-padding + 290px);
+$hero-img-width: 500px;
+$hero-img-height: 500px;
+$mobile-hero-img-width: 380px;
+$mobile-hero-img-height: 380px;
 
 
 /* Table Variables */
@@ -100,10 +104,12 @@ $default-focus-button-background-color: hsla($accent2);
         transform: scale(1);
         opacity: 1;
     }
+
     50% {
         transform: scale(10);
         opacity: 0.375;
     }
+
     100% {
         transform: scale(35);
         opacity: 0;
@@ -111,10 +117,11 @@ $default-focus-button-background-color: hsla($accent2);
 }
 
 @keyframes border_left_to_right_anim {
-    0%{
+    0% {
         width: 0%;
     }
-    100%{
+
+    100% {
         width: 100%;
     }
 }
@@ -123,6 +130,7 @@ $default-focus-button-background-color: hsla($accent2);
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0);
     }

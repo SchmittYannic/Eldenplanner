@@ -28,14 +28,14 @@
 .hero {
     position: relative;
     width: 100%;
-    height: calc(500px + 1rem);
+    height: calc(v.$hero-img-height + 1rem);
 
     #tsparticles,
     .hero-img {
         position: absolute;
         left: 50%;
-        width: 500px;
-        height: 500px;
+        width: v.$hero-img-width;
+        height: v.$hero-img-height;
         transform: translate(-50%, 0);
         background-image: url("");
         background-repeat: no-repeat;
@@ -382,25 +382,37 @@
 }
 
 @media only screen and (max-width: 480px) {
-    .hero .hero-text {
-        >h1 {
-            font-size: 1.85rem;
-            line-height: 1;
+    .hero {
+        height: calc(v.$mobile-hero-img-height + 1rem);
+
+        #tsparticles,
+        .hero-img {
+            width: v.$mobile-hero-img-width;
+            height: v.$mobile-hero-img-height;
         }
 
-        >p {
-            font-size: 1.125rem;
-            line-height: 2rem;
-            font-weight: 400;
+        .hero-text {
+            margin: 5.5rem auto 0 auto;
+
+            >h1 {
+                font-size: 1.85rem;
+                line-height: 1;
+            }
+
+            >p {
+                font-size: 1rem;
+                line-height: 1.85rem;
+                font-weight: 400;
+            }
+
+            >.action-btn {
+                padding: 1.25rem 1.25rem;
+                font-size: 1rem;
+            }
         }
 
-        >.action-btn {
-            padding: 1.25rem 1.25rem;
-            font-size: 1rem;
+        .contact-section .contact-section-content {
+            padding: 0 1.5rem;
         }
-    }
-
-    .contact-section .contact-section-content {
-        padding: 0 1.5rem;
     }
 }
