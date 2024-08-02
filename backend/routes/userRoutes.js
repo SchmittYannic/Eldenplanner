@@ -18,7 +18,7 @@ router.route("/")
     .get(getAllUsers)
     .post(signupLimiter, createNewUser)
     .patch(verifyJWT, updateUser)
-    .delete(deleteUser);
+    .delete(verifyJWT, deleteUser);
 
 router.route("/admin")
     .get(verifyJWT, getAllUsersAsAdmin)
