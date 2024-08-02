@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as EmailValidator from "email-validator";
 import User from "../models/User.js";
+import { userschema } from "../validation/userschema.js";
+import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 
 // @desc Get all users
@@ -22,16 +24,53 @@ const getAllUsers = async (req, res) => {
 // @route POST /users
 // @access Public
 const createNewUser = async (req, res) => {
-    const userObject = req.userData;
-    /* Create and store new user in DB */
-    const user = await User.create(userObject);
+    try {
+        const {
+            username,
+            password,
+            email,
+        } = req.body;
 
-    if (user) {
-        // created user successfully
-        res.status(201).json({ message: `New user ${userObject.username} created` });
-        emailVerificationSender(userObject.email);
-    } else {
-        res.status(400).json({ message: "Invalid user data received" });
+        await userschema.validateAsync({
+            username,
+            password,
+            email,
+        });
+
+        /* Check for duplicate */
+        // if you use async await and expect a promise back u should use exec at the end.
+        // collation to make sure it is case insensitive -> Hank and hank count as duplicates
+        const duplicateEmail = await User.findOne({ email: email.toLowerCase() }).lean().exec();
+
+        if (duplicateEmail) {
+            return res.status(409).json({ message: "Email already in use", context: { key: "email" } });
+        }
+
+        const duplicateUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec();
+
+        if (duplicateUsername) {
+            return res.status(409).json({ message: "Username already in use", context: { key: "username" } });
+        }
+
+        /* hash password */
+        const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+
+        /* Create and store new user in DB */
+        const user = await User.create({
+            username,
+            password: hashedPwd,
+            email: email.toLowerCase(),
+        });
+
+        if (user) {
+            // created user successfully
+            res.status(201).json({ message: `New user ${username} created` });
+            emailVerificationSender(email);
+        } else {
+            res.status(400).json({ message: "Invalid user data received" });
+        }
+    } catch (err) {
+        return res.status(400).send(parseError(err));
     }
 };
 
@@ -74,7 +113,7 @@ const updateUser = async (req, res) => {
     }
 
     const duplicateEmail = await User.findOne({ email: newEmail }).lean().exec();
-    
+
     if (duplicateEmail && duplicateEmail?._id.toString() !== userId) {
         return res.status(409).json({ message: "Email already in use" });
     }
@@ -83,7 +122,7 @@ const updateUser = async (req, res) => {
         user.username = newUsername;
     }
 
-    if(user.email !== newEmail) {
+    if (user.email !== newEmail) {
         user.email = newEmail;
     }
 
@@ -103,7 +142,7 @@ const updateUser = async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { 
+        {
             expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
         }
     );
