@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as EmailValidator from "email-validator";
 import User from "../models/User.js";
 import { signupschema, passwordschema, usernameschema, emailschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
