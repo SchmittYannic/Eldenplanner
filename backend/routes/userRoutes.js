@@ -12,12 +12,11 @@ import {
 } from "../controllers/usersAsAdminController.js";
 import verifyJWT from "../middleware/verifyJWT.js";
 import { signupLimiter } from "../middleware/rateLimiters.js";
-import checkNewUserData from "../middleware/checkNewUserData.js";
 const router = express.Router();
 
 router.route("/")
     .get(getAllUsers)
-    .post(checkNewUserData, signupLimiter, createNewUser)
+    .post(signupLimiter, createNewUser)
     .patch(verifyJWT, updateUser)
     .delete(deleteUser);
 
