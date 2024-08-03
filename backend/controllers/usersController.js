@@ -30,14 +30,14 @@ const createNewUser = async (req, res) => {
     try {
         const {
             username,
-            password,
             email,
+            password,
         } = req.body;
 
         await signupschema.validateAsync({
             username,
-            password,
             email,
+            password,
         });
 
         /* Check for duplicate */
@@ -66,8 +66,39 @@ const createNewUser = async (req, res) => {
         });
 
         if (user) {
+            const accessToken = jwt.sign(
+                {
+                    "UserInfo": {
+                        "userId": user._id,
+                        "username": user.username,
+                        "email": user.email,
+                        "roles": user.roles,
+                    }
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+                }
+            );
+
+            const refreshToken = jwt.sign(
+                { "username": user.username },
+                process.env.REFRESH_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+                }
+            );
+
+            // Create secure cookie with refresh token 
+            res.cookie("jwt", refreshToken, {
+                httpOnly: true, //accessible only by web server 
+                secure: true, //https
+                sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
+                maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+            });
+
             // created user successfully
-            res.status(201).json({ message: `New user ${username} created` });
+            res.status(201).json({ message: `Account successfully created`, accessToken });
             emailVerificationSender(email);
         } else {
             res.status(400).json({ message: "Invalid user data received" });
