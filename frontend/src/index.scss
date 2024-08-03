@@ -584,6 +584,10 @@ td {
         grid-template-columns: 2fr 1fr 2fr 2fr;
         justify-items: center;
         gap: 1.5rem;
+
+        .table--filter--slot {
+            width: 100%;
+        }
     }
 }
 
