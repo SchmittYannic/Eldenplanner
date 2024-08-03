@@ -102,6 +102,7 @@ const Login = (): ReactElement => {
                                 label="Username or Email"
                                 autoComplete="off"
                                 placeholder="name@example.com"
+                                maxLength={80}
                                 register={register}
                                 error={errors.user}
                             />
@@ -111,6 +112,7 @@ const Login = (): ReactElement => {
                                 className="input-password"
                                 label="Password"
                                 autoComplete="off"
+                                maxLength={80}
                                 register={register}
                                 error={errors.password}
                             >
