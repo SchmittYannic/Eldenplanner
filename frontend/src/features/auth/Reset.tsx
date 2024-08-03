@@ -1,11 +1,16 @@
-import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState } from "react";
+import { ReactElement, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { isCustomError } from "src/utils/typeguards";
-import { useSendResetRequestMutation } from "./authApiSlice";
-import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton, FormInput } from "../../components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
+import useWindowSize from "src/hooks/useWindowSize";
+import { useSendResetRequestMutation } from "src/features/auth/authApiSlice";
+import { AsyncButton, Input } from "src/components/ui";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+
+type ResetType = {
+    user: string,
+}
 
 const Reset = (): ReactElement => {
 
@@ -19,26 +24,45 @@ const Reset = (): ReactElement => {
         error
     }] = useSendResetRequestMutation();
 
-    const [user, setUser] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm<ResetType>();
+
+    const [isUserVerified, setIsUserVerified] = useState(true);
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onUserChange = (e: ChangeEvent<HTMLInputElement>) => setUser(e.target.value);
-
-    const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit: SubmitHandler<ResetType> = async (formdata) => {
         try {
-            const { message } = await sendResetRequest(user).unwrap();
+            setResponseMsg("");
+            const { message } = await sendResetRequest(formdata.user).unwrap();
+            reset({
+                user: "",
+            });
             setResponseMsg(message);
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, formdata)) {
+                setResponseMsg(err.data.message);
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
+    }
+
+    useEffect(() => {
+        if (!isCustomError(error)) return
+        if (error.data.action !== "redirectVerify") return
+
+        setIsUserVerified(false);
+    }, [isError, error])
 
     return (
         <main id="resetpage" className="splitpage1">
@@ -62,30 +86,30 @@ const Reset = (): ReactElement => {
                 <div className="splitpage1__wrapper">
                     <div className="splitpage1__form-header">
                         <h1>Reset Password</h1>
-                        <p>
-                            <span>To reset your password, enter the email or username you used to create your account.</span>
-                        </p>
+                        {(isUserVerified && !isSuccess) &&
+                            <p>
+                                <span>To reset your password, enter the email or username you used to create your account.</span>
+                            </p>
+                        }
                     </div>
 
                     <div className="splitpage1__form-wrapper">
-                        <form
-                            className="splitpage1__form"
-                            method="post"
-                            onSubmit={(e) => e.preventDefault()}
-                        >
-                            <FormInput
-                                id="reset-user"
-                                name="reset-user"
-                                type="text"
-                                label="Username or Email"
-                                maxLength={320}
-                                value={user}
-                                onChange={onUserChange}
-                                autoComplete="off"
-                                placeholder="name@example.com"
-                            />
-
-                            <div className="divider-4" />
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            {(isUserVerified && !isSuccess) &&
+                                <>
+                                    <Input
+                                        name="user"
+                                        type="text"
+                                        label="Username or Email"
+                                        autoComplete="off"
+                                        placeholder="name@example.com"
+                                        maxLength={80}
+                                        register={register}
+                                        error={errors.user}
+                                    />
+                                    <div className="divider-4" />
+                                </>
+                            }
 
                             {isSuccess && (
                                 <div className="sm-alert succmsg">
@@ -115,16 +139,27 @@ const Reset = (): ReactElement => {
                                 </>
                             )}
 
-                            <AsyncButton
-                                isLoading={isLoading}
-                                className="action-btn full"
-                                type="submit"
-                                onClick={onSubmitClicked}
-                                disabled={isLoading ? true : false}
-                                title="submit reset password request"
-                            >
-                                Submit
-                            </AsyncButton>
+                            {(isUserVerified && !isSuccess) &&
+                                <AsyncButton
+                                    isLoading={isLoading}
+                                    className="action-btn full"
+                                    type="submit"
+                                    disabled={isLoading ? true : false}
+                                    title="submit reset password request"
+                                >
+                                    Submit
+                                </AsyncButton>
+                            }
+
+                            {isSuccess &&
+                                <>
+                                    <div className="divider-4" />
+
+                                    <p style={{ textAlign: "center" }}>
+                                        Go back to main page - <Link to="/">Here</Link>
+                                    </p>
+                                </>
+                            }
                         </form>
                     </div>
                 </div>
