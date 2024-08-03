@@ -1,54 +1,69 @@
-import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState, useEffect } from "react";
+import { ReactElement, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useAddNewUserMutation } from "../users/usersApiSlice";
-import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton, FormInput } from "../../components/ui";
-import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "../../assets";
+import useWindowSize from "src/hooks/useWindowSize";
+import { setCredentials } from "src/features/auth/authSlice";
+import { useAddNewUserMutation } from "src/features/users/usersApiSlice";
+import { AsyncButton, Input, InputPassword } from "src/components/ui";
+import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "src/assets";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { addToast } from "src/components/toastSlice";
+
+type SignupUserType = {
+    username: string,
+    email: string,
+    password: string,
+}
 
 const Signup = (): ReactElement => {
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
 
     const [addNewUser, {
         isLoading,
-        isSuccess,
         isError,
     }] = useAddNewUserMutation();
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onChangeUsername = (e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
-    const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-    const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm<SignupUserType>();
 
-    const onSubmitClick = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit: SubmitHandler<SignupUserType> = async (data) => {
         try {
             setResponseMsg("");
-            await addNewUser({ username, password, email }).unwrap();
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if (err.status === 400 || err.status === 409 || err.status === 429) {
-                setResponseMsg(err.data?.message);
-            } else if (err.status === 409) {
-                setResponseMsg(err.data?.message);
+            const { message, accessToken } = await addNewUser(data).unwrap();
+            dispatch(setCredentials({ accessToken }));
+            reset({
+                username: "",
+                email: "",
+                password: "",
+            });
+            navigate("/charplanner");
+            dispatch(addToast({ type: "success", text: message }));
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg(err.data.message);
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
-
-    useEffect(() => {
-        if (isSuccess) {
-            setResponseMsg(`New user ${username} created`);
-        }
-    }, [isSuccess]);
+    }
 
     return (
         <main id="signuppage" className="splitpage1">
@@ -78,73 +93,50 @@ const Signup = (): ReactElement => {
                     </div>
 
                     <div className="splitpage1__form-wrapper">
-                        <form
-                            className="splitpage1__form"
-                            method="post"
-                            onSubmit={(e) => e.preventDefault()}
-                        >
-                            <FormInput
-                                id="signup-username"
-                                name="signup-username"
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Input
+                                name="username"
                                 type="text"
                                 label="Username"
-                                maxLength={20}
-                                value={username}
-                                onChange={onChangeUsername}
                                 autoComplete="off"
                                 placeholder="JohnDoe"
+                                maxLength={20}
+                                register={register}
+                                error={errors.username}
                             />
-
                             <div className="divider-4" />
-
-                            <FormInput
-                                id="signup-email"
-                                name="signup-email"
+                            <Input
+                                name="email"
                                 type="email"
                                 label="Email"
-                                maxLength={320}
-                                value={email}
-                                onChange={onChangeEmail}
                                 autoComplete="off"
                                 placeholder="name@example.com"
+                                maxLength={80}
+                                register={register}
+                                error={errors.email}
                             />
-
                             <div className="divider-4" />
-
-                            <FormInput
-                                id="signup-password"
-                                name="signup-password"
+                            <InputPassword
+                                name="password"
                                 className="input-password"
-                                type="password"
                                 label="Password"
-                                value={password}
-                                onChange={onChangePassword}
                                 autoComplete="off"
+                                maxLength={80}
+                                register={register}
+                                error={errors.password}
                             />
-
                             <div className="divider-4" />
-
-                            {isSuccess && (
-                                <div className="sm-alert succmsg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <span>{responseMsg}</span>
-                                </div>
-                            )}
-
-                            {isError && (
+                            {isError && responseMsg && (
                                 <div className="sm-alert errmsg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>{responseMsg}</span>
                                 </div>
                             )}
-
                             <div className="divider-4" />
-
                             <AsyncButton
                                 isLoading={isLoading}
                                 className="action-btn full"
                                 type="submit"
-                                onClick={onSubmitClick}
                                 disabled={isLoading ? true : false}
                                 title="submit signup form"
                             >
@@ -152,7 +144,7 @@ const Signup = (): ReactElement => {
                             </AsyncButton>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </main>
