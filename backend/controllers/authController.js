@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import User from "../models/User.js";
-import Tokens from "../models/Tokens.js";
+import Resetpasswordtoken from "../models/Resetpasswordtoken.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 import { emailschema, passwordschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
@@ -255,10 +255,10 @@ const sendreset = async (req, res, next) => {
             }
         );
 
-        const tokens = await Tokens.findOne({ user: foundUser._id }).exec();
+        const tokens = await Resetpasswordtoken.findOne({ user: foundUser._id }).exec();
 
         if (!tokens) {
-            const createdTokens = await Tokens.create({ user: foundUser._id, resetPasswordToken });
+            const createdTokens = await Resetpasswordtoken.create({ user: foundUser._id, resetPasswordToken });
             if (createdTokens) {
                 req.resetPasswordToken = resetPasswordToken;
                 req.email = foundUser.email;
@@ -326,6 +326,9 @@ const sendresetemail = (req, res) => {
     });
 };
 
+// @desc reset Password
+// @route Post /auth/reset
+// @access Public
 const reset = async (req, res) => {
     try {
         const {
@@ -360,7 +363,7 @@ const reset = async (req, res) => {
 
                 const { userId } = decoded.UserInfo;
 
-                const tokens = await Tokens.findOne({ user: userId }).exec();
+                const tokens = await Resetpasswordtoken.findOne({ user: userId }).exec();
                 const user = await User.findById(userId);
                 const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
