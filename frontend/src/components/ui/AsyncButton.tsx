@@ -11,18 +11,18 @@ type AsyncButtonPropsType = {
 const AsyncButton = ({
     isLoading,
     children,
-    size=20,
-    color="rgb(231, 214, 182)",
+    size = 20,
+    color = "rgb(231, 214, 182)",
     ...props
 }: AsyncButtonPropsType & React.ButtonHTMLAttributes<HTMLButtonElement>): ReactElement => {
     return (
         <button
             {...props}
         >
-            <p className={isLoading ? "hidden" : "visible"}>
+            <span className={isLoading ? "hidden" : "visible"}>
                 {children}
-            </p>
-            {(isLoading && 
+            </span>
+            {(isLoading &&
                 <div className="cliploader-centered">
                     <ClipLoader
                         color={color}
