@@ -11,6 +11,14 @@ const tokenSchema = new mongoose.Schema(
             type: String,
             default: ""
         },
+        tokenIssuedAt: {
+            type: Date,
+            default: Date.now,
+            expires: parseInt(process.env.EXPIRATION_RESET_TOKEN), //in seconds
+        },
+    },
+    {
+        timestamps: true
     }
 );
 
