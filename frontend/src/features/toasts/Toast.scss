@@ -1,10 +1,10 @@
-@use "../Variables" as v;
+@use "src/Variables" as v;
 
 .toast-list {
-	position: fixed;
+    position: fixed;
     max-height: calc(80vh - v.$primary-nav-height);
     top: calc(v.$primary-nav-height + 1rem);
-	right: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -23,7 +23,7 @@
         background-color: hsl(v.$foreground);
         transition: transform .6s ease-in-out;
         animation: toast-in-right .7s;
-    
+
         .toast-icon {
             display: inline-flex;
             align-items: center;
@@ -42,7 +42,7 @@
                 color: hsl(v.$succ-background-color);
             }
         }
-    
+
         .toast-text {
             max-width: 200px;
             font-weight: 400;
@@ -50,7 +50,7 @@
             line-height: 1.25rem;
             margin-left: .75rem;
         }
-    
+
         .toast-close-button {
             padding: .375rem;
             display: block;

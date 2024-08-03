@@ -2,8 +2,8 @@ import { ReactElement, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdClose } from "react-icons/md";
 import { AiFillCheckCircle } from "react-icons/ai"
-import { deleteToast, selectToast } from "./toastSlice";
-import "./Toast.scss";
+import { deleteToast, selectToast } from "src/features/toasts/toastSlice";
+import "src/features/toasts/Toast.scss";
 
 const Toast = (): ReactElement => {
 
@@ -37,7 +37,7 @@ const Toast = (): ReactElement => {
                     dispatch(deleteToast({ id: toastlist[0].id }));
                 }
             }, Number(process.env.TOAST_AUTO_DELETE_TIME) ?? 4000);
-            
+
             return () => {
                 clearInterval(interval);
             }
@@ -46,18 +46,18 @@ const Toast = (): ReactElement => {
 
     return (
         toastlist.length > 0 ? (
-            <div 
+            <div
                 className="toast-list"
                 aria-live="assertive"
                 ref={listRef}
             >
                 {
-                    toastlist.map((toast, idx) => 
+                    toastlist.map((toast, idx) =>
                         <div
                             key={idx}
                             className="toast"
                             role="alert"
-                        >                          
+                        >
                             <div className={`toast-icon ${toast.type}`}>
                                 {ToastTypeMap[toast.type as keyof ToastTypeMapType]}
                             </div>
@@ -68,9 +68,9 @@ const Toast = (): ReactElement => {
                                 className="toast-close-button"
                                 type="button"
                                 onClick={() => dispatch(deleteToast({ id: toast.id }))}
-                            >                          
-                                <MdClose />                             
-                            </button>                           
+                            >
+                                <MdClose />
+                            </button>
                         </div>
                     )
                 }
