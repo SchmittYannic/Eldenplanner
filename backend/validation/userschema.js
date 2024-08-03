@@ -38,8 +38,8 @@ export const usernameschema = Joi.string()
     .message("Username cannot contain leading or trailing spaces")
     .pattern(new RegExp(/^[A-Za-z]/))
     .message("Username must start with a letter")
-    .pattern(new RegExp(/^[A-Za-z0-9_]+$/))
-    .message("Usernames can only consist of letters, digits and underscores")
+    .pattern(new RegExp(/^[A-Za-z0-9_-]+$/))
+    .message("Usernames can only consist of letters, digits, hyphens and underscores")
     .messages({
         "string.min": "Username must be atleast 4 characters long",
         "string.max": "Username cannot be more than 20 characters long",
