@@ -49,14 +49,14 @@
     .dialog__main {
         display: flex;
         align-items: flex-start;
-            
+
         .dialog__image svg {
             display: block;
             width: 40px;
             height: 40px;
         }
 
-        .dialog__content > p {
+        .dialog__content>p {
             color: hsl(v.$muted-foreground);
             font-size: v.$font-size-normal;
         }
@@ -76,6 +76,6 @@
 .dialog__deleteuser,
 .dialog__conflict {
     .dialog__image svg {
-        color: hsl(v.$err-background-color);   
+        color: hsl(v.$err-background-color);
     }
 }
