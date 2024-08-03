@@ -18,8 +18,12 @@ const login = async (req, res) => {
     try {
         const { user, password } = req.body;
 
-        if (!user || !password) {
-            return res.status(400).json({ message: "All fields are required" });
+        if (!user) {
+            return res.status(400).json({ message: "User field is required", context: { label: "user" } });
+        }
+
+        if (!password) {
+            return res.status(400).json({ message: "Password field is required", context: { label: "password" } });
         }
 
         const foundUsername = await User.findOne({ username: user }).exec();
@@ -27,7 +31,7 @@ const login = async (req, res) => {
         const foundUser = foundUsername ?? foundEmail;
 
         if (!foundUser) {
-            return res.status(401).json({ message: "No User with this username or email found" });
+            return res.status(401).json({ message: "No User with this username or email found", context: { label: "user" } });
         }
 
         const match = await bcrypt.compare(password, foundUser.password);
@@ -53,7 +57,7 @@ const login = async (req, res) => {
                 // if ip not known add it to map
                 knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1 })
             }
-            return res.status(401).json({ message: "wrong password" });
+            return res.status(401).json({ message: "wrong password", context: { label: "password" } });
         }
 
         // to create an ACCESS_TOKEN_SECRET key in .env you can use
