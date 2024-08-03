@@ -4,7 +4,7 @@
     padding: 4rem 0;
 }
 
-.frontpage .action-btn {
+.frontpage .action-btn:not(#dialog .action-btn) {
     padding: 1.5rem 1.5rem;
     font-size: 1.25rem;
     max-width: fit-content;
@@ -412,7 +412,7 @@
         line-height: 1.85rem;
     }
 
-    .frontpage .action-btn {
+    .frontpage .action-btn:not(#dialog .action-btn) {
         padding: 1.25rem 1.25rem;
         font-size: 1rem;
     }
