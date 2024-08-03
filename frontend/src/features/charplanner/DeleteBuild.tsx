@@ -1,6 +1,7 @@
 import { ReactElement, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdWarningAmber } from "react-icons/md";
 
 import { useDeleteBuildMutation } from "src/features/charplanner/charplannerApiSlice";
@@ -13,14 +14,19 @@ import {
     DialogContent,
     DialogIcon,
     DialogMain,
-    FormInput,
+    Input,
 } from "src/components/ui";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
-type PropsType = {
+type DeleteBuildPropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
+type DeleteBuildFormType = {
+    confirmdeletion: string,
+}
+
+const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -32,30 +38,45 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
         isError,
     }] = useDeleteBuildMutation();
 
-    const [inputValue, setInputValue] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm<DeleteBuildFormType>();
+
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onConfirmDeletionClicked = async () => {
+    const onSubmit: SubmitHandler<DeleteBuildFormType> = async (data) => {
         try {
+            setResponseMsg("");
             const { message } = await deleteBuild(params.buildId).unwrap();
+            reset({
+                confirmdeletion: "",
+            });
             navigate(`/user/${userId}`);
             dispatch(addToast({ type: "success", text: message }));
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg(err.data.message);
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
+    }
 
-    const isDELETE = inputValue === "DELETE";
+    const isDELETE = watch("confirmdeletion", "") === "DELETE";
 
     return (
         <Dialog className="dialog__deletebuild" setDialog={setTrigger}>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
                         <MdWarningAmber />
@@ -72,20 +93,19 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="confirmdeletion"
+                        <Input
                             name="confirmdeletion"
                             type="text"
                             label="To Confirm, type DELETE in the field below"
-                            maxLength={20}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
                             autoComplete="off"
+                            maxLength={20}
+                            register={register}
+                            error={errors.confirmdeletion}
                         />
 
                         <div className="divider-4" />
 
-                        {isError ? (
+                        {(isError && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
                                 <div className="sm-alert errmsg full">
@@ -110,7 +130,6 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                         isLoading={isLoading}
                         className="action-btn"
                         type="submit"
-                        onClick={onConfirmDeletionClicked}
                         disabled={!isDELETE}
                         title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}
                     >
