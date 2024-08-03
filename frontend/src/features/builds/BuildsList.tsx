@@ -60,11 +60,19 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                 id: "author",
                 cell: info => {
                     const authorId = info.row.original.authorId;
-                    return (
-                        <Link to={`/user/${authorId}`} title="open profile of build author">
-                            {info.getValue()}
-                        </Link>
-                    )
+                    if (info.getValue() === null) {
+                        return (
+                            <>
+                                Account deleted
+                            </>
+                        )
+                    } else {
+                        return (
+                            <Link to={`/user/${authorId}`} title="open profile of build author">
+                                {info.getValue()}
+                            </Link>
+                        )
+                    }
                 },
                 header: () => <span>Author</span>,
                 sortingFn: sortCaseInsensitive,

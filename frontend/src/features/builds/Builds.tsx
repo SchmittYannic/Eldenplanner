@@ -35,15 +35,11 @@ const Builds = () => {
 
         const runelevel = sumStats - 79;
 
-        if (!author) {
-            throw new Error("Builds tableData not complete");
-        }
-
         return {
             buildId: build.id,
             authorId: build.user,
             title: build.title,
-            author: author.username,
+            author: author ? author.username : null,
             level: runelevel,
             stars: 0,
             createdAt: build.createdAt,

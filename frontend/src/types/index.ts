@@ -2,7 +2,7 @@ export type BuildListItem = {
     buildId: number,
     authorId: string,
     title: string,
-    author: string,
+    author: string | null,
     level: number,
     stars: number,
     createdAt: string,
