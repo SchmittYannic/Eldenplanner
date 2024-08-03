@@ -52,7 +52,7 @@ const Login = (): ReactElement => {
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg("");
+                setResponseMsg(err.data.message);
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });

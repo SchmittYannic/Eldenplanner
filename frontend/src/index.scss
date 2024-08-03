@@ -225,6 +225,10 @@ textarea {
     border-color: #6366F1 !important;
 }
 
+.errborder {
+    border-color: hsl(v.$err-background-color);
+}
+
 .input-wrapper {
     display: grid;
     gap: .25rem;
@@ -278,6 +282,11 @@ textarea {
         min-width: 65px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+
+    &.error input,
+    &.error .password-toggle {
+        border-color: hsl(v.$err-background-color);
     }
 }
 
