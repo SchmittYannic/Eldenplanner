@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { MdMessage } from "react-icons/md";
 
@@ -12,9 +13,14 @@ import {
     DialogIcon,
     DialogContent,
     DialogButtons,
-    FormInput,
+    Input,
     FormTextArea,
 } from "src/components/ui";
+
+type ContactFormType = {
+    email: string,
+    message: string,
+}
 
 const ContactDialog = () => {
 
@@ -25,13 +31,15 @@ const ContactDialog = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState("");
-    const [contactMsg, setContactMsg] = useState("");
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<ContactFormType>();
+
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-
-    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-    const onContactMsgChange = (e: ChangeEvent<HTMLTextAreaElement>) => setContactMsg(e.target.value);
 
     const closeDialog = (boolean: boolean) => {
         if (!boolean) {
@@ -39,33 +47,41 @@ const ContactDialog = () => {
         }
     };
 
-    const onSendClicked = async () => {
+    const onSubmit: SubmitHandler<ContactFormType> = async (data) => {
         setIsLoading(true);
         setIsError(false);
 
-        emailjs.send(
-            serviceId,
-            templateId,
-            {
-                to_name: "EldenplannerSupport",
-                from_email: email === "" ? "Anonymous" : email,
-                to_email: "eldenplanner@gmail.com",
-                message: contactMsg
-            },
-            publicKey,
-        ).then(() => {
+        try {
+            const { email, message } = data;
+
+            await emailjs.send(
+                serviceId,
+                templateId,
+                {
+                    to_name: "EldenplannerSupport",
+                    from_email: email === "" ? "Anonymous" : email,
+                    to_email: "eldenplanner@gmail.com",
+                    message: message
+                },
+                publicKey,
+            );
+
             setIsLoading(false);
+            reset({
+                email: "",
+                message: "",
+            })
             closeDialog(false);
             dispatch(addToast({ type: "success", text: "message send" }));
-        }, () => {
+        } catch (err) {
             setIsLoading(false);
             setIsError(true);
-        });
-    };
+        }
+    }
 
     return (
         <Dialog className="dialog__contactform" setDialog={(boolean: boolean) => closeDialog(boolean)}>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
                         <MdMessage />
@@ -83,29 +99,27 @@ const ContactDialog = () => {
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="contact-email"
-                            name="contact-email"
+                        <Input
+                            name="email"
                             type="text"
                             label="Email"
-                            placeholder="Anonymous"
-                            maxLength={320}
-                            value={email}
-                            onChange={onEmailChange}
                             autoComplete="off"
+                            placeholder="Anonymous"
+                            maxLength={80}
+                            register={register}
+                            error={errors.email}
                         />
 
                         <div className="divider-4" />
 
                         <FormTextArea
-                            id="contact-message"
-                            name="contact-message"
+                            name="message"
                             label="Message"
                             maxLength={1500}
                             rows={8}
-                            value={contactMsg}
-                            onChange={onContactMsgChange}
                             autoComplete="off"
+                            register={register}
+                            error={errors.message}
                         />
 
                         {isError ? (
@@ -139,7 +153,7 @@ const ContactDialog = () => {
                         isLoading={isLoading}
                         className="action-btn"
                         type="submit"
-                        onClick={onSendClicked}
+                        disabled={isLoading ? true : false}
                         title="Send Message"
                     >
                         Send
