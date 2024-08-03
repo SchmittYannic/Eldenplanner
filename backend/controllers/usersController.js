@@ -121,11 +121,10 @@ const updateUser = async (req, res) => {
             newUsername,
             newEmail,
             newPassword,
-            password,
         } = req.body;
 
         //check if all fields in body are present
-        if (newUsername === undefined || newEmail === undefined || newPassword === undefined || password === undefined) {
+        if (newUsername === undefined || newEmail === undefined || newPassword === undefined) {
             return res.status(400).json({ message: "Request body is missing fields" });
         }
 
@@ -134,12 +133,6 @@ const updateUser = async (req, res) => {
 
         if (!user) {
             return res.status(400).json({ message: "User not found" });
-        }
-
-        //check if password matches with user password
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-            return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
         }
 
         //user wants to change username
