@@ -1,4 +1,14 @@
 import Joi from "joi";
+import { ROLES } from "../config/userroles.js"
+
+export const mongooseidschema = Joi.string()
+    .label("id")
+    .pattern(new RegExp(/^[0-9a-fA-F]{24}$/)) // Regular expression to match a 24-character hexadecimal string (Mongoose ObjectId)
+    .message("Not valid mongooseId")
+    .messages({
+        "string.empty": "Id is required",
+        "any.required": "Id is required",
+    });
 
 export const emailschema = Joi.string()
     .email()
@@ -48,8 +58,41 @@ export const usernameschema = Joi.string()
         "any.required": "Username is required",
     });
 
+export const activeschema = Joi.boolean()
+    .label("active")
+    .messages({
+        "any.required": "active is required",
+    })
+
+export const validatedschema = Joi.boolean()
+    .label("validated")
+    .messages({
+        "any.required": "validated is required",
+    })
+
+const allowedRoles = Object.values(ROLES);
+
+export const rolesschema = Joi.array()
+    .label("roles")
+    .items(Joi.string().valid(...allowedRoles))
+    .min(1)
+    .messages({
+        "any.only": "Each item must be one of the following roles: " + allowedRoles.join(", ") + ".",
+        "array.min": "The array must contain at least one role.",
+        "array.base": "A valid array of roles is required.",
+    })
+
 export const signupschema = Joi.object().keys({
     username: usernameschema.required(),
     email: emailschema.required(),
     password: passwordschema.required(),
 });
+
+export const updateuserasadminschema = Joi.object().keys({
+    id: mongooseidschema.required(),
+    username: usernameschema.required(),
+    email: emailschema.required(),
+    roles: rolesschema.required(),
+    active: activeschema.required(),
+    validated: validatedschema.required(),
+})
