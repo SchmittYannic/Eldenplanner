@@ -251,7 +251,7 @@ const sendreset = async (req, res, next) => {
             },
             process.env.RESET_PASSWORD_TOKEN_SECRET,
             {
-                expiresIn: process.env.EXPIRATION_RESET_TOKEN
+                expiresIn: process.env.EXPIRATION_RESET_TOKEN + "s"
             }
         );
 
