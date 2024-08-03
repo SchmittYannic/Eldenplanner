@@ -41,13 +41,13 @@ const Login = (): ReactElement => {
 
     const onSubmit: SubmitHandler<LoginUserType> = async (data) => {
         try {
+            setResponseMsg("");
             const { message, accessToken } = await login(data).unwrap();
             dispatch(setCredentials({ accessToken }));
             reset({
                 user: "",
                 password: "",
             });
-            setResponseMsg("");
             navigate("/charplanner");
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
@@ -120,17 +120,13 @@ const Login = (): ReactElement => {
                                     forgot password?
                                 </Link>
                             </InputPassword>
-
+                            <div className="divider-4" />
                             {isError && responseMsg && (
-                                <>
-                                    <div className="divider-4" />
-                                    <div className="sm-alert errmsg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        <span>{responseMsg}</span>
-                                    </div>
-                                </>
+                                <div className="sm-alert errmsg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
                             )}
-
                             <div className="divider-4" />
                             <AsyncButton
                                 isLoading={isLoading}
