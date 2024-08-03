@@ -130,7 +130,7 @@ const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
                         isLoading={isLoading}
                         className="action-btn"
                         type="submit"
-                        disabled={!isDELETE}
+                        disabled={!isDELETE || isLoading}
                         title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}
                     >
                         Delete
