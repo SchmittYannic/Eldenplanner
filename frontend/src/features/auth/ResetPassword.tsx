@@ -1,13 +1,19 @@
-import { ReactElement, ChangeEvent, MouseEvent, KeyboardEvent, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { isCustomError } from "src/utils/typeguards";
-import { useResetMutation } from "./authApiSlice";
-import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton, FormInput } from "../../components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
+import useWindowSize from "src/hooks/useWindowSize";
+import { useResetMutation } from "src/features/auth/authApiSlice";
+import { AsyncButton, InputPassword } from "src/components/ui";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+
+type ResetPasswordType = {
+    password: string,
+    confirm: string,
+}
 
 const ResetPassword = (): ReactElement => {
 
@@ -24,30 +30,40 @@ const ResetPassword = (): ReactElement => {
         error
     }] = useResetMutation();
 
-    const [isToken, setIsToken] = useState(false);
-    const [password, setPassword] = useState("");
-    const [confirm, setConfirm] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset: resetForm,
+        formState: { errors },
+    } = useForm<ResetPasswordType>();
 
+    const [isToken, setIsToken] = useState(false);
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
-    const onConfirmChange = (e: ChangeEvent<HTMLInputElement>) => setConfirm(e.target.value);
-
-    const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit: SubmitHandler<ResetPasswordType> = async (formdata) => {
         try {
+            setResponseMsg("");
+            const { password, confirm } = formdata;
+            resetForm({
+                password: "",
+                confirm: "",
+            })
             const { message } = await reset({ resetPasswordToken, password, confirm }).unwrap();
             setResponseMsg(message);
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, formdata)) {
+                setResponseMsg(err.data.message);
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
+    }
 
     useEffect(() => {
         if (resetPasswordToken) {
@@ -141,35 +157,26 @@ const ResetPassword = (): ReactElement => {
                                 </>
                             ) : (
                                 <div className="splitpage1__form-wrapper">
-                                    <form
-                                        className="splitpage1__form"
-                                        method="post"
-                                        onSubmit={(e) => e.preventDefault()}
-                                    >
-                                        <FormInput
-                                            id="reset-password"
-                                            name="reset-password"
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <InputPassword
+                                            name="password"
                                             className="input-password"
-                                            type="password"
                                             label="New Password"
-                                            value={password}
-                                            onChange={onPasswordChange}
                                             autoComplete="off"
+                                            maxLength={80}
+                                            register={register}
+                                            error={errors.password}
                                         />
-
                                         <div className="divider-4" />
-
-                                        <FormInput
-                                            id="reset-confirm"
-                                            name="reset-confirm"
+                                        <InputPassword
+                                            name="confirm"
                                             className="input-password"
-                                            type="password"
                                             label="Confirm"
-                                            value={confirm}
-                                            onChange={onConfirmChange}
                                             autoComplete="off"
+                                            maxLength={80}
+                                            register={register}
+                                            error={errors.confirm}
                                         />
-
                                         <div className="divider-4" />
 
                                         {isError && (
@@ -185,13 +192,11 @@ const ResetPassword = (): ReactElement => {
                                             isLoading={isLoading}
                                             className="action-btn full"
                                             type="submit"
-                                            onClick={onSubmitClicked}
                                             disabled={isLoading ? true : false}
                                             title="submit reset password form"
                                         >
                                             Submit
                                         </AsyncButton>
-
                                     </form>
                                 </div>
                             )
