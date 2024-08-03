@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import User from "../models/User.js";
 import Tokens from "../models/Tokens.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
-import { emailschema } from "../validation/userschema.js";
+import { emailschema, passwordschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import { logEvents } from "../middleware/logger.js";
 
@@ -325,53 +325,67 @@ const sendresetemail = (req, res) => {
     });
 };
 
-const reset = (req, res) => {
-    const { resetPasswordToken, password, confirm } = req.body;
+const reset = async (req, res) => {
+    try {
+        const {
+            resetPasswordToken,
+            password,
+            confirm,
+        } = req.body;
 
-    if (!resetPasswordToken) {
-        return res.status(400).json({ message: "The Token was not send" });
-    }
+        if (!resetPasswordToken) {
+            return res.status(400).json({ message: "The Token was not send" });
+        }
 
-    if (!password || !confirm) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
+        if (!password) {
+            return res.status(400).json({ message: "New Password field is required", context: { label: "password" } });
+        }
 
-    if (password !== confirm) {
-        return res.status(400).json({ message: "New Password and Confirm dont match." });
-    }
+        if (!confirm) {
+            return res.status(400).json({ message: "Confirm field is required", context: { label: "confirm" } });
+        }
 
-    jwt.verify(
-        resetPasswordToken,
-        process.env.RESET_PASSWORD_TOKEN_SECRET,
-        async (err, decoded) => {
-            if (err) return res.status(401).json({ message: "Password reset failed, your token is invalid or expired" });
+        if (password !== confirm) {
+            return res.status(400).json({ message: "New Password and Confirm dont match." });
+        }
 
-            const { userId } = decoded.UserInfo;
+        await passwordschema.required().validateAsync(password);
 
-            const tokens = await Tokens.findOne({ user: userId }).exec();
-            const user = await User.findById(userId);
-            const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
+        jwt.verify(
+            resetPasswordToken,
+            process.env.RESET_PASSWORD_TOKEN_SECRET,
+            async (err, decoded) => {
+                if (err) return res.status(401).json({ message: "Password reset failed, your token is invalid or expired" });
 
-            if (!tokens) {
-                return res.status(401).json({ message: "Password reset failed, your token was already used", action: "redirectReset" });
-            } else if (tokens.resetPasswordToken !== resetPasswordToken) {
-                return res.status(401).json({ message: "Password reset failed, your token is outdated", action: "redirectReset" });
-            } else if (!user) {
-                return res.status(400).json({ message: "Password reset failed. Failed to find user in database" });
-            } else {
-                user.password = hashedPwd;
+                const { userId } = decoded.UserInfo;
 
-                const updatedUser = await user.save();
-                await tokens.deleteOne();
+                const tokens = await Tokens.findOne({ user: userId }).exec();
+                const user = await User.findById(userId);
+                const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
-                if (!updatedUser) {
-                    return res.status(400).json({ message: "Password reset failed. Failed to updated user in database" });
+                if (!tokens) {
+                    return res.status(401).json({ message: "Password reset failed, your token was already used", action: "redirectReset" });
+                } else if (tokens.resetPasswordToken !== resetPasswordToken) {
+                    return res.status(401).json({ message: "Password reset failed, your token is outdated", action: "redirectReset" });
+                } else if (!user) {
+                    return res.status(400).json({ message: "Password reset failed. Failed to find user in database" });
                 } else {
-                    return res.status(200).json({ message: "Password reset was successful", action: "redirectLogin" });
+                    user.password = hashedPwd;
+
+                    const updatedUser = await user.save();
+                    await tokens.deleteOne();
+
+                    if (!updatedUser) {
+                        return res.status(400).json({ message: "Password reset failed. Failed to updated user in database" });
+                    } else {
+                        return res.status(200).json({ message: "Password reset was successful", action: "redirectLogin" });
+                    }
                 }
             }
-        }
-    );
+        );
+    } catch (err) {
+        return res.status(400).send(parseError(err));
+    }
 };
 
 export {
