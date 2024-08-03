@@ -1,17 +1,26 @@
-import { ReactElement } from "react"
+import { ReactElement, useId, PropsWithChildren, TextareaHTMLAttributes } from "react"
+import { FieldError, UseFormRegister } from "react-hook-form";
 
-type FormTextAreaPropsType = {
-    id: string,
+type FormTextAreaPropsType = PropsWithChildren<{
+    name: string,
+    register?: UseFormRegister<any>,
     label?: string,
-};
+    error?: FieldError,
+}> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "id">;
 
 const FormTextArea = ({
-    id,
-    label="",
-    ...props
-}: FormTextAreaPropsType & React.TextareaHTMLAttributes<HTMLTextAreaElement>): ReactElement => {
+    register,
+    name,
+    error,
+    label = "",
+    children,
+    ...rest
+}: FormTextAreaPropsType): ReactElement => {
+
+    const id = useId();
+
     return (
-        <div className="input-wrapper">
+        <div className={`input-wrapper${error ? " error" : ""}`}>
             {label && (
                 <>
                     <label htmlFor={id}>
@@ -20,9 +29,10 @@ const FormTextArea = ({
                     <div className="divider-1" />
                 </>
             )}
-            <textarea 
+            <textarea
                 id={id}
-                {...props}
+                {...(register ? register(name) : {})}
+                {...rest}
             >
 
             </textarea>
