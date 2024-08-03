@@ -6,10 +6,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import useWindowSize from "src/hooks/useWindowSize";
 import { setCredentials } from "src/features/auth/authSlice";
 import { useAddNewUserMutation } from "src/features/users/usersApiSlice";
+import { addToast } from "src/components/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
-import { addToast } from "src/components/toastSlice";
 
 type SignupUserType = {
     username: string,
