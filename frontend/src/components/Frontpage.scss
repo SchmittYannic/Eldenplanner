@@ -84,6 +84,10 @@
                 &:visited {
                     color: v.$gold;
                 }
+
+                &:hover {
+                    color: hsla(v.$elden-ring-color)
+                }
             }
         }
     }
