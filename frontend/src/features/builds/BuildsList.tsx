@@ -17,7 +17,7 @@ import {
 } from "@tanstack/react-table";
 //import { RankingInfo } from "@tanstack/match-sorter-utils";
 import FuzzyFilter from "../../utils/FuzzyFilter";
-import { BuildListItem } from "../../utils/Types";
+import { BuildListItem } from "src/types";
 import FilterTable from "../../components/FilterTable";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
@@ -32,7 +32,7 @@ import { DebouncedInput } from "../../components/ui";
 //     }
 // }
 
-const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
+const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
 
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
@@ -138,7 +138,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                 <div className="table--filter">
                     {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
-                            if(header.column.getCanFilter()) {
+                            if (header.column.getCanFilter()) {
                                 return (
                                     <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
                                 )
@@ -163,14 +163,14 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">                                     
+                                        <div key={header.id} className="table__sort">
                                             <div
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
                                                     title: `sort by ${header.id} column`,
                                                 }}
-                                            >                                                                                                  
+                                            >
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -178,7 +178,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                 {!isSorted && (
                                                     <span className="swap-vert">
                                                         <MdSwapVert />
-                                                    </span> 
+                                                    </span>
                                                 )}
                                                 {isSorted === "desc" && (
                                                     <span className="arrow-downward">
@@ -189,7 +189,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                     <span className="arrow-upward">
                                                         <MdArrowUpward />
                                                     </span>
-                                                )}                                    
+                                                )}
                                             </div>
                                         </div>
                                     )
@@ -211,14 +211,14 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                 {headerGroup.headers.map(header => {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">                              
+                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">
                                             <div
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
                                                     title: `sort by ${header.id} column`,
                                                 }}
-                                            >                                                                                                  
+                                            >
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -226,7 +226,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                 {!isSorted && (
                                                     <span className="swap-vert">
                                                         <MdSwapVert />
-                                                    </span> 
+                                                    </span>
                                                 )}
                                                 {isSorted === "desc" && (
                                                     <span className="arrow-downward">
@@ -237,7 +237,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                     <span className="arrow-upward">
                                                         <MdArrowUpward />
                                                     </span>
-                                                )}                                    
+                                                )}
                                             </div>
                                         </th>
                                     )
@@ -253,7 +253,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                 {row.getVisibleCells().map(cell => {
                                     if (isMobile) {
                                         const header = capitalizeFirstLetter(cell.column.id);
-                                        
+
                                         return (
                                             <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                                 <div className="table__cell__head">
@@ -266,17 +266,17 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
                                                     )}
                                                 </div>
                                             </td>
-                                        ) 
+                                        )
                                     } else {
                                         return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
                                                 )}
                                             </td>
-                                        ) 
-                                    }                                     
+                                        )
+                                    }
                                 })}
                             </tr>
                         )
@@ -362,7 +362,7 @@ const BuildsList = ({ data }: {data: BuildListItem[]}): ReactElement => {
             <div className="divider-4" />
         </main>
     )
-    
+
 }
 
 export default BuildsList

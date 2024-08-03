@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 import { UserAsAdminType, isUserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList from "./UsersList";
 import EditUserAsAdmin from "./EditUserAsAdmin";

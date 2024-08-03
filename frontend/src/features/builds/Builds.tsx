@@ -3,7 +3,7 @@ import { ClipLoader } from "react-spinners";
 import { calcSumObjectValues } from "../../utils/functions";
 import BuildsList from "./BuildsList";
 import { UserType, useGetUsersQuery } from "../users/usersApiSlice";
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 
 const Builds = () => {
 

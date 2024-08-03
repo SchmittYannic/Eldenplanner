@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import UserBuilds from "./UserBuilds";
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 import EditUser from "./EditUser";
 
 const UserPage = (): ReactElement => {

@@ -1,13 +1,13 @@
 import { ChangeEvent, ReactElement, MouseEvent, KeyboardEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 import { useSendResetRequestMutation } from "./authApiSlice";
 import useWindowSize from "../../hooks/useWindowSize";
 import { AsyncButton, FormInput } from "../../components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
 
-const Reset = ():ReactElement => {
+const Reset = (): ReactElement => {
 
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
@@ -126,7 +126,7 @@ const Reset = ():ReactElement => {
                                 Submit
                             </AsyncButton>
                         </form>
-                    </div>              
+                    </div>
                 </div>
             </div>
         </main>

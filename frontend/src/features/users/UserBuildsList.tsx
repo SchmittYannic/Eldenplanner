@@ -9,7 +9,7 @@ import {
     getSortedRowModel,
     flexRender,
 } from "@tanstack/react-table";
-import { BuildListItem } from "../../utils/Types";
+import { BuildListItem } from "src/types";
 import useWindowSize from "../../hooks/useWindowSize";
 import { capitalizeFirstLetter } from "../../utils/functions";
 import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
@@ -85,7 +85,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
         },
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),      
+        getSortedRowModel: getSortedRowModel(),
         debugTable: false,
         debugHeaders: false,
         debugColumns: false,
@@ -105,14 +105,14 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">                                     
+                                        <div key={header.id} className="table__sort">
                                             <div
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
                                                     title: `sort by ${header.id} column`,
                                                 }}
-                                            >                                                                                                  
+                                            >
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -120,7 +120,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                 {!isSorted && (
                                                     <span className="swap-vert">
                                                         <MdSwapVert />
-                                                    </span> 
+                                                    </span>
                                                 )}
                                                 {isSorted === "desc" && (
                                                     <span className="arrow-downward">
@@ -131,7 +131,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                     <span className="arrow-upward">
                                                         <MdArrowUpward />
                                                     </span>
-                                                )}                                    
+                                                )}
                                             </div>
                                         </div>
                                     )
@@ -152,14 +152,14 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                 {headerGroup.headers.map(header => {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">                              
+                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">
                                             <div
                                                 {...{
                                                     className: "flex",
                                                     onClick: header.column.getToggleSortingHandler(),
                                                     title: `sort by ${header.id} column`,
                                                 }}
-                                            >                                                                                                  
+                                            >
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -167,7 +167,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                 {!isSorted && (
                                                     <span className="swap-vert">
                                                         <MdSwapVert />
-                                                    </span> 
+                                                    </span>
                                                 )}
                                                 {isSorted === "desc" && (
                                                     <span className="arrow-downward">
@@ -178,7 +178,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                     <span className="arrow-upward">
                                                         <MdArrowUpward />
                                                     </span>
-                                                )}                                    
+                                                )}
                                             </div>
                                         </th>
                                     )
@@ -194,7 +194,7 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                 {row.getVisibleCells().map(cell => {
                                     if (isMobile) {
                                         const header = capitalizeFirstLetter(cell.column.id);
-                                        
+
                                         return (
                                             <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                                 <div className="table__cell__head">
@@ -207,17 +207,17 @@ const UserBuildsList = ({ data }: PropsType): ReactElement => {
                                                     )}
                                                 </div>
                                             </td>
-                                        ) 
+                                        )
                                     } else {
                                         return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
+                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
                                                 )}
                                             </td>
-                                        ) 
-                                    }                                     
+                                        )
+                                    }
                                 })}
                             </tr>
                         )
