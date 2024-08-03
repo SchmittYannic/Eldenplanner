@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import emailjs from "@emailjs/browser";
 import { MdMessage } from "react-icons/md";
 
-import { addToast } from "./toastSlice";
-import { 
+import { addToast } from "src/features/toasts/toastSlice";
+import {
     AsyncButton,
     Dialog,
     DialogMain,
@@ -14,7 +14,7 @@ import {
     DialogButtons,
     FormInput,
     FormTextArea,
-} from "./ui";
+} from "src/components/ui";
 
 const ContactDialog = () => {
 
@@ -115,7 +115,7 @@ const ContactDialog = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>
                                         An error has occured. Please try again later or contact us directly at&nbsp;
-                                        <a href= "mailto:eldenplanner@gmail.com" style={{color: "white"}}>
+                                        <a href="mailto:eldenplanner@gmail.com" style={{ color: "white" }}>
                                             eldenplanner@gmail.com
                                         </a>
                                     </span>

@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 
-import { useUpdateUserMutation } from "./usersApiSlice";
-import { setCredentials } from "../auth/authSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { useUpdateUserMutation } from "src/features/users/usersApiSlice";
+import { setCredentials } from "src/features/auth/authSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -15,7 +15,7 @@ import {
     DialogContent,
     DialogButtons,
     FormInput,
-} from "../../components/ui";
+} from "src/components/ui";
 
 const EditUser = (): ReactElement => {
 
@@ -76,7 +76,7 @@ const EditUser = (): ReactElement => {
 
                         <p>
                             Change your account details below and click save to confirm.
-                        </p>         
+                        </p>
 
                         <div className="divider-4" />
 

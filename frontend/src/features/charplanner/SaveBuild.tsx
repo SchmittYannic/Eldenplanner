@@ -3,12 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { MdSave } from "react-icons/md";
 
-import { RootState } from "../../app/store";
-import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
-import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
-import { selectCharplannerData } from "./charplannerSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { RootState } from "src/app/store";
+import { useAddNewBuildMutation, useUpdateBuildMutation } from "src/features/charplanner/charplannerApiSlice";
+import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
+import { selectCharplannerData } from "src/features/charplanner/charplannerSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -17,7 +17,7 @@ import {
     DialogIcon,
     DialogMain,
     FormInput,
-} from "../../components/ui";
+} from "src/components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,

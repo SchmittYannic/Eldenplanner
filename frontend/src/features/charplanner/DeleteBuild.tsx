@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdWarningAmber } from "react-icons/md";
 
-import { useDeleteBuildMutation } from "./charplannerApiSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { useDeleteBuildMutation } from "src/features/charplanner/charplannerApiSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -14,7 +14,7 @@ import {
     DialogIcon,
     DialogMain,
     FormInput,
-} from "../../components/ui";
+} from "src/components/ui";
 
 type PropsType = {
     setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
@@ -64,11 +64,11 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                         <h3>Confirm Build Deletion</h3>
 
                         <div className="divider-4" />
-        
+
                         <p>
                             Are you sure you want to delete this build?
                             Deleted builds are unrecoverable and lost forever.
-                        </p> 
+                        </p>
 
                         <div className="divider-4" />
 

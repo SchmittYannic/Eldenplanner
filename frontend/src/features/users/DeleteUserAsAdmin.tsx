@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdWarningAmber } from "react-icons/md";
 
-import { UserAsAdminType, useDeleteUserAsAdminMutation } from "./usersAsAdminApiSlice";
-import { addToast } from "../../components/toastSlice";
+import { UserAsAdminType, useDeleteUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import {
     AsyncButton,
     Dialog,
@@ -13,7 +13,7 @@ import {
     DialogIcon,
     DialogMain,
     FormInput,
-} from "../../components/ui";
+} from "src/components/ui";
 
 type DeleteUserAsAdminPropsType = {
     user: UserAsAdminType,
@@ -70,7 +70,7 @@ const DeleteUserAsAdmin = ({ user }: DeleteUserAsAdminPropsType): ReactElement =
                     <p>
                         Are you sure you want to delete this build?
                         Deleted builds are unrecoverable and lost forever.
-                    </p> 
+                    </p>
 
                     <div className="divider-4" />
 

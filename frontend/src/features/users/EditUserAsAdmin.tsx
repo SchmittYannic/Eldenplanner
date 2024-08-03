@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 
-import { UserAsAdminType, useUpdateUserAsAdminMutation } from "./usersAsAdminApiSlice";
-import { addToast } from "../../components/toastSlice";
-import { ROLES } from "../../config/roles";
+import { UserAsAdminType, useUpdateUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import { ROLES } from "src/config/roles";
 import {
     AsyncButton,
     Checkbox,
@@ -16,7 +16,7 @@ import {
     DialogMain,
     FormInput,
     MultiSelect,
-} from "../../components/ui";
+} from "src/components/ui";
 
 type EditUserAsAdminPropsType = {
     user: UserAsAdminType,
@@ -54,13 +54,13 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
     const onSaveUserClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
-            const { message } = await updateUserAsAdmin({ 
+            const { message } = await updateUserAsAdmin({
                 id: user.id,
                 username,
                 active,
                 roles,
                 validated,
-                email 
+                email
             }).unwrap();
 
             closeDialog(false);
@@ -85,10 +85,10 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
         setRoles(user.roles);
     };
 
-    const isChanged = username !== user.username 
-        || email !== user.email 
-        || active !== user.active 
-        || validated !== user.validated 
+    const isChanged = username !== user.username
+        || email !== user.email
+        || active !== user.active
+        || validated !== user.validated
         || roles !== user.roles;
 
     return (
@@ -105,7 +105,7 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
 
                         <p>
                             Change your account details below and click save to confirm.
-                        </p>         
+                        </p>
 
                         <div className="divider-4" />
 

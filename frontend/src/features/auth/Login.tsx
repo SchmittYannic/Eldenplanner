@@ -7,7 +7,7 @@ import useWindowSize from "src/hooks/useWindowSize";
 import { isCustomError, isCustomFormError } from "src/utils/typeguards";
 import { useLoginMutation } from "src/features/auth/authApiSlice";
 import { setCredentials } from "src/features/auth/authSlice";
-import { addToast } from "src/components/toastSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isFieldName } from "src/utils/typeguards";
