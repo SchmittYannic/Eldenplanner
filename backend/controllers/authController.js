@@ -224,7 +224,7 @@ const sendreset = async (req, res, next) => {
         const { user } = req.body;
 
         if (!user) {
-            return res.status(400).json({ message: "Providing a Username or Email is required" });
+            return res.status(400).json({ message: "Providing a Username or Email is required", context: { label: "user" } });
         }
 
         const foundUsername = await User.findOne({ username: user }).exec();
@@ -232,7 +232,7 @@ const sendreset = async (req, res, next) => {
         const foundUser = foundUsername ?? foundEmail;
 
         if (!foundUser) {
-            return res.status(401).json({ message: "No User with this username or email found" });
+            return res.status(401).json({ message: "No User with this username or email found", context: { label: "user" } });
         }
 
         if (!foundUser.validated) {
@@ -268,6 +268,7 @@ const sendreset = async (req, res, next) => {
             }
         } else {
             tokens.resetPasswordToken = resetPasswordToken;
+            tokens.tokenIssuedAt = Date.now();
             const updatedTokens = await tokens.save();
             if (updatedTokens) {
                 req.resetPasswordToken = resetPasswordToken;
@@ -305,14 +306,14 @@ const sendresetemail = (req, res) => {
         ${url}/reset/${resetPasswordToken} 
 
         If you didnt request a reset feel free to contact our support here:
-        INSERT HERE`,
+        ${url}/contactform`,
         html: `<p>You have requested a password reset.
         Please follow the given link to reset your password.</p>
 
         <a href="${url}/reset/${resetPasswordToken} " target="_blank">Reset Password</a>
 
         <p>If you didnt request a reset feel free to contact our support here:</p>
-        <a href="INSERT HERE" target="_blank">Contact Support</a>`,
+        <a href="${url}/contactform" target="_blank">Contact Support</a>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
