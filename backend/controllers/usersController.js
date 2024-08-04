@@ -146,7 +146,7 @@ const updateUser = async (req, res) => {
             const duplicateUsername = await User.findOne({ username: newUsername }).collation({ locale: 'en', strength: 2 }).lean().exec();
 
             if (duplicateUsername && duplicateUsername?._id.toString() !== userId) {
-                return res.status(409).json({ message: "Username already in use", context: { label: "username" } });
+                return res.status(409).json({ message: "Username already in use", context: { label: "newUsername" } });
             }
             //set new username
             user.username = newUsername;
@@ -160,7 +160,7 @@ const updateUser = async (req, res) => {
             const duplicateEmail = await User.findOne({ email: newEmail.toLowerCase() }).lean().exec();
 
             if (duplicateEmail && duplicateEmail?._id.toString() !== userId) {
-                return res.status(409).json({ message: "Email already in use", context: { label: "email" } });
+                return res.status(409).json({ message: "Email already in use", context: { label: "newEmail" } });
             }
             //set new email
             user.email = newEmail.toLowerCase();
@@ -169,7 +169,7 @@ const updateUser = async (req, res) => {
         //user wants to change password
         if (newPassword !== "") {
             //check if new password fits the schema
-            await passwordschema.required().validateAsync(newPassword);
+            await passwordschema.label("newPassword").required().validateAsync(newPassword);
             //hash new password
             const newHashedPw = await bcrypt.hash(newPassword, parseInt(process.env.BCRYPT_SALT_ROUNDS));
             //set new password
