@@ -1,17 +1,17 @@
-import { ReactElement, useRef, useEffect, useState } from "react";
+import { ReactElement, useRef, useEffect, useState, PropsWithChildren } from "react";
 import FocusTrap from "focus-trap-react";
 import { MdClose } from "react-icons/md";
-import "./Dialog.scss";
+import "src/components/ui/Dialog.scss";
 
-type DialogIconPropsType = {
-    children: ReactElement[] | ReactElement,
-};
+type DialogIconPropsType = PropsWithChildren<{}>;
 
-const DialogIcon = ({ children }: DialogIconPropsType): ReactElement => {
+const DialogIcon = ({
+    children,
+}: DialogIconPropsType): ReactElement => {
     return (
         <>
             <div className="dialog__image">
-                { children }
+                {children}
             </div>
             <div className="v-divider-4" />
             <div className="v-divider-4" />
@@ -19,49 +19,52 @@ const DialogIcon = ({ children }: DialogIconPropsType): ReactElement => {
     )
 }
 
-type DialogContentPropsType = {
-    children: ReactElement[] | ReactElement,
-};
+type DialogContentPropsType = PropsWithChildren<{}>;
 
-const DialogContent = ({ children }: DialogContentPropsType ): ReactElement => {
+const DialogContent = ({
+    children,
+}: DialogContentPropsType): ReactElement => {
     return (
         <div className="dialog__content">
-            { children }
+            {children}
         </div>
     )
 };
 
-type DialogButtonsPropsType = {
-    children: ReactElement[] | ReactElement,
-};
+type DialogButtonsPropsType = PropsWithChildren<{}>;
 
-const DialogButtons = ({ children }: DialogButtonsPropsType ): ReactElement => {
+const DialogButtons = ({
+    children,
+}: DialogButtonsPropsType): ReactElement => {
     return (
         <div className="dialog__button-wrapper">
-            { children }
+            {children}
         </div>
     )
 };
 
-type DialogMainPropsType = {
-    children: ReactElement[] | ReactElement,
-};
+type DialogMainPropsType = PropsWithChildren<{}>;
 
-const DialogMain = ({ children }: DialogMainPropsType ): ReactElement => {
+const DialogMain = ({
+    children,
+}: DialogMainPropsType): ReactElement => {
     return (
         <div className="dialog__main">
-            { children }
+            {children}
         </div>
     )
 };
 
-type DialogPropsType = {
-    setDialog: Function,
+type DialogPropsType = PropsWithChildren<{
+    callback: Function,
     className?: string,
-    children: ReactElement[] | ReactElement,
-};
+}>;
 
-const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElement => {
+const Dialog = ({
+    callback,
+    className,
+    children,
+}: DialogPropsType): ReactElement => {
 
     const ref = useRef<HTMLDivElement | null>(null);
     const [top, setTop] = useState("");
@@ -78,26 +81,26 @@ const Dialog = ({ setDialog, className, children }: DialogPropsType ): ReactElem
     return (
         <FocusTrap>
             <div className={`dialog__background ${className}`}>
-                <div 
-                    id="dialog"  
+                <div
+                    id="dialog"
                     tabIndex={0}
                     ref={ref}
                     style={{ top: top }}
                 >
                     <div className="dialog__close-wrapper">
-                        <button 
-                            className="close-dialog" 
+                        <button
+                            className="close-dialog"
                             type="button"
                             tabIndex={0}
-                            onClick={() => setDialog(false)}
-                            onKeyDown={(e) => e.key === "Enter" ? setDialog(false) : null}
+                            onClick={() => callback()}
+                            onKeyDown={(e) => e.key === "Enter" ? callback() : null}
                             title="Close Dialog"
                         >
                             <MdClose />
                         </button>
                     </div>
 
-                    { children }
+                    {children}
 
                 </div>
             </div>
