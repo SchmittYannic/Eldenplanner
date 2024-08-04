@@ -81,14 +81,6 @@ const Charplanner = (): ReactElement => {
         <main>
             <div className="charplanner__header">
                 <h1>Eldenring Character Planner</h1>
-                {buildAuthor && (
-                    <>
-                        <div className="divider-4" />
-                        <p>
-                            <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
-                        </p>
-                    </>
-                )}
                 <div className="divider-4" />
                 <p>
                     Please be aware that Elden Ring calculations can be quite intricate, so some may be incomplete or inaccurate. If you come across any errors or missing information, feel free to reach out to us <Link to={"/contactform"}>here</Link>.
@@ -98,6 +90,14 @@ const Charplanner = (): ReactElement => {
                 <p>
                     Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.13.1.</span>
                 </p>
+                {buildAuthor && (
+                    <>
+                        <div className="divider-4" />
+                        <p style={{ color: "white" }}>
+                            Loaded Build: <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
+                        </p>
+                    </>
+                )}
                 <div className="divider-4" />
                 <div className="divider-2" />
             </div>
