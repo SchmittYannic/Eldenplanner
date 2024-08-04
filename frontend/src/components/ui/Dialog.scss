@@ -14,9 +14,9 @@
     min-width: v.$min-page-width;
     position: fixed;
     left: 50%;
-    max-width: 24rem; //32rem;
+    max-width: 28rem; //32rem;
     width: 100%;
-    padding: 1.5rem;
+    padding: 2rem 2.5rem 2rem 5rem;
     background-color: hsl(v.$background);
     color: hsl(v.$accent-foreground);
     font-size: v.$font-size-normal;
@@ -46,15 +46,21 @@
         }
     }
 
-    .dialog__main {
-        display: flex;
-        align-items: flex-start;
+    .dialog__image {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
 
-        .dialog__image svg {
+        svg {
             display: block;
             width: 40px;
             height: 40px;
         }
+    }
+
+    .dialog__main {
+        display: flex;
+        align-items: flex-start;
 
         .dialog__content>p {
             color: hsl(v.$muted-foreground);
@@ -65,7 +71,7 @@
     .dialog__button-wrapper {
         display: flex;
         justify-content: end;
-        margin-top: 1rem;
+        //margin-top: .5rem;
         gap: .75rem;
     }
 }
@@ -77,5 +83,24 @@
 .dialog__conflict {
     .dialog__image svg {
         color: hsl(v.$err-background-color);
+    }
+}
+
+@media only screen and (min-width: 850px) {
+    #dialog {
+        max-width: 32rem;
+        padding: 2.8rem 4rem 2.8rem 6rem;
+
+        .dialog__image {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+
+            svg {
+                display: block;
+                width: 50px;
+                height: 50px;
+            }
+        }
     }
 }
