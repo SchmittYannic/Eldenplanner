@@ -1,4 +1,4 @@
-import { object, string } from "yup";
+import { object, string, ref } from "yup";
 
 const usernameschema = string()
     .max(20, "Username cannot be more than 20 characters long")
@@ -12,12 +12,16 @@ const emailschema = string().email("Invalid email format")
 
 //regex in passwordschema allow empty strings, so it is usable for edituserschema aswell
 const passwordschema = string()
-    .max(80, "Passwort darf nicht mehr als 80 Zeichen lang sein")
+    .max(80, "Password cannot be more than 80 characters long")
     .matches(/^(.{6,80})?$/, "Password must be between 6 and 80 characters long")
     .matches(/^(.*[A-Z].*|)$/, "Password must contain at least one capital letter")
     .matches(/^(.*[a-z].*|)$/, "Password must contain at least one lowercase letter")
     .matches(/^(.*\d.*|)$/, "Password must contain at least one digit")
     .matches(/^(.*[!@#$%^&*_\-].*|)$/, "Password must contain at least one special character")
+
+const passwordrepeatschema = string()
+    .max(80, "Password cannot be more than 80 characters long")
+    .oneOf([ref("password")], "Field must match password")
 
 const signupschema = object().shape({
     username: usernameschema.required("Username is required"),
@@ -31,7 +35,18 @@ const edituserschema = object().shape({
     newPassword: passwordschema,
 });
 
+const resetpasswordschema = object().shape({
+    password: passwordschema.required(),
+    confirm: passwordrepeatschema.required(),
+});
+
+const verifyschema = object().shape({
+    email: emailschema.required(),
+});
+
 export {
     signupschema,
+    resetpasswordschema,
+    verifyschema,
     edituserschema,
 }
