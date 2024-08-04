@@ -69,6 +69,7 @@ const NameSubSection = (): ReactElement => {
                     label="Activate"
                     checked={greatruneactive}
                     setChecked={setGreatruneactive}
+                    title={greatruneactive ? "Deactivate Great Rune" : "Activate Great Rune"}
                 />
             </div>
 

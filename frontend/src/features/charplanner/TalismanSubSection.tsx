@@ -86,6 +86,7 @@ const TalismanSubSection = (): ReactElement => {
                     label={"Talisman " + slot.slice(-1)}
                     enableDelete={true}
                     searchable={true}
+                    title={`Select Talisman in slot #${idx + 1}`}
                 />
             )}
         </div>

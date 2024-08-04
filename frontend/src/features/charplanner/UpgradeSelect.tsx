@@ -28,6 +28,8 @@ const UpgradeSelect = ({ id }: PropsType): ReactElement => {
     const [disableUpgrade, setDisableUpgrade] = useState(true);
     const [upgradeOptions, setUpgradeOptions] = useState<string[]>([]);
 
+    const tooltipText = disableUpgrade ? `Disabled: Equip an Armament in ${id}` : "Select Armament upgrade level";
+
     useEffect(() => {
         if (weapon === "") {
             setDisableUpgrade(true);
@@ -53,6 +55,7 @@ const UpgradeSelect = ({ id }: PropsType): ReactElement => {
             className={disableUpgrade ? "customselect style1 disabled" : "customselect style1"}
             label="0"
             disabled={disableUpgrade}
+            title={tooltipText}
         />
     )
 }

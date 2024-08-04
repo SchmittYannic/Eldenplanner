@@ -28,6 +28,8 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
 
     const [disableAffinity, setDisableAffinity] = useState(true);
 
+    const tooltipText = disableAffinity && weapon === "" ? `Disabled: Equip an Armament in ${id}` : disableAffinity ? "Disabled: Affinity of Armament is fixed" : "Select Armament Affinity";
+
     useEffect(() => {
         if (weapon === "") {
             setDisableAffinity(true);
@@ -50,6 +52,7 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
             enableDelete={true}
             searchable={true}
             disabled={disableAffinity}
+            title={tooltipText}
         />
     )
 }

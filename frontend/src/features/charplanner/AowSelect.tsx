@@ -29,6 +29,8 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
     const [disableAow, setDisableAow] = useState(true);
     const [aowOptions, setAowOptions] = useState<string[]>([]);
 
+    const tooltipText = disableAow && weapon === "" ? `Disabled: Equip an Armament in ${id}` : disableAow ? "Disabled: Ash of War of Armament is fixed" : "Select Armament Ash of War";
+
     useEffect(() => {
         const weaponsData = weapon ? WeaponsData[weapon] : undefined;
         const weaponClass = weaponsData ? weaponsData["Weapon Class"] : undefined;
@@ -53,7 +55,7 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
             setAowOptions(compatibleAow);
             setAow(defaultAow);
         }
-    }, [weapon])
+    }, [weapon]);
 
     return (
         <CustomSelect
@@ -66,6 +68,7 @@ const AowSelect = ({ id }: PropsType): ReactElement => {
             enableDelete={true}
             searchable={true}
             disabled={disableAow}
+            title={tooltipText}
         />
     )
 }
