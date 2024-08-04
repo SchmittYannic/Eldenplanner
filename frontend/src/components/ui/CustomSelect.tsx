@@ -12,6 +12,7 @@ type SearchSelectPropsType = {
     enableDelete?: boolean,
     searchable?: boolean,
     disabled?: boolean,
+    title?: string,
 };
 
 const CustomSelect = ({
@@ -24,6 +25,7 @@ const CustomSelect = ({
     enableDelete = false,
     searchable = false,
     disabled = false,
+    title,
 }: SearchSelectPropsType): ReactElement => {
 
     const [inputValue, setInputValue] = useState<string>(currentSelectedOption);
@@ -163,7 +165,7 @@ const CustomSelect = ({
     }, [focusedOption]);
 
     return (
-        <div className={className}>
+        <div className={className} title={title}>
             <label>
                 <input
                     id={id}
@@ -184,7 +186,7 @@ const CustomSelect = ({
                     {enableDelete ?
                         inputValue === "" ?
                             <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
-                            <MdClose className="ddBtn" onMouseDown={handleReset} />
+                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
                         : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
                     }
                 </button>

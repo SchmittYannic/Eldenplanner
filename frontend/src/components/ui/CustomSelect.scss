@@ -171,7 +171,9 @@
     }
 
     &.disabled {
-        pointer-events: none;
+        * {
+            pointer-events: none;
+        }
 
         label input {
             color: v.$InputDisabledColor; //v.$default-label-font-color;
