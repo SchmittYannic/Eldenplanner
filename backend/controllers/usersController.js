@@ -43,16 +43,16 @@ const createNewUser = async (req, res) => {
         /* Check for duplicate */
         // if you use async await and expect a promise back u should use exec at the end.
         // collation to make sure it is case insensitive -> Hank and hank count as duplicates
-        const duplicateEmail = await User.findOne({ email: email.toLowerCase() }).lean().exec();
-
-        if (duplicateEmail) {
-            return res.status(409).json({ message: "Email already in use", context: { key: "email" } });
-        }
-
         const duplicateUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec();
 
         if (duplicateUsername) {
-            return res.status(409).json({ message: "Username already in use", context: { key: "username" } });
+            return res.status(409).json({ message: "Username already in use", context: { label: "username" } });
+        }
+
+        const duplicateEmail = await User.findOne({ email: email.toLowerCase() }).lean().exec();
+
+        if (duplicateEmail) {
+            return res.status(409).json({ message: "Email already in use", context: { label: "email" } });
         }
 
         /* hash password */
