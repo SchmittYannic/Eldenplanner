@@ -99,7 +99,10 @@ const createNewUser = async (req, res) => {
 
             // created user successfully
             res.status(201).json({ message: `Account successfully created`, accessToken });
-            emailVerificationSender(email);
+
+            if (process.env.NODE_ENV === "production") {
+                emailVerificationSender(email);
+            }
         } else {
             res.status(400).json({ message: "Invalid user data received" });
         }
