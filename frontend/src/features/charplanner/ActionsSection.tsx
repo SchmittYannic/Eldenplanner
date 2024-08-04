@@ -34,8 +34,8 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
                     Delete
                 </button>
             )}
-            {isDeleteTriggered && 
-                <DeleteBuild setTrigger={setIsDeleteTriggered} />
+            {isDeleteTriggered &&
+                <DeleteBuild callback={() => setIsDeleteTriggered(false)} />
             }
 
             <button
@@ -46,9 +46,9 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
                 disabled={status === "Visitor"}
             >
                 {isBuildAuthor ? "Update" : "Save"}
-            </button>          
-            {isSaveTriggered && 
-                <SaveBuild setTrigger={setIsSaveTriggered} />
+            </button>
+            {isSaveTriggered &&
+                <SaveBuild callback={() => setIsSaveTriggered(false)} />
             }
         </section>
     )

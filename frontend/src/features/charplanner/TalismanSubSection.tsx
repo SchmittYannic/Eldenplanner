@@ -39,10 +39,15 @@ const TalismanSubSection = (): ReactElement => {
         }
     };
 
+    const closeDialog = () => {
+        setIsConflict(false);
+        setConflictTalisman("");
+    };
+
     return (
         <div className="TalismanSubSection">
             {isConflict && (
-                <Dialog className="dialog__conflict" setDialog={setIsConflict}>
+                <Dialog className="dialog__conflict" callback={closeDialog}>
                     <DialogMain>
                         <DialogIcon>
                             <MdWarningAmber />
@@ -63,7 +68,7 @@ const TalismanSubSection = (): ReactElement => {
                         <button
                             className="button"
                             type="button"
-                            onClick={() => setIsConflict(false)}
+                            onClick={closeDialog}
                             title={"Close Dialog"}
                         >
                             Close

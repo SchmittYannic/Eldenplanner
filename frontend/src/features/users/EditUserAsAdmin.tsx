@@ -22,7 +22,9 @@ type EditUserAsAdminPropsType = {
     user: UserAsAdminType,
 }
 
-const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
+const EditUserAsAdmin = ({
+    user,
+}: EditUserAsAdminPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -45,10 +47,8 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
 
     const [responseMsg, setResponseMsg] = useState("");
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean) {
-            navigate(`/users`);
-        }
+    const closeDialog = () => {
+        navigate(`/users`);
     };
 
     const onSaveUserClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
@@ -63,7 +63,7 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
                 email
             }).unwrap();
 
-            closeDialog(false);
+            closeDialog();
             dispatch(addToast({ type: "success", text: message }));
         }
         catch (err: any) {
@@ -92,7 +92,7 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
         || roles !== user.roles;
 
     return (
-        <Dialog className="dialog__edituserasadmin" setDialog={(boolean: boolean) => closeDialog(boolean)}>
+        <Dialog className="dialog__edituserasadmin" callback={closeDialog}>
             <form action="" onSubmit={(e) => e.preventDefault()}>
                 <DialogMain>
                     <DialogIcon>
@@ -152,8 +152,6 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
                             optionsList={Object.values(ROLES)}
                         />
 
-                        <div className="divider-4" />
-
                         {isError ? (
                             <>
                                 <div className="divider-4" />
@@ -163,13 +161,15 @@ const EditUserAsAdmin = ({ user }: EditUserAsAdminPropsType): ReactElement => {
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => closeDialog(false)}
+                        onClick={closeDialog}
                         title={"Cancel Edit"}
                     >
                         Cancel

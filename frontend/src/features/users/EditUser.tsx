@@ -59,8 +59,8 @@ const EditUser = (): ReactElement => {
     const watchedEmail = watch("newEmail", "");
     const watchedPassword = watch("newPassword", "");
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean && params.userId) {
+    const closeDialog = () => {
+        if (params.userId) {
             navigate(`/user/${params.userId}`);
         }
     };
@@ -71,7 +71,7 @@ const EditUser = (): ReactElement => {
 
         try {
             const { message, accessToken } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
-            closeDialog(false);
+            closeDialog();
             dispatch(setCredentials({ accessToken }));
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
@@ -98,7 +98,7 @@ const EditUser = (): ReactElement => {
     }, [watchedUsername, watchedEmail, watchedPassword, username, email]);
 
     return (
-        <Dialog className="dialog__edituser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
+        <Dialog className="dialog__edituser" callback={closeDialog}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
@@ -149,8 +149,6 @@ const EditUser = (): ReactElement => {
                             error={errors.newPassword}
                         />
 
-                        <div className="divider-4" />
-
                         {(isError && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
@@ -160,13 +158,15 @@ const EditUser = (): ReactElement => {
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => closeDialog(false)}
+                        onClick={closeDialog}
                         title={"Cancel Edit"}
                     >
                         Cancel

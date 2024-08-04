@@ -41,10 +41,8 @@ const ContactDialog = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean) {
-            navigate(`/`);
-        }
+    const closeDialog = () => {
+        navigate(`/`);
     };
 
     const onSubmit: SubmitHandler<ContactFormType> = async (data) => {
@@ -71,7 +69,7 @@ const ContactDialog = () => {
                 email: "",
                 message: "",
             })
-            closeDialog(false);
+            closeDialog();
             dispatch(addToast({ type: "success", text: "message send" }));
         } catch (err) {
             setIsLoading(false);
@@ -80,7 +78,7 @@ const ContactDialog = () => {
     }
 
     return (
-        <Dialog className="dialog__contactform" setDialog={(boolean: boolean) => closeDialog(boolean)}>
+        <Dialog className="dialog__contactform" callback={closeDialog}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
@@ -137,13 +135,15 @@ const ContactDialog = () => {
                             </>
                         ) : (<></>)}
 
+                        <div className="divider-4" />
+
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => closeDialog(false)}
+                        onClick={closeDialog}
                         title={"Cancel Contact"}
                     >
                         Cancel

@@ -19,14 +19,16 @@ import {
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type DeleteBuildPropsType = {
-    setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
+    callback: Function,
 }
 
 type DeleteBuildFormType = {
     confirmdeletion: string,
 }
 
-const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
+const DeleteBuild = ({
+    callback,
+}: DeleteBuildPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -75,7 +77,7 @@ const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
     const isDELETE = watch("confirmdeletion", "") === "DELETE";
 
     return (
-        <Dialog className="dialog__deletebuild" setDialog={setTrigger}>
+        <Dialog className="dialog__deletebuild" callback={callback}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
@@ -103,8 +105,6 @@ const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
                             error={errors.confirmdeletion}
                         />
 
-                        <div className="divider-4" />
-
                         {(isError && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
@@ -114,13 +114,15 @@ const DeleteBuild = ({ setTrigger }: DeleteBuildPropsType): ReactElement => {
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => setTrigger(false)}
+                        onClick={() => callback()}
                         title="Cancel Deletion"
                     >
                         Cancel

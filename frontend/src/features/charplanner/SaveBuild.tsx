@@ -22,7 +22,7 @@ import {
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type SaveBuildPropsType = {
-    setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
+    callback: Function,
 }
 
 type SaveBuildFormType = {
@@ -30,7 +30,7 @@ type SaveBuildFormType = {
 }
 
 const SaveBuild = ({
-    setTrigger,
+    callback,
 }: SaveBuildPropsType): ReactElement => {
 
     const navigate = useNavigate();
@@ -89,7 +89,7 @@ const SaveBuild = ({
                 reset({
                     buildtitle: "",
                 });
-                setTrigger(false);
+                callback();
                 dispatch(addToast({ type: "success", text: message }));
             } else {
                 const { message, action } = await addNewBuild({
@@ -100,7 +100,7 @@ const SaveBuild = ({
                 reset({
                     buildtitle: "",
                 });
-                setTrigger(false);
+                callback();
                 navigate(`/charplanner/${action}`);
                 dispatch(addToast({ type: "success", text: message }));
             }
@@ -119,7 +119,7 @@ const SaveBuild = ({
     }
 
     return (
-        <Dialog className="dialog__savebuild" setDialog={setTrigger}>
+        <Dialog className="dialog__savebuild" callback={callback}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
@@ -145,8 +145,6 @@ const SaveBuild = ({
                             error={errors.buildtitle}
                         />
 
-                        <div className="divider-4" />
-
                         {((isUpdateError || isSaveError) && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
@@ -157,13 +155,14 @@ const SaveBuild = ({
                             </>
                         ) : (<></>)}
 
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => setTrigger(false)}
+                        onClick={() => callback()}
                         title={"Cancel " + buttonText}
                     >
                         Cancel

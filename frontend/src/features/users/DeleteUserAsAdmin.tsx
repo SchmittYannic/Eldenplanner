@@ -48,10 +48,8 @@ const DeleteUserAsAdmin = ({
 
     const [responseMsg, setResponseMsg] = useState("");
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean) {
-            navigate(`/users`);
-        }
+    const closeDialog = () => {
+        navigate(`/users`);
     };
 
     const onSubmit: SubmitHandler<DeleteUserAsAdminFormType> = async (data) => {
@@ -80,7 +78,7 @@ const DeleteUserAsAdmin = ({
     const isUsername = watch("confirmdeletion", "") === user.username;
 
     return (
-        <Dialog className="dialog__deleteuser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
+        <Dialog className="dialog__deleteuser" callback={closeDialog}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
@@ -122,9 +120,20 @@ const DeleteUserAsAdmin = ({
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={closeDialog}
+                        title={"Cancel deletion"}
+                    >
+                        Cancel
+                    </button>
+
                     <AsyncButton
                         isLoading={isLoading}
                         className="action-btn"
