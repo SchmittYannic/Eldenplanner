@@ -40,13 +40,15 @@ const login = async (req, res) => {
             if (knownIps.has(req.ip)) {
                 const { lastUnsuccessfulAttempt, countUnsuccessfulAttempts } = knownIps.get(req.ip);
                 const now = new Date();
+                //sinceLastFailedAttempt is calculating the amount of time that has passed since the lastUnsuccessfulAttempt, measured in half-hour intervals.
                 const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60 * 30);
 
+                // if last failed attempt is over 30 minutes in the past
                 if (sinceLastFailedAttempt >= 1) {
                     // if last attempt was far enough in the past reset entry
                     knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1 });
-                } else if (countUnsuccessfulAttempts >= 3) {
-                    // else check if attempts exceed limit of 3
+                } else if (countUnsuccessfulAttempts >= 10) {
+                    // else check if attempts exceed limit
                     knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1 })
                     return res.status(429).json({ message: "Too many failed login attempts" })
                 } else {
