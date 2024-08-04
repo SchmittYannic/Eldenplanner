@@ -8,7 +8,7 @@ const loginLimiter = rateLimit({
         { message: "Too many login attempts from this IP, please try again after a 60 second pause" },
     handler: (req, res, next, options) => {
         // handles what happens once limit is achieved
-        logEvents(`Too Many Requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log')
+        logEvents(`Too Many Requests to route /auth: ${req.method}\t${req.ip}`, 'rateLimitLog.log')
         res.status(options.statusCode).send(options.message)
     },
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
@@ -22,7 +22,7 @@ const signupLimiter = rateLimit({
         { message: "You already successfully created an account" },
     handler: (req, res, next, options) => {
         // handles what happens once limit is achieved
-        logEvents(`Too Many Requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`, 'errLog.log')
+        logEvents(`Too Many Requests to route /users: ${req.method}\t${req.ip}`, 'rateLimitLog.log')
         res.status(options.statusCode).send(options.message)
     },
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
