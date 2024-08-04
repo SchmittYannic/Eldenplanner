@@ -86,7 +86,16 @@ const Charplanner = (): ReactElement => {
                     </>
                 )}
                 <div className="divider-4" />
+                <p>
+                    Please be aware that Elden Ring calculations can be quite intricate, so some may be incomplete or inaccurate. If you come across any errors or missing information, feel free to reach out to us <Link to={"/contactform"}>here</Link>.
+                </p>
+                <div className="divider-2" />
+                <div className="divider-1" />
+                <p>
+                    Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.13.1.</span>
+                </p>
                 <div className="divider-4" />
+                <div className="divider-2" />
             </div>
 
             <div className="Charplanner">
