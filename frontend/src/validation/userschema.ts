@@ -1,11 +1,11 @@
 import { object, string } from "yup";
 
 const usernameschema = string()
-    .min(4, "Username must be atleast 4 characters long")
     .max(20, "Username cannot be more than 20 characters long")
-    .matches(/^\S.*\S$|^\S$/, "Username cannot contain leading or trailing spaces")
-    .matches(/^[A-Za-z]/, "Username must start with a letter")
-    .matches(/^[A-Za-z0-9_-]+$/, "Usernames can only consist of letters, digits, hyphens and underscores")
+    .matches(/^(.{4,20})?$/, "Username must be between 4 and 20 characters long")
+    .matches(/^$|^\S.*\S$|^\S$/, "Username cannot contain leading or trailing spaces")
+    .matches(/^$|^[A-Za-z]/, "Username must start with a letter")
+    .matches(/^$|^[A-Za-z0-9_-]+$/, "Usernames can only consist of letters, digits, hyphens and underscores")
 
 const emailschema = string().email("Invalid email format")
     .max(80, "Email cannot be more than 80 characters long")
