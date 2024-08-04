@@ -1,5 +1,20 @@
 @use "../../Variables" as v;
 
+.charplanner__header {
+    width: 100%;
+    padding-left: v.$FormPaddingLeft;
+    padding-right: v.$FormPaddingRight;
+
+    h1 {
+        text-align: center;
+    }
+
+    p {
+        line-height: 1.25rem;
+        color: hsl(v.$muted-foreground);
+    }
+}
+
 .Charplanner {
     min-width: v.$min-page-width;
     background-color: v.$default-background-color;
