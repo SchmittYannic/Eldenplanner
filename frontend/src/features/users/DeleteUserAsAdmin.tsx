@@ -1,10 +1,11 @@
 import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdWarningAmber } from "react-icons/md";
 
-import { UserAsAdminType, useDeleteUserAsAdminMutation } from "./usersAsAdminApiSlice";
-import { addToast } from "../../components/toastSlice";
+import { UserAsAdminType, useDeleteUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import {
     AsyncButton,
     Dialog,
@@ -12,14 +13,21 @@ import {
     DialogContent,
     DialogIcon,
     DialogMain,
-    FormInput,
-} from "../../components/ui";
+    Input,
+} from "src/components/ui";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type DeleteUserAsAdminPropsType = {
     user: UserAsAdminType,
 };
 
-const DeleteUserAsAdmin = ({ user }: DeleteUserAsAdminPropsType): ReactElement => {
+type DeleteUserAsAdminFormType = {
+    confirmdeletion: string,
+};
+
+const DeleteUserAsAdmin = ({
+    user,
+}: DeleteUserAsAdminPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -29,85 +37,114 @@ const DeleteUserAsAdmin = ({ user }: DeleteUserAsAdminPropsType): ReactElement =
         isError,
     }] = useDeleteUserAsAdminMutation();
 
-    const [inputValue, setInputValue] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm<DeleteUserAsAdminFormType>();
+
     const [responseMsg, setResponseMsg] = useState("");
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean) {
-            navigate(`/users`);
-        }
+    const closeDialog = () => {
+        navigate(`/users`);
     };
 
-    const onConfirmDeletionClicked = async () => {
+    const onSubmit: SubmitHandler<DeleteUserAsAdminFormType> = async (data) => {
         try {
+            setResponseMsg("");
             const { message } = await DeleteUserAsAdmin(user).unwrap();
+            reset({
+                confirmdeletion: "",
+            });
             navigate("/users");
             dispatch(addToast({ type: "success", text: message }));
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg("");
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
     };
 
-    const isUsername = inputValue === user.username;
+    const isUsername = watch("confirmdeletion", "") === user.username;
 
     return (
-        <Dialog className="dialog__deleteuser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
-            <DialogMain>
-                <DialogIcon>
-                    <MdWarningAmber />
-                </DialogIcon>
-                <DialogContent>
-                    <h3>Confirm User Deletion</h3>
+        <Dialog className="dialog__deleteuser" callback={closeDialog}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <DialogMain>
+                    <DialogIcon>
+                        <MdWarningAmber />
+                    </DialogIcon>
+                    <DialogContent>
+                        <h3>Confirm User Deletion</h3>
 
-                    <div className="divider-4" />
+                        <div className="divider-4" />
 
-                    <p>
-                        Are you sure you want to delete this build?
-                        Deleted builds are unrecoverable and lost forever.
-                    </p> 
+                        <p>
+                            Are you sure you want to delete the user: <span style={{ fontWeight: "500", color: "white" }}>{user.username}</span> ?
+                        </p>
 
-                    <div className="divider-4" />
+                        <div className="divider-2" />
 
-                    <FormInput
-                        id="confirm-user-deletion"
-                        name="confirm-user-deletion"
-                        type="text"
-                        label="To Confirm, type the Username in the field below"
-                        maxLength={20}
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        autoComplete="off"
-                    />
+                        <p>
+                            Deleted users and their builds are unrecoverable and lost forever.
+                        </p>
 
-                    {isError ? (
-                        <>
-                            <div className="divider-4" />
-                            <div className="sm-alert errmsg full">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{responseMsg}</span>
-                            </div>
-                        </>
-                    ) : (<></>)}
-                </DialogContent>
-            </DialogMain>
-            <DialogButtons>
-                <AsyncButton
-                    isLoading={isLoading}
-                    className="action-btn"
-                    type="submit"
-                    onClick={onConfirmDeletionClicked}
-                    disabled={!isUsername}
-                    title={!isUsername ? "type the username into the field above" : "Confirm Deletion"}
-                >
-                    Delete
-                </AsyncButton>
-            </DialogButtons>
+                        <div className="divider-4" />
+
+                        <Input
+                            name="confirmdeletion"
+                            type="text"
+                            label="To Confirm, type the Username in the field below"
+                            autoComplete="off"
+                            maxLength={20}
+                            register={register("confirmdeletion", { required: true })}
+                            error={errors.confirmdeletion}
+                        />
+
+                        {(isError && responseMsg) ? (
+                            <>
+                                <div className="divider-4" />
+                                <div className="sm-alert errmsg full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{responseMsg}</span>
+                                </div>
+                            </>
+                        ) : (<></>)}
+
+                        <div className="divider-4" />
+                    </DialogContent>
+                </DialogMain>
+                <DialogButtons>
+                    <button
+                        className="button"
+                        type="button"
+                        onClick={closeDialog}
+                        title={"Cancel deletion"}
+                    >
+                        Cancel
+                    </button>
+
+                    <AsyncButton
+                        isLoading={isLoading}
+                        className="action-btn"
+                        type="submit"
+                        disabled={!isUsername || isLoading}
+                        title={!isUsername ? "type the username into the field above" : "Confirm Deletion"}
+                    >
+                        Delete
+                    </AsyncButton>
+                </DialogButtons>
+            </form>
         </Dialog>
     )
 }

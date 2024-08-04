@@ -1,12 +1,14 @@
-import { ReactElement, ChangeEvent, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { MdEdit } from "react-icons/md";
 
-import { useUpdateUserMutation } from "./usersApiSlice";
-import { setCredentials } from "../auth/authSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { useUpdateUserMutation } from "src/features/users/usersApiSlice";
+import { setCredentials } from "src/features/auth/authSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -14,8 +16,17 @@ import {
     DialogIcon,
     DialogContent,
     DialogButtons,
-    FormInput,
-} from "../../components/ui";
+    Input,
+    InputPassword,
+} from "src/components/ui";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { edituserschema } from "src/validation/userschema";
+
+type EditUserFormType = {
+    newUsername: string,
+    newEmail: string,
+    newPassword?: string | undefined,
+}
 
 const EditUser = (): ReactElement => {
 
@@ -29,42 +40,69 @@ const EditUser = (): ReactElement => {
         isError,
     }] = useUpdateUserMutation();
 
-    const [newUsername, setNewUsername] = useState(username);
-    const [newEmail, setNewEmail] = useState(email);
-    const [newPassword, setNewPassword] = useState("");
-
-    const onNewUsernameChange = (e: ChangeEvent<HTMLInputElement>) => setNewUsername(e.target.value);
-    const onNewEmailChange = (e: ChangeEvent<HTMLInputElement>) => setNewEmail(e.target.value);
-    const onNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value);
+    const {
+        register,
+        handleSubmit,
+        setError,
+        watch,
+        formState: { errors },
+    } = useForm<EditUserFormType>({
+        defaultValues: {
+            newUsername: username,
+            newEmail: email,
+            newPassword: "",
+        },
+        resolver: yupResolver(edituserschema),
+    });
 
     const [responseMsg, setResponseMsg] = useState("");
+    const [areDetailsChanged, setAreDetailsChanged] = useState(false);
 
-    const closeDialog = (boolean: boolean) => {
-        if (!boolean && params.userId) {
+    const watchedUsername = watch("newUsername", "");
+    const watchedEmail = watch("newEmail", "");
+    const watchedPassword = watch("newPassword", "");
+
+    const closeDialog = () => {
+        if (params.userId) {
             navigate(`/user/${params.userId}`);
         }
     };
 
-    const onSaveClicked = async () => {
+    const onSubmit: SubmitHandler<EditUserFormType> = async (data) => {
+        const { newUsername, newEmail, newPassword } = data;
+        setResponseMsg("");
+
         try {
             const { message, accessToken } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
-            closeDialog(false);
+            closeDialog();
             dispatch(setCredentials({ accessToken }));
             dispatch(addToast({ type: "success", text: message }));
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 409].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg("");
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
     };
 
+    useEffect(() => {
+        const hasChanged =
+            watchedUsername !== username ||
+            watchedEmail !== email ||
+            watchedPassword !== "";
+
+        setAreDetailsChanged(hasChanged);
+    }, [watchedUsername, watchedEmail, watchedPassword, username, email]);
+
     return (
-        <Dialog className="dialog__edituser" setDialog={(boolean: boolean) => closeDialog(boolean)}>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+        <Dialog className="dialog__edituser" callback={closeDialog}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
                         <MdEdit />
@@ -76,50 +114,45 @@ const EditUser = (): ReactElement => {
 
                         <p>
                             Change your account details below and click save to confirm.
-                        </p>         
+                        </p>
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="edit-username"
-                            name="edit-username"
+                        <Input
+                            name="newUsername"
                             type="text"
                             label="Username"
-                            maxLength={20}
-                            value={newUsername}
-                            onChange={onNewUsernameChange}
                             autoComplete="off"
+                            maxLength={20}
+                            register={register("newUsername")}
+                            error={errors.newUsername}
                         />
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="edit-email"
-                            name="edit-email"
+                        <Input
+                            name="newEmail"
                             type="email"
                             label="Email"
-                            maxLength={320}
-                            value={newEmail}
-                            onChange={onNewEmailChange}
                             autoComplete="off"
+                            maxLength={80}
+                            register={register("newEmail")}
+                            error={errors.newEmail}
                         />
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="edit-password"
-                            name="edit-password"
+                        <InputPassword
+                            name="newPassword"
                             className="input-password"
-                            type="password"
-                            label="Password"
-                            value={newPassword}
-                            onChange={onNewPasswordChange}
+                            label="New Password"
                             autoComplete="off"
+                            maxLength={80}
+                            register={register("newPassword")}
+                            error={errors.newPassword}
                         />
 
-                        <div className="divider-4" />
-
-                        {isError ? (
+                        {(isError && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
                                 <div className="sm-alert errmsg full">
@@ -128,13 +161,15 @@ const EditUser = (): ReactElement => {
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => closeDialog(false)}
+                        onClick={closeDialog}
                         title={"Cancel Edit"}
                     >
                         Cancel
@@ -144,7 +179,7 @@ const EditUser = (): ReactElement => {
                         isLoading={isLoading}
                         className="action-btn"
                         type="submit"
-                        onClick={onSaveClicked}
+                        disabled={!areDetailsChanged || isLoading}
                         title="Edit Account"
                     >
                         Save

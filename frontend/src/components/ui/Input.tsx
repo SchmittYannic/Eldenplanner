@@ -1,21 +1,21 @@
-import { ReactElement, useId, PropsWithChildren, TextareaHTMLAttributes } from "react"
+import { PropsWithChildren, InputHTMLAttributes, useId } from "react";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
-type FormTextAreaPropsType<T extends string> = PropsWithChildren<{
+type InputPropsType<T extends string> = PropsWithChildren<{
     name: T,
     register?: UseFormRegisterReturn<T>,
     label?: string,
     error?: FieldError,
-}> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "id">;
+}> & Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "id">;
 
-const FormTextArea = <T extends string>({
+const Input = <T extends string>({
     register,
     name,
     error,
     label = "",
     children,
     ...rest
-}: FormTextAreaPropsType<T>): ReactElement => {
+}: InputPropsType<T>) => {
 
     const id = useId();
 
@@ -31,19 +31,19 @@ const FormTextArea = <T extends string>({
                     <div className="divider-1" />
                 </>
             )}
-            <textarea
+            <input
                 id={id}
                 {...(register ? register : {})}
                 {...rest}
-            >
-            </textarea>
+            />
             {error &&
                 <p className="text-sm errmsg-input">
                     {errorMsg}
                 </p>
             }
+            {children}
         </div>
     )
 }
 
-export default FormTextArea
+export default Input

@@ -20,7 +20,7 @@ const emailVerificationSender = (email) => {
         },
         process.env.EMAIL_VERIFICATION_TOKEN_SECRET,
         {
-            expiresIn: process.env.EXPIRATION_VERIFICATION_TOKEN
+            expiresIn: process.env.EXPIRATION_VERIFICATION_TOKEN + "s"
         },
     );
 
@@ -42,7 +42,7 @@ const emailVerificationSender = (email) => {
         Thanks</p>`,
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             logEvents(`VerificationEmailSender Error for: ${email}`, "VerificationMailErrorLog.log");
         } else {

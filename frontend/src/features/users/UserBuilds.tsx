@@ -4,7 +4,7 @@ import { BuildType, useGetBuildsQuery } from "../builds/buildsApiSlice";
 import { UserType } from "./usersApiSlice";
 import { calcSumObjectValues } from "../../utils/functions";
 import UserBuildsList from "./UserBuildsList";
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 
 type PropsType = {
     author: UserType,

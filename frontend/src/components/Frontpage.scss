@@ -4,7 +4,7 @@
     padding: 4rem 0;
 }
 
-.frontpage .action-btn {
+.frontpage .action-btn:not(#dialog .action-btn) {
     padding: 1.5rem 1.5rem;
     font-size: 1.25rem;
     max-width: fit-content;
@@ -83,6 +83,10 @@
 
                 &:visited {
                     color: v.$gold;
+                }
+
+                &:hover {
+                    color: hsla(v.$elden-ring-color)
                 }
             }
         }
@@ -237,19 +241,19 @@
         margin: 0 auto 2rem auto;
     }
 
-    p {
-        max-width: 420px;
-        font-size: 1.2rem;
-        line-height: 2rem;
-        font-weight: 400;
-    }
-
     .contact-section-text {
         max-width: 700px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        >p {
+            max-width: 420px;
+            font-size: 1.2rem;
+            line-height: 2rem;
+            font-weight: 400;
+        }
     }
 }
 
@@ -412,7 +416,7 @@
         line-height: 1.85rem;
     }
 
-    .frontpage .action-btn {
+    .frontpage .action-btn:not(#dialog .action-btn) {
         padding: 1.25rem 1.25rem;
         font-size: 1rem;
     }

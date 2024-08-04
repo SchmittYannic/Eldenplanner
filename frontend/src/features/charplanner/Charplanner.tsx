@@ -2,18 +2,22 @@ import { ReactElement, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
-import { RootState } from "../../app/store";
-import { CharplannerStateType, loadBuild, resetCharplanner } from "./charplannerSlice";
-import { selectUserById, UserType } from "../users/usersApiSlice";
+import { RootState } from "src/app/store";
+import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
+import { selectUserById, UserType } from "src/features/users/usersApiSlice";
+import {
+    CharplannerStateType,
+    loadBuild,
+    resetCharplanner,
+} from "src/features/charplanner/charplannerSlice";
 
-import CharacterSection from "./CharacterSection";
-import EquipmentSection from "./EquipmentSection";
-import InfoSection from "./InfoSection";
-import ActionsSection from "./ActionsSection";
-import "./Charplanner.scss";
-import useAuth from "../../hooks/useAuth";
-import useWindowSize from "../../hooks/useWindowSize";
+import useAuth from "src/hooks/useAuth";
+import useWindowSize from "src/hooks/useWindowSize";
+import CharacterSection from "src/features/charplanner/CharacterSection";
+import EquipmentSection from "src/features/charplanner/EquipmentSection";
+import InfoSection from "src/features/charplanner/InfoSection";
+import ActionsSection from "src/features/charplanner/ActionsSection";
+import "src/features/charplanner/Charplanner.scss";
 
 const Charplanner = (): ReactElement => {
 
@@ -77,16 +81,25 @@ const Charplanner = (): ReactElement => {
         <main>
             <div className="charplanner__header">
                 <h1>Eldenring Character Planner</h1>
+                <div className="divider-4" />
+                <p>
+                    Please be aware that Elden Ring calculations can be quite intricate, so some may be incomplete or inaccurate. If you come across any errors or missing information, feel free to reach out to us <Link to={"/contactform"}>here</Link>.
+                </p>
+                <div className="divider-2" />
+                <div className="divider-1" />
+                <p>
+                    Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.13.1.</span>
+                </p>
                 {buildAuthor && (
                     <>
                         <div className="divider-4" />
-                        <p>
-                            <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
+                        <p style={{ color: "white" }}>
+                            Loaded Build: <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
                         </p>
                     </>
                 )}
                 <div className="divider-4" />
-                <div className="divider-4" />
+                <div className="divider-2" />
             </div>
 
             <div className="Charplanner">

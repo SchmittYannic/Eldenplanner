@@ -25,6 +25,7 @@ const ArmorSubSection = (): ReactElement => {
                 label="Head"
                 enableDelete={true}
                 searchable={true}
+                title="Select head protector"
             />
             <CustomSelect
                 id="chest"
@@ -34,6 +35,7 @@ const ArmorSubSection = (): ReactElement => {
                 label="Chest"
                 enableDelete={true}
                 searchable={true}
+                title="Select chest protector"
             />
             <CustomSelect
                 id="hands"
@@ -43,6 +45,7 @@ const ArmorSubSection = (): ReactElement => {
                 label="Hands"
                 enableDelete={true}
                 searchable={true}
+                title="Select hands protector"
             />
             <CustomSelect
                 id="legs"
@@ -52,6 +55,7 @@ const ArmorSubSection = (): ReactElement => {
                 label="Legs"
                 enableDelete={true}
                 searchable={true}
+                title="Select legs protector"
             />
         </div>
     )

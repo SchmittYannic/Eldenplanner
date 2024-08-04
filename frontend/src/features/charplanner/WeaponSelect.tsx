@@ -29,7 +29,9 @@ const WeaponSelect = ({ id, label }: PropsType): ReactElement => {
         dispatch(armamentReduceractionsMap[idAffinity as keyof ArmamentReduceractionsMapType](""));
         dispatch(armamentReduceractionsMap[idAow as keyof ArmamentReduceractionsMapType](""))
         dispatch(armamentReduceractionsMap[idWeapon as keyof ArmamentReduceractionsMapType](input));
-    }
+    };
+
+    const tooltipText = `Select Armament in ${id}`;
 
     return (
         <CustomSelect
@@ -40,6 +42,7 @@ const WeaponSelect = ({ id, label }: PropsType): ReactElement => {
             label={label}
             enableDelete={true}
             searchable={true}
+            title={tooltipText}
         />
     )
 }

@@ -17,7 +17,7 @@ const TalismanSubSection = (): ReactElement => {
     const talisman = useSelector(selectTalisman);
 
     const [isConflict, setIsConflict] = useState(false);
-    const [alertContent, setAlertContent] = useState("");
+    const [conflictTalisman, setConflictTalisman] = useState("");
     const TalismanSlots: string[] = ["talisman1", "talisman2", "talisman3", "talisman4"];
 
     const setSelectedTalisman = (value: string, slot: string) => {
@@ -33,16 +33,21 @@ const TalismanSubSection = (): ReactElement => {
         } else if (value && conflicts.includes(TalismansData[value]["accessoryGroup"])) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
             setIsConflict(true);
-            setAlertContent(`The selected Talisman "${value}" is in conflict with a Talisman in a different slot.`);
+            setConflictTalisman(value);
         } else {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
         }
     };
 
+    const closeDialog = () => {
+        setIsConflict(false);
+        setConflictTalisman("");
+    };
+
     return (
         <div className="TalismanSubSection">
             {isConflict && (
-                <Dialog className="dialog__conflict" setDialog={setIsConflict}>
+                <Dialog className="dialog__conflict" callback={closeDialog}>
                     <DialogMain>
                         <DialogIcon>
                             <MdWarningAmber />
@@ -52,7 +57,9 @@ const TalismanSubSection = (): ReactElement => {
 
                             <div className="divider-4" />
 
-                            <p>{alertContent}</p>
+                            <p>
+                                The selected Talisman <span style={{ color: "white" }}>{`"${conflictTalisman}"`}</span> is in conflict with a Talisman in a different slot.
+                            </p>
 
                             <div className="divider-4" />
                         </DialogContent>
@@ -61,7 +68,7 @@ const TalismanSubSection = (): ReactElement => {
                         <button
                             className="button"
                             type="button"
-                            onClick={() => setIsConflict(false)}
+                            onClick={closeDialog}
                             title={"Close Dialog"}
                         >
                             Close
@@ -79,6 +86,7 @@ const TalismanSubSection = (): ReactElement => {
                     label={"Talisman " + slot.slice(-1)}
                     enableDelete={true}
                     searchable={true}
+                    title={`Select Talisman in slot #${idx + 1}`}
                 />
             )}
         </div>

@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import 'express-async-errors'; 
+import 'express-async-errors';
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,14 +20,16 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.disable('x-powered-by');
 const PORT = process.env.PORT || 3500;
 console.log(process.env.NODE_ENV);
 connectDB();
+const db = mongoose.connection;
 app.use(logger);
 app.use(cors(corsOptions));
 app.use(express.json()); // lets app receive and parse json data
 app.use(cookieParser());
-//app.set("trust proxy", true);
+app.set("trust proxy", 1);
 // __dirname is a global variable -> look inside the folder we are in
 // look inside the public folder for static files (css, img, etc.)
 // alternative: app.use(express.static("public"));
@@ -57,13 +59,29 @@ app.all("*", (req, res) => {
 app.use(errorHandler);
 
 // listening for the open event
-mongoose.connection.once("open", () => {
+db.once("open", () => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+    // stream watching if document from users collection is deleted
+    const userDeleteStream = db.collection("users").watch([
+        { $match: { operationType: "delete" } }
+    ]);
+
+    // whenever a user gets deleted trigger cascade delete for all associated builds
+    userDeleteStream.on("change", async (change) => {
+        try {
+            const deletedUserId = change.documentKey._id;
+            const buildsCollection = db.collection("builds");
+            await buildsCollection.deleteMany({ user: deletedUserId });
+        } catch (err) {
+            logEvents(`"userDeleteStream": ${change.documentKey._id}\t${err}`, "streamErrLog.log");
+        }
+    })
 });
 
 // listen to error
-mongoose.connection.on("error", err => {
+db.on("error", err => {
     console.log(err);
     logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log');
 });

@@ -1,11 +1,11 @@
-@use "../../Variables" as v;
+@use "src/Variables" as v;
 
-.InputForm {
+.charplanner__textinput {
     position: relative;
     padding: v.$FormPadding;
 
     label:hover {
-        color: v.$default-hover-label-font-color; 
+        color: v.$default-hover-label-font-color;
 
         input {
             color: v.$default-hover-font-color;
@@ -17,7 +17,7 @@
         position: relative;
         color: v.$default-label-font-color;
         font-size: v.$default-label-font-size;
-        background-color: v.$default-label-background-color; 
+        background-color: v.$default-label-background-color;
         cursor: v.$default-label-cursor;
 
         p {
@@ -31,7 +31,7 @@
             height: v.$InputHeight;
             padding: v.$InputPadding;
             caret-color: v.$default-focus-label-font-color;
-    
+
             color: v.$default-font-color;
             font-family: v.$default-font-family;
             font-size: v.$default-font-size;
@@ -48,15 +48,15 @@
                 border-radius: v.$default-focus-border-radius;
             }
 
-            &:not(:placeholder-shown) + p,
-            &:focus + p {
+            &:not(:placeholder-shown)+p,
+            &:focus+p {
                 font-size: v.$default-focus-label-font-size;
                 top: v.$default-focus-label-y-offset;
                 left: v.$default-focus-label-x-offset;
                 cursor: v.$default-focus-label-cursor;
             }
 
-            &:focus + p {
+            &:focus+p {
                 color: v.$default-focus-label-font-color;
             }
         }

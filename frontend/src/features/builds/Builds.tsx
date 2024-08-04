@@ -3,7 +3,7 @@ import { ClipLoader } from "react-spinners";
 import { calcSumObjectValues } from "../../utils/functions";
 import BuildsList from "./BuildsList";
 import { UserType, useGetUsersQuery } from "../users/usersApiSlice";
-import { isCustomError } from "../../app/api/apiSlice";
+import { isCustomError } from "src/utils/typeguards";
 
 const Builds = () => {
 
@@ -35,15 +35,11 @@ const Builds = () => {
 
         const runelevel = sumStats - 79;
 
-        if (!author) {
-            throw new Error("Builds tableData not complete");
-        }
-
         return {
             buildId: build.id,
             authorId: build.user,
             title: build.title,
-            author: author.username,
+            author: author ? author.username : null,
             level: runelevel,
             stars: 0,
             createdAt: build.createdAt,

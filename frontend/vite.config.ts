@@ -18,5 +18,10 @@ export default defineConfig(({ command, mode }) => {
       react(),
       pluginRewriteAll(),
     ],
+    resolve: {
+      alias: {
+        src: "/src",
+      }
+    }
   };
 });

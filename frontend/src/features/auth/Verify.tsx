@@ -1,9 +1,18 @@
-import { ChangeEvent, MouseEvent, KeyboardEvent, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useSendVerificationEmailMutation } from "./authApiSlice";
-import useWindowSize from "../../hooks/useWindowSize";
-import { AsyncButton, FormInput } from "../../components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "../../assets";
+import useWindowSize from "src/hooks/useWindowSize";
+import { useSendVerificationEmailMutation } from "src/features/auth/authApiSlice";
+import { AsyncButton, Input } from "src/components/ui";
+import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { verifyschema } from "src/validation/userschema";
+
+type VerifyType = {
+    email: string,
+}
 
 const Verify = () => {
 
@@ -16,27 +25,39 @@ const Verify = () => {
         isSuccess,
     }] = useSendVerificationEmailMutation();
 
-    const [email, setEmail] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm<VerifyType>({
+        resolver: yupResolver(verifyschema),
+    });
 
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-
-    const onSubmitClicked = async (e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit: SubmitHandler<VerifyType> = async (formdata) => {
         try {
-            const { message } = await sendVerificationEmail(email).unwrap();
+            setResponseMsg("");
+            const { message } = await sendVerificationEmail(formdata.email).unwrap();
+            reset({
+                email: "",
+            });
             setResponseMsg(message);
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if (err.status === 400) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, formdata)) {
+                setResponseMsg("");
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
+    }
 
     return (
         <main id="verifypage" className="splitpage1">
@@ -66,33 +87,31 @@ const Verify = () => {
                     </div>
 
                     <div className="splitpage1__form-wrapper">
-                        <form
-                            className="splitpage1__form"
-                            method="post"
-                            onSubmit={(e) => e.preventDefault()}
-                        >
-                            <FormInput
-                                id="verify-email"
-                                name="verify-email"
-                                type="email"
-                                label="Email"
-                                maxLength={320}
-                                value={email}
-                                onChange={onEmailChange}
-                                autoComplete="off"
-                                placeholder="name@example.com"
-                            />
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            {!isSuccess &&
+                                <>
+                                    <Input
+                                        name="email"
+                                        type="email"
+                                        label="Email"
+                                        autoComplete="off"
+                                        placeholder="name@example.com"
+                                        maxLength={80}
+                                        register={register("email")}
+                                        error={errors.email}
+                                    />
+                                    <div className="divider-4" />
+                                </>
+                            }
 
-                            <div className="divider-4" />
-
-                            {isSuccess && (
+                            {(isSuccess && responseMsg) && (
                                 <div className="sm-alert succmsg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>{responseMsg}</span>
                                 </div>
                             )}
 
-                            {isError && (
+                            {(isError && responseMsg) && (
                                 <div className="sm-alert errmsg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>{responseMsg}</span>
@@ -101,19 +120,28 @@ const Verify = () => {
 
                             <div className="divider-4" />
 
-                            <AsyncButton
-                                isLoading={isLoading}
-                                className="action-btn full"
-                                type="submit"
-                                onClick={onSubmitClicked}
-                                disabled={isLoading ? true : false}
-                                title="submit verification email request"
-                            >
-                                Submit
-                            </AsyncButton>
+                            {!isSuccess &&
+                                <AsyncButton
+                                    isLoading={isLoading}
+                                    className="action-btn full"
+                                    type="submit"
+                                    disabled={isLoading ? true : false}
+                                    title="submit verification email request"
+                                >
+                                    Submit
+                                </AsyncButton>
+                            }
+
+                            {isSuccess &&
+                                <>
+                                    <p style={{ textAlign: "center" }}>
+                                        Go back to main page - <Link to="/">Here</Link>
+                                    </p>
+                                </>
+                            }
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </main>

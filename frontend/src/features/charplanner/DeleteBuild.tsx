@@ -1,11 +1,12 @@
 import { ReactElement, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdWarningAmber } from "react-icons/md";
 
-import { useDeleteBuildMutation } from "./charplannerApiSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { useDeleteBuildMutation } from "src/features/charplanner/charplannerApiSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -13,14 +14,21 @@ import {
     DialogContent,
     DialogIcon,
     DialogMain,
-    FormInput,
-} from "../../components/ui";
+    Input,
+} from "src/components/ui";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
-type PropsType = {
-    setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
+type DeleteBuildPropsType = {
+    callback: Function,
 }
 
-const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
+type DeleteBuildFormType = {
+    confirmdeletion: string,
+}
+
+const DeleteBuild = ({
+    callback,
+}: DeleteBuildPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -32,30 +40,45 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
         isError,
     }] = useDeleteBuildMutation();
 
-    const [inputValue, setInputValue] = useState("");
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm<DeleteBuildFormType>();
+
     const [responseMsg, setResponseMsg] = useState("");
 
-    const onConfirmDeletionClicked = async () => {
+    const onSubmit: SubmitHandler<DeleteBuildFormType> = async (data) => {
         try {
+            setResponseMsg("");
             const { message } = await deleteBuild(params.buildId).unwrap();
+            reset({
+                confirmdeletion: "",
+            });
             navigate(`/user/${userId}`);
             dispatch(addToast({ type: "success", text: message }));
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg("");
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
+    }
 
-    const isDELETE = inputValue === "DELETE";
+    const isDELETE = watch("confirmdeletion", "") === "DELETE";
 
     return (
-        <Dialog className="dialog__deletebuild" setDialog={setTrigger}>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+        <Dialog className="dialog__deletebuild" callback={callback}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
                         <MdWarningAmber />
@@ -64,28 +87,25 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                         <h3>Confirm Build Deletion</h3>
 
                         <div className="divider-4" />
-        
+
                         <p>
                             Are you sure you want to delete this build?
                             Deleted builds are unrecoverable and lost forever.
-                        </p> 
+                        </p>
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="confirmdeletion"
+                        <Input
                             name="confirmdeletion"
                             type="text"
                             label="To Confirm, type DELETE in the field below"
-                            maxLength={20}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
                             autoComplete="off"
+                            maxLength={20}
+                            register={register("confirmdeletion", { required: true })}
+                            error={errors.confirmdeletion}
                         />
 
-                        <div className="divider-4" />
-
-                        {isError ? (
+                        {(isError && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
                                 <div className="sm-alert errmsg full">
@@ -94,13 +114,15 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                                 </div>
                             </>
                         ) : (<></>)}
+
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => setTrigger(false)}
+                        onClick={() => callback()}
                         title="Cancel Deletion"
                     >
                         Cancel
@@ -110,8 +132,7 @@ const DeleteBuild = ({ setTrigger }: PropsType): ReactElement => {
                         isLoading={isLoading}
                         className="action-btn"
                         type="submit"
-                        onClick={onConfirmDeletionClicked}
-                        disabled={!isDELETE}
+                        disabled={!isDELETE || isLoading}
                         title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}
                     >
                         Delete

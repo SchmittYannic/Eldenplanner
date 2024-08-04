@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as EmailValidator from "email-validator";
 import nodemailer from "nodemailer";
 import User from "../models/User.js";
-import Tokens from "../models/Tokens.js";
+import Resetpasswordtoken from "../models/Resetpasswordtoken.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
+import { emailschema, passwordschema } from "../validation/userschema.js";
+import { parseError } from "../utils/helpers.js";
 import { logEvents } from "../middleware/logger.js";
 
 // from: https://stackoverflow.com/questions/69504697/express-rate-limit-for-login-route
@@ -14,84 +15,93 @@ let knownIps = new Map();
 // @route POST /auth
 // @access Public
 const login = async (req, res) => {
+    try {
+        const { user, password } = req.body;
 
-    const { user, password } = req.body;
+        if (!user) {
+            return res.status(400).json({ message: "User field is required", context: { label: "user" } });
+        }
 
-    if (!user || !password) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
+        if (!password) {
+            return res.status(400).json({ message: "Password field is required", context: { label: "password" } });
+        }
 
-    const foundUsername = await User.findOne({ username: user }).exec();
-    const foundEmail = await User.findOne({ email: user }).exec();
-    const foundUser = foundUsername ?? foundEmail;
+        const foundUsername = await User.findOne({ username: user }).exec();
+        const foundEmail = await User.findOne({ email: user }).exec();
+        const foundUser = foundUsername ?? foundEmail;
 
-    if (!foundUser) {
-        return res.status(401).json({ message: "No User with this username or email found" });
-    }
+        if (!foundUser) {
+            return res.status(401).json({ message: "No User with this username or email found", context: { label: "user" } });
+        }
 
-    const match = await bcrypt.compare(password, foundUser.password);
+        const match = await bcrypt.compare(password, foundUser.password);
 
-    if (!match) {
-        if (knownIps.has(req.ip)) {
-            const { lastUnsuccessfulAttempt, countUnsuccessfulAttempts } = knownIps.get(req.ip);
-            const now = new Date();
-            const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60 * 30);
+        if (!match) {
+            if (knownIps.has(req.ip)) {
+                const { lastUnsuccessfulAttempt, countUnsuccessfulAttempts } = knownIps.get(req.ip);
+                const now = new Date();
+                //sinceLastFailedAttempt is calculating the amount of time that has passed since the lastUnsuccessfulAttempt, measured in half-hour intervals.
+                const sinceLastFailedAttempt = (now - lastUnsuccessfulAttempt) / (1000 * 60 * 30);
 
-            if (sinceLastFailedAttempt >= 1) {
-                // if last attempt was far enough in the past reset entry
-                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1});
-            } else if (countUnsuccessfulAttempts >= 3) {
-                // else check if attempts exceed limit of 3
-                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1})
-                return res.status(429).json({ message: "Too many failed login attempts" })
+                // if last failed attempt is over 30 minutes in the past
+                if (sinceLastFailedAttempt >= 1) {
+                    // if last attempt was far enough in the past reset entry
+                    knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1 });
+                } else if (countUnsuccessfulAttempts >= 10) {
+                    // else check if attempts exceed limit
+                    knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1 })
+                    return res.status(429).json({ message: "Too many failed login attempts" })
+                } else {
+                    // else increase count
+                    knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1 })
+                }
             } else {
-                // else increase count
-                knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: countUnsuccessfulAttempts + 1})
+                // if ip not known add it to map
+                knownIps.set(req.ip, { lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1 })
             }
-        } else {
-            // if ip not known add it to map
-            knownIps.set(req.ip, {lastUnsuccessfulAttempt: new Date(), countUnsuccessfulAttempts: 1})
+            return res.status(401).json({ message: "wrong password", context: { label: "password" } });
         }
-        return res.status(401).json({ message: "wrong password" });
+
+        // to create an ACCESS_TOKEN_SECRET key in .env you can use
+        // require("crypto").randomBytes(64).toString("hex");
+        // inside the node terminal to create a random key
+        // open node terminal by typing node into the terminal
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "userId": foundUser._id,
+                    "username": foundUser.username,
+                    "email": foundUser.email,
+                    "roles": foundUser.roles,
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+            }
+        );
+
+        const refreshToken = jwt.sign(
+            { "username": foundUser.username },
+            process.env.REFRESH_TOKEN_SECRET,
+            {
+                expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+            }
+        );
+
+        // Create secure cookie with refresh token 
+        res.cookie("jwt", refreshToken, {
+            httpOnly: true, //accessible only by web server 
+            secure: true, //https
+            sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
+            maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+        });
+
+        // Send accessToken containing username and roles 
+        res.status(200).json({ message: "login successful", accessToken });
+    } catch (err) {
+        return res.status(400).json({ message: "Error logging in" })
     }
-
-    // to create an ACCESS_TOKEN_SECRET key in .env you can use
-    // require("crypto").randomBytes(64).toString("hex");
-    // inside the node terminal to create a random key
-    // open node terminal by typing node into the terminal
-    const accessToken = jwt.sign(
-        {
-            "UserInfo": {
-                "userId": foundUser._id,
-                "username": foundUser.username,
-                "email": foundUser.email,
-                "roles": foundUser.roles,
-            }
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { 
-            expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
-        }
-    );
-
-    const refreshToken = jwt.sign(
-        { "username": foundUser.username },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-            expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
-        }
-    );
-
-    // Create secure cookie with refresh token 
-    res.cookie("jwt", refreshToken, {
-        httpOnly: true, //accessible only by web server 
-        secure: true, //https
-        sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
-        maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
-    });
-
-    // Send accessToken containing username and roles 
-    res.status(200).json({ message: "login successful", accessToken });
 };
 
 // @desc Refresh
@@ -124,8 +134,8 @@ const refresh = (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { 
-                    expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m" 
+                {
+                    expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
                 }
             );
 
@@ -148,34 +158,31 @@ const logout = (req, res) => {
 // @route POST /auth/sendverify
 // @access Public
 const sendverify = async (req, res) => {
-    const { email } = req.body;
+    try {
+        const { email } = req.body;
 
-    // confirm received data
-    if (!email) {
-        return res.status(400).json({ message: "Email field is required" });
+        // check if email is valid
+        await emailschema.required().validateAsync(email);
+
+        // get user associated with email from database
+        const user = await User.findOne({ email: email.toLowerCase() }).lean().exec();
+
+        // if no user was found in database
+        if (!user) {
+            return res.status(400).json({ message: "No account linked to this email was found" });
+        }
+
+        // if user is already verified
+        if (user.validated) {
+            return res.status(200).json({ message: "Email is already verified" });
+        }
+
+        emailVerificationSender(email);
+
+        res.status(200).json({ message: "Verification Email send" });
+    } catch (err) {
+        return res.status(400).send(parseError(err));
     }
-
-    // check if email is valid
-    if (!EmailValidator.validate(email)) {
-        return res.status(400).json({ message: "Invalid email address received" });
-    }
-
-    // get user associated with email from database
-    const user = await User.findOne({ email }).lean().exec();
-
-    // if no user was found in database
-    if (!user) {
-        return res.status(400).json({ message: "No account linked to this email was found" });
-    }
-
-    // if user is already verified
-    if (user.validated) {
-        return res.status(200).json({ message: "Email is already verified" });
-    }
-
-    emailVerificationSender(email);
-
-    res.status(200).json({ message: "Verification Email send"});
 };
 
 // @desc Verify Email
@@ -183,10 +190,10 @@ const sendverify = async (req, res) => {
 // @access Public
 const verify = (req, res) => {
     const { verificationToken } = req.body;
-    
+
     if (!verificationToken) {
         res.status(400).json({ message: "Missing Verification Token in request" });
-    }  
+    }
 
     jwt.verify(
         verificationToken,
@@ -215,67 +222,72 @@ const verify = (req, res) => {
 // @route POST /auth/sendreset
 // @access Public
 const sendreset = async (req, res, next) => {
-    const { user } = req.body;
+    try {
+        const { user } = req.body;
 
-    if (!user) {
-        return res.status(400).json({ message: "Providing a Username or Email is required" });
-    }
+        if (!user) {
+            return res.status(400).json({ message: "Providing a Username or Email is required", context: { label: "user" } });
+        }
 
-    const foundUsername = await User.findOne({ username: user }).exec();
-    const foundEmail = await User.findOne({ email: user }).exec();
-    const foundUser = foundUsername ?? foundEmail;
+        const foundUsername = await User.findOne({ username: user }).exec();
+        const foundEmail = await User.findOne({ email: user }).exec();
+        const foundUser = foundUsername ?? foundEmail;
 
-    if (!foundUser) {
-        return res.status(401).json({ message: "No User with this username or email found" });
-    }
+        if (!foundUser) {
+            return res.status(401).json({ message: "No User with this username or email found", context: { label: "user" } });
+        }
 
-    if (!foundUser.validated) {
-        return res.status(401).json({ message: "Account is not verified. Please verify your email first.", action: "redirectVerify" });
-    }
+        if (!foundUser.validated) {
+            return res.status(401).json({ message: "Account is not verified. Please verify your email first.", action: "redirectVerify" });
+        }
 
-    if (foundUser.roles.includes("Demoadmin") || foundUser.roles.includes("Admin")) {
-        return res.status(401).json({ message: "Unauthorized - Contact the Headadmin for a password reset" });
-    }
+        if (foundUser.roles.includes("Demoadmin") || foundUser.roles.includes("Admin")) {
+            return res.status(401).json({ message: "Unauthorized - Contact the Headadmin for a password reset" });
+        }
 
-    const resetPasswordToken = jwt.sign(
-        {
-            "UserInfo": {
-                "userId": foundUser._id,
+        const resetPasswordToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "userId": foundUser._id,
+                }
+            },
+            process.env.RESET_PASSWORD_TOKEN_SECRET,
+            {
+                expiresIn: process.env.EXPIRATION_RESET_TOKEN + "s"
             }
-        },
-        process.env.RESET_PASSWORD_TOKEN_SECRET,
-        { 
-            expiresIn: process.env.EXPIRATION_RESET_TOKEN
-        }
-    );
+        );
 
-    const tokens = await Tokens.findOne({ user: foundUser._id }).exec();
+        const tokens = await Resetpasswordtoken.findOne({ user: foundUser._id }).exec();
 
-    if (!tokens) {
-        const createdTokens = await Tokens.create({ user: foundUser._id, resetPasswordToken });
-        if (createdTokens) {
-            req.resetPasswordToken = resetPasswordToken;
-            req.email = foundUser.email;
-            next();
+        if (!tokens) {
+            const createdTokens = await Resetpasswordtoken.create({ user: foundUser._id, resetPasswordToken });
+            if (createdTokens) {
+                req.resetPasswordToken = resetPasswordToken;
+                req.email = foundUser.email;
+                next();
+            } else {
+                return res.status(400).json({ message: "Server Error - Please try again at a later." });
+            }
         } else {
-            return res.status(400).json({ message: "Server Error - Please try again at a later."});
+            tokens.resetPasswordToken = resetPasswordToken;
+            tokens.tokenIssuedAt = Date.now();
+            const updatedTokens = await tokens.save();
+            if (updatedTokens) {
+                req.resetPasswordToken = resetPasswordToken;
+                req.email = foundUser.email;
+                next();
+            } else {
+                return res.status(400).json({ message: "Server Error - Please try again at a later." });
+            }
         }
-    } else {
-        tokens.resetPasswordToken = resetPasswordToken;
-        const updatedTokens = await tokens.save();
-        if (updatedTokens) {
-            req.resetPasswordToken = resetPasswordToken;
-            req.email = foundUser.email;
-            next();
-        } else {
-            return res.status(400).json({ message: "Server Error - Please try again at a later."});
-        }
+    } catch (err) {
+        return res.status(400).json({ message: "Error in sendreset" })
     }
 };
 
 const sendresetemail = (req, res) => {
     const { resetPasswordToken, email } = req;
-    
+
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -296,73 +308,90 @@ const sendresetemail = (req, res) => {
         ${url}/reset/${resetPasswordToken} 
 
         If you didnt request a reset feel free to contact our support here:
-        INSERT HERE`,
+        ${url}/contactform`,
         html: `<p>You have requested a password reset.
         Please follow the given link to reset your password.</p>
 
         <a href="${url}/reset/${resetPasswordToken} " target="_blank">Reset Password</a>
 
         <p>If you didnt request a reset feel free to contact our support here:</p>
-        <a href="INSERT HERE" target="_blank">Contact Support</a>`,
+        <a href="${url}/contactform" target="_blank">Contact Support</a>`,
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             logEvents(`VerificationEmailSender Error for: ${email}`, "ResetPasswordMailErrorLog.log");
             return res.status(400).json({ message: "Failed to send email - please contact support", action: "redirectSupport" });
         } else {
-            return res.status(200).json({ message: "An email with instructions how to reset your password was send."});
+            return res.status(200).json({ message: "An email with instructions how to reset your password was send." });
         }
     });
 };
 
-const reset = (req, res) => {
-    const { resetPasswordToken, password, confirm } = req.body;
+// @desc reset Password
+// @route Post /auth/reset
+// @access Public
+const reset = async (req, res) => {
+    try {
+        const {
+            resetPasswordToken,
+            password,
+            confirm,
+        } = req.body;
 
-    if (!resetPasswordToken) {
-        return res.status(400).json({ message: "The Token was not send" });
-    }
+        if (!resetPasswordToken) {
+            return res.status(400).json({ message: "The Token was not send" });
+        }
 
-    if (!password || !confirm) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
+        if (!password) {
+            return res.status(400).json({ message: "New Password field is required", context: { label: "password" } });
+        }
 
-    if (password !== confirm) {
-        return res.status(400).json({ message: "New Password and Confirm dont match." });
-    }
+        if (!confirm) {
+            return res.status(400).json({ message: "Confirm field is required", context: { label: "confirm" } });
+        }
 
-    jwt.verify(
-        resetPasswordToken,
-        process.env.RESET_PASSWORD_TOKEN_SECRET,
-        async (err, decoded) => {
-            if (err) return res.status(401).json({ message: "Password reset failed, your token is invalid or expired" });
+        if (password !== confirm) {
+            return res.status(400).json({ message: "New Password and Confirm dont match." });
+        }
 
-            const { userId } = decoded.UserInfo;
+        await passwordschema.required().validateAsync(password);
 
-            const tokens = await Tokens.findOne({ user: userId }).exec();
-            const user = await User.findById(userId);
-            const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
+        jwt.verify(
+            resetPasswordToken,
+            process.env.RESET_PASSWORD_TOKEN_SECRET,
+            async (err, decoded) => {
+                if (err) return res.status(401).json({ message: "Password reset failed, your token is invalid or expired" });
 
-            if (!tokens) {
-                return res.status(401).json({ message: "Password reset failed, your token was already used", action: "redirectReset" });
-            } else if (tokens.resetPasswordToken !== resetPasswordToken) {
-                return res.status(401).json({ message: "Password reset failed, your token is outdated", action: "redirectReset" });
-            } else if (!user) {
-                return res.status(400).json({ message: "Password reset failed. Failed to find user in database" });
-            } else {
-                user.password = hashedPwd;
+                const { userId } = decoded.UserInfo;
 
-                const updatedUser = await user.save();
-                await tokens.deleteOne();
+                const tokens = await Resetpasswordtoken.findOne({ user: userId }).exec();
+                const user = await User.findById(userId);
+                const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
-                if (!updatedUser) {
-                    return res.status(400).json({ message: "Password reset failed. Failed to updated user in database" });
+                if (!tokens) {
+                    return res.status(401).json({ message: "Password reset failed, your token was already used", action: "redirectReset" });
+                } else if (tokens.resetPasswordToken !== resetPasswordToken) {
+                    return res.status(401).json({ message: "Password reset failed, your token is outdated", action: "redirectReset" });
+                } else if (!user) {
+                    return res.status(400).json({ message: "Password reset failed. Failed to find user in database" });
                 } else {
-                    return res.status(200).json({ message: "Password reset was successful", action: "redirectLogin"  });
+                    user.password = hashedPwd;
+
+                    const updatedUser = await user.save();
+                    await tokens.deleteOne();
+
+                    if (!updatedUser) {
+                        return res.status(400).json({ message: "Password reset failed. Failed to updated user in database" });
+                    } else {
+                        return res.status(200).json({ message: "Password reset was successful", action: "redirectLogin" });
+                    }
                 }
             }
-        }
-    );
+        );
+    } catch (err) {
+        return res.status(400).send(parseError(err));
+    }
 };
 
 export {

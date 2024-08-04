@@ -6,7 +6,7 @@
     pointer-events: all;
 
     label:hover {
-        color: v.$default-hover-label-font-color; 
+        color: v.$default-hover-label-font-color;
 
         input {
             color: v.$default-hover-font-color;
@@ -18,7 +18,7 @@
         position: relative;
         color: v.$default-label-font-color;
         font-size: v.$default-label-font-size;
-        background-color: v.$default-label-background-color; 
+        background-color: v.$default-label-background-color;
         cursor: v.$default-label-cursor;
 
         p {
@@ -30,9 +30,12 @@
         input {
             width: 100%;
             height: v.$InputHeight;
-            padding: v.$InputPadding;
+            padding-top: v.$InputPaddingTop;
+            padding-bottom: v.$InputPaddingBottom;
+            padding-left: v.$InputPaddingLeft;
+            padding-right: v.$ddBtnWidth;
             caret-color: v.$default-focus-label-font-color;
-    
+
             color: v.$default-font-color;
             font-family: v.$default-font-family;
             font-size: v.$default-font-size;
@@ -53,23 +56,23 @@
                 border-radius: v.$default-focus-border-radius;
             }
 
-            &:not(:placeholder-shown) + p,
-            &:focus + p {
+            &:not(:placeholder-shown)+p,
+            &:focus+p {
                 font-size: v.$default-focus-label-font-size;
                 top: v.$default-focus-label-y-offset;
                 left: v.$default-focus-label-x-offset;
                 cursor: v.$default-focus-label-cursor;
             }
 
-            &:focus + p {
+            &:focus+p {
                 color: v.$default-focus-label-font-color;
             }
 
-            &:focus ~ button {
+            &:focus~button {
                 color: v.$default-focus-label-font-color;
             }
-    
-            &:placeholder-shown:focus ~ button {
+
+            &:placeholder-shown:focus~button {
                 transform: rotate(180deg);
             }
         }
@@ -86,7 +89,7 @@
 
         button {
             height: 21px;
-            width: 21px;
+            width: v.$ddBtnWidth;
             color: inherit;
             border: none;
             cursor: pointer;
@@ -118,57 +121,59 @@
         overflow-y: scroll;
         z-index: 70;
         background-color: hsla(v.$foreground);
-    
+
         li {
             list-style: none;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-    
+
             p {
                 padding: v.$OptionPadding;
                 user-select: none;
             }
         }
-    
+
         li:not(.focused-option) p:not(.selected-option) {
             background-color: v.$default-option-background-color;
             color: v.$default-option-font-color;
         }
-    
+
         .focused-option p:not(.selected-option) {
             background-color: #666666;
             color: v.$default-option-font-color;
         }
-    
+
         li:not(.focused-option) p:not(.selected-option):hover {
             background-color: #525252;
         }
-    
+
         .focused-option p:not(.selected-option):hover {
             background-color: #7b7b7b;
         }
-    
+
         .selected-option {
             background-color: #544320;
-            color:#ffba27;
+            color: #ffba27;
         }
-    
+
         .focused-option .selected-option {
             background-color: #665020;
         }
-    
+
         .selected-option:hover {
             background-color: #372b11;
         }
-    
+
         .focused-option .selected-option:hover {
             background-color: #7b6027;
         }
     }
 
     &.disabled {
-        pointer-events: none;
+        * {
+            pointer-events: none;
+        }
 
         label input {
             color: v.$InputDisabledColor; //v.$default-label-font-color;
@@ -182,44 +187,44 @@
 
 // CustomStyles
 .customselect.style1 {
-    padding-top: .1em;
-    padding-bottom: .1em;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
     padding-right: 0;
     padding-left: 0;
-    min-width: 50px;
+    min-width: 60px;
 
     label {
         p {
-            left: calc(v.$default-label-x-offset + 1em);
+            left: calc(v.$default-label-x-offset + .75rem);
         }
 
         input {
             background-color: hsla(v.$accent);
             border-color: transparent;
             border-radius: 5px;
-            padding-top: 1.3em;
-            padding-bottom: 1.3em;
-            padding-left: 1em;
-            padding-right: 1em;
+            padding-top: 1.3rem;
+            padding-bottom: 1.3rem;
+            padding-left: .75rem;
+            padding-right: calc(.5rem + 21px);
 
-            &:not(:placeholder-shown) + p,
-            &:focus + p {
+            &:not(:placeholder-shown)+p,
+            &:focus+p {
                 display: none;
             }
         }
     }
 
     .ddBtn-container {
-        top: .1em;
-        bottom: .1em;
+        top: .1rem;
+        bottom: .1rem;
         right: 0;
-        width: calc(1em + 21px);
+        width: calc(.5rem + 21px);
         background-color: hsla(v.$accent);
         border-radius: 5px;
 
         button {
-            top: calc(1.4em / 2);
-            right: 1em;
+            top: calc(1.4rem / 2);
+            right: 1rem;
         }
     }
 

@@ -17,12 +17,16 @@ const getAllBuilds = async (req, res) => {
 // @desc Create new build
 // @route POST /builds
 // @access Private
-const createNewBuild = async(req, res) => {
+const createNewBuild = async (req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
     const { userId, title, data } = req.body;
 
-    if (!userId || !title) {
+    if (!userId) {
         return res.status(400).json({ message: "Missing entries in received request body" });
+    }
+
+    if (!title) {
+        return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
     }
 
     const { general, stats, armament, talisman, armor } = data;
@@ -44,7 +48,7 @@ const createNewBuild = async(req, res) => {
     const builds = await Build.find({ user: userId }).exec();
     const buildsCount = builds.length;
 
-    const buildLimit = (process.env.BUILD_LIMIT_PER_ACCOUNT | 0 ) ?? 20;
+    const buildLimit = (process.env.BUILD_LIMIT_PER_ACCOUNT | 0) ?? 20;
     if (buildsCount >= buildLimit) {
         return res.status(400).json({ message: "You are exceeding the buildlimit. Max 20 builds per account." });
     }
@@ -89,8 +93,12 @@ const updateBuild = async (req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
     const { buildId, userId, title, data } = req.body;
 
-    if (!userId || !buildId || !title) {
+    if (!userId || !buildId) {
         return res.status(400).json({ message: "Missing entries in received request body" });
+    }
+
+    if (!title) {
+        return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
     }
 
     const build = await Build.findById(buildId).exec();
@@ -99,7 +107,7 @@ const updateBuild = async (req, res) => {
         return res.status(400).json({ message: "Build not found" });
     }
 
-    if(!build.user.equals(userId)) {
+    if (!build.user.equals(userId)) {
         return res.status(401).json({ message: "User unauthorized" });
     }
 
@@ -125,7 +133,7 @@ const updateBuild = async (req, res) => {
     const updatedBuild = await build.save();
 
     if (updatedBuild) {
-        res.status(200).json({ message: `Build ${updatedBuild.title} updated`});
+        res.status(200).json({ message: `Build ${updatedBuild.title} updated` });
     } else {
         res.status(400).json({ message: "Failed to write changes into database" });
     }

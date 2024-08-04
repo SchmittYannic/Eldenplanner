@@ -64,10 +64,6 @@ td {
     display: inline;
 }
 
-html {
-    overflow-y: scroll;
-}
-
 body {
     height: 100vh;
     position: relative;
@@ -216,6 +212,10 @@ textarea {
     background-color: hsl(v.$err-background-color);
 }
 
+.errmsg-input {
+    color: hsl(v.$err-background-color);
+}
+
 .succmsg {
     color: hsl(v.$succ-color);
     border-color: hsl(v.$succ-background-color);
@@ -227,6 +227,10 @@ textarea {
     outline-offset: 0;
     box-shadow: 0 0 0 0.2rem #c7d2fe;
     border-color: #6366F1 !important;
+}
+
+.errborder {
+    border-color: hsl(v.$err-background-color);
 }
 
 .input-wrapper {
@@ -282,6 +286,12 @@ textarea {
         min-width: 65px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+
+    &.error input,
+    &.error .password-toggle,
+    &.error textarea {
+        border-color: hsl(v.$err-background-color);
     }
 }
 
@@ -341,7 +351,7 @@ textarea {
 
 .primary-nav {
     width: 100%;
-    padding-top: 14px;
+    padding-top: 16px;
     padding-bottom: 14px;
     position: fixed;
     top: 0%;
@@ -579,6 +589,10 @@ td {
         grid-template-columns: 2fr 1fr 2fr 2fr;
         justify-items: center;
         gap: 1.5rem;
+
+        .table--filter--slot {
+            width: 100%;
+        }
     }
 }
 

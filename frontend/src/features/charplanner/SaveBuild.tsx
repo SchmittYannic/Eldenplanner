@@ -1,14 +1,15 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdSave } from "react-icons/md";
 
-import { RootState } from "../../app/store";
-import { useAddNewBuildMutation, useUpdateBuildMutation } from "./charplannerApiSlice";
-import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
-import { selectCharplannerData } from "./charplannerSlice";
-import { addToast } from "../../components/toastSlice";
-import useAuth from "../../hooks/useAuth";
+import { RootState } from "src/app/store";
+import { useAddNewBuildMutation, useUpdateBuildMutation } from "src/features/charplanner/charplannerApiSlice";
+import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
+import { selectCharplannerData } from "src/features/charplanner/charplannerSlice";
+import { addToast } from "src/features/toasts/toastSlice";
+import useAuth from "src/hooks/useAuth";
 import {
     AsyncButton,
     Dialog,
@@ -16,14 +17,21 @@ import {
     DialogContent,
     DialogIcon,
     DialogMain,
-    FormInput,
-} from "../../components/ui";
+    Input,
+} from "src/components/ui";
+import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
-type PropsType = {
-    setTrigger: React.Dispatch<React.SetStateAction<boolean>>,
+type SaveBuildPropsType = {
+    callback: Function,
 }
 
-const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
+type SaveBuildFormType = {
+    buildtitle: string,
+}
+
+const SaveBuild = ({
+    callback,
+}: SaveBuildPropsType): ReactElement => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -33,13 +41,11 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
     const [addNewBuild, {
         isLoading: isSaveLoading,
-        isSuccess: isSaveSuccess,
         isError: isSaveError,
     }] = useAddNewBuildMutation();
 
     const [updateBuild, {
         isLoading: isUpdateLoading,
-        isSuccess: isUpdateSuccess,
         isError: isUpdateError,
     }] = useUpdateBuildMutation();
 
@@ -50,54 +56,71 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
         return null
     });
     const isBuildAuthor = userId === build?.user;
-    const initialStateTextarea = isBuildAuthor ? build?.title : "";
-    const [inputValue, setInputValue] = useState(initialStateTextarea);
+    const initialBuildTitle = isBuildAuthor ? build?.title : "";
+
+    const {
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm<SaveBuildFormType>({
+        defaultValues: {
+            buildtitle: initialBuildTitle,
+        }
+    });
+
     const [responseMsg, setResponseMsg] = useState("");
 
     const buttonText = isBuildAuthor ? "Update" : "Save";
 
-    const onSaveBuildClicked = async () => {
+    const onSubmit: SubmitHandler<SaveBuildFormType> = async (data) => {
+        const { buildtitle } = data;
+        setResponseMsg("");
+
         try {
             if (isBuildAuthor) {
                 const { message } = await updateBuild({
                     buildId: param.buildId,
                     userId,
-                    title: inputValue,
+                    title: buildtitle,
                     data: charplannerData
                 }).unwrap();
-
+                reset({
+                    buildtitle: "",
+                });
+                callback();
                 dispatch(addToast({ type: "success", text: message }));
             } else {
                 const { message, action } = await addNewBuild({
                     userId,
-                    title: inputValue,
+                    title: buildtitle,
                     data: charplannerData
                 }).unwrap();
-
+                reset({
+                    buildtitle: "",
+                });
+                callback();
                 navigate(`/charplanner/${action}`);
                 dispatch(addToast({ type: "success", text: message }));
             }
-        } catch (err: any) {
-            if (!err.status) {
-                setResponseMsg("No Server Response");
-            } else if ([400, 401].includes(err.status)) {
-                setResponseMsg(err.data?.message);
+        } catch (err) {
+            if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
+                setResponseMsg("");
+                setError(err.data.context.label, {
+                    message: err.data.message,
+                });
+            } else if (isCustomError(err)) {
+                setResponseMsg(err.data.message);
             } else {
                 setResponseMsg("an error occured");
             }
         }
-    };
-
-    useEffect(() => {
-        if (isSaveSuccess || isUpdateSuccess) {
-            setInputValue("");
-            setTrigger(false);
-        }
-    }, [isSaveSuccess, isUpdateSuccess]);
+    }
 
     return (
-        <Dialog className="dialog__savebuild" setDialog={setTrigger}>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+        <Dialog className="dialog__savebuild" callback={callback}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogMain>
                     <DialogIcon>
                         <MdSave />
@@ -113,19 +136,16 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
 
                         <div className="divider-4" />
 
-                        <FormInput
-                            id="buildtitle"
+                        <Input
                             name="buildtitle"
                             type="text"
                             label="Build Title"
                             maxLength={50}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
+                            register={register("buildtitle", { required: true })}
+                            error={errors.buildtitle}
                         />
 
-                        <div className="divider-4" />
-
-                        {(isUpdateError || isSaveError) ? (
+                        {((isUpdateError || isSaveError) && responseMsg) ? (
                             <>
                                 <div className="divider-4" />
                                 <div className="sm-alert errmsg full">
@@ -135,13 +155,14 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                             </>
                         ) : (<></>)}
 
+                        <div className="divider-4" />
                     </DialogContent>
                 </DialogMain>
                 <DialogButtons>
                     <button
                         className="button"
                         type="button"
-                        onClick={() => setTrigger(false)}
+                        onClick={() => callback()}
                         title={"Cancel " + buttonText}
                     >
                         Cancel
@@ -151,7 +172,7 @@ const SaveBuild = ({ setTrigger }: PropsType): ReactElement => {
                         isLoading={isBuildAuthor ? isUpdateLoading : isSaveLoading}
                         className="action-btn"
                         type="submit"
-                        onClick={onSaveBuildClicked}
+                        disabled={isUpdateLoading || isSaveLoading}
                         title={buttonText + " Build"}
                     >
                         {buttonText}

@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import charplannerReducer from "../features/charplanner/charplannerSlice";
-import authReducer from "../features/auth/authSlice";
-import toastReducer from "../components/toastSlice";
+import charplannerReducer from "src/features/charplanner/charplannerSlice";
+import authReducer from "src/features/auth/authSlice";
+import toastReducer from "src/features/toasts/toastSlice";
 
 export const store = configureStore({
     reducer: {

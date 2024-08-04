@@ -1,37 +1,113 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as EmailValidator from "email-validator";
 import User from "../models/User.js";
+import { signupschema, passwordschema, usernameschema, emailschema } from "../validation/userschema.js";
+import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 
 // @desc Get all users
 // @route GET /users
 // @access Public
 const getAllUsers = async (req, res) => {
-    // select all users username and creation date
-    // when not calling any methods like save later on and only want to get the data add a lean()
-    const users = await User.find().select("username createdAt").lean();
-    if (!users?.length) {
-        return res.status(400).json({ message: "No users found" });
-    }
+    try {
+        // select all users username and creation date
+        // when not calling any methods like save later on and only want to get the data add a lean()
+        const users = await User.find().select("username createdAt").lean();
+        if (!users?.length) {
+            return res.status(400).json({ message: "No users found" });
+        }
 
-    res.status(200).json(users);
+        res.status(200).json(users);
+    } catch (err) {
+        return res.status(400).json({ message: "Error retrieving all usernames" })
+    }
 };
 
 // @desc Create new user
 // @route POST /users
 // @access Public
 const createNewUser = async (req, res) => {
-    const userObject = req.userData;
-    /* Create and store new user in DB */
-    const user = await User.create(userObject);
+    try {
+        const {
+            username,
+            email,
+            password,
+        } = req.body;
 
-    if (user) {
-        // created user successfully
-        res.status(201).json({ message: `New user ${userObject.username} created` });
-        emailVerificationSender(userObject.email);
-    } else {
-        res.status(400).json({ message: "Invalid user data received" });
+        await signupschema.validateAsync({
+            username,
+            email,
+            password,
+        });
+
+        /* Check for duplicate */
+        // if you use async await and expect a promise back u should use exec at the end.
+        // collation to make sure it is case insensitive -> Hank and hank count as duplicates
+        const duplicateUsername = await User.findOne({ username }).collation({ locale: 'en', strength: 2 }).lean().exec();
+
+        if (duplicateUsername) {
+            return res.status(409).json({ message: "Username already in use", context: { label: "username" } });
+        }
+
+        const duplicateEmail = await User.findOne({ email: email.toLowerCase() }).lean().exec();
+
+        if (duplicateEmail) {
+            return res.status(409).json({ message: "Email already in use", context: { label: "email" } });
+        }
+
+        /* hash password */
+        const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+
+        /* Create and store new user in DB */
+        const user = await User.create({
+            username,
+            password: hashedPwd,
+            email: email.toLowerCase(),
+        });
+
+        if (user) {
+            const accessToken = jwt.sign(
+                {
+                    "UserInfo": {
+                        "userId": user._id,
+                        "username": user.username,
+                        "email": user.email,
+                        "roles": user.roles,
+                    }
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+                }
+            );
+
+            const refreshToken = jwt.sign(
+                { "username": user.username },
+                process.env.REFRESH_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+                }
+            );
+
+            // Create secure cookie with refresh token 
+            res.cookie("jwt", refreshToken, {
+                httpOnly: true, //accessible only by web server 
+                secure: true, //https
+                sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
+                maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+            });
+
+            // created user successfully
+            res.status(201).json({ message: `Account successfully created`, accessToken });
+
+            if (process.env.NODE_ENV === "production") {
+                emailVerificationSender(email);
+            }
+        } else {
+            res.status(400).json({ message: "Invalid user data received" });
+        }
+    } catch (err) {
+        return res.status(400).send(parseError(err));
     }
 };
 
@@ -39,117 +115,143 @@ const createNewUser = async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = async (req, res) => {
-    const { userId, username } = req
-    const { newUsername, newEmail, newPassword } = req.body
+    try {
+        const {
+            userId,
+            username,
+        } = req;
+        const {
+            newUsername,
+            newEmail,
+            newPassword,
+        } = req.body;
 
-    if (!newUsername) {
-        return res.status(400).json({ message: "Username field is required" });
-    }
+        //check if all fields in body are present
+        if (newUsername === undefined || newEmail === undefined || newPassword === undefined) {
+            return res.status(400).json({ message: "Request body is missing fields" });
+        }
 
-    if (!newEmail) {
-        return res.status(400).json({ message: "Email field is required" });
-    }
+        //find user in database
+        const user = await User.findById(userId).exec();
 
-    const validUsernameRegex = /^[A-Za-z][A-Za-z0-9_]{3,19}$/;
-    const isValidUsername = validUsernameRegex.test(newUsername);
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
 
-    if (!isValidUsername) {
-        return res.status(400).json({ message: "Invalid username received", action: "showRequirements" });
-    }
+        //user wants to change username
+        if (newUsername !== username) {
+            //check if new username fits the schema
+            await usernameschema.required().validateAsync(newUsername);
+            //check if new username is already in use
+            const duplicateUsername = await User.findOne({ username: newUsername }).collation({ locale: 'en', strength: 2 }).lean().exec();
 
-    if (!EmailValidator.validate(newEmail)) {
-        return res.status(400).json({ message: "Invalid email address received" });
-    }
-
-    const user = await User.findById(userId).exec();
-
-    if (!user) {
-        return res.status(400).json({ message: "User not found" });
-    }
-
-    const duplicateUsername = await User.findOne({ email: newUsername }).lean().exec();
-
-    if (duplicateUsername && duplicateUsername?._id.toString() !== userId) {
-        return res.status(409).json({ message: "Username already taken" });
-    }
-
-    const duplicateEmail = await User.findOne({ email: newEmail }).lean().exec();
-    
-    if (duplicateEmail && duplicateEmail?._id.toString() !== userId) {
-        return res.status(409).json({ message: "Email already in use" });
-    }
-
-    if (username !== newUsername) {
-        user.username = newUsername;
-    }
-
-    if(user.email !== newEmail) {
-        user.email = newEmail;
-    }
-
-    if (newPassword) {
-        user.password = await bcrypt.hash(newPassword, 10);
-    }
-
-    const updateUser = await user.save();
-
-    const accessToken = jwt.sign(
-        {
-            "UserInfo": {
-                "userId": updateUser._id,
-                "username": updateUser.username,
-                "email": updateUser.email,
-                "roles": updateUser.roles,
+            if (duplicateUsername && duplicateUsername?._id.toString() !== userId) {
+                return res.status(409).json({ message: "Username already in use", context: { label: "newUsername" } });
             }
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { 
-            expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+            //set new username
+            user.username = newUsername;
         }
-    );
 
-    const refreshToken = jwt.sign(
-        { "username": updateUser.username },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-            expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+        //user wants to change email
+        if (newEmail.toLowerCase() !== user.email) {
+            //check if new email fits the schema
+            await emailschema.required().validateAsync(newEmail);
+            //check if new email is already in use
+            const duplicateEmail = await User.findOne({ email: newEmail.toLowerCase() }).lean().exec();
+
+            if (duplicateEmail && duplicateEmail?._id.toString() !== userId) {
+                return res.status(409).json({ message: "Email already in use", context: { label: "newEmail" } });
+            }
+            //set new email
+            user.email = newEmail.toLowerCase();
         }
-    );
 
-    // Create secure cookie with refresh token 
-    res.cookie("jwt", refreshToken, {
-        httpOnly: true, //accessible only by web server 
-        secure: true, //https
-        sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
-        maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
-    });
+        //user wants to change password
+        if (newPassword !== "") {
+            //check if new password fits the schema
+            await passwordschema.label("newPassword").required().validateAsync(newPassword);
+            //hash new password
+            const newHashedPw = await bcrypt.hash(newPassword, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+            //set new password
+            user.password = newHashedPw;
+        }
 
-    res.status(200).json({ message: `${updateUser.username} updated`, accessToken });
+        const updateUser = await user.save();
+
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "userId": updateUser._id,
+                    "username": updateUser.username,
+                    "email": updateUser.email,
+                    "roles": updateUser.roles,
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: process.env.EXPIRATION_ACCESS_TOKEN ?? "15m"
+            }
+        );
+
+        const refreshToken = jwt.sign(
+            { "username": updateUser.username },
+            process.env.REFRESH_TOKEN_SECRET,
+            {
+                expiresIn: process.env.EXPIRATION_REFRESH_TOKEN ?? "7d"
+            }
+        );
+
+        // Create secure cookie with refresh token 
+        res.cookie("jwt", refreshToken, {
+            httpOnly: true, //accessible only by web server 
+            secure: true, //https
+            sameSite: "None", //cross-site cookie // allowing cross-site cookie because rest api and frontend hosted on different servers
+            maxAge: process.env.EXPIRATION_REFRESH_TOKEN_COOKIE ?? 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match refreshToken // 1000 ms times etc.
+        });
+
+        res.status(200).json({ message: `${updateUser.username} updated`, accessToken });
+    } catch (err) {
+        return res.status(400).send(parseError(err));
+    }
 };
 
 // @desc Delete a user
 // @route DELETE /users
 // @access Private
 const deleteUser = async (req, res) => {
-    const { id } = req.body;
+    try {
+        const {
+            userId,
+        } = req;
+        const {
+            password,
+        } = req.body;
 
-    if (!id) {
-        return res.status(400).json({ message: "User ID Required" });
+        if (!password) {
+            return res.status(400).json({ message: "No password field in request body", context: { label: "password" } });
+        }
+
+        //find user in database
+        const user = await User.findById(userId).exec();
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+        //check if password matches with user password
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
+        }
+
+        //delete User
+        const result = await user.deleteOne();
+
+        const reply = `Username ${result.username} deleted`;
+
+        res.json(reply);
+    } catch (err) {
+        return res.status(400).json({ message: "Error deleting User" })
     }
-
-    // Check if user has Builds attached to him in the future.
-
-    const user = await User.findById(id).exec();
-
-    if (!user) {
-        return res.status(400).json({ message: "User not found" });
-    }
-
-    const result = await user.deleteOne();
-
-    const reply = `Username ${result.username} with ID ${result._id} deleted`;
-
-    res.json(reply);
 };
 
 export {

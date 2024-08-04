@@ -1,5 +1,20 @@
 @use "../../Variables" as v;
 
+.charplanner__header {
+    width: 100%;
+    padding-left: v.$FormPaddingLeft;
+    padding-right: v.$FormPaddingRight;
+
+    h1 {
+        text-align: center;
+    }
+
+    p {
+        line-height: 1.25rem;
+        color: hsl(v.$muted-foreground);
+    }
+}
+
 .Charplanner {
     min-width: v.$min-page-width;
     background-color: v.$default-background-color;
@@ -94,15 +109,15 @@
     .AttributeRow {
         padding-left: v.$FormPaddingLeft;
         padding-right: v.$FormPaddingRight;
-        padding-top: .2em;
-        padding-bottom: .2em;
+        padding-top: .4em;
+        padding-bottom: .4em;
         display: grid;
         grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
         align-items: center;
 
         &:nth-of-type(2) {
             padding-top: .8em;
-            padding-bottom: .8em;
+            padding-bottom: 0;
             color: v.$default-label-font-color;
         }
 
