@@ -2,18 +2,22 @@ import { ReactElement, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { BuildType, selectBuildById } from "../builds/buildsApiSlice";
-import { RootState } from "../../app/store";
-import { CharplannerStateType, loadBuild, resetCharplanner } from "./charplannerSlice";
-import { selectUserById, UserType } from "../users/usersApiSlice";
+import { RootState } from "src/app/store";
+import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
+import { selectUserById, UserType } from "src/features/users/usersApiSlice";
+import {
+    CharplannerStateType,
+    loadBuild,
+    resetCharplanner,
+} from "src/features/charplanner/charplannerSlice";
 
-import CharacterSection from "./CharacterSection";
-import EquipmentSection from "./EquipmentSection";
-import InfoSection from "./InfoSection";
-import ActionsSection from "./ActionsSection";
-import "./Charplanner.scss";
-import useAuth from "../../hooks/useAuth";
-import useWindowSize from "../../hooks/useWindowSize";
+import useAuth from "src/hooks/useAuth";
+import useWindowSize from "src/hooks/useWindowSize";
+import CharacterSection from "src/features/charplanner/CharacterSection";
+import EquipmentSection from "src/features/charplanner/EquipmentSection";
+import InfoSection from "src/features/charplanner/InfoSection";
+import ActionsSection from "src/features/charplanner/ActionsSection";
+import "src/features/charplanner/Charplanner.scss";
 
 const Charplanner = (): ReactElement => {
 
