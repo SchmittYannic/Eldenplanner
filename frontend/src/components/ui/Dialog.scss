@@ -65,6 +65,8 @@
         .dialog__content>p {
             color: hsl(v.$muted-foreground);
             font-size: v.$font-size-normal;
+            font-weight: 300;
+            line-height: 1.25rem;
         }
     }
 
