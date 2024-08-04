@@ -47,12 +47,12 @@ const InputPassword = ({
                     {isPasswordVisible ? "Hide" : "Show"}
                 </button>
             </div>
-            {children}
             {error &&
                 <p className="text-sm errmsg-input">
                     {error.message}
                 </p>
             }
+            {children}
         </div>
     )
 }

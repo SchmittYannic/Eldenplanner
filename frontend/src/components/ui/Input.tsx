@@ -34,12 +34,12 @@ const Input = ({
                 {...(register ? register(name) : {})}
                 {...rest}
             />
-            {children}
             {error &&
                 <p className="text-sm errmsg-input">
                     {error.message}
                 </p>
             }
+            {children}
         </div>
     )
 }
