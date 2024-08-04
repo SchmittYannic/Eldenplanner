@@ -8,7 +8,7 @@ const usernameschema = string()
     .matches(/^[A-Za-z0-9_-]+$/, "Usernames can only consist of letters, digits, hyphens and underscores")
 
 const emailschema = string().email("Invalid email format")
-    .max(80, "Email cannot be more than 20 characters long")
+    .max(80, "Email cannot be more than 80 characters long")
 
 //regex in passwordschema allow empty strings, so it is usable for edituserschema aswell
 const passwordschema = string()
