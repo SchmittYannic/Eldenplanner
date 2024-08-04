@@ -16,6 +16,7 @@ export const emailschema = Joi.string()
     .message("Email cannot contain leading or trailing spaces")
     .label("email")
     .messages({
+        "string.trim": "Email cannot contain leading or trailing spaces",
         "string.email": "Invalid email format",
         "string.empty": "Email is required",
         "any.required": "Email is required"
