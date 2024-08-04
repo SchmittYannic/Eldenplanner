@@ -48,6 +48,11 @@ const InputPassword = ({
                 </button>
             </div>
             {children}
+            {error &&
+                <p className="text-sm errmsg-input">
+                    {error.message}
+                </p>
+            }
         </div>
     )
 }

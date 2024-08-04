@@ -35,6 +35,11 @@ const Input = ({
                 {...rest}
             />
             {children}
+            {error &&
+                <p className="text-sm errmsg-input">
+                    {error.message}
+                </p>
+            }
         </div>
     )
 }
