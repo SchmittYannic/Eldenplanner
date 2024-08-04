@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { MdEdit } from "react-icons/md";
 
 import { useUpdateUserMutation } from "src/features/users/usersApiSlice";
@@ -19,11 +20,12 @@ import {
     InputPassword,
 } from "src/components/ui";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { edituserschema } from "src/validation/userschema";
 
 type EditUserFormType = {
     newUsername: string,
     newEmail: string,
-    newPassword: string,
+    newPassword?: string | undefined,
 }
 
 const EditUser = (): ReactElement => {
@@ -50,6 +52,7 @@ const EditUser = (): ReactElement => {
             newEmail: email,
             newPassword: "",
         },
+        resolver: yupResolver(edituserschema),
     });
 
     const [responseMsg, setResponseMsg] = useState("");
@@ -76,7 +79,7 @@ const EditUser = (): ReactElement => {
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
