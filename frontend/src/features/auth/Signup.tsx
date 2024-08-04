@@ -2,6 +2,7 @@ import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import useWindowSize from "src/hooks/useWindowSize";
 import { setCredentials } from "src/features/auth/authSlice";
@@ -10,6 +11,7 @@ import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
 import { signupimg, signupimg1680w, signupimg420w, signupimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { signupschema } from "src/validation/userschema";
 
 type SignupUserType = {
     username: string,
@@ -37,7 +39,9 @@ const Signup = (): ReactElement => {
         setError,
         reset,
         formState: { errors },
-    } = useForm<SignupUserType>();
+    } = useForm<SignupUserType>({
+        resolver: yupResolver(signupschema),
+    });
 
     const onSubmit: SubmitHandler<SignupUserType> = async (data) => {
         try {
@@ -53,7 +57,7 @@ const Signup = (): ReactElement => {
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
