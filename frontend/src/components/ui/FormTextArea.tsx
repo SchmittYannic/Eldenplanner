@@ -1,23 +1,25 @@
 import { ReactElement, useId, PropsWithChildren, TextareaHTMLAttributes } from "react"
-import { FieldError, UseFormRegister } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
-type FormTextAreaPropsType = PropsWithChildren<{
-    name: string,
-    register?: UseFormRegister<any>,
+type FormTextAreaPropsType<T extends string> = PropsWithChildren<{
+    name: T,
+    register?: UseFormRegisterReturn<T>,
     label?: string,
     error?: FieldError,
 }> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "id">;
 
-const FormTextArea = ({
+const FormTextArea = <T extends string>({
     register,
     name,
     error,
     label = "",
     children,
     ...rest
-}: FormTextAreaPropsType): ReactElement => {
+}: FormTextAreaPropsType<T>): ReactElement => {
 
     const id = useId();
+
+    const errorMsg = !error ? "" : error.type === "required" ? `${label} is required` : error.message;
 
     return (
         <div className={`input-wrapper${error ? " error" : ""}`}>
@@ -31,11 +33,15 @@ const FormTextArea = ({
             )}
             <textarea
                 id={id}
-                {...(register ? register(name) : {})}
+                {...(register ? register : {})}
                 {...rest}
             >
-
             </textarea>
+            {error &&
+                <p className="text-sm errmsg-input">
+                    {errorMsg}
+                </p>
+            }
         </div>
     )
 }

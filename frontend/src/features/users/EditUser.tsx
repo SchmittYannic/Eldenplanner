@@ -124,7 +124,7 @@ const EditUser = (): ReactElement => {
                             label="Username"
                             autoComplete="off"
                             maxLength={20}
-                            register={register}
+                            register={register("newUsername")}
                             error={errors.newUsername}
                         />
 
@@ -136,7 +136,7 @@ const EditUser = (): ReactElement => {
                             label="Email"
                             autoComplete="off"
                             maxLength={80}
-                            register={register}
+                            register={register("newEmail")}
                             error={errors.newEmail}
                         />
 
@@ -148,7 +148,7 @@ const EditUser = (): ReactElement => {
                             label="New Password"
                             autoComplete="off"
                             maxLength={80}
-                            register={register}
+                            register={register("newPassword")}
                             error={errors.newPassword}
                         />
 

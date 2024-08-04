@@ -3,12 +3,14 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import useWindowSize from "src/hooks/useWindowSize";
 import { useResetMutation } from "src/features/auth/authApiSlice";
 import { AsyncButton, InputPassword } from "src/components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { resetpasswordschema } from "src/validation/userschema";
 
 type ResetPasswordType = {
     password: string,
@@ -36,7 +38,9 @@ const ResetPassword = (): ReactElement => {
         setError,
         reset: resetForm,
         formState: { errors },
-    } = useForm<ResetPasswordType>();
+    } = useForm<ResetPasswordType>({
+        resolver: yupResolver(resetpasswordschema),
+    });
 
     const [isToken, setIsToken] = useState(false);
     const [responseMsg, setResponseMsg] = useState("");
@@ -53,7 +57,7 @@ const ResetPassword = (): ReactElement => {
             setResponseMsg(message);
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, formdata)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
@@ -164,7 +168,7 @@ const ResetPassword = (): ReactElement => {
                                             label="New Password"
                                             autoComplete="off"
                                             maxLength={80}
-                                            register={register}
+                                            register={register("password")}
                                             error={errors.password}
                                         />
                                         <div className="divider-4" />
@@ -174,12 +178,12 @@ const ResetPassword = (): ReactElement => {
                                             label="Confirm"
                                             autoComplete="off"
                                             maxLength={80}
-                                            register={register}
+                                            register={register("confirm")}
                                             error={errors.confirm}
                                         />
                                         <div className="divider-4" />
 
-                                        {isError && (
+                                        {(isError && responseMsg) && (
                                             <div className="sm-alert errmsg">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                 <span>{responseMsg}</span>
@@ -199,8 +203,7 @@ const ResetPassword = (): ReactElement => {
                                         </AsyncButton>
                                     </form>
                                 </div>
-                            )
-                            }
+                            )}
                         </div>
                     </div>
                 </main>

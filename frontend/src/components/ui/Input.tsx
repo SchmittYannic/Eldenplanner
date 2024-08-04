@@ -1,23 +1,25 @@
 import { PropsWithChildren, InputHTMLAttributes, useId } from "react";
-import { FieldError, UseFormRegister } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
-type InputPropsType = PropsWithChildren<{
-    name: string,
-    register?: UseFormRegister<any>,
+type InputPropsType<T extends string> = PropsWithChildren<{
+    name: T,
+    register?: UseFormRegisterReturn<T>,
     label?: string,
     error?: FieldError,
 }> & Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "id">;
 
-const Input = ({
+const Input = <T extends string>({
     register,
     name,
     error,
     label = "",
     children,
     ...rest
-}: InputPropsType) => {
+}: InputPropsType<T>) => {
 
     const id = useId();
+
+    const errorMsg = !error ? "" : error.type === "required" ? `${label} is required` : error.message;
 
     return (
         <div className={`input-wrapper${error ? " error" : ""}`}>
@@ -31,12 +33,12 @@ const Input = ({
             )}
             <input
                 id={id}
-                {...(register ? register(name) : {})}
+                {...(register ? register : {})}
                 {...rest}
             />
             {error &&
                 <p className="text-sm errmsg-input">
-                    {error.message}
+                    {errorMsg}
                 </p>
             }
             {children}

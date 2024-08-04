@@ -52,7 +52,7 @@ const Login = (): ReactElement => {
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
@@ -103,7 +103,7 @@ const Login = (): ReactElement => {
                                 autoComplete="off"
                                 placeholder="name@example.com"
                                 maxLength={80}
-                                register={register}
+                                register={register("user", { required: true })}
                                 error={errors.user}
                             />
                             <div className="divider-4" />
@@ -113,7 +113,7 @@ const Login = (): ReactElement => {
                                 label="Password"
                                 autoComplete="off"
                                 maxLength={80}
-                                register={register}
+                                register={register("password", { required: true })}
                                 error={errors.password}
                             >
                                 <Link className="text-right text-sm" to="/reset">
@@ -121,7 +121,7 @@ const Login = (): ReactElement => {
                                 </Link>
                             </InputPassword>
                             <div className="divider-4" />
-                            {isError && responseMsg && (
+                            {(isError && responseMsg) && (
                                 <div className="sm-alert errmsg">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>{responseMsg}</span>

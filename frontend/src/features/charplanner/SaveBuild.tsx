@@ -106,7 +106,7 @@ const SaveBuild = ({
             }
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
@@ -141,7 +141,7 @@ const SaveBuild = ({
                             type="text"
                             label="Build Title"
                             maxLength={50}
-                            register={register}
+                            register={register("buildtitle", { required: true })}
                             error={errors.buildtitle}
                         />
 

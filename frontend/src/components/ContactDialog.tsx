@@ -106,7 +106,7 @@ const ContactDialog = () => {
                             autoComplete="off"
                             placeholder="Anonymous"
                             maxLength={80}
-                            register={register}
+                            register={register("email")}
                             error={errors.email}
                         />
 
@@ -118,7 +118,7 @@ const ContactDialog = () => {
                             label="Subject"
                             autoComplete="off"
                             maxLength={80}
-                            register={register}
+                            register={register("subject", { required: true })}
                             error={errors.subject}
                         />
 
@@ -130,7 +130,7 @@ const ContactDialog = () => {
                             maxLength={1500}
                             rows={8}
                             autoComplete="off"
-                            register={register}
+                            register={register("message", { required: true })}
                             error={errors.message}
                         />
 

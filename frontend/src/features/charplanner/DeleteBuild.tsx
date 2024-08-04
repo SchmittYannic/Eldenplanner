@@ -62,7 +62,7 @@ const DeleteBuild = ({
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
             if (isCustomFormError(err) && isFieldName(err.data.context.label, data)) {
-                setResponseMsg(err.data.message);
+                setResponseMsg("");
                 setError(err.data.context.label, {
                     message: err.data.message,
                 });
@@ -101,7 +101,7 @@ const DeleteBuild = ({
                             label="To Confirm, type DELETE in the field below"
                             autoComplete="off"
                             maxLength={20}
-                            register={register}
+                            register={register("confirmdeletion", { required: true })}
                             error={errors.confirmdeletion}
                         />
 
