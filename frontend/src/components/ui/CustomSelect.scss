@@ -185,25 +185,25 @@
 
 // CustomStyles
 .customselect.style1 {
-    padding-top: .1em;
-    padding-bottom: .1em;
+    padding-top: .1rem;
+    padding-bottom: .1rem;
     padding-right: 0;
     padding-left: 0;
-    min-width: 50px;
+    min-width: 60px;
 
     label {
         p {
-            left: calc(v.$default-label-x-offset + 1em);
+            left: calc(v.$default-label-x-offset + .75rem);
         }
 
         input {
             background-color: hsla(v.$accent);
             border-color: transparent;
             border-radius: 5px;
-            padding-top: 1.3em;
-            padding-bottom: 1.3em;
-            padding-left: 1em;
-            padding-right: 1em;
+            padding-top: 1.3rem;
+            padding-bottom: 1.3rem;
+            padding-left: .75rem;
+            padding-right: calc(.5rem + 21px);
 
             &:not(:placeholder-shown)+p,
             &:focus+p {
@@ -213,16 +213,16 @@
     }
 
     .ddBtn-container {
-        top: .1em;
-        bottom: .1em;
+        top: .1rem;
+        bottom: .1rem;
         right: 0;
-        width: calc(1em + 21px);
+        width: calc(.5rem + 21px);
         background-color: hsla(v.$accent);
         border-radius: 5px;
 
         button {
-            top: calc(1.4em / 2);
-            right: 1em;
+            top: calc(1.4rem / 2);
+            right: 1rem;
         }
     }
 
