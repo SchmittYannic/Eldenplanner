@@ -6,7 +6,7 @@
     pointer-events: all;
 
     label:hover {
-        color: v.$default-hover-label-font-color; 
+        color: v.$default-hover-label-font-color;
 
         input {
             color: v.$default-hover-font-color;
@@ -18,7 +18,7 @@
         position: relative;
         color: v.$default-label-font-color;
         font-size: v.$default-label-font-size;
-        background-color: v.$default-label-background-color; 
+        background-color: v.$default-label-background-color;
         cursor: v.$default-label-cursor;
 
         p {
@@ -30,9 +30,12 @@
         input {
             width: 100%;
             height: v.$InputHeight;
-            padding: v.$InputPadding;
+            padding-top: v.$InputPaddingTop;
+            padding-bottom: v.$InputPaddingBottom;
+            padding-left: v.$InputPaddingLeft;
+            padding-right: v.$ddBtnWidth;
             caret-color: v.$default-focus-label-font-color;
-    
+
             color: v.$default-font-color;
             font-family: v.$default-font-family;
             font-size: v.$default-font-size;
@@ -53,23 +56,23 @@
                 border-radius: v.$default-focus-border-radius;
             }
 
-            &:not(:placeholder-shown) + p,
-            &:focus + p {
+            &:not(:placeholder-shown)+p,
+            &:focus+p {
                 font-size: v.$default-focus-label-font-size;
                 top: v.$default-focus-label-y-offset;
                 left: v.$default-focus-label-x-offset;
                 cursor: v.$default-focus-label-cursor;
             }
 
-            &:focus + p {
+            &:focus+p {
                 color: v.$default-focus-label-font-color;
             }
 
-            &:focus ~ button {
+            &:focus~button {
                 color: v.$default-focus-label-font-color;
             }
-    
-            &:placeholder-shown:focus ~ button {
+
+            &:placeholder-shown:focus~button {
                 transform: rotate(180deg);
             }
         }
@@ -86,7 +89,7 @@
 
         button {
             height: 21px;
-            width: 21px;
+            width: v.$ddBtnWidth;
             color: inherit;
             border: none;
             cursor: pointer;
@@ -118,50 +121,50 @@
         overflow-y: scroll;
         z-index: 70;
         background-color: hsla(v.$foreground);
-    
+
         li {
             list-style: none;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-    
+
             p {
                 padding: v.$OptionPadding;
                 user-select: none;
             }
         }
-    
+
         li:not(.focused-option) p:not(.selected-option) {
             background-color: v.$default-option-background-color;
             color: v.$default-option-font-color;
         }
-    
+
         .focused-option p:not(.selected-option) {
             background-color: #666666;
             color: v.$default-option-font-color;
         }
-    
+
         li:not(.focused-option) p:not(.selected-option):hover {
             background-color: #525252;
         }
-    
+
         .focused-option p:not(.selected-option):hover {
             background-color: #7b7b7b;
         }
-    
+
         .selected-option {
             background-color: #544320;
-            color:#ffba27;
+            color: #ffba27;
         }
-    
+
         .focused-option .selected-option {
             background-color: #665020;
         }
-    
+
         .selected-option:hover {
             background-color: #372b11;
         }
-    
+
         .focused-option .selected-option:hover {
             background-color: #7b6027;
         }
@@ -202,8 +205,8 @@
             padding-left: 1em;
             padding-right: 1em;
 
-            &:not(:placeholder-shown) + p,
-            &:focus + p {
+            &:not(:placeholder-shown)+p,
+            &:focus+p {
                 display: none;
             }
         }
