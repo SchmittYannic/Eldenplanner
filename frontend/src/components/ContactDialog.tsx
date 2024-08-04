@@ -19,6 +19,7 @@ import {
 
 type ContactFormType = {
     email: string,
+    subject: string,
     message: string,
 }
 
@@ -50,7 +51,7 @@ const ContactDialog = () => {
         setIsError(false);
 
         try {
-            const { email, message } = data;
+            const { email, subject, message } = data;
 
             await emailjs.send(
                 serviceId,
@@ -59,6 +60,7 @@ const ContactDialog = () => {
                     to_name: "EldenplannerSupport",
                     from_email: email === "" ? "Anonymous" : email,
                     to_email: "eldenplanner@gmail.com",
+                    subject: subject,
                     message: message
                 },
                 publicKey,
@@ -99,13 +101,25 @@ const ContactDialog = () => {
 
                         <Input
                             name="email"
-                            type="text"
+                            type="email"
                             label="Email"
                             autoComplete="off"
                             placeholder="Anonymous"
                             maxLength={80}
                             register={register}
                             error={errors.email}
+                        />
+
+                        <div className="divider-4" />
+
+                        <Input
+                            name="subject"
+                            type="text"
+                            label="Subject"
+                            autoComplete="off"
+                            maxLength={80}
+                            register={register}
+                            error={errors.subject}
                         />
 
                         <div className="divider-4" />
