@@ -14,9 +14,9 @@
     min-width: v.$min-page-width;
     position: fixed;
     left: 50%;
-    max-width: 28rem; //32rem;
+    max-width: 28rem;
     width: 100%;
-    padding: 2rem 2.5rem 2rem 5rem;
+    padding: 2rem 2.5rem 2rem 7rem;
     background-color: hsl(v.$background);
     color: hsl(v.$accent-foreground);
     font-size: v.$font-size-normal;
@@ -49,7 +49,7 @@
     .dialog__image {
         position: absolute;
         top: 1.5rem;
-        left: 1.5rem;
+        left: 2.5rem;
 
         svg {
             display: block;
@@ -73,7 +73,6 @@
     .dialog__button-wrapper {
         display: flex;
         justify-content: end;
-        //margin-top: .5rem;
         gap: .75rem;
     }
 }
@@ -88,15 +87,25 @@
     }
 }
 
+@media only screen and (max-width: 480px) {
+    #dialog {
+        padding: 2rem;
+
+        .dialog__image {
+            display: none;
+        }
+    }
+}
+
 @media only screen and (min-width: 850px) {
     #dialog {
         max-width: 32rem;
-        padding: 2.8rem 4rem 2.8rem 6rem;
+        padding: 2.8rem 4rem 2.8rem 8rem;
 
         .dialog__image {
             position: absolute;
             top: 2rem;
-            left: 2rem;
+            left: 3rem;
 
             svg {
                 display: block;
