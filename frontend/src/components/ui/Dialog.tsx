@@ -13,8 +13,6 @@ const DialogIcon = ({
             <div className="dialog__image">
                 {children}
             </div>
-            <div className="v-divider-4" />
-            <div className="v-divider-4" />
         </>
     )
 }
