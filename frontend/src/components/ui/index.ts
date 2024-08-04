@@ -9,11 +9,12 @@ import InputPassword from "./InputPassword";
 import FormInput from "./FormInput";
 import FormTextArea from "./FormTextArea";
 import MultiSelect from "./MultiSelect";
-import TextInput from "./TextInput";
+import CharplannerTextInput from "./CharplannerTextInput";
 import { Radialhovercard, Radialhovercardimg, Radialhovercards, Radialhovercardtext } from "./Radialhovercards";
 
 export {
     AsyncButton,
+    CharplannerTextInput,
     Checkbox,
     CollapsibleList,
     CustomSelect,
@@ -28,7 +29,6 @@ export {
     FormInput,
     FormTextArea,
     MultiSelect,
-    TextInput,
     Radialhovercard,
     Radialhovercardimg,
     Radialhovercards,

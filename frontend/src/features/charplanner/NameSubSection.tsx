@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ChangeEvent, ReactElement } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     selectCharactername,
@@ -9,9 +9,9 @@ import {
     changeStartingclass,
     changeGreatrune,
     changeGreatruneactive
-} from "./charplannerSlice";
-import { TextInput, Checkbox, CustomSelect } from "../../components/ui";
-import StartingClassData from "../../../data/StartingClassData";
+} from "src/features/charplanner/charplannerSlice";
+import { CharplannerTextInput, Checkbox, CustomSelect } from "src/components/ui";
+import StartingClassData from "src/../data/StartingClassData";
 
 const NameSubSection = (): ReactElement => {
     const dispatch = useDispatch();
@@ -30,7 +30,10 @@ const NameSubSection = (): ReactElement => {
         "Mohg's Great Rune"
     ];
 
-    const setCharactername = (input: string) => dispatch(changeCharactername(input));
+    const setCharactername = (e: ChangeEvent<HTMLInputElement>) => {
+        const InputValue = e.target.value;
+        dispatch(changeCharactername(InputValue));
+    };
     const setStartingclass = (input: string) => dispatch(changeStartingclass(input));
     const setGreatrune = (input: string) => dispatch(changeGreatrune(input));
     const setGreatruneactive = (input: boolean) => dispatch(changeGreatruneactive(input));
@@ -39,10 +42,12 @@ const NameSubSection = (): ReactElement => {
 
     return (
         <div className="NameSubSection">
-            <TextInput 
-                inputText={charactername} 
-                setInputText={setCharactername}
+            <CharplannerTextInput
+                value={charactername}
+                onChange={setCharactername}
                 label="Character Name"
+                placeholder=" "
+                maxLength={16}
             />
             <CustomSelect
                 id="StartingClass"
