@@ -17,7 +17,7 @@ const TalismanSubSection = (): ReactElement => {
     const talisman = useSelector(selectTalisman);
 
     const [isConflict, setIsConflict] = useState(false);
-    const [alertContent, setAlertContent] = useState("");
+    const [conflictTalisman, setConflictTalisman] = useState("");
     const TalismanSlots: string[] = ["talisman1", "talisman2", "talisman3", "talisman4"];
 
     const setSelectedTalisman = (value: string, slot: string) => {
@@ -33,7 +33,7 @@ const TalismanSubSection = (): ReactElement => {
         } else if (value && conflicts.includes(TalismansData[value]["accessoryGroup"])) {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
             setIsConflict(true);
-            setAlertContent(`The selected Talisman "${value}" is in conflict with a Talisman in a different slot.`);
+            setConflictTalisman(value);
         } else {
             dispatch(talismanReduceractionsMap[slot as keyof TalismanReduceractionsMapType](""));
         }
@@ -52,7 +52,9 @@ const TalismanSubSection = (): ReactElement => {
 
                             <div className="divider-4" />
 
-                            <p>{alertContent}</p>
+                            <p>
+                                The selected Talisman <span style={{ color: "white" }}>{`"${conflictTalisman}"`}</span> is in conflict with a Talisman in a different slot.
+                            </p>
 
                             <div className="divider-4" />
                         </DialogContent>
