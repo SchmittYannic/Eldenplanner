@@ -212,6 +212,10 @@ textarea {
     background-color: hsl(v.$err-background-color);
 }
 
+.errmsg-input {
+    color: hsl(v.$err-background-color);
+}
+
 .succmsg {
     color: hsl(v.$succ-color);
     border-color: hsl(v.$succ-background-color);
