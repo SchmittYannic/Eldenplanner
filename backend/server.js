@@ -21,7 +21,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 const PORT = process.env.PORT || 3500;
 console.log(process.env.NODE_ENV);
 connectDB();
