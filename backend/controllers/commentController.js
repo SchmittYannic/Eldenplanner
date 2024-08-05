@@ -5,12 +5,19 @@ import CommentLike from "../models/CommentLike.js";
 // @route GET /comments
 // @access Public
 const getComments = async (req, res) => {
-    const { targetId, targetType, parentId } = req.query;
+    const { targetId, targetType, parentId, limit = 25, offset = 0 } = req.query;
     try {
         //get apply filter and get comments
         const filter = { targetId, targetType };
         if (parentId) filter.parentId = parentId;
-        const comments = await Comment.find(filter).sort({ createdAt: -1 });
+        const comments = await Comment
+            .find(filter)
+            .sort({ createdAt: -1 })
+        //.skip(parseInt(offset))
+        //.limit(parseInt(limit));
+
+        //get total amount of comments
+        const totalComments = await Comment.countDocuments({ targetId, targetType });
 
         //check if request comes from user or visitor
         const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -28,7 +35,10 @@ const getComments = async (req, res) => {
         }
         //if no userId return comments
         if (!userId) {
-            return res.status(200).json(comments);
+            return res.status(200).json({
+                comments,
+                totalComments,
+            });
         }
 
         //get all the likes of the user to the found comments
@@ -41,7 +51,10 @@ const getComments = async (req, res) => {
             hasLiked: likedCommentIds.includes(comment._id.toString())
         }));
         //send the commentsWithLikeStatus
-        res.status(200).json(commentsWithLikeStatus);
+        res.status(200).json({
+            comments: commentsWithLikeStatus,
+            totalComments,
+        });
     } catch (err) {
         res.status(500).json({ message: "Error retrieving comments" });
     }
