@@ -34,6 +34,7 @@ export type sortCommentsType = "new" | "old" | "popular";
 export type CommentType = {
     id: string;
     authorId: string;
+    username: string;
     parentId: string | null;
     targetId: string;
     targetType: TargetTypeType;
