@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import Comment from "../models/Comment.js";
 import CommentLike from "../models/CommentLike.js";
 import User from "../models/User.js";
@@ -22,12 +23,25 @@ const getComments = async (req, res) => {
         /* add Cursor-Based Pagination with Sorting by Metrics later*/
         const sortOption = sort === "popular" ? { likes: -1 } : sort === "old" ? { createdAt: 1 } : { createdAt: -1 };
         if (parentId) filter.parentId = parentId;
-        if (sort === "new") filter.createdAt = { $lt: lastFetchedTimestamp };
-        if (sort === "old") filter.createdAt = { $gt: lastFetchedTimestamp };
+        if (sort === "new") {
+            const lfts = lastFetchedTimestamp ? lastFetchedTimestamp : new Date();
+            filter.createdAt = { $lt: lfts };
+        }
+        if (sort === "old") {
+            const lfts = lastFetchedTimestamp ? lastFetchedTimestamp : new Date(0).toISOString()
+            filter.createdAt = { $gt: lfts };
+        }
+
         const comments = await Comment
             .find(filter)
             .sort(sortOption)
         //.limit(parseInt(limit));
+
+        //convert _id to id
+        const transformedComments = comments.map(comment => ({
+            id: comment._id.toString(),
+            ...comment.toObject()
+        }));
 
         //get total amount of comments
         const totalComments = await Comment.countDocuments({ targetId, targetType });
@@ -49,7 +63,7 @@ const getComments = async (req, res) => {
         //if no userId return comments
         if (!userId) {
             return res.status(200).json({
-                comments,
+                comments: transformedComments,
                 totalComments,
             });
         }
@@ -60,6 +74,7 @@ const getComments = async (req, res) => {
         const likedCommentIds = likes.map(like => like.commentId.toString());
         //attach the like status to the found comments
         const commentsWithLikeStatus = comments.map(comment => ({
+            id: comment._id.toString(),
             ...comment.toObject(),
             hasLiked: likedCommentIds.includes(comment._id.toString())
         }));
