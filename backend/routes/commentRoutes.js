@@ -19,7 +19,7 @@ router.route("/")
 router.route("/:id")
     .get(getCommentById)
     .patch(verifyJWT, updateComment)
-    .delete(deleteComment) //make private
+    .delete(verifyJWT, deleteComment)
 
 router.route("/:id/like")
     .get(getUserLikedComment) //maybe private???
