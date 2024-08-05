@@ -28,6 +28,10 @@ const commentSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        dislikes: {
+            type: Number,
+            default: 0,
+        },
     },
     {
         timestamps: true
