@@ -36,8 +36,41 @@ const getCommentById = async (req, res) => {
 // @route POST /comments
 // @access Private
 const createComment = async (req, res) => {
+    const { userId } = req;
     const { authorId, content, targetId, targetType, parentId } = req.body;
     try {
+        //check if authenticated user is author
+        if (userId !== authorId) {
+            return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
+        }
+
+        //check if author exists in database -> maybe redundant
+        const author = await User.findById(authorId);
+        if (!author) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        //check if parentId exists in database
+        if (parentId) {
+            const parentComment = await Comment.findById(parentId);
+            if (!parentComment) {
+                return res.status(400).json({ message: "Parent comment not found" });
+            }
+        }
+
+        //check if targetId exists in database
+        let target;
+        if (targetType === "Build") {
+            target = await Build.findById(targetId);
+        } else if (targetType === "User") {
+            target = await User.findById(targetId);
+        }
+
+        if (!target) {
+            return res.status(400).json({ message: "Target not found" });
+        }
+
+        //create new comment in database
         const newComment = await Comment.create({
             authorId,
             parentId: parentId ? parentId : null,
