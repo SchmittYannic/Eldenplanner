@@ -245,8 +245,8 @@ const addLike = async (req, res) => {
 
         //create like in database
         await CommentLike.create({ commentId: id, userId });
-        //increment the likesCount of comment
-        foundComment.likesCount += 1;
+        //increment the likes of comment
+        foundComment.likes += 1;
         //save the updated document
         await foundComment.save();
         res.status(201).json({ message: "Like added" });
@@ -283,8 +283,8 @@ const deleteLike = async (req, res) => {
         }
 
         //only decrease likeCount by 1 if likeCount is bigger than 0
-        if (foundComment.likesCount > 0) {
-            foundComment.likesCount -= 1;
+        if (foundComment.likes > 0) {
+            foundComment.likes -= 1;
         }
 
         await foundComment.save()
