@@ -1,5 +1,12 @@
-import { Link } from "react-router-dom"
-import { CommentType } from "src/types"
+import { Link } from "react-router-dom";
+import {
+    BsHandThumbsUp,
+    BsHandThumbsUpFill,
+    BsHandThumbsDown,
+    BsHandThumbsDownFill,
+} from "react-icons/bs";
+import { CommentType } from "src/types";
+import { sinceDateInString } from "src/utils/functions";
 
 type CommentPropsType = {
     comment: CommentType,
@@ -8,6 +15,12 @@ type CommentPropsType = {
 const Comment = ({
     comment
 }: CommentPropsType) => {
+
+    const commentCreatedAt = new Date(comment.createdAt);
+    const commentSince = sinceDateInString(commentCreatedAt);
+    const commentUpdatedAt = new Date(comment.updatedAt);
+    const gotCommentUpdated = commentCreatedAt.getTime() !== commentUpdatedAt.getTime();
+
     return (
         <div className="comment">
             <div className="comment-thread">
@@ -15,50 +28,80 @@ const Comment = ({
                     <div className="author-thumbnail">
                         <Link
                             className="img-link"
-                            to={"/"}
+                            to={`/user/${comment.authorId}`}
                         >
-                            <img src="" alt="" />
+                            <div>
+                                <img src="" alt="" />
+                            </div>
                         </Link>
                     </div>
                     <div className="comment-main">
                         <div className="comment-header">
                             <div className="comment-author">
-                                <h3>author</h3>
+                                <h3>
+                                    <Link
+                                        className="text-sm"
+                                        to={`/user/${comment.authorId}`}
+                                    >
+                                        {comment.username}
+                                    </Link>
+                                </h3>
                                 <span className="published-time-text">
-                                    vor 2 Stunden
+                                    {commentSince} {gotCommentUpdated && "(edited)"}
                                 </span>
                             </div>
                         </div>
                         <div className="comment-content">
-                            <span>Lorem ipsum</span>
+                            <span>{comment.content}</span>
                         </div>
                         <div className="comment-engagement-bar">
                             <div className="toolbar">
-                                <button>
-                                    like
+                                <button
+                                    className="like-btn"
+                                    type="button"
+                                >
+                                    <div
+                                        className="icon-container"
+                                    >
+                                        {comment?.hasLiked ?
+                                            <BsHandThumbsUpFill aria-hidden />
+                                            :
+                                            <BsHandThumbsUp aria-hidden />
+                                        }
+                                    </div>
                                 </button>
                                 <span className="likecount">
-                                    200
+                                    {comment.likes}
                                 </span>
-                                <button>
-                                    dislike
+                                <button
+                                    className="dislike-btn"
+                                    type="button"
+                                >
+                                    <div
+                                        className="icon-container"
+                                    >
+                                        {/* Change button once hasDisliked is created */}
+                                        <BsHandThumbsDown aria-hidden />
+                                    </div>
                                 </button>
                                 <span className="dislikecount">
-                                    5
+                                    {comment.dislikes}
                                 </span>
-                                <div className="reply-btn-wrapper">
-                                    <button>
-                                        reply
+                                <span className="reply-btn-wrapper">
+                                    <button
+                                        type="button"
+                                    >
+                                        Reply
                                     </button>
-                                </div>
+                                </span>
                             </div>
                             <div className="reply-dialog">
-
+                                {/* write reply functionality here */}
                             </div>
                         </div>
                     </div>
                     <div className="comment-action-menu">
-
+                        {/* add burger menu with actions like edit */}
                     </div>
                 </div>
 
