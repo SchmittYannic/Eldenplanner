@@ -1,5 +1,5 @@
 import { apiSlice, tagTypesType } from "src/app/api/apiSlice";
-import { sortCommentsType, CommentType } from "src/types";
+import { sortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
 
 type GetCommentsQueryParamsType = {
     targetId: string,
@@ -11,7 +11,7 @@ type GetCommentsQueryParamsType = {
 
 export const commentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getComments: builder.query<CommentType[], GetCommentsQueryParamsType>({
+        getComments: builder.query<GetCommentsResponseType, GetCommentsQueryParamsType>({
             query: ({ targetId, targetType, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
                 url: `/comments?targetId=${targetId}&targetType=${targetType}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
                 validateStatus: (response, result) => {
@@ -19,11 +19,11 @@ export const commentApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             providesTags: (result, _error, { targetId, targetType }) =>
-                result ?
-                    [...result.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
-                    { type: "Comments", id: `${targetId}-${targetType}` }]
-                    :
-                    [{ type: "Comments", id: `${targetId}-${targetType}` }],
+                result ? [
+                    ...result.comments.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
+                    { type: "Comments", id: `${targetId}-${targetType}` }
+                ]
+                    : [{ type: "Comments", id: `${targetId}-${targetType}` }],
             // providesTags: (result, _error, _args) =>
             //     result ?
             //         [
