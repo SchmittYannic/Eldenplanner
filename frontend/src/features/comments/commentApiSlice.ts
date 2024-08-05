@@ -1,30 +1,17 @@
 import { apiSlice, tagTypesType } from "src/app/api/apiSlice";
-
-export type Comment = {
-    id: string;
-    authorId: string;
-    parentId: string | null;
-    targetId: string;
-    targetType: "Build" | "User";
-    content: string;
-    likesCount: number;
-    createdAt: string;
-    updatedAt: string;
-    replies?: Comment[];
-    hasLiked?: boolean;
-}
+import { sortCommentsType, CommentType } from "src/types";
 
 type GetCommentsQueryParamsType = {
     targetId: string,
     targetType: string,
     lastFetchedTimestamp: string,
-    sort?: "new" | "old" | "popular",
+    sort?: sortCommentsType,
     limit?: number,
 }
 
 export const commentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getComments: builder.query<Comment[], GetCommentsQueryParamsType>({
+        getComments: builder.query<CommentType[], GetCommentsQueryParamsType>({
             query: ({ targetId, targetType, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
                 url: `/comments?targetId=${targetId}&targetType=${targetType}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
                 validateStatus: (response, result) => {
@@ -45,7 +32,7 @@ export const commentApiSlice = apiSlice.injectEndpoints({
             //         ] :
             //         [{ type: "Comments", id: "LIST" }],
         }),
-        createComment: builder.mutation<Comment, Partial<Comment>>({
+        createComment: builder.mutation<CommentType, Partial<CommentType>>({
             query: (newComment) => ({
                 url: "/comments",
                 method: "POST",
@@ -56,7 +43,7 @@ export const commentApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: [{ type: "Comments", id: "LIST" }],
         }),
-        updateComment: builder.mutation<Comment, { id: string, content: string }>({
+        updateComment: builder.mutation<CommentType, { id: string, content: string }>({
             query: ({ id, content }) => ({
                 url: `/comments/${id}`,
                 method: "PATCH",
