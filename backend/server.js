@@ -14,6 +14,7 @@ import rootRoute from "./routes/root.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import buildRoutes from "./routes/buildRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 /* Configurations */
 dotenv.config();
@@ -42,6 +43,7 @@ app.use("/", rootRoute);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/builds", buildRoutes);
+app.use("/comments", commentRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes
