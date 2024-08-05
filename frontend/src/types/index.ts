@@ -26,3 +26,22 @@ export type CustomError = {
     },
     status: number
 };
+
+export type TargetTypeType = "Build" | "User";
+
+export type sortCommentsType = "new" | "old" | "popular";
+
+export type CommentType = {
+    id: string;
+    authorId: string;
+    parentId: string | null;
+    targetId: string;
+    targetType: TargetTypeType;
+    content: string;
+    likes: number;
+    dislikes: number;
+    createdAt: string;
+    updatedAt: string;
+    replies?: Comment[];
+    hasLiked?: boolean;
+}
