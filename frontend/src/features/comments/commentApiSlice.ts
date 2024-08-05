@@ -14,22 +14,36 @@ export type Comment = {
     hasLiked?: boolean;
 }
 
+type GetCommentsQueryParamsType = {
+    targetId: string,
+    targetType: string,
+    lastFetchedTimestamp: string,
+    sort?: "new" | "old" | "popular",
+    limit?: number,
+}
+
 export const commentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getComments: builder.query<Comment[], { targetId: string, targetType: string }>({
-            query: ({ targetId, targetType }) => ({
-                url: `/comments?targetId=${targetId}&targetType=${targetType}`,
+        getComments: builder.query<Comment[], GetCommentsQueryParamsType>({
+            query: ({ targetId, targetType, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
+                url: `/comments?targetId=${targetId}&targetType=${targetType}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
-            providesTags: (result, _error, _args) =>
+            providesTags: (result, _error, { targetId, targetType }) =>
                 result ?
-                    [
-                        ...result.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
-                        { type: "Comments", id: "LIST" }
-                    ] :
-                    [{ type: "Comments", id: "LIST" }],
+                    [...result.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
+                    { type: "Comments", id: `${targetId}-${targetType}` }]
+                    :
+                    [{ type: "Comments", id: `${targetId}-${targetType}` }],
+            // providesTags: (result, _error, _args) =>
+            //     result ?
+            //         [
+            //             ...result.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
+            //             { type: "Comments", id: "LIST" }
+            //         ] :
+            //         [{ type: "Comments", id: "LIST" }],
         }),
         createComment: builder.mutation<Comment, Partial<Comment>>({
             query: (newComment) => ({

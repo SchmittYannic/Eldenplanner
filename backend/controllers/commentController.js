@@ -5,15 +5,26 @@ import CommentLike from "../models/CommentLike.js";
 // @route GET /comments
 // @access Public
 const getComments = async (req, res) => {
-    const { targetId, targetType, parentId, limit = 25, offset = 0 } = req.query;
+    const {
+        targetId,
+        targetType,
+        parentId,
+        sort = "new",
+        limit = 25,
+        lastFetchedTimestamp,
+    } = req.query;
     try {
         //get apply filter and get comments
         const filter = { targetId, targetType };
+
+        /* add Cursor-Based Pagination with Sorting by Metrics later*/
+        const sortOption = sort === "popular" ? { likes: -1 } : sort === "old" ? { createdAt: 1 } : { createdAt: -1 };
         if (parentId) filter.parentId = parentId;
+        if (sort === "new") filter.createdAt = { $lt: lastFetchedTimestamp };
+        if (sort === "old") filter.createdAt = { $gt: lastFetchedTimestamp };
         const comments = await Comment
             .find(filter)
-            .sort({ createdAt: -1 })
-        //.skip(parseInt(offset))
+            .sort(sortOption)
         //.limit(parseInt(limit));
 
         //get total amount of comments
