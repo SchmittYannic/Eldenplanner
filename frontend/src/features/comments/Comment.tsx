@@ -62,8 +62,16 @@ const Comment = ({
                     </div>
                 </div>
 
-                {/* Add replies here */}
-
+                <div className="comment-replies">
+                    <div className="expander">
+                        <div className="expander-header">
+                            {/* Add Button to expand replies here */}
+                        </div>
+                        <div className="expander-content">
+                            {/* Add replies here */}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
