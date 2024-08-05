@@ -34,13 +34,19 @@ const getComments = async (req, res) => {
 
         const comments = await Comment
             .find(filter)
+            .populate({
+                path: "authorId",
+                select: "username"
+            })
             .sort(sortOption)
         //.limit(parseInt(limit));
 
-        //convert _id to id
+        //convert _id to id and transform the authorId object into a string + attaching username
         const transformedComments = comments.map(comment => ({
+            ...comment.toObject(),
             id: comment._id.toString(),
-            ...comment.toObject()
+            authorId: comment.authorId._id.toString(),
+            username: comment.authorId.username,
         }));
 
         //get total amount of comments
@@ -72,10 +78,13 @@ const getComments = async (req, res) => {
         const commentIds = comments.map(comment => comment._id);
         const likes = await CommentLike.find({ commentId: { $in: commentIds }, userId });
         const likedCommentIds = likes.map(like => like.commentId.toString());
+        //convert _id to id and transform the authorId object into a string + attaching username
         //attach the like status to the found comments
         const commentsWithLikeStatus = comments.map(comment => ({
-            id: comment._id.toString(),
             ...comment.toObject(),
+            id: comment._id.toString(),
+            authorId: comment.authorId._id.toString(),
+            username: comment.authorId.username,
             hasLiked: likedCommentIds.includes(comment._id.toString())
         }));
         //send the commentsWithLikeStatus
