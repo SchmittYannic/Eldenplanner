@@ -1,4 +1,5 @@
 import express from "express";
+import verifyJWT from "../middleware/verifyJWT.js";
 import {
     addLike,
     createComment,
@@ -13,7 +14,7 @@ const router = express.Router();
 
 router.route("/")
     .get(getComments)
-    .post(createComment) //make private
+    .post(verifyJWT, createComment)
 
 router.route("/:id")
     .get(getCommentById)
