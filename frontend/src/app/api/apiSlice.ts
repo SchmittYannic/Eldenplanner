@@ -49,8 +49,11 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
     return result
 }
 
+const tagTypes = ["User", "Build", "Comments", "Likes"] as const;
+export type tagTypesType = typeof tagTypes[number];
+
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["User", "Build"],
+    tagTypes: tagTypes,
     endpoints: () => ({})
 });
