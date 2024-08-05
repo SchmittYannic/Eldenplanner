@@ -94,6 +94,11 @@ const updateComment = async (req, res) => {
     try {
         const foundComment = await Comment.findById(id);
 
+        //check if comment exists
+        if (!foundComment) {
+            return res.status(400).json({ message: "Comment not found" });
+        }
+
         //check if authenticated user is author
         if (!foundComment.authorId.equals(userId)) {
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
@@ -116,9 +121,23 @@ const updateComment = async (req, res) => {
 // @route DELETE /comments/:id
 // @access Private
 const deleteComment = async (req, res) => {
+    const { userId } = req;
     const { id } = req.params;
     try {
-        const deletedComment = await Comment.findByIdAndDelete(id);
+        const foundComment = await Comment.findById(id);
+
+        //check if comment exists
+        if (!foundComment) {
+            return res.status(400).json({ message: "Comment not found" });
+        }
+
+        //check if authenticated user is author
+        if (!foundComment.authorId.equals(userId)) {
+            return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
+        }
+
+        const deletedComment = await foundComment.deleteOne();
+
         if (deletedComment) {
             res.status(200).json({ message: "Comment deleted successfully" });
         } else {
