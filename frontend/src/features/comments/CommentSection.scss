@@ -1,0 +1,116 @@
+@use "src/Variables" as v;
+
+.CommentSection {
+    width: 100%;
+
+    .comment-body {
+        display: flex;
+    }
+
+    .author-thumbnail {
+        width: 56px;
+    }
+
+    .comment-main {
+        flex-grow: 1;
+    }
+
+    .comment-action-menu {
+        width: 40px;
+    }
+
+    .comment-header {
+        margin-bottom: 2px;
+    }
+
+    .comment-author {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+
+        a {
+            margin-right: 4px;
+            font-size: v.$font-size-normal;
+            font-weight: 500;
+            color: hsl(v.$accent-foreground);
+            text-decoration: none;
+        }
+
+        .published-time-text {
+            color: hsl(v.$muted-foreground);
+            font-size: v.$font-size-small;
+        }
+    }
+
+    .comment-engagement-bar {
+        margin-top: 4px;
+    }
+
+    .toolbar {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .img-link {
+        display: block;
+        width: 100%;
+
+        div {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 16px;
+            overflow: hidden;
+            background-color: white;
+        }
+    }
+
+    .like-btn,
+    .dislike-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+
+        .icon-container {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        svg {
+            display: block;
+            color: hsl(v.$accent-foreground);
+            width: 20px;
+            height: 20px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: hsl(v.$accent3);
+        }
+    }
+
+    .likecount,
+    .dislikecount {
+        align-self: center;
+        font-size: v.$font-size-small;
+        color: hsl(v.$muted-foreground);
+    }
+
+    .reply-btn-wrapper {
+        margin-left: 8px;
+
+        button {
+            height: 100%;
+            padding: 0 12px;
+            font-size: v.$font-size-small;
+            font-weight: 500;
+            color: hsl(v.$accent-foreground);
+            border-radius: 16px;
+
+            &:hover,
+            &:focus-visible {
+                background-color: hsl(v.$accent3);
+            }
+        }
+    }
+}

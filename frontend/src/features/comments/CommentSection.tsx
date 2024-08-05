@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCommentsQuery } from "src/features/comments/commentApiSlice";
 import Comment from "src/features/comments/Comment";
 import { CommentType, sortCommentsType, TargetTypeType } from "src/types";
-
+import "src/features/comments/CommentSection.scss";
 
 type CommentSectionPropsType = {
     targetId: string,
@@ -35,18 +35,30 @@ const CommentSection = ({
         limit,
     });
 
-    console.log(data)
+    useEffect(() => {
+        if (data) {
+            setComments(prevComments => [...prevComments, ...data.comments]);
+            setHasMore(data.comments.length === 25); // Check if more comments are available
+            if (data.comments.length) {
+                setLastFetchedTimestamp(data.comments[data.comments.length - 1].createdAt);
+            }
+        }
+    }, [data]);
+
+    console.log(comments)
 
     return (
         <section className="CommentSection">
             <h2>Comments</h2>
 
-            {comments.map((comment) => (
-                <Comment
-                    key={comment.id}
-                    comment={comment}
-                />
-            ))}
+            <div className="comments">
+                {comments.map((comment) => (
+                    <Comment
+                        key={comment.id}
+                        comment={comment}
+                    />
+                ))}
+            </div>
         </section>
     )
 }
