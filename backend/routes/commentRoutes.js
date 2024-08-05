@@ -25,6 +25,4 @@ router.route("/:id/like")
     .post(addLike) //make private
     .delete(deleteLike) //make private
 
-
-
 export default router;
