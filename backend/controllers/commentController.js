@@ -1,5 +1,7 @@
 import Comment from "../models/Comment.js";
 import CommentLike from "../models/CommentLike.js";
+import User from "../models/User.js";
+import Build from "../models/Build.js";
 
 // @desc Get comments
 // @route GET /comments
