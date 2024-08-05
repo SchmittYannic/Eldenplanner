@@ -22,7 +22,7 @@ router.route("/:id")
     .delete(verifyJWT, deleteComment)
 
 router.route("/:id/like")
-    .get(getUserLikedComment) //maybe private???
+    .get(getUserLikedComment) //maybe private??? //maybe not even need anymore
     .post(verifyJWT, addLike)
     .delete(verifyJWT, deleteLike)
 
