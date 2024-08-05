@@ -1,4 +1,5 @@
 import Comment from "../models/Comment.js";
+import CommentLike from "../models/CommentLike.js";
 
 // @desc Get comments
 // @route GET /comments
@@ -166,13 +167,30 @@ const getUserLikedComment = async (req, res) => {
 // @route POST /comments/:id/like
 // @access Private
 const addLike = async (req, res) => {
+    const { userId } = req;
     const { id } = req.params;
-    const { userId } = req.body;
     try {
+        const foundComment = await Comment.findById(id);
+
+        //check if comment exists
+        if (!foundComment) {
+            return res.status(400).json({ message: "Comment not found" });
+        }
+
+        //check if authenticated user is author
+        if (foundComment.authorId.equals(userId)) {
+            return res.status(403).json({ message: "User cannot like their own comments" })
+        }
+
+        //create like in database
         await CommentLike.create({ commentId: id, userId });
-        await Comment.findByIdAndUpdate(id, { $inc: { likesCount: 1 } });
+        //increment the likesCount of comment
+        foundComment.likesCount += 1;
+        //save the updated document
+        await foundComment.save();
         res.status(201).json({ message: "Like added" });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: "Error adding like" });
     }
 };
