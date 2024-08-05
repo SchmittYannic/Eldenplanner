@@ -45,3 +45,8 @@ export type CommentType = {
     replies?: Comment[];
     hasLiked?: boolean;
 }
+
+export type GetCommentsResponseType = {
+    comments: CommentType[];
+    totalComments: number;
+};
