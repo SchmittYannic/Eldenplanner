@@ -18,7 +18,7 @@ router.route("/")
 
 router.route("/:id")
     .get(getCommentById)
-    .patch(updateComment) //make private
+    .patch(verifyJWT, updateComment)
     .delete(deleteComment) //make private
 
 router.route("/:id/like")
