@@ -142,7 +142,7 @@ const deleteComment = async (req, res) => {
         if (deletedComment) {
             res.status(200).json({ message: "Comment deleted successfully" });
         } else {
-            res.status(404).json({ message: "Comment not found" });
+            res.status(404).json({ message: "Comment not deleted because it was not found" });
         }
     } catch (err) {
         res.status(500).json({ message: "Error deleting comment" });
@@ -182,6 +182,12 @@ const addLike = async (req, res) => {
             return res.status(403).json({ message: "User cannot like their own comments" })
         }
 
+        //check if comment is already liked
+        const foundLike = await CommentLike.findOne({ commentId: id, userId });
+        if (foundLike) {
+            return res.status(400).json({ message: "Comment is already liked" });
+        }
+
         //create like in database
         await CommentLike.create({ commentId: id, userId });
         //increment the likesCount of comment
@@ -199,11 +205,34 @@ const addLike = async (req, res) => {
 // @route DELETE /comments/:id/like
 // @access Private
 const deleteLike = async (req, res) => {
+    const { userId } = req;
     const { id } = req.params;
-    const { userId } = req.body;
     try {
-        await CommentLike.findOneAndDelete({ commentId: id, userId });
-        await Comment.findByIdAndUpdate(id, { $inc: { likesCount: -1 } });
+        const foundComment = await Comment.findById(id);
+
+        //check if comment exists
+        if (!foundComment) {
+            return res.status(400).json({ message: "Comment not found" });
+        }
+
+        const foundLike = await CommentLike.findOne({ commentId: id, userId });
+        //check if comment is liked
+        if (!foundLike) {
+            return res.status(400).json({ message: "Like not found" });
+        }
+
+        const deletedLike = await foundLike.deleteOne();
+        //check if like got deleted
+        if (!deletedLike) {
+            return res.status(404).json({ message: "Like not deleted because it was not found" });
+        }
+
+        //only decrease likeCount by 1 if likeCount is bigger than 0
+        if (foundComment.likesCount > 0) {
+            foundComment.likesCount -= 1;
+        }
+
+        await foundComment.save()
         res.status(200).json({ message: "Like removed" });
     } catch (err) {
         res.status(500).json({ message: "Error removing like" });
