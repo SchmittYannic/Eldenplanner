@@ -17,6 +17,7 @@ import CharacterSection from "src/features/charplanner/CharacterSection";
 import EquipmentSection from "src/features/charplanner/EquipmentSection";
 import InfoSection from "src/features/charplanner/InfoSection";
 import ActionsSection from "src/features/charplanner/ActionsSection";
+import CommentSection from "../comments/CommentSection";
 import "src/features/charplanner/Charplanner.scss";
 
 const Charplanner = (): ReactElement => {
@@ -114,6 +115,13 @@ const Charplanner = (): ReactElement => {
                 <InfoSection />
                 <ActionsSection isBuildAuthor={isBuildAuthor} />
             </div>
+
+            {param?.buildId &&
+                <CommentSection
+                    targetId={param.buildId}
+                    targetType="Build"
+                />
+            }
         </main>
     )
 };
