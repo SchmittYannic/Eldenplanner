@@ -7,10 +7,41 @@ import CommentLike from "../models/CommentLike.js";
 const getComments = async (req, res) => {
     const { targetId, targetType, parentId } = req.query;
     try {
+        //get apply filter and get comments
         const filter = { targetId, targetType };
         if (parentId) filter.parentId = parentId;
         const comments = await Comment.find(filter).sort({ createdAt: -1 });
-        res.status(200).json(comments);
+
+        //check if request comes from user or visitor
+        const authHeader = req.headers.authorization || req.headers.Authorization;
+        let userId = null;
+        if (authHeader?.startsWith("Bearer ")) {
+            const token = authHeader.split(" ")[1];
+            jwt.verify(
+                token,
+                process.env.ACCESS_TOKEN_SECRET,
+                (err, decoded) => {
+                    if (err) return
+                    userId = decoded.UserInfo.userId;
+                }
+            );
+        }
+        //if no userId return comments
+        if (!userId) {
+            return res.status(200).json(comments);
+        }
+
+        //get all the likes of the user to the found comments
+        const commentIds = comments.map(comment => comment._id);
+        const likes = await CommentLike.find({ commentId: { $in: commentIds }, userId });
+        const likedCommentIds = likes.map(like => like.commentId.toString());
+        //attach the like status to the found comments
+        const commentsWithLikeStatus = comments.map(comment => ({
+            ...comment.toObject(),
+            hasLiked: likedCommentIds.includes(comment._id.toString())
+        }));
+        //send the commentsWithLikeStatus
+        res.status(200).json(commentsWithLikeStatus);
     } catch (err) {
         res.status(500).json({ message: "Error retrieving comments" });
     }
