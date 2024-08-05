@@ -88,10 +88,20 @@ const createComment = async (req, res) => {
 // @route PATCH /comments/:id
 // @access Private
 const updateComment = async (req, res) => {
+    const { userId } = req;
     const { id } = req.params;
-    const updateData = req.body;
+    const { content } = req.body;
     try {
-        const updatedComment = await Comment.findByIdAndUpdate(id, updateData, { new: true });
+        const foundComment = await Comment.findById(id);
+
+        //check if authenticated user is author
+        if (!foundComment.authorId.equals(userId)) {
+            return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
+        }
+
+        foundComment.content = content;
+        const updatedComment = await foundComment.save();
+
         if (updatedComment) {
             res.status(200).json(updatedComment);
         } else {
