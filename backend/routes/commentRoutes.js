@@ -24,6 +24,6 @@ router.route("/:id")
 router.route("/:id/like")
     .get(getUserLikedComment) //maybe private???
     .post(verifyJWT, addLike)
-    .delete(deleteLike) //make private
+    .delete(verifyJWT, deleteLike)
 
 export default router;
