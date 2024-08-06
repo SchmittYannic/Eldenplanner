@@ -29,7 +29,7 @@ export type CustomError = {
 
 export type TargetTypeType = "Build" | "User";
 
-export type sortCommentsType = "new" | "old" | "popular";
+export type SortCommentsType = "new" | "old" | "popular";
 
 export type CommentType = {
     id: string;
@@ -44,7 +44,7 @@ export type CommentType = {
     dislikes: number;
     createdAt: string;
     updatedAt: string;
-    replies?: Comment[];
+    replies?: CommentType[];
     hasLiked?: boolean;
 }
 
