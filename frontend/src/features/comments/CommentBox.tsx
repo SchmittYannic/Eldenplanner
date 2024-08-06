@@ -17,11 +17,10 @@ const CommentBox = ({
 
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
     const [commentText, setCommentText] = useState("");
-    //const [showCommentBoxFooter, setShowCommentBoxFooter] = useState(false);
 
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = e.target;
-        setCommentText(value)
+        setCommentText(value);
     };
 
     const handleCancelClicked = () => {
@@ -36,8 +35,8 @@ const CommentBox = ({
 
         const adjustTextareaSize = () => {
             if (!textareaRef.current) return
-            textareaRef.current.style.height = "auto"; // Reset the height
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set the height to match the content
+            textareaRef.current.style.height = "auto";
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
 
         textareaRef.current.addEventListener("input", adjustTextareaSize);
@@ -53,9 +52,9 @@ const CommentBox = ({
 
         const adjustTextareaSize = () => {
             if (!textareaDefaultRef.current) return
-            textareaDefaultRef.current.style.height = "auto"; // Reset the height
-            textareaDefaultRef.current.style.height = `${textareaDefaultRef.current.scrollHeight}px`; // Set the height to match the content
-        }
+            textareaDefaultRef.current.style.height = "auto";
+            textareaDefaultRef.current.style.height = `${textareaDefaultRef.current.scrollHeight}px`;
+        };
 
         textareaDefaultRef.current.addEventListener("input", adjustTextareaSize);
 
