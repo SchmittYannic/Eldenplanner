@@ -27,6 +27,7 @@ const CommentSection = ({
         isFetching,
         isError,
         isSuccess,
+        refetch,
     } = useGetCommentsQuery({
         targetId,
         targetType,
@@ -37,10 +38,22 @@ const CommentSection = ({
 
     useEffect(() => {
         if (data) {
-            setComments(prevComments => [...prevComments, ...data.comments]);
-            setHasMore(data.comments.length === 25); // Check if more comments are available
-            if (data.comments.length) {
-                setLastFetchedTimestamp(data.comments[data.comments.length - 1].createdAt);
+            const { comments: newComments, totalComments } = data;
+
+            if (newComments.length > 0) {
+                setComments((prev) => {
+                    const existingIds = new Set(prev.map(comment => comment.id));
+                    const uniqueNewComments = newComments.filter(comment => !existingIds.has(comment.id));
+                    return [...prev, ...uniqueNewComments];
+                });
+
+                // Update lastFetchedTimestamp based on the last comment's timestamp in the new data
+                setLastFetchedTimestamp(newComments[newComments.length - 1]?.createdAt || "");
+
+                // Check if there are more comments to fetch
+                if (comments.length >= totalComments) {
+                    setHasMore(false);
+                }
             }
         }
     }, [data]);
