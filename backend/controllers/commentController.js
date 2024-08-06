@@ -36,7 +36,7 @@ const getComments = async (req, res) => {
             .find(filter)
             .populate({
                 path: "authorId",
-                select: "username"
+                select: "username avatarUrl"
             })
             .sort(sortOption)
         //.limit(parseInt(limit));
@@ -47,6 +47,7 @@ const getComments = async (req, res) => {
             id: comment._id.toString(),
             authorId: comment.authorId._id.toString(),
             username: comment.authorId.username,
+            avatarUrl: comment.authorId.avatarUrl,
         }));
 
         //get total amount of comments
@@ -85,6 +86,7 @@ const getComments = async (req, res) => {
             id: comment._id.toString(),
             authorId: comment.authorId._id.toString(),
             username: comment.authorId.username,
+            avatarUrl: comment.authorId.avatarUrl,
             hasLiked: likedCommentIds.includes(comment._id.toString())
         }));
         //send the commentsWithLikeStatus
