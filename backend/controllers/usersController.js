@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import { signupschema, passwordschema, usernameschema, emailschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
+import avatarUrlLookup from "../config/avatarUrlLookup.js";
 
 // @desc Get all users
 // @route GET /users
@@ -58,11 +59,16 @@ const createNewUser = async (req, res) => {
         /* hash password */
         const hashedPwd = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
+        /* get default profile picture */
+        const firstLetterUsername = Array.from(username)[0].toLowerCase();
+        const avatarUrl = avatarUrlLookup[firstLetterUsername];
+
         /* Create and store new user in DB */
         const user = await User.create({
             username,
             password: hashedPwd,
             email: email.toLowerCase(),
+            avatarUrl,
         });
 
         if (user) {
@@ -150,6 +156,14 @@ const updateUser = async (req, res) => {
             }
             //set new username
             user.username = newUsername;
+
+            /* since no avatar upload possible right now a username change will also change avatar */
+            /* get new profile picture */
+            const firstLetterNewUsername = Array.from(newUsername)[0].toLowerCase();
+            const newAvatarUrl = avatarUrlLookup[firstLetterNewUsername];
+
+            //set new avatarUrl
+            user.avatarUrl = newAvatarUrl;
         }
 
         //user wants to change email
