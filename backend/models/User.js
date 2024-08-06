@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import avatarUrlLookup from "../config/avatarUrlLookup.js";
 
 const userSchema = new mongoose.Schema(
     {
@@ -13,6 +14,10 @@ const userSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+        },
+        avatarUrl: {
+            type: String,
+            default: [avatarUrlLookup["a"]],
         },
         roles: {
             type: [String],
