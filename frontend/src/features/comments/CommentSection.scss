@@ -2,6 +2,12 @@
 
 .CommentSection {
     width: 100%;
+    margin-bottom: 50px; //just for testing remove later
+
+    .comment-section-header {
+        margin-top: 24px;
+        margin-bottom: 32px;
+    }
 
     .comment-body {
         display: flex;
@@ -96,7 +102,7 @@
         color: hsl(v.$muted-foreground);
     }
 
-    .reply-btn-wrapper {
+    .text-btn-wrapper {
         margin-left: 8px;
 
         button {
@@ -110,6 +116,82 @@
             &:hover,
             &:focus-visible {
                 background-color: hsl(v.$accent3);
+            }
+
+            &:active {
+                background-color: hsl(v.$muted-foreground);
+            }
+        }
+    }
+}
+
+.CommentSection {
+    .thumbnail-input-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .comment-box-main {
+        flex-grow: 1;
+    }
+
+    .comment-box-creation {
+        padding-bottom: 8px;
+
+        textarea {
+            width: 100%;
+            margin-bottom: .25em;
+            background-color: transparent;
+            border: none;
+            overflow-y: hidden;
+            resize: none;
+            outline: none;
+        }
+
+        .line {
+            display: flex;
+            justify-content: center;
+            height: 1px;
+            background-color: hsl(v.$muted-foreground);
+        }
+
+        .line-animation {
+            width: 0;
+            height: 2px;
+        }
+
+        textarea:focus+.line .line-animation {
+            width: 100%;
+            background-color: hsl(v.$accent-foreground);
+            transition: width ease-in-out 300ms;
+        }
+    }
+
+    .comment-box-footer {
+        display: flex;
+        justify-content: end;
+
+        button {
+            height: 36px;
+
+            &:disabled {
+                background-color: hsl(v.$accent2);
+                color: hsl(v.$muted-foreground);
+                cursor: default;
+            }
+        }
+
+        .submit-btn {
+            color: black;
+            background-color: v.$gold;
+
+            &:not(:disabled):hover,
+            &:not(:disabled):focus-visible {
+                background-color: hsl(v.$elden-ring-color);
+            }
+
+            &:not(:disabled):active {
+                background-color: hsl(v.$elden-ring-color-transparent);
             }
         }
     }
