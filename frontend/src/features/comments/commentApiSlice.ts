@@ -1,11 +1,11 @@
 import { apiSlice, tagTypesType } from "src/app/api/apiSlice";
-import { sortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
+import { SortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
 
 type GetCommentsQueryParamsType = {
     targetId: string,
     targetType: string,
     lastFetchedTimestamp: string,
-    sort?: sortCommentsType,
+    sort?: SortCommentsType,
     limit?: number,
 }
 
@@ -24,13 +24,6 @@ export const commentApiSlice = apiSlice.injectEndpoints({
                     { type: "Comments", id: `${targetId}-${targetType}` }
                 ]
                     : [{ type: "Comments", id: `${targetId}-${targetType}` }],
-            // providesTags: (result, _error, _args) =>
-            //     result ?
-            //         [
-            //             ...result.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
-            //             { type: "Comments", id: "LIST" }
-            //         ] :
-            //         [{ type: "Comments", id: "LIST" }],
         }),
         createComment: builder.mutation<CommentType, Partial<CommentType>>({
             query: (newComment) => ({
