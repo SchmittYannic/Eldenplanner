@@ -16,6 +16,7 @@ const CommentSection = ({
     targetType,
 }: CommentSectionPropsType) => {
 
+    const [totalComments, setTotalComments] = useState(0);
     const [comments, setComments] = useState<CommentType[]>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<string>("");
@@ -41,6 +42,7 @@ const CommentSection = ({
     useEffect(() => {
         if (data) {
             const { comments: newComments, totalComments } = data;
+            setTotalComments(totalComments);
 
             if (newComments.length > 0) {
                 setComments((prev) => {
@@ -73,7 +75,7 @@ const CommentSection = ({
     return (
         <section className="CommentSection">
             <div className="comment-section-header">
-                <h2>Comments</h2>
+                <h2>{totalComments} Comments</h2>
 
                 <CommentBox
                     showCommentBoxFooter={showCommentBoxFooter}
