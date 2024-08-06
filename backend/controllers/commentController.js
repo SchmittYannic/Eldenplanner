@@ -255,6 +255,15 @@ const deleteComment = async (req, res) => {
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
+        //check if comment is reply to another comment
+        if (foundComment.parentId !== 0) {
+            //if yes remove 1 from totalReplies of parent comment
+            const parentComment = await Comment.findById(foundComment.parentId).session(clientSession);
+            if (parentComment.totalReplies > 0) {
+                parentComment.totalReplies -= 1;
+            }
+        }
+
         await foundComment.deleteOne().session(clientSession);
         await clientSession.commitTransaction();
         clientSession.endSession();
