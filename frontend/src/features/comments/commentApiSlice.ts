@@ -36,12 +36,16 @@ export const commentApiSlice = apiSlice.injectEndpoints({
             query: (newComment) => ({
                 url: "/comments",
                 method: "POST",
-                body: newComment,
+                body: {
+                    ...newComment,
+                },
                 validateStatus: (response, result) => {
                     return response.status === 201 && !result.isError
                 },
             }),
-            invalidatesTags: [{ type: "Comments", id: "LIST" }],
+            invalidatesTags: (result, _error, { targetId, targetType }) =>
+                result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
+                    : [],
         }),
         updateComment: builder.mutation<CommentType, { id: string, content: string }>({
             query: ({ id, content }) => ({
