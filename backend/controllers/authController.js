@@ -72,6 +72,7 @@ const login = async (req, res) => {
                     "userId": foundUser._id,
                     "username": foundUser.username,
                     "email": foundUser.email,
+                    "avatarUrl": foundUser.avatarUrl,
                     "roles": foundUser.roles,
                 }
             },
@@ -130,6 +131,7 @@ const refresh = (req, res) => {
                         "userId": foundUser._id,
                         "username": foundUser.username,
                         "email": foundUser.email,
+                        "avatarUrl": foundUser.avatarUrl,
                         "roles": foundUser.roles,
                     }
                 },

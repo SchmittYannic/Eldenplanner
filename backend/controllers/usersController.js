@@ -78,6 +78,7 @@ const createNewUser = async (req, res) => {
                         "userId": user._id,
                         "username": user.username,
                         "email": user.email,
+                        "avatarUrl": user.avatarUrl,
                         "roles": user.roles,
                     }
                 },
@@ -198,6 +199,7 @@ const updateUser = async (req, res) => {
                     "userId": updateUser._id,
                     "username": updateUser.username,
                     "email": updateUser.email,
+                    "avatarUrl": updateUser.avatarUrl,
                     "roles": updateUser.roles,
                 }
             },
