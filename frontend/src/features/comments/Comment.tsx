@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     BsHandThumbsUp,
@@ -6,6 +7,8 @@ import {
     BsHandThumbsDownFill,
 } from "react-icons/bs";
 import { CommentType } from "src/types";
+import AuthorThumbnail from "./AuthorThumbnail";
+import CommentBox from "./CommentBox";
 import { sinceDateInString } from "src/utils/functions";
 
 type CommentPropsType = {
@@ -13,28 +16,37 @@ type CommentPropsType = {
 }
 
 const Comment = ({
-    comment
+    comment,
 }: CommentPropsType) => {
+
+    const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
+    const [showCommentBox, setShowCommentBox] = useState(false);
 
     const commentCreatedAt = new Date(comment.createdAt);
     const commentSince = sinceDateInString(commentCreatedAt);
     const commentUpdatedAt = new Date(comment.updatedAt);
     const gotCommentUpdated = commentCreatedAt.getTime() !== commentUpdatedAt.getTime();
 
+    const onReplyClicked = () => {
+        setShowCommentBox(true);
+        setTimeout(() => {
+            if (commentBoxTextAreaRef.current) commentBoxTextAreaRef.current.focus();
+        }, 100);
+    };
+
+    const onCommentBoxCancelClicked = () => {
+        setShowCommentBox(false);
+    };
+
     return (
         <div className="comment">
             <div className="comment-thread">
                 <div className="comment-body">
-                    <div className="author-thumbnail">
-                        <Link
-                            className="img-link"
-                            to={`/user/${comment.authorId}`}
-                        >
-                            <div>
-                                <img src="" alt="" />
-                            </div>
-                        </Link>
-                    </div>
+                    <AuthorThumbnail
+                        href={`/user/${comment.authorId}`}
+                        src=""
+                        alt=""
+                    />
                     <div className="comment-main">
                         <div className="comment-header">
                             <div className="comment-author">
@@ -87,16 +99,23 @@ const Comment = ({
                                 <span className="dislikecount">
                                     {comment.dislikes}
                                 </span>
-                                <span className="reply-btn-wrapper">
+                                <span className="text-btn-wrapper">
                                     <button
                                         type="button"
+                                        onClick={onReplyClicked}
                                     >
                                         Reply
                                     </button>
                                 </span>
                             </div>
                             <div className="reply-dialog">
-                                {/* write reply functionality here */}
+                                {showCommentBox &&
+                                    <CommentBox
+                                        showCommentBoxFooter={true}
+                                        callbackOnCancel={onCommentBoxCancelClicked}
+                                        textareaRef={commentBoxTextAreaRef}
+                                    />
+                                }
                             </div>
                         </div>
                     </div>
