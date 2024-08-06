@@ -78,6 +78,9 @@ const CommentSection = ({
                 <h2>{totalComments} Comments</h2>
 
                 <CommentBox
+                    targetId={targetId}
+                    targetType={targetType}
+                    parentId={null}
                     showCommentBoxFooter={showCommentBoxFooter}
                     callbackOnCancel={onCommentBoxCancelClicked}
                     onTextAreaFocus={onCommentBoxTextAreaFocus}
@@ -88,6 +91,8 @@ const CommentSection = ({
                 {comments.map((comment) => (
                     <Comment
                         key={comment.id}
+                        targetId={targetId}
+                        targetType={targetType}
                         comment={comment}
                     />
                 ))}

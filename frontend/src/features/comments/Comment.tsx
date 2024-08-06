@@ -6,16 +6,20 @@ import {
     BsHandThumbsDown,
     BsHandThumbsDownFill,
 } from "react-icons/bs";
-import { CommentType } from "src/types";
+import { CommentType, TargetTypeType } from "src/types";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
 import { sinceDateInString } from "src/utils/functions";
 
 type CommentPropsType = {
+    targetId: string,
+    targetType: TargetTypeType,
     comment: CommentType,
 }
 
 const Comment = ({
+    targetId,
+    targetType,
     comment,
 }: CommentPropsType) => {
 
@@ -112,6 +116,9 @@ const Comment = ({
                             <div className="reply-dialog">
                                 {showCommentBox &&
                                     <CommentBox
+                                        targetId={targetId}
+                                        targetType={targetType}
+                                        parentId={comment.id}
                                         showCommentBoxFooter={true}
                                         callbackOnCancel={onCommentBoxCancelClicked}
                                         textareaRef={commentBoxTextAreaRef}
