@@ -35,6 +35,7 @@ export type CommentType = {
     id: string;
     authorId: string;
     username: string;
+    avatarUrl: string,
     parentId: string | null;
     targetId: string;
     targetType: TargetTypeType;
