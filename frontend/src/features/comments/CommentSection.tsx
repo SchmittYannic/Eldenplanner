@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import { useGetCommentsQuery } from "src/features/comments/commentApiSlice";
+import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
 import { CommentType, sortCommentsType, TargetTypeType } from "src/types";
 import "src/features/comments/CommentSection.scss";
@@ -14,13 +16,13 @@ const CommentSection = ({
     targetType,
 }: CommentSectionPropsType) => {
 
-    console.log(targetId, targetType)
-
     const [comments, setComments] = useState<CommentType[]>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<string>("");
     const [sort, setSort] = useState<sortCommentsType>("new");
     const [limit, setLimit] = useState<number>(25);
+
+    const [showCommentBoxFooter, setShowCommentBoxFooter] = useState(false);
 
     const {
         data,
@@ -58,11 +60,27 @@ const CommentSection = ({
         }
     }, [data]);
 
+    const onCommentBoxCancelClicked = () => {
+        setShowCommentBoxFooter(false);
+    };
+
+    const onCommentBoxTextAreaFocus = () => {
+        setShowCommentBoxFooter(true);
+    };
+
     console.log(comments)
 
     return (
         <section className="CommentSection">
-            <h2>Comments</h2>
+            <div className="comment-section-header">
+                <h2>Comments</h2>
+
+                <CommentBox
+                    showCommentBoxFooter={showCommentBoxFooter}
+                    callbackOnCancel={onCommentBoxCancelClicked}
+                    onTextAreaFocus={onCommentBoxTextAreaFocus}
+                />
+            </div>
 
             <div className="comments">
                 {comments.map((comment) => (
