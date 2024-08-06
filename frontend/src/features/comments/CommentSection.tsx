@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useGetCommentsQuery } from "src/features/comments/commentApiSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
-import { CommentType, sortCommentsType, TargetTypeType } from "src/types";
+import { CommentType, SortCommentsType, TargetTypeType } from "src/types";
 import "src/features/comments/CommentSection.scss";
 
 type CommentSectionPropsType = {
@@ -20,7 +20,7 @@ const CommentSection = ({
     const [comments, setComments] = useState<CommentType[]>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<string>("");
-    const [sort, setSort] = useState<sortCommentsType>("new");
+    const [sort, setSort] = useState<SortCommentsType>("new");
     const [limit, setLimit] = useState<number>(25);
 
     const [showCommentBoxFooter, setShowCommentBoxFooter] = useState(false);
