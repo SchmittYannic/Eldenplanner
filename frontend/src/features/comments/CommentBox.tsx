@@ -1,9 +1,14 @@
-import { ChangeEvent, FocusEventHandler, RefObject, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect, useRef, useState } from "react";
 
+import { useCreateCommentMutation } from "src/features/comments/commentApiSlice";
 import useAuth from "src/hooks/useAuth";
-import AuthorThumbnail from "./AuthorThumbnail";
+import AuthorThumbnail from "src/features/comments/AuthorThumbnail";
+import { TargetTypeType } from "src/types";
 
 type CommentBoxPropsType = {
+    targetId: string,
+    targetType: TargetTypeType,
+    parentId: string | null,
     showCommentBoxFooter: boolean,
     callbackOnCancel?: Function,
     textareaRef?: RefObject<HTMLTextAreaElement>,
@@ -11,12 +16,20 @@ type CommentBoxPropsType = {
 }
 
 const CommentBox = ({
+    targetId,
+    targetType,
+    parentId,
     showCommentBoxFooter,
     callbackOnCancel,
     textareaRef,
     onTextAreaFocus,
 }: CommentBoxPropsType) => {
 
+    const [createComment, {
+        isLoading,
+    }] = useCreateCommentMutation();
+
+    const { userId } = useAuth();
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
     const [commentText, setCommentText] = useState("");
     const { avatarUrl } = useAuth();
@@ -32,6 +45,25 @@ const CommentBox = ({
         if (textareaDefaultRef.current) textareaDefaultRef.current.style.height = "auto";
         if (callbackOnCancel) callbackOnCancel();
     };
+
+    const handleSubmit: FormEventHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Trigger the mutation with the comment data
+            await createComment({
+                authorId: userId,
+                content: commentText,
+                targetId,
+                targetType,
+                parentId,
+            }).unwrap();
+            handleCancelClicked();
+            //do optimistic update
+        } catch (err) {
+            console.error("Failed to add the comment");
+        }
+    }
 
     useEffect(() => {
         if (!textareaRef?.current) return
@@ -76,7 +108,10 @@ const CommentBox = ({
                     width={40}
                     height={40}
                 />
-                <div className="comment-box-main">
+                <form
+                    className="comment-box-main"
+                    onSubmit={handleSubmit}
+                >
                     <div className="comment-box-creation">
                         <textarea
                             ref={textareaRef ? textareaRef : textareaDefaultRef}
@@ -107,8 +142,8 @@ const CommentBox = ({
                                 <div className="text-btn-wrapper">
                                     <button
                                         className="submit-btn"
-                                        type="button"
-                                        disabled={commentText === "" ? true : false}
+                                        type="submit"
+                                        disabled={(commentText === "" || isLoading) ? true : false}
                                     >
                                         Submit
                                     </button>
@@ -116,7 +151,7 @@ const CommentBox = ({
                             </div>
                         </div>
                     }
-                </div>
+                </form>
             </div>
         </div>
     )
