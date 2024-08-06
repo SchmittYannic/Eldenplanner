@@ -1,4 +1,6 @@
 import { ChangeEvent, FocusEventHandler, RefObject, useEffect, useRef, useState } from "react";
+
+import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "./AuthorThumbnail";
 
 type CommentBoxPropsType = {
@@ -17,6 +19,7 @@ const CommentBox = ({
 
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
     const [commentText, setCommentText] = useState("");
+    const { avatarUrl } = useAuth();
 
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = e.target;
@@ -69,8 +72,9 @@ const CommentBox = ({
             <div className="thumbnail-input-row">
                 <AuthorThumbnail
                     href={`/user/`}
-                    src=""
-                    alt=""
+                    src={avatarUrl}
+                    width={40}
+                    height={40}
                 />
                 <div className="comment-box-main">
                     <div className="comment-box-creation">
