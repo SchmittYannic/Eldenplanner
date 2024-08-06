@@ -130,12 +130,16 @@ const createComment = async (req, res) => {
     try {
         //check if authenticated user is author
         if (userId !== authorId) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
         //check if author exists in database -> maybe redundant
         const author = await User.findById(authorId).session(clientSession);
         if (!author) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "User not found" });
         }
 
@@ -148,6 +152,8 @@ const createComment = async (req, res) => {
         }
 
         if (!target) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Target not found" });
         }
 
@@ -155,6 +161,8 @@ const createComment = async (req, res) => {
         if (parentId) {
             const parentComment = await Comment.findById(parentId).session(clientSession);
             if (!parentComment) {
+                await clientSession.abortTransaction();
+                clientSession.endSession();
                 return res.status(400).json({ message: "Parent comment not found" });
             }
 
@@ -197,11 +205,15 @@ const updateComment = async (req, res) => {
 
         //check if comment exists
         if (!foundComment) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author
         if (!foundComment.authorId.equals(userId)) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
@@ -231,11 +243,15 @@ const deleteComment = async (req, res) => {
 
         //check if comment exists
         if (!foundComment) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author
         if (!foundComment.authorId.equals(userId)) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
@@ -277,17 +293,23 @@ const addLike = async (req, res) => {
 
         //check if comment exists
         if (!foundComment) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author
         if (foundComment.authorId.equals(userId)) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(403).json({ message: "User cannot like their own comments" })
         }
 
         //check if comment is already liked
         const foundLike = await CommentLike.findOne({ commentId: id, userId }).session(clientSession);
         if (foundLike) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Comment is already liked" });
         }
 
@@ -326,18 +348,24 @@ const deleteLike = async (req, res) => {
 
         //check if comment exists
         if (!foundComment) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         const foundLike = await CommentLike.findOne({ commentId: id, userId }).session(clientSession);
         //check if comment is liked
         if (!foundLike) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Like not found" });
         }
 
         const deletedLike = await foundLike.deleteOne().session(clientSession);
         //check if like got deleted
         if (!deletedLike) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(404).json({ message: "Like not deleted because it was not found" });
         }
 
