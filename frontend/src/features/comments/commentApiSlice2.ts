@@ -1,5 +1,7 @@
+import { EntityId, EntityState } from "@reduxjs/toolkit";
 import { apiSlice, tagTypesType } from "src/app/api/apiSlice";
 import { SortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
+import { commentsAdapter, initialState } from "./commentsSlice";
 
 type GetCommentsQueryParamsType = {
     targetId: string,
@@ -11,19 +13,41 @@ type GetCommentsQueryParamsType = {
 
 export const commentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getComments: builder.query<GetCommentsResponseType, GetCommentsQueryParamsType>({
+        getComments: builder.query<EntityState<CommentType>, GetCommentsQueryParamsType>({
             query: ({ targetId, targetType, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
                 url: `/comments?targetId=${targetId}&targetType=${targetType}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
-            providesTags: (result, _error, { targetId, targetType }) =>
-                result ? [
-                    ...result.comments.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
-                    { type: "Comments", id: `${targetId}-${targetType}` }
-                ]
-                    : [{ type: "Comments", id: `${targetId}-${targetType}` }],
+            transformResponse: (responseData: GetCommentsResponseType) => {
+                return commentsAdapter.setAll(initialState, responseData.comments)
+            },
+            // serializeQueryArgs: (args) => {
+            //     const { endpointName } = args
+            //     const { targetId, targetType } = args.queryArgs
+            //     return endpointName + `("${targetId}-${targetType}")`;
+            // },
+            // merge: (currentCache, newItems) => {
+            //     //currentCache.ids.push(...newItems.ids);
+            //     currentCache = {
+            //         ids: [...newItems.ids],
+            //         entities: { ...newItems.entities },
+            //     };
+            // },
+            providesTags: (result) => (
+                result ?
+                    [
+                        ...result.ids.map((id): { type: tagTypesType, id: EntityId } => ({ type: "Comments", id })),
+                        { type: "Comments", id: 'LIST' }
+                    ] : [{ type: "Comments", id: 'LIST' }]
+            ),
+            // providesTags: (result, _error, { targetId, targetType }) =>
+            //     result ? [
+            //         ...result.comments.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
+            //         { type: "Comments", id: `${targetId}-${targetType}` }
+            //     ]
+            //         : [{ type: "Comments", id: `${targetId}-${targetType}` }],
         }),
         createComment: builder.mutation<CommentType, Partial<CommentType>>({
             query: (newComment) => ({
