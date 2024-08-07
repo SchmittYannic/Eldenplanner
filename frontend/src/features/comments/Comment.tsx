@@ -4,25 +4,28 @@ import {
     BsHandThumbsUp,
     BsHandThumbsUpFill,
     BsHandThumbsDown,
-    BsHandThumbsDownFill,
+    //BsHandThumbsDownFill,
 } from "react-icons/bs";
-import { CommentType, TargetTypeType } from "src/types";
+import { TargetTypeType } from "src/types";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
 import { sinceDateInString } from "src/utils/functions";
+import { useSelector } from "react-redux";
+import { selectCommentById } from "./commentsSlice";
 
 type CommentPropsType = {
     targetId: string,
     targetType: TargetTypeType,
-    comment: CommentType,
+    commentId: string,
 }
 
 const Comment = ({
     targetId,
     targetType,
-    comment,
+    commentId,
 }: CommentPropsType) => {
 
+    const comment = useSelector((state) => selectCommentById(state, commentId))
     const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [showCommentBox, setShowCommentBox] = useState(false);
 
