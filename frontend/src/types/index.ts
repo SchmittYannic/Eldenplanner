@@ -40,6 +40,7 @@ export type CommentType = {
     targetId: string;
     targetType: TargetTypeType;
     content: string;
+    totalReplies: number;
     likes: number;
     dislikes: number;
     createdAt: string;
