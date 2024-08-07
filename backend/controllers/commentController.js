@@ -51,8 +51,22 @@ const getComments = async (req, res) => {
             .sort(sortOption)
         //.limit(parseInt(limit));
 
+
         //get total amount of comments
-        const totalComments = await Comment.countDocuments({ targetId, targetType });
+        let totalCommentsQuery = {
+            targetId,
+            targetType
+        };
+        if (!parentId) {
+            // Count root comments
+            totalCommentsQuery.parentId = null;
+        } else {
+            // Count replies
+            totalCommentsQuery.parentId = parentId;
+        }
+        const totalComments = await Comment.countDocuments(totalCommentsQuery);
+
+
 
         //check if request comes from user or visitor
         const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -87,6 +101,8 @@ const getComments = async (req, res) => {
                 totalComments,
             });
         }
+
+
 
         //get all the likes of the user to the found comments
         const commentIds = comments.map(comment => comment._id);
