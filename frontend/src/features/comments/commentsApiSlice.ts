@@ -1,9 +1,10 @@
-import { apiSlice, tagTypesType } from "src/app/api/apiSlice";
+import { apiSlice } from "src/app/api/apiSlice";
 import { SortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
 
 type GetCommentsQueryParamsType = {
     targetId: string,
     targetType: string,
+    parentId: string,
     lastFetchedTimestamp: string,
     sort?: SortCommentsType,
     limit?: number,
@@ -11,28 +12,59 @@ type GetCommentsQueryParamsType = {
 
 export const commentsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getComments: builder.query<GetCommentsResponseType, GetCommentsQueryParamsType>({
-            query: ({ targetId, targetType, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
-                url: `/comments?targetId=${targetId}&targetType=${targetType}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
+        getComments: builder.query<GetCommentsResponseType<string>, GetCommentsQueryParamsType>({
+            query: ({ targetId, targetType, parentId, lastFetchedTimestamp, sort = "new", limit = 25, }) => ({
+                url: `/comments?targetId=${targetId}&targetType=${targetType}&parentId=${parentId}&lastFetchedTimestamp=${lastFetchedTimestamp}&sort=${sort}&limit=${limit}`,
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
             serializeQueryArgs: (args) => {
                 const { endpointName } = args
-                const { targetId, targetType } = args.queryArgs
-                return endpointName + `("${targetId}-${targetType}")`;
+                const { targetId, targetType, sort } = args.queryArgs
+                return endpointName + `("${targetId}-${targetType}-${sort}")`;
             },
-            merge: (currentCache, newItems) => {
-                currentCache.comments.push(...newItems.comments);
+            merge: (currentCache, responseData, args) => {
+                const { parentId } = args.arg
+
+                // if no parentId -> received regular comments
+                if (!parentId) {
+                    // Merge ids
+                    currentCache.ids.push(...responseData.ids);
+
+                    // Merge commentsById
+                    currentCache.entities = {
+                        ...currentCache.entities,
+                        ...responseData.entities
+                    };
+                } else {
+                    // if parentId -> received replies to a comment
+                    // get repliesIds and repliesEntities of parent comment in the cache
+                    const currentRepliesIds = currentCache.entities[parentId].repliesIds
+                    const currentRepliesEntities = currentCache.entities[parentId].repliesEntities
+                    if (!currentRepliesIds && !currentRepliesEntities) {
+                        // if the replies to the comment are the first replies that got fetched
+                        currentCache.entities[parentId].repliesIds = responseData.ids;
+                        currentCache.entities[parentId].repliesEntities = responseData.entities;
+                    } else if (currentRepliesIds && currentRepliesEntities) {
+                        // if replies already exist on the comment attach newly fetched replies to end
+                        currentCache.entities[parentId].repliesIds = [...currentRepliesIds, ...responseData.ids];
+                        currentCache.entities[parentId].repliesEntities = {
+                            ...currentRepliesEntities,
+                            ...responseData.entities
+                        }
+                    } else {
+                        throw new Error("Error while merging Cache: both repliesIds and repliesEntities of a comment must either be both undefined or both exist")
+                    }
+                }
             },
-            providesTags: (result) => (
-                result ?
-                    [
-                        ...result.comments.map((comment): { type: tagTypesType, id: string } => ({ type: "Comments", id: comment.id })),
-                        { type: "Comments", id: 'LIST' }
-                    ] : [{ type: "Comments", id: 'LIST' }]
-            ),
+            // providesTags: (result) => (
+            //     result ?
+            //         [
+            //             ...result.comments.map((comment): { type: tagTypesType, id: string } => ({ type: "Comments", id: comment.id })),
+            //             { type: "Comments", id: 'LIST' }
+            //         ] : [{ type: "Comments", id: 'LIST' }]
+            // ),
             // providesTags: (result, _error, { targetId, targetType }) =>
             //     result ? [
             //         ...result.comments.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
@@ -51,9 +83,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 201 && !result.isError
                 },
             }),
-            invalidatesTags: (result, _error, { targetId, targetType }) =>
-                result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
-                    : [],
+            // invalidatesTags: (result, _error, { targetId, targetType }) =>
+            //     result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
+            //         : [],
         }),
         updateComment: builder.mutation<CommentType, { id: string, content: string }>({
             query: ({ id, content }) => ({
@@ -64,7 +96,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            invalidatesTags: (_result, _error, { id }) => [{ type: "Comments", id }],
+            // invalidatesTags: (_result, _error, { id }) => [{ type: "Comments", id }],
         }),
         deleteComment: builder.mutation<{ success: boolean, id: string }, string>({
             query: (id) => ({
@@ -74,7 +106,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            invalidatesTags: (_result, _error, id) => [{ type: "Comments", id }],
+            // invalidatesTags: (_result, _error, id) => [{ type: "Comments", id }],
         }),
         getUserLikedComment: builder.query<{ hasLiked: boolean }, { commentId: string, userId: string }>({
             query: ({ commentId, userId }) => ({
@@ -83,7 +115,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            providesTags: (_result, _error, { commentId }) => [{ type: "Likes", id: commentId }],
+            // providesTags: (_result, _error, { commentId }) => [{ type: "Likes", id: commentId }],
         }),
         addLike: builder.mutation<void, { commentId: string }>({
             query: ({ commentId }) => ({
@@ -93,7 +125,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 201 && !result.isError
                 },
             }),
-            invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
+            // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
         removeLike: builder.mutation<void, { commentId: string }>({
             query: ({ commentId }) => ({
@@ -103,13 +135,13 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
-            invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
+            // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
     })
 });
 
 export const {
-    useGetCommentsQuery,
+    useLazyGetCommentsQuery,
     useCreateCommentMutation,
     useUpdateCommentMutation,
     useDeleteCommentMutation,
