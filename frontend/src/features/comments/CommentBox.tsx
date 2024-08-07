@@ -131,7 +131,7 @@ const CommentBox = ({
                     {showCommentBoxFooter &&
                         <div className="comment-box-footer">
                             <div className="comment-box-buttons flex">
-                                <div className="text-btn-wrapper">
+                                <div className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
                                     <button
                                         type="button"
                                         onClick={handleCancelClicked}
@@ -139,7 +139,7 @@ const CommentBox = ({
                                         Cancel
                                     </button>
                                 </div>
-                                <div className="text-btn-wrapper">
+                                <div className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
                                     <button
                                         className="submit-btn"
                                         type="submit"
