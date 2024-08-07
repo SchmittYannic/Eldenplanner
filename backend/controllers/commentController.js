@@ -19,10 +19,21 @@ const getComments = async (req, res) => {
         lastFetchedTimestamp,
     } = req.query;
     try {
-        //get apply filter and get comments
+        //create a filter for db query
         const filter = { targetId, targetType };
-        let sortOption = { createdAt: -1 }; // Default sort is "newest first"
+        if (!parentId) {
+            // Count root comments
+            filter.parentId = null;
+        } else {
+            // Count replies
+            filter.parentId = parentId;
+        }
 
+        //get total amount of comments or replies if parentId is was provided
+        const totalComments = await Comment.countDocuments(filter);
+
+        // create sortOption and further filters to get comments
+        let sortOption = { createdAt: -1 }; // Default sort is "newest first"
         /* add Cursor-Based Pagination with Sorting by Metrics later*/
         // Handle the case when lastFetchedTimestamp is not provided or is empty
         if (sort === "new") {
@@ -37,11 +48,7 @@ const getComments = async (req, res) => {
             // No need to modify filter for "popular" sorting
         }
 
-        // Apply parentId filter if provided
-        if (parentId) {
-            filter.parentId = parentId;
-        }
-
+        // get comments or replies depending on filter
         const comments = await Comment
             .find(filter)
             .populate({
@@ -50,22 +57,6 @@ const getComments = async (req, res) => {
             })
             .sort(sortOption)
         //.limit(parseInt(limit));
-
-
-        //get total amount of comments
-        let totalCommentsQuery = {
-            targetId,
-            targetType
-        };
-        if (!parentId) {
-            // Count root comments
-            totalCommentsQuery.parentId = null;
-        } else {
-            // Count replies
-            totalCommentsQuery.parentId = parentId;
-        }
-        const totalComments = await Comment.countDocuments(totalCommentsQuery);
-
 
 
         //check if request comes from user or visitor
@@ -103,7 +94,7 @@ const getComments = async (req, res) => {
         }
 
 
-
+        //if userId present
         //get all the likes of the user to the found comments
         const commentIds = comments.map(comment => comment._id);
         const likes = await CommentLike.find({ commentId: { $in: commentIds }, userId });
