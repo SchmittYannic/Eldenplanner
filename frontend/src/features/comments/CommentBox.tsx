@@ -13,6 +13,7 @@ type CommentBoxPropsType = {
     callbackOnCancel?: Function,
     textareaRef?: RefObject<HTMLTextAreaElement>,
     onTextAreaFocus?: FocusEventHandler<HTMLTextAreaElement>,
+    initialText?: string,
 }
 
 const CommentBox = ({
@@ -23,6 +24,7 @@ const CommentBox = ({
     callbackOnCancel,
     textareaRef,
     onTextAreaFocus,
+    initialText = "",
 }: CommentBoxPropsType) => {
 
     const [createComment, {
@@ -31,7 +33,7 @@ const CommentBox = ({
 
     const { userId } = useAuth();
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
-    const [commentText, setCommentText] = useState("");
+    const [commentText, setCommentText] = useState(initialText);
     const { avatarUrl } = useAuth();
 
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -98,6 +100,20 @@ const CommentBox = ({
             textareaDefaultRef.current.removeEventListener("input", adjustTextareaSize);
         }
     }, []);
+
+    useEffect(() => {
+        if (!textareaRef?.current) return
+        const textarea = textareaRef.current;
+        const initialTextLength = initialText.length;
+        textarea.setSelectionRange(initialTextLength, initialTextLength); // Set cursor position after initial text
+    }, [initialText]);
+
+    useEffect(() => {
+        if (!textareaDefaultRef.current) return
+        const textarea = textareaDefaultRef.current;
+        const initialTextLength = initialText.length;
+        textarea.setSelectionRange(initialTextLength, initialTextLength); // Set cursor position after initial text
+    }, [initialText]);
 
     return (
         <div className="comment-box">
