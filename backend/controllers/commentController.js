@@ -15,7 +15,7 @@ const getComments = async (req, res) => {
         targetType,
         parentId,
         sort = "new",
-        limit = 25,
+        limit = 10,
         lastFetchedTimestamp,
     } = req.query;
     try {
@@ -63,7 +63,7 @@ const getComments = async (req, res) => {
                 select: "username avatarUrl"
             })
             .sort(sortOption)
-        //.limit(parseInt(limit));
+            .limit(parseInt(limit));
 
 
         //check if request comes from user or visitor
