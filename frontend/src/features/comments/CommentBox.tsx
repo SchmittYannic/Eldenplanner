@@ -1,6 +1,6 @@
 import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect, useRef, useState } from "react";
 
-import { useCreateCommentMutation } from "src/features/comments/commentApiSlice";
+import { useCreateCommentMutation } from "src/features/comments/commentsApiSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "src/features/comments/AuthorThumbnail";
 import { TargetTypeType } from "src/types";
