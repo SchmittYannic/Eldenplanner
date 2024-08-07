@@ -7,7 +7,7 @@ import {
     BsHandThumbsDown,
     //BsHandThumbsDownFill,
 } from "react-icons/bs";
-import { MdExpandMore } from "react-icons/md";
+import { MdExpandMore, MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 import { useLazyGetCommentsQuery } from "./commentsApiSlice";
 import { selectCommentById, selectLimit, selectSort } from "./commentsSlice";
@@ -135,10 +135,11 @@ const Comment = ({
                                     <CommentBox
                                         targetId={targetId}
                                         targetType={targetType}
-                                        parentId={comment.id}
+                                        parentId={parentId ? parentId : comment.id}
                                         showCommentBoxFooter={true}
                                         callbackOnCancel={onCommentBoxCancelClicked}
                                         textareaRef={commentBoxTextAreaRef}
+                                        initialText={parentId ? `@${parentComment?.username} ` : undefined}
                                     />
                                 }
                             </div>
@@ -206,26 +207,41 @@ const Replies = ({
     parentComment,
 }: RepliesPropsType) => {
 
-    const [fetchComment, {
+    const [fetchComments, {
         isLoading,
     }] = useLazyGetCommentsQuery();
 
     const sort = useSelector(selectSort);
     const limit = useSelector(selectLimit);
 
-    useEffect(() => {
+    const onLoadMoreRepliesClicked = () => {
         // if all replies are already loaded dont trigger fetch
-        if (parentComment.hasMoreReplies === false) return // indented to let hasMoreReplies === undefined pass the check and trigger a fetch
+        if (parentComment.hasMoreReplies === false) return
 
-        fetchComment({
+        fetchComments({
             targetId,
             targetType,
             parentId: parentComment.id,
             lastFetchedTimestamp: parentComment.lastReplyFetchedTimestamp || "",
-            sort, //always order replies oldest first
-            limit, //maybe use state later
+            sort,
+            limit,
         });
-    }, [])
+    }
+
+    //initial fetch on component mount
+    useEffect(() => {
+        // if all replies are already loaded dont trigger fetch
+        if (parentComment.hasMoreReplies === false) return // indented to let hasMoreReplies === undefined pass the check and trigger a fetch
+
+        fetchComments({
+            targetId,
+            targetType,
+            parentId: parentComment.id,
+            lastFetchedTimestamp: parentComment.lastReplyFetchedTimestamp || "",
+            sort,
+            limit,
+        });
+    }, []);
 
     if (!parentComment.repliesIds) return <></>
 
@@ -240,6 +256,30 @@ const Replies = ({
                     parentId={parentComment.id}
                 />
             )}
+
+            {parentComment.hasMoreReplies === true &&
+                <div>
+                    <span className="text-btn-wrapper" style={{ display: "inline-block" }}>
+                        <button
+                            className="reply-expand-btn"
+                            type="button"
+                            onClick={onLoadMoreRepliesClicked}
+                        >
+                            <div
+                                className="icon-container"
+                                style={{
+                                    marginRight: "6px",
+                                }}
+                            >
+                                <MdOutlineSubdirectoryArrowRight aria-hidden />
+                            </div>
+                            <div>
+                                load more replies
+                            </div>
+                        </button>
+                    </span>
+                </div>
+            }
         </>
     )
 }
