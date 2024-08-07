@@ -8,7 +8,7 @@ const commentsAdapter = createEntityAdapter<CommentType>({
 });
 
 interface CommentsStateType extends EntityState<CommentType> {
-    totalComment: number;
+    totalComments: number;
     hasMore: boolean;
     lastFetchedTimestamp: string;
     sort: SortCommentsType;
@@ -16,7 +16,7 @@ interface CommentsStateType extends EntityState<CommentType> {
 }
 
 const initialState: CommentsStateType = commentsAdapter.getInitialState({
-    totalComment: 0,
+    totalComments: 0,
     hasMore: true,
     lastFetchedTimestamp: "",
     sort: "new",
@@ -28,7 +28,7 @@ export const commentsSlice = createSlice({
     initialState,
     reducers: {
         resetState: (state) => {
-            state.totalComment = initialState.totalComment;
+            state.totalComments = initialState.totalComments;
             state.hasMore = initialState.hasMore;
             state.lastFetchedTimestamp = initialState.lastFetchedTimestamp;
             state.sort = initialState.sort;
@@ -47,7 +47,7 @@ export const commentsSlice = createSlice({
             commentApiSlice.endpoints.getComments.matchFulfilled,
             (state, action) => {
                 // Update the total comments and last fetched timestamp
-                state.totalComment = action.payload.totalComments;
+                state.totalComments = action.payload.totalComments;
                 state.lastFetchedTimestamp = action.payload.comments.length
                     ? action.payload.comments[action.payload.comments.length - 1].createdAt
                     : state.lastFetchedTimestamp;
@@ -71,8 +71,16 @@ export const selectCommentById = (state: RootState, commentId: string) =>
     commentsAdapter.getSelectors(selectCommentsState).selectById(state, commentId);
 
 export const selectHasMoreComments = (state: RootState) => state.comments.hasMore;
-export const selectTotalComments = (state: RootState) => state.comments.totalComment;
+export const selectTotalComments = (state: RootState) => state.comments.totalComments;
 export const selectSort = (state: RootState) => state.comments.sort;
 export const selectLimit = (state: RootState) => state.comments.limit;
+export const selectLastFetchedTimestamp = (state: RootState) => state.comments.lastFetchedTimestamp;
+export const selectCommentsMetaData = (state: RootState) => ({
+    hasMore: state.comments.hasMore,
+    totalComments: state.comments.totalComments,
+    sort: state.comments.sort,
+    limit: state.comments.limit,
+    lastFetchedTimestamp: state.comments.lastFetchedTimestamp,
+})
 
 export default commentsSlice.reducer;
