@@ -21,7 +21,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             }),
             serializeQueryArgs: (args) => {
                 const { endpointName } = args
-                const { targetId, targetType, sort } = args.queryArgs
+                const { targetId, targetType, sort } = args.queryArgs;
                 return endpointName + `("${targetId}-${targetType}-${sort}")`;
             },
             merge: (currentCache, responseData, args) => {
@@ -39,6 +39,11 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     };
                 } else {
                     // if parentId -> received replies to a comment
+                    // if length of ids is 0 we fetched every comment
+                    if (responseData.ids.length === 0) {
+                        currentCache.entities[parentId].hasMoreReplies = false;
+                        return
+                    }
                     // get timestamp of last fetched reply and save it under lastReplyFetchedTimestamp of parent comment
                     const lastId = responseData.ids[responseData.ids.length - 1];
                     const lastReplyFetchedTimestamp = responseData.entities[lastId].createdAt;
