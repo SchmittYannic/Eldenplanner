@@ -102,8 +102,6 @@
     }
 
     .text-btn-wrapper {
-        margin-left: 8px;
-
         button {
             height: 100%;
             padding: 0 12px;
@@ -119,6 +117,38 @@
 
             &:active {
                 background-color: hsl(v.$muted-foreground);
+            }
+        }
+    }
+
+
+    .comment-replies {
+        .expander {
+            margin-left: 56px;
+        }
+
+        .reply-expand-btn {
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            color: #3ea6ff;
+            font-size: v.$font-size-normal;
+
+            &:hover,
+            &:focus-visible {
+                background-color: #263850;
+            }
+
+            svg {
+                display: block;
+                height: 24px;
+                width: 24px;
+                transform: rotate(0deg);
+                transition: transform ease 300ms;
+
+                &.rotate {
+                    transform: rotate(180deg);
+                }
             }
         }
     }
