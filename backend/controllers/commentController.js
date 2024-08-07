@@ -36,16 +36,23 @@ const getComments = async (req, res) => {
         let sortOption = { createdAt: -1 }; // Default sort is "newest first"
         /* add Cursor-Based Pagination with Sorting by Metrics later*/
         // Handle the case when lastFetchedTimestamp is not provided or is empty
-        if (sort === "new") {
-            const lfts = lastFetchedTimestamp || new Date(9999, 11, 31).toISOString();  //|| new Date().toISOString();
-            filter.createdAt = { $lt: lfts };
-        } else if (sort === "old") {
+        if (!parentId) {
+            if (sort === "new") {
+                const lfts = lastFetchedTimestamp || new Date(9999, 11, 31).toISOString();  //|| new Date().toISOString();
+                filter.createdAt = { $lt: lfts };
+            } else if (sort === "old") {
+                const lfts = lastFetchedTimestamp || new Date(0).toISOString();
+                filter.createdAt = { $gt: lfts };
+                sortOption = { createdAt: 1 }; // Change sort order to "oldest first"
+            } else if (sort === "popular") {
+                sortOption = { likes: -1 };
+                // No need to modify filter for "popular" sorting
+            }
+        } else {
+            // ignore sort passed from frontend. For replies always order from oldest to newest
             const lfts = lastFetchedTimestamp || new Date(0).toISOString();
             filter.createdAt = { $gt: lfts };
-            sortOption = { createdAt: 1 }; // Change sort order to "oldest first"
-        } else if (sort === "popular") {
-            sortOption = { likes: -1 };
-            // No need to modify filter for "popular" sorting
+            sortOption = { createdAt: 1 }
         }
 
         // get comments or replies depending on filter
