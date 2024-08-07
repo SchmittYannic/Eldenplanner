@@ -25,11 +25,11 @@ const getComments = async (req, res) => {
         const sortOption = sort === "popular" ? { likes: -1 } : sort === "old" ? { createdAt: 1 } : { createdAt: -1 };
         if (parentId) filter.parentId = parentId;
         if (sort === "new") {
-            const lfts = lastFetchedTimestamp ? lastFetchedTimestamp : new Date();
+            const lfts = lastFetchedTimestamp || new Date(9999, 11, 31).toISOString();
             filter.createdAt = { $lt: lfts };
         }
         if (sort === "old") {
-            const lfts = lastFetchedTimestamp ? lastFetchedTimestamp : new Date(0).toISOString()
+            const lfts = lastFetchedTimestamp || new Date(0).toISOString()
             filter.createdAt = { $gt: lfts };
         }
 
