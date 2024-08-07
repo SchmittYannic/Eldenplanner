@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
     BsHandThumbsUp,
     BsHandThumbsUpFill,
@@ -8,12 +9,12 @@ import {
 } from "react-icons/bs";
 import { MdExpandMore } from "react-icons/md";
 
-import { TargetTypeType } from "src/types";
+import { useLazyGetCommentsQuery } from "./commentsApiSlice";
+import { selectCommentById, selectLimit, selectSort } from "./commentsSlice";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
 import { sinceDateInString } from "src/utils/functions";
-import { useSelector } from "react-redux";
-import { selectCommentById } from "./commentsSlice";
+import { CommentType, TargetTypeType } from "src/types";
 
 type CommentPropsType = {
     targetId: string,
@@ -29,7 +30,10 @@ const Comment = ({
     parentId = "",
 }: CommentPropsType) => {
 
-    const comment = useSelector((state) => selectCommentById(state, commentId));
+    const parentComment = parentId ? useSelector((state) => selectCommentById(state, parentId)) : null;
+    const comment = !parentComment ? useSelector((state) => selectCommentById(state, commentId)) : parentComment.repliesEntities ? parentComment.repliesEntities[commentId] : null;
+
+    if (!comment) return (<></>)
 
     const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [showCommentBox, setShowCommentBox] = useState(false);
@@ -175,8 +179,11 @@ const Comment = ({
 
                             {showReplies &&
                                 <div className="expander-content">
-                                    {/* Add replies here */}
-                                    <span>bsp.</span>
+                                    <Replies
+                                        targetId={targetId}
+                                        targetType={targetType}
+                                        parentComment={comment}
+                                    />
                                 </div>
                             }
                         </div>
@@ -184,6 +191,56 @@ const Comment = ({
                 }
             </div>
         </div>
+    )
+}
+
+type RepliesPropsType = {
+    targetId: string,
+    targetType: TargetTypeType,
+    parentComment: CommentType,
+}
+
+const Replies = ({
+    targetId,
+    targetType,
+    parentComment,
+}: RepliesPropsType) => {
+
+    const [fetchComment, {
+        isLoading,
+    }] = useLazyGetCommentsQuery();
+
+    const sort = useSelector(selectSort);
+    const limit = useSelector(selectLimit);
+
+    useEffect(() => {
+        // if all replies are already loaded dont trigger fetch
+        if (parentComment.hasMoreReplies === false) return // indented to let hasMoreReplies === undefined pass the check and trigger a fetch
+
+        fetchComment({
+            targetId,
+            targetType,
+            parentId: parentComment.id,
+            lastFetchedTimestamp: parentComment.lastReplyFetchedTimestamp || "",
+            sort, //always order replies oldest first
+            limit, //maybe use state later
+        });
+    }, [])
+
+    if (!parentComment.repliesIds) return <></>
+
+    return (
+        <>
+            {parentComment.repliesIds.map((id) =>
+                <Comment
+                    key={id}
+                    targetId={targetId}
+                    targetType={targetType}
+                    commentId={id}
+                    parentId={parentComment.id}
+                />
+            )}
+        </>
     )
 }
 
