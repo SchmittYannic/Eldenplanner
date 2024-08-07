@@ -39,11 +39,17 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     };
                 } else {
                     // if parentId -> received replies to a comment
+                    // get timestamp of last fetched reply and save it under lastReplyFetchedTimestamp of parent comment
+                    const lastId = responseData.ids[responseData.ids.length - 1];
+                    const lastReplyFetchedTimestamp = responseData.entities[lastId].createdAt;
+                    currentCache.entities[parentId].lastReplyFetchedTimestamp = lastReplyFetchedTimestamp;
+
                     // get repliesIds and repliesEntities of parent comment in the cache
                     const currentRepliesIds = currentCache.entities[parentId].repliesIds
                     const currentRepliesEntities = currentCache.entities[parentId].repliesEntities
                     if (!currentRepliesIds && !currentRepliesEntities) {
                         // if the replies to the comment are the first replies that got fetched
+                        // write ids and entities to the parent comments repliesIds and repliesEntities keys
                         currentCache.entities[parentId].repliesIds = responseData.ids;
                         currentCache.entities[parentId].repliesEntities = responseData.entities;
                     } else if (currentRepliesIds && currentRepliesEntities) {
@@ -56,6 +62,13 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     } else {
                         throw new Error("Error while merging Cache: both repliesIds and repliesEntities of a comment must either be both undefined or both exist")
                     }
+
+                    // update hasMore of parent comment
+                    const hasMore = currentCache.entities[parentId].repliesIds.length < responseData.totalComments;
+                    currentCache.entities[parentId].hasMoreReplies = hasMore;
+
+                    // update totalReplies of parent comment
+                    currentCache.entities[parentId].totalReplies = responseData.totalComments;
                 }
             },
             // providesTags: (result) => (
