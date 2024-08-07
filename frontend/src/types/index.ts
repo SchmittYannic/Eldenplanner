@@ -31,8 +31,8 @@ export type TargetTypeType = "Build" | "User";
 
 export type SortCommentsType = "new" | "old" | "popular";
 
-export type CommentType = {
-    id: string;
+export type CommentType<CommentId extends string = string, ReplyId extends string = string> = {
+    id: CommentId;
     authorId: string;
     username: string;
     avatarUrl: string,
@@ -45,11 +45,15 @@ export type CommentType = {
     dislikes: number;
     createdAt: string;
     updatedAt: string;
-    replies?: CommentType[];
+    repliesIds?: ReplyId[];
+    repliesEntities?: Record<ReplyId, CommentType<ReplyId>>;
+    lastReplyFetchedTimestamp?: string;
+    hasMoreReplies?: boolean;
     hasLiked?: boolean;
 }
 
-export type GetCommentsResponseType = {
-    comments: CommentType[];
+export type GetCommentsResponseType<CommentId extends string> = {
+    ids: CommentId[];
+    entities: Record<CommentId, CommentType<CommentId>>;
     totalComments: number;
 };
