@@ -6,6 +6,8 @@ import {
     BsHandThumbsDown,
     //BsHandThumbsDownFill,
 } from "react-icons/bs";
+import { MdExpandMore } from "react-icons/md";
+
 import { TargetTypeType } from "src/types";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
@@ -17,17 +19,21 @@ type CommentPropsType = {
     targetId: string,
     targetType: TargetTypeType,
     commentId: string,
+    parentId?: string,
 }
 
 const Comment = ({
     targetId,
     targetType,
     commentId,
+    parentId = "",
 }: CommentPropsType) => {
 
-    const comment = useSelector((state) => selectCommentById(state, commentId))
+    const comment = useSelector((state) => selectCommentById(state, commentId));
+
     const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [showCommentBox, setShowCommentBox] = useState(false);
+    const [showReplies, setShowReplies] = useState(false);
 
     const commentCreatedAt = new Date(comment.createdAt);
     const commentSince = sinceDateInString(commentCreatedAt);
@@ -39,6 +45,10 @@ const Comment = ({
         setTimeout(() => {
             if (commentBoxTextAreaRef.current) commentBoxTextAreaRef.current.focus();
         }, 100);
+    };
+
+    const onShowRepliesClicked = () => {
+        setShowReplies(!showReplies);
     };
 
     const onCommentBoxCancelClicked = () => {
@@ -107,7 +117,7 @@ const Comment = ({
                                 <span className="dislikecount">
                                     {comment.dislikes}
                                 </span>
-                                <span className="text-btn-wrapper">
+                                <span className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
                                     <button
                                         type="button"
                                         onClick={onReplyClicked}
@@ -135,16 +145,43 @@ const Comment = ({
                     </div>
                 </div>
 
-                <div className="comment-replies">
-                    <div className="expander">
-                        <div className="expander-header">
-                            {/* Add Button to expand replies here */}
-                        </div>
-                        <div className="expander-content">
-                            {/* Add replies here */}
+                {(comment.totalReplies > 0 && parentId === "") &&
+                    <div className="comment-replies">
+                        <div className="expander">
+                            <div className="expander-header">
+                                <span className="text-btn-wrapper" style={{ display: "inline-block" }}>
+                                    <button
+                                        className="reply-expand-btn"
+                                        type="button"
+                                        onClick={onShowRepliesClicked}
+                                    >
+                                        <div
+                                            className="icon-container"
+                                            style={{
+                                                marginRight: "6px",
+                                            }}
+                                        >
+                                            <MdExpandMore
+                                                className={showReplies ? "rotate" : ""}
+                                                aria-hidden
+                                            />
+                                        </div>
+                                        <div>
+                                            {comment.totalReplies} {comment.totalReplies === 1 ? "Reply" : "Replies"}
+                                        </div>
+                                    </button>
+                                </span>
+                            </div>
+
+                            {showReplies &&
+                                <div className="expander-content">
+                                    {/* Add replies here */}
+                                    <span>bsp.</span>
+                                </div>
+                            }
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     )
