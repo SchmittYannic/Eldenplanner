@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { useGetCommentsQuery } from "src/features/comments/commentsApiSlice";
-import { selectAllComments, selectLastFetchedTimestamp, selectLimit, selectSort, selectTotalComments } from "./commentsSlice";
+import { useLazyGetCommentsQuery } from "src/features/comments/commentsApiSlice";
+import { selectAllCommentIds, selectLastFetchedTimestamp, selectLimit, selectSort, selectTotalComments } from "./commentsSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
 import { TargetTypeType } from "src/types";
@@ -23,15 +23,20 @@ const CommentSection = ({
     const limit = useSelector(selectLimit);
     const totalComments = useSelector(selectTotalComments);
 
-    useGetCommentsQuery({
-        targetId,
-        targetType,
-        lastFetchedTimestamp,
-        sort,
-        limit,
-    });
+    const [fetchComment, {
+        isLoading,
+    }] = useLazyGetCommentsQuery();
 
-    const comments = useSelector(selectAllComments);
+    // useGetCommentsQuery({
+    //     targetId,
+    //     targetType,
+    //     parentId: "",
+    //     lastFetchedTimestamp,
+    //     sort,
+    //     limit,
+    // });
+
+    const commentIds = useSelector(selectAllCommentIds);
 
     const [showCommentBoxFooter, setShowCommentBoxFooter] = useState(false);
 
@@ -43,7 +48,16 @@ const CommentSection = ({
         setShowCommentBoxFooter(true);
     };
 
-    console.log(comments)
+    useEffect(() => {
+        fetchComment({
+            targetId,
+            targetType,
+            parentId: "",
+            lastFetchedTimestamp,
+            sort,
+            limit,
+        })
+    }, [])
 
     return (
         <section className="CommentSection">
@@ -61,12 +75,12 @@ const CommentSection = ({
             </div>
 
             <div className="comments">
-                {comments.map((comment) => (
+                {commentIds.map((commentId) => (
                     <Comment
-                        key={comment.id}
+                        key={commentId}
                         targetId={targetId}
                         targetType={targetType}
-                        comment={comment}
+                        commentId={commentId}
                     />
                 ))}
             </div>
