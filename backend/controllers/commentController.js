@@ -4,6 +4,7 @@ import Comment from "../models/Comment.js";
 import CommentLike from "../models/CommentLike.js";
 import User from "../models/User.js";
 import Build from "../models/Build.js";
+import { getIdsAndEntitiesOfComments } from "../utils/helpers.js";
 
 // @desc Get comments
 // @route GET /comments
@@ -20,17 +21,25 @@ const getComments = async (req, res) => {
     try {
         //get apply filter and get comments
         const filter = { targetId, targetType };
+        let sortOption = { createdAt: -1 }; // Default sort is "newest first"
 
         /* add Cursor-Based Pagination with Sorting by Metrics later*/
-        const sortOption = sort === "popular" ? { likes: -1 } : sort === "old" ? { createdAt: 1 } : { createdAt: -1 };
-        if (parentId) filter.parentId = parentId;
+        // Handle the case when lastFetchedTimestamp is not provided or is empty
         if (sort === "new") {
-            const lfts = lastFetchedTimestamp || new Date(9999, 11, 31).toISOString();
+            const lfts = lastFetchedTimestamp || new Date(9999, 11, 31).toISOString();  //|| new Date().toISOString();
             filter.createdAt = { $lt: lfts };
-        }
-        if (sort === "old") {
-            const lfts = lastFetchedTimestamp || new Date(0).toISOString()
+        } else if (sort === "old") {
+            const lfts = lastFetchedTimestamp || new Date(0).toISOString();
             filter.createdAt = { $gt: lfts };
+            sortOption = { createdAt: 1 }; // Change sort order to "oldest first"
+        } else if (sort === "popular") {
+            sortOption = { likes: -1 };
+            // No need to modify filter for "popular" sorting
+        }
+
+        // Apply parentId filter if provided
+        if (parentId) {
+            filter.parentId = parentId;
         }
 
         const comments = await Comment
@@ -41,15 +50,6 @@ const getComments = async (req, res) => {
             })
             .sort(sortOption)
         //.limit(parseInt(limit));
-
-        //convert _id to id and transform the authorId object into a string + attaching username
-        const transformedComments = comments.map(comment => ({
-            ...comment.toObject(),
-            id: comment._id.toString(),
-            authorId: comment.authorId._id.toString(),
-            username: comment.authorId.username,
-            avatarUrl: comment.authorId.avatarUrl,
-        }));
 
         //get total amount of comments
         const totalComments = await Comment.countDocuments({ targetId, targetType });
@@ -70,8 +70,20 @@ const getComments = async (req, res) => {
         }
         //if no userId return comments
         if (!userId) {
+            //convert _id to id and transform the authorId object into a string + attaching username
+            const transformedComments = comments.map(comment => ({
+                ...comment.toObject(),
+                id: comment._id.toString(),
+                authorId: comment.authorId._id.toString(),
+                username: comment.authorId.username,
+                avatarUrl: comment.authorId.avatarUrl,
+            }));
+            //get ids and entities
+            const { ids, entities } = getIdsAndEntitiesOfComments(transformedComments);
+            //send response
             return res.status(200).json({
-                comments: transformedComments,
+                ids,
+                entities,
                 totalComments,
             });
         }
@@ -90,9 +102,12 @@ const getComments = async (req, res) => {
             avatarUrl: comment.authorId.avatarUrl,
             hasLiked: likedCommentIds.includes(comment._id.toString())
         }));
-        //send the commentsWithLikeStatus
+        //get ids and entities
+        const { ids, entities } = getIdsAndEntitiesOfComments(commentsWithLikeStatus);
+        //send the response
         res.status(200).json({
-            comments: commentsWithLikeStatus,
+            ids,
+            entities,
             totalComments,
         });
     } catch (err) {
