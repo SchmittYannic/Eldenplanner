@@ -231,8 +231,10 @@ const Replies = ({
     //initial fetch on component mount
     useEffect(() => {
         // if all replies are already loaded dont trigger fetch
-        if (parentComment.hasMoreReplies === false) return // indented to let hasMoreReplies === undefined pass the check and trigger a fetch
-
+        // indented to let hasMoreReplies === undefined pass the check and trigger a fetch
+        if (parentComment.hasMoreReplies === false) return
+        // if repliesIds are already present in parentComment dont trigger fetch -> the case when parentComment loaded from cache
+        if (parentComment.repliesIds && parentComment.repliesIds.length !== 0) return
         fetchComments({
             targetId,
             targetType,
