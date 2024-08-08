@@ -20,7 +20,7 @@ export const initialState: CommentsStateType<string> = {
     hasMore: true,
     lastFetchedTimestamp: "",
     sort: "new",
-    limit: 25,
+    limit: 2,
 };
 
 export const commentsSlice = createSlice({
@@ -37,6 +37,13 @@ export const commentsSlice = createSlice({
             state.limit = initialState.limit;
         },
         changeSort: (state, { payload }: PayloadAction<SortCommentsType>) => {
+            state.totalComments = initialState.totalComments;
+            state.commentIds = [];
+            state.commentEntities = {};
+            state.hasMore = initialState.hasMore;
+            state.lastFetchedTimestamp = initialState.lastFetchedTimestamp;
+            state.limit = initialState.limit;
+            // change sort
             state.sort = payload;
         },
         changeLimit: (state, { payload }: PayloadAction<number>) => {
@@ -102,6 +109,11 @@ export const commentsSlice = createSlice({
         );
     },
 });
+
+export const {
+    changeLimit,
+    changeSort,
+} = commentsSlice.actions;
 
 const selectCommentsState = (state: RootState) => state.comments;
 export const selectAllCommentIds = (state: RootState) => state.comments.commentIds;
