@@ -12,6 +12,7 @@ type SearchSelectPropsType = {
     enableDelete?: boolean,
     searchable?: boolean,
     disabled?: boolean,
+    optionScrollInView?: boolean,
     title?: string,
 };
 
@@ -25,6 +26,7 @@ const CustomSelect = ({
     enableDelete = false,
     searchable = false,
     disabled = false,
+    optionScrollInView = true,
     title,
 }: SearchSelectPropsType): ReactElement => {
 
@@ -158,6 +160,7 @@ const CustomSelect = ({
 
     useEffect(() => {
         if (!optionContainer.current) return;
+        if (!optionScrollInView) return
 
         optionContainer.current.scrollIntoView({
             block: "center",
