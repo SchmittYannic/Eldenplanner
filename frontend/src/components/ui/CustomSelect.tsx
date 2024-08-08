@@ -160,7 +160,7 @@ const CustomSelect = ({
 
     useEffect(() => {
         if (!optionContainer.current) return;
-        if (!optionScrollInView) return
+        if (!optionScrollInView) return;
 
         optionContainer.current.scrollIntoView({
             block: "center",
@@ -169,6 +169,16 @@ const CustomSelect = ({
 
     return (
         <div className={className} title={title}>
+            <div className="ddBtn-container">
+                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
+                    {enableDelete ?
+                        inputValue === "" ?
+                            <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
+                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
+                        : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
+                    }
+                </button>
+            </div>
             <label>
                 <input
                     id={id}
@@ -184,16 +194,6 @@ const CustomSelect = ({
                 />
                 <p>{label}</p>
             </label>
-            <div className="ddBtn-container">
-                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
-                    {enableDelete ?
-                        inputValue === "" ?
-                            <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
-                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
-                        : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
-                    }
-                </button>
-            </div>
 
             {showOptions &&
                 <ul className="optionslist">

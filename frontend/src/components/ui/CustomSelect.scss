@@ -86,6 +86,7 @@
         display: flex;
         align-items: center;
         background-color: v.$default-background-color;
+        z-index: 2;
 
         button {
             height: 21px;
@@ -107,6 +108,15 @@
                 border-radius: 50%;
                 color: v.$default-hover-label-font-color;
                 background-color: rgba(255, 255, 255, 0.432);
+            }
+        }
+
+        &:hover+label {
+            color: v.$default-hover-label-font-color;
+
+            input {
+                color: v.$default-hover-font-color;
+                border-color: v.$default-hover-border-color;
             }
         }
     }
@@ -225,6 +235,16 @@
         button {
             top: calc(1.4rem / 2);
             right: 1rem;
+        }
+
+        &:hover+label {
+            color: unset;
+
+            input {
+                color: unset;
+                border-color: unset;
+                border-style: none;
+            }
         }
     }
 
