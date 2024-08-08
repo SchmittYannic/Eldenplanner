@@ -1,3 +1,4 @@
+import { GetCommentsResponseType } from "src/types";
 import { EffectData, ItemEffectDataType } from "../../data/EffectData";
 import { StatsType } from "../../data/StartingClassData";
 import { ArmorStateType, StatsStateKeysType, StatsStateType, TalismanStateType } from "../features/charplanner/charplannerSlice";
@@ -118,6 +119,28 @@ const sinceDateInString = (eventTime: Date): string => {
     }
 }
 
+const isValidCache = <CommentId extends string>(
+    cache: GetCommentsResponseType<CommentId> | null,
+    //currentTimestamp: string, // Assuming you need to compare with current timestamp or other valid time-based checks
+    //maxAgeMs: number = 60000 // Default cache age (e.g., 1 minute)
+): boolean => {
+    if (!cache) return false;
+
+    //const now = Date.now();
+
+    // Validate that the cache has the expected structure
+    if (!Array.isArray(cache.ids) || typeof cache.totalComments !== "number" || typeof cache.entities !== "object") {
+        return false;
+    }
+
+    // Optional: Check if the cache is not too old (if you have timestamp or last updated field)
+    // For example, assume you have `lastUpdatedTimestamp` field in cache
+    // const cacheAge = now - new Date(cache.lastUpdatedTimestamp || 0).getTime();
+    // return cacheAge < maxAgeMs;
+
+    return true; // If all checks pass, return true indicating the cache is valid
+}
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -127,4 +150,5 @@ export {
     calcSumObjectValues,
     calcStatChange,
     sinceDateInString,
+    isValidCache,
 }
