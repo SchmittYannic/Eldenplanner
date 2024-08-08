@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-import { CommentType, SortCommentsType } from "src/types";
+import { CommentType, GetCommentsResponseType, SortCommentsType } from "src/types";
 import { commentsApiSlice } from "./commentsApiSlice";
 
 interface CommentsStateType<CommentId extends string> {
@@ -48,6 +48,23 @@ export const commentsSlice = createSlice({
         },
         changeLimit: (state, { payload }: PayloadAction<number>) => {
             state.limit = payload;
+        },
+        setComments: (state, { payload }: PayloadAction<{ ids: string[], entities: Record<string, CommentType<string>> }>) => {
+            state.commentIds = payload.ids;
+            state.commentEntities = payload.entities;
+        },
+        setTotalComments: (state, { payload }: PayloadAction<number>) => {
+            state.totalComments = payload;
+        },
+        setLastFetchedTimestamp: (state, { payload }: PayloadAction<string>) => {
+            state.lastFetchedTimestamp = payload;
+        },
+        updateHasMore: (state) => {
+            if (state.totalComments === state.commentIds.length) {
+                state.hasMore = false;
+            } else {
+                state.hasMore = true;
+            }
         },
     },
     extraReducers: (builder) => {
@@ -113,7 +130,21 @@ export const commentsSlice = createSlice({
 export const {
     changeLimit,
     changeSort,
+    setComments,
+    setTotalComments,
+    setLastFetchedTimestamp,
+    updateHasMore,
 } = commentsSlice.actions;
+
+export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
+    const sort = state.comments.sort;
+
+    // Construct the cache key based on the query parameters
+    const cacheKey = `getComments("${targetId}-${targetType}-${sort}")`;
+
+    // Access the cached data using the constructed cache key
+    return state.api.queries[cacheKey]?.data as GetCommentsResponseType<string> ?? null;
+};
 
 const selectCommentsState = (state: RootState) => state.comments;
 export const selectAllCommentIds = (state: RootState) => state.comments.commentIds;
