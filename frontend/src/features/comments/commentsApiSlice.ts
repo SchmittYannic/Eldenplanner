@@ -29,10 +29,13 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
 
                 // if no parentId -> received regular comments
                 if (!parentId) {
-                    // Merge ids
-                    currentCache.ids.push(...responseData.ids);
+                    // Step 1: Filter out IDs that are already in the cache
+                    const newIds = responseData.ids.filter(id => !currentCache.ids.includes(id));
 
-                    // Merge commentsById
+                    // Step 2: Push only new, unique IDs into currentCache.ids
+                    currentCache.ids.push(...newIds);
+
+                    // Step 3: Merge the entities, which will replace old entities with the new ones
                     currentCache.entities = {
                         ...currentCache.entities,
                         ...responseData.entities
