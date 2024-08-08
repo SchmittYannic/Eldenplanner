@@ -1,11 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useLazyGetCommentsQuery } from "src/features/comments/commentsApiSlice";
-import { selectAllCommentIds, selectHasMoreComments, selectLastFetchedTimestamp, selectLimit, selectSort, selectTotalComments } from "./commentsSlice";
+import {
+    selectAllCommentIds,
+    selectHasMoreComments,
+    selectLastFetchedTimestamp,
+    selectLimit,
+    selectSort,
+    selectTotalComments,
+    changeSort,
+} from "./commentsSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
-import { TargetTypeType } from "src/types";
+import { CustomSelect } from "src/components/ui";
+import { SortCommentsType, sortOptions, TargetTypeType } from "src/types";
 import "src/features/comments/CommentSection.scss";
 
 type CommentSectionPropsType = {
@@ -23,9 +32,11 @@ const CommentSection = ({
     const limit = useSelector(selectLimit);
     const hasMoreComments = useSelector(selectHasMoreComments);
     const totalComments = useSelector(selectTotalComments);
+    const dispatch = useDispatch();
 
     const [fetchComments, {
         isFetching,
+        isLoading,
     }] = useLazyGetCommentsQuery();
 
     // useGetCommentsQuery({
@@ -52,6 +63,10 @@ const CommentSection = ({
         setShowCommentBoxFooter(true);
     };
 
+    const onSortChanged = (input: SortCommentsType) => {
+        dispatch(changeSort(input))
+    };
+
     useEffect(() => {
         fetchComments({
             targetId,
@@ -61,7 +76,7 @@ const CommentSection = ({
             sort,
             limit,
         })
-    }, []);
+    }, [sort]);
 
     useEffect(() => {
         if (observer.current) observer.current.disconnect();
@@ -115,7 +130,18 @@ const CommentSection = ({
     return (
         <section className="CommentSection">
             <div className="comment-section-header">
-                <h2>{totalComments} Comments</h2>
+                <div className="flex">
+                    <h2>{totalComments} Comments</h2>
+                    <CustomSelect
+                        id="sortComments"
+                        className="customselect selectsorttype"
+                        label="Sort by:"
+                        value={sort}
+                        setValue={onSortChanged}
+                        options={[...sortOptions]}
+                        optionScrollInView={false}
+                    />
+                </div>
 
                 <CommentBox
                     targetId={targetId}
