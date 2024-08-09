@@ -1,14 +1,11 @@
 import { apiSlice } from "src/app/api/apiSlice";
-import { SortCommentsType, CommentType, GetCommentsResponseType } from "src/types";
-
-type GetCommentsQueryParamsType = {
-    targetId: string,
-    targetType: string,
-    parentId: string,
-    lastFetchedTimestamp: string,
-    sort?: SortCommentsType,
-    limit?: number,
-}
+import {
+    CommentType,
+    GetCommentsResponseType,
+    AddLikeDislikeMutationParamsType,
+    GetCommentsQueryParamsType,
+} from "src/types";
+import { setCommentEntity } from "./commentsSlice";
 
 export const commentsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -138,24 +135,219 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             }),
             // providesTags: (_result, _error, { commentId }) => [{ type: "Likes", id: commentId }],
         }),
-        addLike: builder.mutation<void, { commentId: string }>({
-            query: ({ commentId }) => ({
-                url: `/comments/${commentId}/like`,
+        addLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
+            query: ({ commentId, type }) => ({
+                url: `/comments/${commentId}/like?type=${type}`,
                 method: "POST",
                 validateStatus: (response, result) => {
                     return response.status === 201 && !result.isError
                 },
             }),
+            async onQueryStarted({ commentId, type, ...queryArgsGetComments }, { dispatch, queryFulfilled }) {
+                // save previous state of comment to be able to reset comment if mutation fails
+                let previousState: CommentType | null = null;
+                let newState: CommentType | null = null;
+
+                // optimistic update of the cache
+                const patchResult = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", queryArgsGetComments, (draft) => {
+                        const { parentId } = queryArgsGetComments;
+                        if (!parentId) {
+                            // if the comment doesnt exist in cache throw error
+                            if (!draft.entities[commentId]) {
+                                throw new Error("commentsApiSlice: addLikeDislike mutation onQueryStarted: Comment doesnt exist in cache")
+                            }
+
+                            // save previous state of comment
+                            previousState = { ...draft.entities[commentId] };
+
+                            // if root comment
+                            if (type === "like" && !draft.entities[commentId].hasLiked && !draft.entities[commentId].hasDisliked) {
+                                // if like is added and comment hasLiked and hasDisliked is false
+                                // add the like
+                                draft.entities[commentId].likes += 1;
+                                draft.entities[commentId].hasLiked = true;
+                            } else if (type === "dislike" && !draft.entities[commentId].hasLiked && !draft.entities[commentId].hasDisliked) {
+                                // if dislike is added and comment hasLiked and hasDisliked is false
+                                // add the dislike
+                                draft.entities[commentId].dislikes += 1;
+                                draft.entities[commentId].hasDisliked = true;
+                            } else if (type === "like" && draft.entities[commentId].hasDisliked) {
+                                // if like is added and comments hasDisliked true
+                                // add the like and remove the dislike
+                                draft.entities[commentId].likes += 1;
+                                draft.entities[commentId].hasLiked = true;
+                                if (draft.entities[commentId].dislikes > 0) draft.entities[commentId].dislikes -= 1;
+                                draft.entities[commentId].hasDisliked = false;
+                            } else if (type === "dislike" && draft.entities[commentId].hasLiked) {
+                                // if dislike is added and comments hasLiked true
+                                // add the dislike and remove the like
+                                draft.entities[commentId].dislikes += 1;
+                                draft.entities[commentId].hasDisliked = true;
+                                if (draft.entities[commentId].likes > 0) draft.entities[commentId].likes -= 1;
+                                draft.entities[commentId].hasLiked = false;
+                            }
+
+                            // save new state of comment
+                            newState = { ...draft.entities[commentId] };
+                        } else {
+                            // if reply
+                            // if the reply doesnt exist in cache throw error
+                            if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) {
+                                throw new Error("commentsApiSlice: addLikeDislike mutation onQueryStarted: Reply doesnt exist in cache")
+                            }
+
+                            // save previous state of comment
+                            previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+
+                            if (type === "like" && !draft.entities[parentId].repliesEntities[commentId].hasLiked && !draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                                // if like is added and comment hasLiked and hasDisliked is false
+                                // add the like
+                                draft.entities[parentId].repliesEntities[commentId].likes += 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasLiked = true;
+                            } else if (type === "dislike" && !draft.entities[parentId].repliesEntities[commentId].hasLiked && !draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                                // if dislike is added and comment hasLiked and hasDisliked is false
+                                // add the dislike
+                                draft.entities[parentId].repliesEntities[commentId].dislikes += 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasDisliked = true;
+                            } else if (type === "like" && draft.entities[parentId].repliesEntities && draft.entities[parentId].repliesEntities[commentId] && draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                                // if like is added and comments hasDisliked true
+                                // add the like and remove the dislike
+                                draft.entities[parentId].repliesEntities[commentId].likes += 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasLiked = true;
+                                if (draft.entities[parentId].repliesEntities[commentId].dislikes > 0) draft.entities[parentId].repliesEntities[commentId].dislikes -= 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasDisliked = false;
+                            } else if (type === "dislike" && draft.entities[parentId].repliesEntities && draft.entities[parentId].repliesEntities[commentId] && draft.entities[parentId].repliesEntities[commentId].hasLiked) {
+                                // if dislike is added and comments hasLiked true
+                                // add the dislike and remove the like
+                                draft.entities[parentId].repliesEntities[commentId].dislikes += 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasDisliked = true;
+                                if (draft.entities[parentId].repliesEntities[commentId].likes > 0) draft.entities[parentId].repliesEntities[commentId].likes -= 1;
+                                draft.entities[parentId].repliesEntities[commentId].hasLiked = false;
+                            }
+
+                            // save new state of comment
+                            newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        }
+                    })
+                );
+
+                // Optimistic update for comment entity in commentsSlice state
+                if (newState) {
+                    dispatch(
+                        setCommentEntity({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                            newComment: newState,
+                        })
+                    );
+                }
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    // if mutation fails undo cache changes and save previous comment entity in commentsSlice state
+                    patchResult.undo();
+                    if (previousState) {
+                        dispatch(
+                            setCommentEntity({
+                                parentId: queryArgsGetComments.parentId,
+                                commentId,
+                                newComment: previousState,
+                            })
+                        );
+                    }
+                }
+            },
             // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
-        removeLike: builder.mutation<void, { commentId: string }>({
-            query: ({ commentId }) => ({
-                url: `/comments/${commentId}/like`,
+        removeLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
+            query: ({ commentId, type }) => ({
+                url: `/comments/${commentId}/like?type=${type}`,
                 method: "DELETE",
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
+            async onQueryStarted({ commentId, type, ...queryArgsGetComments }, { dispatch, queryFulfilled }) {
+                // save previous state of comment 
+                let previousState: CommentType | null = null;
+                let newState: CommentType | null = null;
+                // optimistic update of the cache
+                const patchResult = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", queryArgsGetComments, (draft) => {
+                        const { parentId } = queryArgsGetComments;
+                        if (!parentId) {
+                            // if root comment
+                            // if the comment doesnt exist in cache throw error
+                            if (!draft.entities[commentId]) {
+                                throw new Error("commentsApiSlice: removeLikeDislike mutation onQueryStarted: Comment doesnt exist in cache")
+                            }
+
+                            // save previous state of comment
+                            previousState = { ...draft.entities[commentId] };
+
+                            if (type === "like" && draft.entities[commentId].hasLiked) {
+                                draft.entities[commentId].hasLiked = false;
+                                if (draft.entities[commentId].likes > 0) draft.entities[commentId].likes -= 1;
+                            } else if (type === "dislike" && draft.entities[commentId].hasDisliked) {
+                                draft.entities[commentId].hasDisliked = false;
+                                if (draft.entities[commentId].dislikes > 0) draft.entities[commentId].dislikes -= 1;
+                            }
+
+                            // save new state of comment
+                            newState = { ...draft.entities[commentId] };
+                        } else {
+                            // if reply
+                            // if the reply doesnt exist in cache throw error
+                            if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) {
+                                throw new Error("commentsApiSlice: addLikeDislike mutation onQueryStarted: Reply doesnt exist in cache")
+                            }
+
+                            // save previous state of comment
+                            previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+
+                            if (type === "like" && draft.entities[parentId].repliesEntities[commentId].hasLiked) {
+                                draft.entities[parentId].repliesEntities[commentId].hasLiked = false;
+                                if (draft.entities[parentId].repliesEntities[commentId].likes > 0) draft.entities[parentId].repliesEntities[commentId].likes -= 1;
+                            } else if (type === "dislike" && draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                                draft.entities[parentId].repliesEntities[commentId].hasDisliked = false;
+                                if (draft.entities[parentId].repliesEntities[commentId].dislikes > 0) draft.entities[parentId].repliesEntities[commentId].dislikes -= 1;
+                            }
+
+                            // save new state of comment
+                            newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        }
+                    })
+                );
+
+                // Optimistic update for comment entity in commentsSlice state
+                if (newState) {
+                    dispatch(
+                        setCommentEntity({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                            newComment: newState,
+                        })
+                    );
+                }
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    // if mutation fails undo cache changes and save previous comment entity in commentsSlice state
+                    patchResult.undo();
+                    if (previousState) {
+                        dispatch(
+                            setCommentEntity({
+                                parentId: queryArgsGetComments.parentId,
+                                commentId,
+                                newComment: previousState,
+                            })
+                        );
+                    }
+                }
+            },
             // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
     })
@@ -167,6 +359,6 @@ export const {
     useUpdateCommentMutation,
     useDeleteCommentMutation,
     useGetUserLikedCommentQuery,
-    useAddLikeMutation,
-    useRemoveLikeMutation,
+    useAddLikeDislikeMutation,
+    useRemoveLikeDislikeMutation,
 } = commentsApiSlice;
