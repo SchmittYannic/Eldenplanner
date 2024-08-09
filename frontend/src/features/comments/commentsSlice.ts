@@ -13,6 +13,12 @@ interface CommentsStateType<CommentId extends string> {
     limit: number;
 }
 
+interface SetCommentEntityPayload<CommentId extends string> {
+    parentId: CommentId | null;
+    commentId: CommentId;
+    newComment: CommentType<CommentId>;
+}
+
 export const initialState: CommentsStateType<string> = {
     totalComments: 0,
     commentIds: [],
@@ -64,6 +70,14 @@ export const commentsSlice = createSlice({
                 state.hasMore = false;
             } else {
                 state.hasMore = true;
+            }
+        },
+        setCommentEntity: (state, { payload }: PayloadAction<SetCommentEntityPayload<string>>) => {
+            const { parentId, commentId, newComment } = payload;
+            if (!parentId) {
+                state.commentEntities[commentId] = newComment;
+            } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId]) {
+                state.commentEntities[parentId].repliesEntities[commentId] = newComment;
             }
         },
     },
@@ -134,6 +148,7 @@ export const {
     setTotalComments,
     setLastFetchedTimestamp,
     updateHasMore,
+    setCommentEntity,
 } = commentsSlice.actions;
 
 export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
