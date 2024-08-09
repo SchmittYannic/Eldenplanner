@@ -102,10 +102,12 @@ const getComments = async (req, res) => {
 
 
         //if userId present
-        //get all the likes of the user to the found comments
+        //get all the likes and dislikes of the user to the found comments
         const commentIds = comments.map(comment => comment._id);
-        const likes = await CommentLike.find({ commentId: { $in: commentIds }, userId });
+        const likes = await CommentLike.find({ commentId: { $in: commentIds }, userId, type: "like" });
+        const dislikes = await CommentLike.find({ commentId: { $in: commentIds }, userId, type: "dislike" });
         const likedCommentIds = likes.map(like => like.commentId.toString());
+        const dislikedCommentIds = dislikes.map(dislikes => dislikes.commentId.toString());
         //convert _id to id and transform the authorId object into a string + attaching username
         //attach the like status to the found comments
         const commentsWithLikeStatus = comments.map(comment => ({
@@ -114,7 +116,8 @@ const getComments = async (req, res) => {
             authorId: comment.authorId._id.toString(),
             username: comment.authorId.username,
             avatarUrl: comment.authorId.avatarUrl,
-            hasLiked: likedCommentIds.includes(comment._id.toString())
+            hasLiked: likedCommentIds.includes(comment._id.toString()),
+            hasDisliked: dislikedCommentIds.includes(comment._id.toString()),
         }));
         //get ids and entities
         const { ids, entities } = getIdsAndEntitiesOfComments(commentsWithLikeStatus);
@@ -293,7 +296,7 @@ const deleteComment = async (req, res) => {
             }
         }
 
-        await foundComment.deleteOne().session(clientSession);
+        await Comment.deleteOne({ _id: foundComment._id }).session(clientSession);
         await clientSession.commitTransaction();
         clientSession.endSession();
         res.status(200).json({ message: "Comment deleted successfully" });
@@ -302,15 +305,16 @@ const deleteComment = async (req, res) => {
     }
 };
 
-// @desc check if user liked comment
+// @desc check if user liked/disliked comment
 // @route GET /comments/:id/like
 // @access Private
 const getUserLikedComment = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.query;
     try {
-        const like = await CommentLike.findOne({ commentId: id, userId });
-        res.status(200).json({ hasLiked: !!like });
+        const like = await CommentLike.findOne({ commentId: id, userId, type: "like" });
+        const dislike = await CommentLike.findOne({ commentId: id, userId, type: "dislike" });
+        res.status(200).json({ hasLiked: !!like, hasDisliked: !!dislike });
     } catch (err) {
         res.status(500).json({ message: "Error retrieving has user liked comment" });
     }
@@ -321,7 +325,12 @@ const getUserLikedComment = async (req, res) => {
 // @access Private
 const addLike = async (req, res) => {
     const { userId } = req;
-    const { id } = req.params;
+    const {
+        id,
+    } = req.params;
+    const {
+        type,
+    } = req.query;
 
     const clientSession = await mongoose.startSession();
     clientSession.startTransaction();
@@ -343,31 +352,60 @@ const addLike = async (req, res) => {
             return res.status(403).json({ message: "User cannot like their own comments" })
         }
 
-        //check if comment is already liked
-        const foundLike = await CommentLike.findOne({ commentId: id, userId }).session(clientSession);
-        if (foundLike) {
+        // get like and dislike status of Comment.
+        const foundLike = await CommentLike.findOne({ commentId: id, userId, type: "like" }).session(clientSession);
+        const foundDislike = await CommentLike.findOne({ commentId: id, userId, type: "dislike" }).session(clientSession);
+
+        //check if comment is already liked if type is like
+        if (type === "like" && foundLike) {
             await clientSession.abortTransaction();
             clientSession.endSession();
             return res.status(400).json({ message: "Comment is already liked" });
         }
 
-        //create like in database
+        //check if comment is already disliked if type is dislike
+        if (type === "dislike" && foundDislike) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
+            return res.status(400).json({ message: "Comment is already disliked" });
+        }
+
+        //check if like is being added when comment is currently disliked
+        if (type === "like" && foundDislike) {
+            //delete dislike
+            await CommentLike.deleteOne({ _id: foundDislike._id }).session(clientSession);
+            if (foundComment.dislikes > 0) foundComment.dislikes -= 1;
+            //increment likes
+            foundComment.likes += 1;
+        }
+
+        //check if dislike is being added when comment is currently liked
+        if (type === "dislike" && foundLike) {
+            //delete like
+            await CommentLike.deleteOne({ _id: foundLike._id }).session(clientSession);
+            if (foundComment.likes > 0) foundComment.likes -= 1;
+            //increment dislikes
+            foundComment.dislikes += 1;
+        }
+
+        //create like or dislike in database
         await CommentLike.create(
             [{
                 commentId: id,
                 userId,
+                type,
             }],
             { clientSession }
         );
-        //increment the likes of comment
-        foundComment.likes += 1;
+
         //save the updated document
         await foundComment.save({ clientSession });
         await clientSession.commitTransaction();
         clientSession.endSession();
-        res.status(201).json({ message: "Like added" });
+        res.status(201).json({ message: `${type} added` });
     } catch (err) {
-        res.status(500).json({ message: "Error adding like" });
+        console.log(err)
+        res.status(500).json({ message: `Error adding ${type}` });
     }
 };
 
@@ -376,7 +414,12 @@ const addLike = async (req, res) => {
 // @access Private
 const deleteLike = async (req, res) => {
     const { userId } = req;
-    const { id } = req.params;
+    const {
+        id,
+    } = req.params;
+    const {
+        type,
+    } = req.query;
 
     const clientSession = await mongoose.startSession();
     clientSession.startTransaction();
@@ -391,25 +434,29 @@ const deleteLike = async (req, res) => {
             return res.status(400).json({ message: "Comment not found" });
         }
 
-        const foundLike = await CommentLike.findOne({ commentId: id, userId }).session(clientSession);
-        //check if comment is liked
-        if (!foundLike) {
+        const foundLikeOrDislike = await CommentLike.findOne({ commentId: id, userId, type }).session(clientSession);
+        //check if comment is like/dislike was found
+        if (!foundLikeOrDislike) {
             await clientSession.abortTransaction();
             clientSession.endSession();
-            return res.status(400).json({ message: "Like not found" });
+            return res.status(400).json({ message: `${type} not found` });
         }
 
-        const deletedLike = await foundLike.deleteOne().session(clientSession);
-        //check if like got deleted
-        if (!deletedLike) {
+        const deletedLikeOrDislike = await CommentLike.deleteOne({ _id: foundLikeOrDislike._id }).session(clientSession);
+        //check if like/dislike got deleted
+        if (!deletedLikeOrDislike) {
             await clientSession.abortTransaction();
             clientSession.endSession();
             return res.status(404).json({ message: "Like not deleted because it was not found" });
         }
 
         //only decrease likeCount by 1 if likeCount is bigger than 0
-        if (foundComment.likes > 0) {
+        if (type === "like" && foundComment.likes > 0) {
             foundComment.likes -= 1;
+        }
+
+        if (type === "dislike" && foundComment.dislikes > 0) {
+            foundComment.dislikes -= 1;
         }
 
         await foundComment.save({ clientSession })
