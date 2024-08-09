@@ -5,12 +5,13 @@ import {
     BsHandThumbsUp,
     BsHandThumbsUpFill,
     BsHandThumbsDown,
-    //BsHandThumbsDownFill,
+    BsHandThumbsDownFill,
 } from "react-icons/bs";
 import { MdExpandMore, MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
-import { useLazyGetCommentsQuery } from "./commentsApiSlice";
-import { selectCommentById, selectLimit, selectSort } from "./commentsSlice";
+import { useAddLikeDislikeMutation, useLazyGetCommentsQuery, useRemoveLikeDislikeMutation } from "./commentsApiSlice";
+import { selectCommentById, selectLastFetchedTimestamp, selectLimit, selectSort } from "./commentsSlice";
+import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
 import { sinceDateInString } from "src/utils/functions";
@@ -33,8 +34,15 @@ const Comment = ({
     const parentComment = parentId ? useSelector((state) => selectCommentById(state, parentId)) : null;
     const comment = !parentComment ? useSelector((state) => selectCommentById(state, commentId)) : parentComment.repliesEntities ? parentComment.repliesEntities[commentId] : null;
 
-    if (!comment) return (<></>)
+    if (!comment) return (<></>);
 
+    const [addLikeDislike] = useAddLikeDislikeMutation();
+    const [removeLikeDislike] = useRemoveLikeDislikeMutation();
+    const lastFetchedTimestamp = useSelector(selectLastFetchedTimestamp);
+    const sort = useSelector(selectSort);
+    const limit = useSelector(selectLimit);
+
+    const { userId } = useAuth();
     const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
@@ -57,6 +65,66 @@ const Comment = ({
 
     const onCommentBoxCancelClicked = () => {
         setShowCommentBox(false);
+    };
+
+    const onLikeClicked = () => {
+        // if visitor -> do nothing
+        if (!userId) return
+        // if authenticated user is comment author -> do nothing
+        if (userId === comment.authorId) return
+        if (comment.hasLiked) {
+            removeLikeDislike({
+                commentId: comment.id,
+                type: "like",
+                targetId,
+                targetType,
+                parentId,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            })
+        } else {
+            addLikeDislike({
+                commentId: comment.id,
+                type: "like",
+                targetId,
+                targetType,
+                parentId,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            })
+        }
+    };
+
+    const onDislikeClicked = () => {
+        // if visitor -> do nothing
+        if (!userId) return
+        // if authenticated user is comment author -> do nothing
+        if (userId === comment.authorId) return
+        if (comment.hasDisliked) {
+            removeLikeDislike({
+                commentId: comment.id,
+                type: "dislike",
+                targetId,
+                targetType,
+                parentId,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            })
+        } else {
+            addLikeDislike({
+                commentId: comment.id,
+                type: "dislike",
+                targetId,
+                targetType,
+                parentId,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            })
+        }
     };
 
     return (
@@ -93,6 +161,7 @@ const Comment = ({
                                 <button
                                     className="like-btn"
                                     type="button"
+                                    onClick={onLikeClicked}
                                 >
                                     <div
                                         className="icon-container"
@@ -110,12 +179,16 @@ const Comment = ({
                                 <button
                                     className="dislike-btn"
                                     type="button"
+                                    onClick={onDislikeClicked}
                                 >
                                     <div
                                         className="icon-container"
                                     >
-                                        {/* Change button once hasDisliked is created */}
-                                        <BsHandThumbsDown aria-hidden />
+                                        {comment?.hasDisliked ?
+                                            <BsHandThumbsDownFill aria-hidden />
+                                            :
+                                            <BsHandThumbsDown aria-hidden />
+                                        }
                                     </div>
                                 </button>
                                 <span className="dislikecount">
