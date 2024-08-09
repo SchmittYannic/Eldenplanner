@@ -1,4 +1,4 @@
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
+import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
 import { MdClose, MdExpandMore } from "react-icons/md";
 import "./CustomSelect.scss";
 
@@ -35,7 +35,8 @@ const CustomSelect = ({
     const [showOptions, setShowOptions] = useState<boolean>(false);
 
     const [focusedOption, setFocusedOption] = useState(-1);
-    const optionContainer = useRef<HTMLLIElement | null>(null);
+    const optionContainer: MutableRefObject<HTMLLIElement | null> = useRef(null);
+    const selectedOptionRef: MutableRefObject<HTMLLIElement | null> = useRef(null);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const currentInputValue = e.target.value;
@@ -167,6 +168,19 @@ const CustomSelect = ({
         });
     }, [focusedOption]);
 
+    useEffect(() => {
+        if (!showOptions) return
+        if (!selectedOptionRef.current) return
+
+        // set focusedOption to the currentSelectedOptions index
+        setFocusedOption(filteredOptions.indexOf(currentSelectedOption));
+
+        selectedOptionRef.current.scrollIntoView({
+            block: "center",
+            behavior: "instant",
+        });
+    }, [showOptions]);
+
     return (
         <div className={className} title={title}>
             <div className="ddBtn-container">
@@ -205,7 +219,14 @@ const CustomSelect = ({
                         return (
                             <li
                                 key={idx}
-                                ref={idx === focusedOption ? optionContainer : null}
+                                ref={(el) => {
+                                    if (idx === focusedOption) {
+                                        optionContainer.current = el;
+                                    }
+                                    if (option === currentSelectedOption) {
+                                        selectedOptionRef.current = el;
+                                    }
+                                }}
                                 className={idx === focusedOption ? "focused-option" : ""}
                                 onMouseDown={() => handleSelection(idx)}
                             >
