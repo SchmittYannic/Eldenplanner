@@ -12,6 +12,11 @@ const commentLikeSchema = new mongoose.Schema(
             required: true,
             ref: "User",
         },
+        type: {
+            type: String,
+            enum: ["like", "dislike"],
+            required: true,
+        },
     },
     {
         timestamps: true,
