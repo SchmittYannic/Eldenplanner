@@ -1,12 +1,21 @@
 import { MaybeDrafted, Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
+import { v4 as uuidv4 } from "uuid";
 
 import { apiSlice } from "src/app/api/apiSlice";
-import { setCommentEntity } from "./commentsSlice";
+import {
+    addCommentId,
+    decrementTotalComments,
+    deleteCommentEntity,
+    deleteCommentId,
+    incrementTotalComments,
+    setCommentEntity,
+} from "./commentsSlice";
 import {
     CommentType,
     GetCommentsResponseType,
     AddLikeDislikeMutationParamsType,
     GetCommentsQueryParamsType,
+    CreateCommentMutationParamsType,
 } from "src/types";
 import { mergeSortedArrays } from "src/utils/functions";
 
@@ -27,6 +36,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             merge: (currentCache, responseData, args) => {
                 const { parentId, sort } = args.arg
 
+                // if no new ids received return
+                if (responseData.ids.length === 0) return
                 // if no parentId -> received regular comments
                 if (!parentId) {
                     // Step 1: Filter out Ids that are in the cache and not in the response
@@ -98,17 +109,195 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             //     ]
             //         : [{ type: "Comments", id: `${targetId}-${targetType}` }],
         }),
-        createComment: builder.mutation<CommentType, Partial<CommentType>>({
-            query: (newComment) => ({
+        createComment: builder.mutation<CommentType, CreateCommentMutationParamsType>({
+            query: ({
+                authorId,
+                content,
+                targetId,
+                targetType,
+                parentId,
+            }) => ({
                 url: "/comments",
                 method: "POST",
                 body: {
-                    ...newComment,
+                    authorId,
+                    content,
+                    targetId,
+                    targetType,
+                    parentId,
                 },
                 validateStatus: (response, result) => {
                     return response.status === 201 && !result.isError
                 },
             }),
+            async onQueryStarted({
+                authorId,
+                username,
+                avatarUrl,
+                parentId,
+                targetId,
+                targetType,
+                content,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            }, { dispatch, queryFulfilled }) {
+
+                const generateTempId = (prefix: string = "temp-"): string => {
+                    return `${prefix}${uuidv4()}`;
+                };
+
+                let tempId = generateTempId();
+                const tempCreatedAt = new Date().toISOString();
+
+                let tempComment: CommentType = {
+                    id: tempId,
+                    authorId,
+                    username,
+                    avatarUrl,
+                    parentId,
+                    targetId,
+                    targetType,
+                    content,
+                    totalReplies: 0,
+                    likes: 0,
+                    dislikes: 0,
+                    createdAt: tempCreatedAt,
+                    updatedAt: tempCreatedAt,
+                };
+                console.log("tempId: ", tempId)
+                console.log("tempIdComment: ", tempComment)
+
+                // function to update cache with temp comment
+                const draftFunction: Recipe<GetCommentsResponseType<string>> = (draft: MaybeDrafted<GetCommentsResponseType<string>>) => {
+                    console.log("tempIdDraft: ", tempId)
+                    console.log("tempIdDraft: ", tempComment)
+                    if (!parentId) {
+                        // add comment to entities
+                        draft.entities = {
+                            ...draft.entities,
+                            [tempId]: tempComment,
+                        };
+
+                        // push or unshift tempId into ids depending on sort setting
+                        if (sort === "new") {
+                            draft.ids.unshift(tempId);
+                        } else if (sort === "old") {
+                            draft.ids.push(tempId)
+                        }
+                    } else {
+                        draft.entities[parentId].repliesEntities = {
+                            ...draft.entities[parentId].repliesEntities,
+                            [tempId]: tempComment,
+                        }
+
+                        // if there is no repliesIds yet create one with tempId inside
+                        if (!draft.entities[parentId].repliesIds) {
+                            draft.entities[parentId].repliesIds = [tempId];
+                        } else {
+                            // replies always oldest to newest therefore always push
+                            draft.entities[parentId].repliesIds.push(tempId);
+                        }
+                    }
+                }
+
+                // optimistic update of the cache for sort new
+                const patchResultNew = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "new", limit }, draftFunction)
+                );
+
+                // optimistic update of the cache for sort old
+                const patchResultOld = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "old", limit }, draftFunction)
+                );
+
+                // optimistic update increase of totalComments
+                dispatch(incrementTotalComments({ parentId }));
+
+                // Optimistic update for comment entity in commentsSlice state          
+                dispatch(
+                    setCommentEntity({
+                        parentId,
+                        commentId: tempId,
+                        newComment: tempComment,
+                    })
+                );
+                dispatch(
+                    addCommentId({
+                        parentId,
+                        commentId: tempId,
+                    })
+                );
+
+                try {
+                    const { data: comment } = await queryFulfilled;
+                    // if query successful
+                    // delete temp comment from state
+                    dispatch(
+                        deleteCommentEntity({
+                            parentId,
+                            commentId: tempId,
+                        })
+                    );
+                    dispatch(
+                        deleteCommentId({
+                            parentId,
+                            commentId: tempId,
+                        })
+                    );
+
+                    // add comment received as response from backend
+                    dispatch(
+                        setCommentEntity({
+                            parentId: comment.parentId,
+                            commentId: comment.id,
+                            newComment: comment,
+                        })
+                    );
+                    dispatch(
+                        addCommentId({
+                            parentId: comment.parentId || "",
+                            commentId: comment.id,
+                        })
+                    );
+
+                    patchResultNew.undo();
+                    patchResultOld.undo();
+
+                    // overwrite tempId and tempComment with real id and comment
+                    tempId = comment.id;
+                    tempComment = comment;
+                    console.log("tempIdSuccess: ", tempId)
+                    console.log("tempIdCommentSuccess: ", tempComment)
+
+                    dispatch(
+                        commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "new", limit }, draftFunction)
+                    );
+
+                    dispatch(
+                        commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "old", limit }, draftFunction)
+                    );
+                } catch (err) {
+                    // if mutation fails undo cache changes and save previous comment entity in commentsSlice state
+                    patchResultNew.undo();
+                    patchResultOld.undo();
+                    // delete temp comment from state
+                    dispatch(
+                        deleteCommentEntity({
+                            parentId,
+                            commentId: tempId,
+                        })
+                    );
+                    dispatch(
+                        deleteCommentId({
+                            parentId,
+                            commentId: tempId,
+                        })
+                    );
+                    // decrement totalComment
+                    dispatch(decrementTotalComments({ parentId }))
+                }
+            },
             // invalidatesTags: (result, _error, { targetId, targetType }) =>
             //     result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
             //         : [],
