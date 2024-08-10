@@ -1,4 +1,4 @@
-import { GetCommentsResponseType } from "src/types";
+import { CommentType, GetCommentsResponseType } from "src/types";
 import { EffectData, ItemEffectDataType } from "../../data/EffectData";
 import { StatsType } from "../../data/StartingClassData";
 import { ArmorStateType, StatsStateKeysType, StatsStateType, TalismanStateType } from "../features/charplanner/charplannerSlice";
@@ -141,6 +141,57 @@ const isValidCache = <CommentId extends string>(
     return true; // If all checks pass, return true indicating the cache is valid
 }
 
+const mergeSortedArrays = <CommentId extends string>(
+    cacheIds: CommentId[],
+    fetchedIds: CommentId[],
+    commentEntities: Record<CommentId, CommentType<CommentId>>,
+    isAscending: boolean = true,
+): CommentId[] => {
+    let mergedIds: CommentId[] = [];
+    let i = 0; // Pointer for cacheIds
+    let j = 0; // Pointer for fetchedIds
+
+    // Merge the arrays based on createdAt
+    while (i < cacheIds.length && j < fetchedIds.length) {
+        const existingDate = new Date(commentEntities[cacheIds[i]].createdAt);
+        const fetchedDate = new Date(commentEntities[fetchedIds[j]].createdAt);
+
+        if (isAscending) {
+            // Ascending: Oldest to Newest
+            if (existingDate <= fetchedDate) {
+                mergedIds.push(cacheIds[i]);
+                i++;
+            } else {
+                mergedIds.push(fetchedIds[j]);
+                j++;
+            }
+        } else {
+            // Descending: Newest to Oldest
+            if (existingDate >= fetchedDate) {
+                mergedIds.push(cacheIds[i]);
+                i++;
+            } else {
+                mergedIds.push(fetchedIds[j]);
+                j++;
+            }
+        }
+    }
+
+    // Append any remaining items from cacheIds
+    while (i < cacheIds.length) {
+        mergedIds.push(cacheIds[i]);
+        i++;
+    }
+
+    // Append any remaining items from fetchedIds
+    while (j < fetchedIds.length) {
+        mergedIds.push(fetchedIds[j]);
+        j++;
+    }
+
+    return mergedIds;
+}
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -151,4 +202,5 @@ export {
     calcStatChange,
     sinceDateInString,
     isValidCache,
+    mergeSortedArrays,
 }
