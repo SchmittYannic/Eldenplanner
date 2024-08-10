@@ -29,7 +29,7 @@ export type CustomError = {
 
 export type TargetTypeType = "Build" | "User";
 
-export const sortOptions = ["new", "old", "popular"] as const;
+export const sortOptions = ["new", "old"] as const;
 export type SortCommentsType = typeof sortOptions[number];
 
 const likeTypeOptions = ["like", "dislike"] as const;
