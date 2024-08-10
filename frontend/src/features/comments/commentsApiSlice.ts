@@ -28,11 +28,11 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
 
                 // if no parentId -> received regular comments
                 if (!parentId) {
-                    // Step 1: Filter out IDs that are already in the cache
-                    const newIds = responseData.ids.filter(id => !currentCache.ids.includes(id));
+                    // Step 1: Filter out Ids that are in the cache and not in the response
+                    const oldIds = currentCache.ids.filter(id => !responseData.ids.includes(id))
 
-                    // Step 2: Push only new, unique IDs into currentCache.ids
-                    currentCache.ids.push(...newIds);
+                    // Step 2: attach ids from response to oldIds
+                    currentCache.ids = [...oldIds, ...responseData.ids];
 
                     // Step 3: Merge the entities, which will replace old entities with the new ones
                     currentCache.entities = {
@@ -51,19 +51,22 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     const lastReplyFetchedTimestamp = responseData.entities[lastId].createdAt;
                     currentCache.entities[parentId].lastReplyFetchedTimestamp = lastReplyFetchedTimestamp;
 
-                    // get repliesIds and repliesEntities of parent comment in the cache
-                    const currentRepliesIds = currentCache.entities[parentId].repliesIds
-                    const currentRepliesEntities = currentCache.entities[parentId].repliesEntities
-                    if (!currentRepliesIds && !currentRepliesEntities) {
+                    if (!currentCache.entities[parentId].repliesIds && !currentCache.entities[parentId].repliesEntities) {
                         // if the replies to the comment are the first replies that got fetched
                         // write ids and entities to the parent comments repliesIds and repliesEntities keys
                         currentCache.entities[parentId].repliesIds = responseData.ids;
                         currentCache.entities[parentId].repliesEntities = responseData.entities;
-                    } else if (currentRepliesIds && currentRepliesEntities) {
+                    } else if (currentCache.entities[parentId].repliesIds && currentCache.entities[parentId].repliesEntities) {
                         // if replies already exist on the comment attach newly fetched replies to end
-                        currentCache.entities[parentId].repliesIds = [...currentRepliesIds, ...responseData.ids];
+                        // Step 1: Filter out Ids that are in the cache and not in the response
+                        const oldIds = currentCache.entities[parentId].repliesIds.filter(id => !responseData.ids.includes(id))
+
+                        // Step 2: attach ids from response to oldIds
+                        currentCache.entities[parentId].repliesIds = [...oldIds, ...responseData.ids];
+
+                        // Step 3: Merge the entities, which will replace old entities with the new ones
                         currentCache.entities[parentId].repliesEntities = {
-                            ...currentRepliesEntities,
+                            ...currentCache.entities[parentId].repliesEntities,
                             ...responseData.entities
                         }
                     } else {
