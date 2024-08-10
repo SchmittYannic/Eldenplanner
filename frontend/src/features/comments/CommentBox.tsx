@@ -1,6 +1,8 @@
 import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { useCreateCommentMutation } from "src/features/comments/commentsApiSlice";
+import { selectLastFetchedTimestamp, selectLimit, selectSort } from "./commentsSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "src/features/comments/AuthorThumbnail";
 import { TargetTypeType } from "src/types";
@@ -31,10 +33,13 @@ const CommentBox = ({
         isLoading,
     }] = useCreateCommentMutation();
 
-    const { userId } = useAuth();
+    const lastFetchedTimestamp = useSelector(selectLastFetchedTimestamp);
+    const sort = useSelector(selectSort);
+    const limit = useSelector(selectLimit);
+
+    const { userId, username, avatarUrl } = useAuth();
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
     const [commentText, setCommentText] = useState(initialText);
-    const { avatarUrl } = useAuth();
 
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = e.target;
@@ -55,10 +60,15 @@ const CommentBox = ({
             // Trigger the mutation with the comment data
             await createComment({
                 authorId: userId,
-                content: commentText,
+                username,
+                avatarUrl,
+                parentId: parentId || "",
                 targetId,
                 targetType,
-                parentId,
+                content: commentText,
+                lastFetchedTimestamp,
+                sort,
+                limit,
             }).unwrap();
             handleCancelClicked();
             //do optimistic update
