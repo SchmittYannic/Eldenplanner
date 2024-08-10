@@ -8,6 +8,7 @@ import {
     AddLikeDislikeMutationParamsType,
     GetCommentsQueryParamsType,
 } from "src/types";
+import { mergeSortedArrays } from "src/utils/functions";
 
 export const commentsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -24,21 +25,22 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 return endpointName + `("${targetId}-${targetType}-${sort}")`;
             },
             merge: (currentCache, responseData, args) => {
-                const { parentId } = args.arg
+                const { parentId, sort } = args.arg
 
                 // if no parentId -> received regular comments
                 if (!parentId) {
                     // Step 1: Filter out Ids that are in the cache and not in the response
                     const oldIds = currentCache.ids.filter(id => !responseData.ids.includes(id))
 
-                    // Step 2: attach ids from response to oldIds
-                    currentCache.ids = [...oldIds, ...responseData.ids];
-
-                    // Step 3: Merge the entities, which will replace old entities with the new ones
+                    // Step 2: Merge the entities, which will replace old entities with the new ones
                     currentCache.entities = {
                         ...currentCache.entities,
                         ...responseData.entities
                     };
+
+                    // Step 3 merge the fetchedIds into oldIds making sure the ids in resulting array remain sorted
+                    const mergedIds = mergeSortedArrays(oldIds, responseData.ids, currentCache.entities, sort === "old");
+                    currentCache.ids = mergedIds;
                 } else {
                     // if parentId -> received replies to a comment
                     // if length of ids is 0 we fetched every comment
@@ -61,14 +63,15 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         // Step 1: Filter out Ids that are in the cache and not in the response
                         const oldIds = currentCache.entities[parentId].repliesIds.filter(id => !responseData.ids.includes(id))
 
-                        // Step 2: attach ids from response to oldIds
-                        currentCache.entities[parentId].repliesIds = [...oldIds, ...responseData.ids];
-
-                        // Step 3: Merge the entities, which will replace old entities with the new ones
+                        // Step 2: Merge the entities, which will replace old entities with the new ones
                         currentCache.entities[parentId].repliesEntities = {
                             ...currentCache.entities[parentId].repliesEntities,
                             ...responseData.entities
                         }
+
+                        // Step 3 merge the fetchedIds into oldIds making sure the ids in resulting array remain sorted
+                        const mergedIds = mergeSortedArrays(oldIds, responseData.ids, currentCache.entities[parentId].repliesEntities, sort === "old");
+                        currentCache.entities[parentId].repliesIds = mergedIds;
                     } else {
                         throw new Error("Error while merging Cache: both repliesIds and repliesEntities of a comment must either be both undefined or both exist")
                     }
