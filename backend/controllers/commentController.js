@@ -375,8 +375,6 @@ const addLike = async (req, res) => {
             //delete dislike
             await CommentLike.deleteOne({ _id: foundDislike._id }).session(clientSession);
             if (foundComment.dislikes > 0) foundComment.dislikes -= 1;
-            //increment likes
-            foundComment.likes += 1;
         }
 
         //check if dislike is being added when comment is currently liked
@@ -384,8 +382,6 @@ const addLike = async (req, res) => {
             //delete like
             await CommentLike.deleteOne({ _id: foundLike._id }).session(clientSession);
             if (foundComment.likes > 0) foundComment.likes -= 1;
-            //increment dislikes
-            foundComment.dislikes += 1;
         }
 
         //create like or dislike in database
@@ -397,6 +393,15 @@ const addLike = async (req, res) => {
             }],
             { clientSession }
         );
+
+        // increment likes or dislikes count of comment
+        if (type === "like") {
+            foundComment.likes += 1;
+        }
+
+        if (type === "dislike") {
+            foundComment.dislikes += 1;
+        }
 
         //save the updated document
         await foundComment.save({ clientSession });
