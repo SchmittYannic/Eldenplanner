@@ -2,6 +2,7 @@ import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
 import { CommentType, GetCommentsResponseType, SortCommentsType } from "src/types";
 import { commentsApiSlice } from "./commentsApiSlice";
+import { mergeSortedArrays } from "src/utils/functions";
 
 interface CommentsStateType<CommentId extends string> {
     totalComments: number;
@@ -62,6 +63,22 @@ export const commentsSlice = createSlice({
         setTotalComments: (state, { payload }: PayloadAction<number>) => {
             state.totalComments = payload;
         },
+        incrementTotalComments: (state, { payload }: PayloadAction<{ parentId: string }>) => {
+            const { parentId } = payload;
+            if (!parentId) {
+                state.totalComments += 1
+            } else {
+                state.commentEntities[parentId].totalReplies += 1
+            }
+        },
+        decrementTotalComments: (state, { payload }: PayloadAction<{ parentId: string }>) => {
+            const { parentId } = payload;
+            if (!parentId && state.totalComments > 0) {
+                state.totalComments -= 1
+            } else if (parentId && state.commentEntities[parentId].totalReplies > 0) {
+                state.commentEntities[parentId].totalReplies -= 1
+            }
+        },
         setLastFetchedTimestamp: (state, { payload }: PayloadAction<string>) => {
             state.lastFetchedTimestamp = payload;
         },
@@ -80,6 +97,46 @@ export const commentsSlice = createSlice({
                 state.commentEntities[parentId].repliesEntities[commentId] = newComment;
             }
         },
+        deleteCommentEntity: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
+            const { parentId, commentId } = payload;
+            if (!parentId && state.commentEntities[commentId]) {
+                const entities = { ...state.commentEntities }
+                delete entities[commentId];
+                state.commentEntities = entities
+            } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId]) {
+                const entities = { ...state.commentEntities[parentId].repliesEntities }
+                delete entities[commentId];
+                state.commentEntities[parentId].repliesEntities = entities
+            }
+        },
+        addCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
+            const { parentId, commentId } = payload;
+
+            if (!parentId && state.sort === "new") {
+                const ids = [...state.commentIds];
+                ids.unshift(commentId);
+                state.commentIds = ids;
+            } else if (!parentId && state.sort === "old") {
+                const ids = [...state.commentIds];
+                ids.push(commentId);
+                state.commentIds = ids;
+            } else if (parentId && state.commentEntities[parentId].repliesIds) {
+                // replies always oldest to newest therefore always push
+                const ids = [...state.commentEntities[parentId].repliesIds];
+                ids.push(commentId);
+                state.commentEntities[parentId].repliesIds = ids;
+            }
+        },
+        deleteCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
+            const { parentId, commentId } = payload;
+            if (!parentId) {
+                const ids = state.commentIds.filter(id => id !== commentId);
+                state.commentIds = ids;
+            } else if (parentId && state.commentEntities[parentId].repliesIds) {
+                const ids = state.commentEntities[parentId].repliesIds.filter(id => id !== commentId);
+                state.commentEntities[parentId].repliesIds = ids
+            }
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -94,11 +151,12 @@ export const commentsSlice = createSlice({
                     state.lastFetchedTimestamp = idLastComment ? action.payload.entities[idLastComment].createdAt : "";
 
                     // Adds ids and entities to state
-                    state.commentIds = [...state.commentIds, ...action.payload.ids];
                     state.commentEntities = {
                         ...state.commentEntities,
                         ...action.payload.entities
                     };
+                    const mergedIds = mergeSortedArrays([...state.commentIds], [...action.payload.ids], state.commentEntities, state.sort === "old");
+                    state.commentIds = mergedIds;
 
                     // Update hasMore
                     state.hasMore = state.commentIds.length < action.payload.totalComments;
@@ -149,6 +207,11 @@ export const {
     setLastFetchedTimestamp,
     updateHasMore,
     setCommentEntity,
+    deleteCommentEntity,
+    addCommentId,
+    deleteCommentId,
+    incrementTotalComments,
+    decrementTotalComments,
 } = commentsSlice.actions;
 
 export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
