@@ -213,9 +213,19 @@ const createComment = async (req, res) => {
             }],
             { clientSession }
         );
+
+        // add id and author details
+        const transformedComment = {
+            ...newComment[0].toObject(),
+            id: newComment[0]._id.toString(),
+            username: author.username,
+            avatarUrl: author.avatarUrl,
+        };
+
+        // end transaction
         await clientSession.commitTransaction();
         clientSession.endSession();
-        res.status(201).json(newComment);
+        res.status(201).json(transformedComment);
     } catch (err) {
         res.status(500).json({ message: "Error creating new comment" });
     }
