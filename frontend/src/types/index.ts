@@ -65,7 +65,7 @@ export type GetCommentsResponseType<CommentId extends string> = {
 
 export type GetCommentsQueryParamsType = {
     targetId: string,
-    targetType: string,
+    targetType: TargetTypeType,
     parentId: string,
     lastFetchedTimestamp: string,
     sort?: SortCommentsType,
@@ -75,4 +75,11 @@ export type GetCommentsQueryParamsType = {
 export type AddLikeDislikeMutationParamsType = {
     commentId: string,
     type: LikeTypeType,
+} & GetCommentsQueryParamsType
+
+export type CreateCommentMutationParamsType = {
+    authorId: string,
+    username: string,
+    avatarUrl: string,
+    content: string,
 } & GetCommentsQueryParamsType
