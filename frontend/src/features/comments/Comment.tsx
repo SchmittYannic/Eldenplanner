@@ -1,16 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState, memo } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     BsHandThumbsUp,
     BsHandThumbsUpFill,
     BsHandThumbsDown,
     BsHandThumbsDownFill,
+    BsThreeDotsVertical,
 } from "react-icons/bs";
-import { MdExpandMore, MdOutlineSubdirectoryArrowRight } from "react-icons/md";
+import {
+    MdExpandMore,
+    MdOutlineSubdirectoryArrowRight,
+} from "react-icons/md";
 
 import { useAddLikeDislikeMutation, useLazyGetCommentsQuery, useRemoveLikeDislikeMutation } from "./commentsApiSlice";
-import { selectCommentById, selectLastFetchedTimestamp, selectLimit, selectSort } from "./commentsSlice";
+import {
+    selectCommentById,
+    selectLastFetchedTimestamp,
+    selectLimit,
+    selectSort,
+    selectIsEditMode,
+} from "./commentsSlice";
+import { addCommentOptionlist } from "src/features/popups/popupSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
@@ -24,23 +35,33 @@ type CommentPropsType = {
     parentId?: string,
 }
 
-const Comment = ({
+const Comment = memo(({
     targetId,
     targetType,
     commentId,
     parentId = "",
 }: CommentPropsType) => {
 
+    // get comment or reply from state
     const parentComment = parentId ? useSelector((state) => selectCommentById(state, parentId)) : null;
     const comment = !parentComment ? useSelector((state) => selectCommentById(state, commentId)) : parentComment.repliesEntities ? parentComment.repliesEntities[commentId] : null;
 
+    // if no comment or reply in state show nothing
     if (!comment) return (<></>);
 
+    const dispatch = useDispatch();
+
+    // mutation hooks
     const [addLikeDislike] = useAddLikeDislikeMutation();
     const [removeLikeDislike] = useRemoveLikeDislikeMutation();
+
+    // get states needed for triggering the mutations above 
     const lastFetchedTimestamp = useSelector(selectLastFetchedTimestamp);
     const sort = useSelector(selectSort);
     const limit = useSelector(selectLimit);
+
+    // is comment in edit mode
+    const isEditMode = useSelector(selectIsEditMode(comment.id));
 
     const { userId } = useAuth();
     const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -125,6 +146,25 @@ const Comment = ({
                 limit,
             })
         }
+    };
+
+    const onActionButtonClicked: MouseEventHandler<HTMLButtonElement> = () => {
+        if (userId !== comment.authorId) return
+        dispatch(addCommentOptionlist({
+            refId: `action-${comment.id}`,
+            props: [
+                {
+                    text: "Edit",
+                    icon: "edit",
+                    commentId: comment.id,
+                },
+                {
+                    text: "Delete",
+                    icon: "delete",
+                    commentId: comment.id,
+                },
+            ],
+        }));
     };
 
     return (
@@ -219,7 +259,20 @@ const Comment = ({
                         </div>
                     </div>
                     <div className="comment-action-menu">
-                        {/* add burger menu with actions like edit */}
+                        {userId === comment.authorId &&
+                            <button
+                                id={`action-${comment.id}`}
+                                className="dot-btn"
+                                type="button"
+                                onClick={onActionButtonClicked}
+                            >
+                                <div
+                                    className="icon-container"
+                                >
+                                    <BsThreeDotsVertical aria-hidden />
+                                </div>
+                            </button>
+                        }
                     </div>
                 </div>
 
@@ -266,7 +319,7 @@ const Comment = ({
             </div>
         </div>
     )
-}
+})
 
 type RepliesPropsType = {
     targetId: string,
