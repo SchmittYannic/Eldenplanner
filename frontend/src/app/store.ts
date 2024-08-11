@@ -5,6 +5,7 @@ import charplannerReducer from "src/features/charplanner/charplannerSlice";
 import authReducer from "src/features/auth/authSlice";
 import toastReducer from "src/features/toasts/toastSlice";
 import commentsReducer from "src/features/comments/commentsSlice";
+import popupReducer from "src/features/popups/popupSlice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         auth: authReducer,
         toast: toastReducer,
         comments: commentsReducer,
+        popup: popupReducer,
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware),
