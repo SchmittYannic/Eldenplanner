@@ -4,6 +4,15 @@
     width: 100%;
     margin-bottom: 50px; //just for testing remove later
 
+    .icon-container {
+        display: inline-block;
+        vertical-align: middle;
+
+        svg {
+            display: block;
+        }
+    }
+
     .comment-section-header {
         margin-top: 24px;
         margin-bottom: 32px;
@@ -23,6 +32,29 @@
 
     .comment-action-menu {
         width: 40px;
+
+        .dot-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+
+            svg {
+                color: hsl(v.$accent-foreground);
+                height: 24px;
+            }
+
+            &:hover,
+            &:focus-visible {
+                background-color: hsl(v.$accent3);
+            }
+
+            &:active {
+                background-color: hsl(v.$muted-foreground);
+            }
+        }
     }
 
     .comment-header {
@@ -76,13 +108,7 @@
         height: 32px;
         border-radius: 50%;
 
-        .icon-container {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
         svg {
-            display: block;
             color: hsl(v.$accent-foreground);
             width: 20px;
             height: 20px;
