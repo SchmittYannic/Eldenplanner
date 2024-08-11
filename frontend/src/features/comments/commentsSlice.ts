@@ -12,6 +12,7 @@ interface CommentsStateType<CommentId extends string> {
     lastFetchedTimestamp: string;
     sort: SortCommentsType;
     limit: number;
+    isEditMode: CommentId | null;
 }
 
 interface SetCommentEntityPayload<CommentId extends string> {
@@ -28,6 +29,7 @@ export const initialState: CommentsStateType<string> = {
     lastFetchedTimestamp: "",
     sort: "new",
     limit: 2,
+    isEditMode: null,
 };
 
 export const commentsSlice = createSlice({
@@ -42,6 +44,7 @@ export const commentsSlice = createSlice({
             state.lastFetchedTimestamp = initialState.lastFetchedTimestamp;
             state.sort = initialState.sort;
             state.limit = initialState.limit;
+            state.isEditMode = null;
         },
         changeSort: (state, { payload }: PayloadAction<SortCommentsType>) => {
             state.totalComments = initialState.totalComments;
@@ -137,6 +140,9 @@ export const commentsSlice = createSlice({
                 state.commentEntities[parentId].repliesIds = ids
             }
         },
+        setIsEditMode: (state, { payload }: PayloadAction<string>) => {
+            state.isEditMode = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -212,6 +218,7 @@ export const {
     deleteCommentId,
     incrementTotalComments,
     decrementTotalComments,
+    setIsEditMode,
 } = commentsSlice.actions;
 
 export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
@@ -235,5 +242,9 @@ export const selectTotalComments = (state: RootState) => state.comments.totalCom
 export const selectSort = (state: RootState) => state.comments.sort;
 export const selectLimit = (state: RootState) => state.comments.limit;
 export const selectLastFetchedTimestamp = (state: RootState) => state.comments.lastFetchedTimestamp;
+export const selectIsEditMode = (id: string) => createSelector(
+    (state: RootState) => state.comments.isEditMode,
+    (isEditMode) => isEditMode === id
+);
 
 export default commentsSlice.reducer;
