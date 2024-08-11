@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 
-import { selectPopup, setPosition } from "./popupSlice";
+import { selectPopup, setPosition, toggleOpen } from "./popupSlice";
 import { setIsEditMode } from "src/features/comments/commentsSlice";
 import { IconMapKeyType } from "src/types";
 import { isCommentOptionlistPropsType } from "src/utils/typeguards";
@@ -78,7 +78,12 @@ const Popup = () => {
                             const onClick = (icon === "edit" && commentId) ?
                                 () => {
                                     dispatch(setIsEditMode(commentId));
-                                } : () => { }
+                                    dispatch(toggleOpen());
+                                }
+                                :
+                                () => {
+                                    dispatch(toggleOpen());
+                                }
 
                             return (
                                 <li key={idx}>
