@@ -1,4 +1,4 @@
-import { CustomFormError, CustomError } from "src/types";
+import { CustomFormError, CustomError, CommentOptionlistPropsType, iconMapKeys } from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
     return key in formData;
@@ -31,8 +31,30 @@ function isCustomError(object: any): object is CustomError {
     return true
 };
 
+const isCommentOptionlistPropsType = (value: any): value is CommentOptionlistPropsType => {
+    if (!Array.isArray(value)) return false;
+
+    return value.every(item => {
+        if (typeof item !== "object" || item === null) return false;
+
+        const { text, icon, onClickHandler } = item;
+
+        // Check if text is a string or undefined
+        if (text !== undefined && typeof text !== "string") return false;
+
+        // Check if icon is a valid IconMapKeyType or undefined
+        if (icon !== undefined && !iconMapKeys.includes(icon)) return false;
+
+        // Check if onClickHandler is a function or undefined
+        if (onClickHandler !== undefined && typeof onClickHandler !== "function") return false;
+
+        return true;
+    });
+};
+
 export {
     isFieldName,
     isCustomFormError,
     isCustomError,
+    isCommentOptionlistPropsType,
 }
