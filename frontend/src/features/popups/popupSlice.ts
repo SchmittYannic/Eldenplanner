@@ -18,6 +18,9 @@ const popupSlice = createSlice({
         toggleOpen: (state) => {
             state.popup.isOpen = !state.popup.isOpen;
         },
+        setPopupIsOpen: (state, { payload }: PayloadAction<boolean>) => {
+            state.popup.isOpen = payload;
+        },
         setPosition: (state, { payload }: PayloadAction<PositionType>) => {
             const { left, top, right, bottom } = payload;
             state.popup.position = { left, top, right, bottom };
@@ -44,6 +47,7 @@ export const {
     toggleOpen,
     setPosition,
     addCommentOptionlist,
+    setPopupIsOpen,
 } = popupSlice.actions;
 
 export default popupSlice.reducer;
