@@ -83,3 +83,37 @@ export type CreateCommentMutationParamsType = {
     avatarUrl: string,
     content: string,
 } & GetCommentsQueryParamsType
+
+/* Popup slice related types */
+
+export const iconMapKeys = ["edit", "delete"] as const;
+export type IconMapKeyType = typeof iconMapKeys[number];
+
+const PopupStateTypes = ["COMMENT_OPTIONLIST", "NONE"] as const;
+type PopupStateTypeTypes = typeof PopupStateTypes[number];
+
+export type PositionType = {
+    left?: number,
+    top?: number,
+    right?: number,
+    bottom?: number,
+}
+
+export type CommentOptionlistPropsType = {
+    text?: string,
+    icon?: IconMapKeyType,
+    commentId?: string,
+}[]
+
+type PopupPropsType = {
+    NONE: {},
+    COMMENT_OPTIONLIST: CommentOptionlistPropsType,
+};
+
+export type PopupStateType = {
+    refId: string | null,
+    isOpen: boolean,
+    type: PopupStateTypeTypes,
+    position: PositionType,
+    props: PopupPropsType[PopupStateTypeTypes],
+};
