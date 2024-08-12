@@ -27,7 +27,8 @@ export type CustomError = {
     status: number
 };
 
-export type TargetTypeType = "Build" | "User";
+export const TargetTypeOptions = ["Build", "User"] as const
+export type TargetTypeType = typeof TargetTypeOptions[number];
 
 export const sortOptions = ["new", "old"] as const;
 export type SortCommentsType = typeof sortOptions[number];
@@ -84,12 +85,16 @@ export type CreateCommentMutationParamsType = {
     content: string,
 } & GetCommentsQueryParamsType
 
+export type DeleteCommentMutationParamsType = {
+    commentId: string
+} & GetCommentsQueryParamsType
+
 /* Popup slice related types */
 
 export const iconMapKeys = ["edit", "delete"] as const;
 export type IconMapKeyType = typeof iconMapKeys[number];
 
-const PopupStateTypes = ["COMMENT_OPTIONLIST", "NONE"] as const;
+const PopupStateTypes = ["NONE", "COMMENT_OPTIONLIST", "COMMENT_DELETE"] as const;
 type PopupStateTypeTypes = typeof PopupStateTypes[number];
 
 export type PositionType = {
@@ -100,14 +105,27 @@ export type PositionType = {
 }
 
 export type CommentOptionlistPropsType = {
-    text?: string,
-    icon?: IconMapKeyType,
-    commentId?: string,
-}[]
+    commentId: string,
+    targetType: TargetTypeType,
+    targetId: string,
+    parentId: string,
+    options: {
+        text?: string,
+        icon?: IconMapKeyType,
+    }[],
+}
+
+export type CommentDeletePropsType = {
+    commentId: string,
+    targetType: TargetTypeType,
+    targetId: string,
+    parentId: string,
+}
 
 type PopupPropsType = {
     NONE: {},
     COMMENT_OPTIONLIST: CommentOptionlistPropsType,
+    COMMENT_DELETE: CommentDeletePropsType,
 };
 
 export type PopupStateType = {
