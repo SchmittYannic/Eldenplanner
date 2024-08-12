@@ -298,14 +298,31 @@ const deleteComment = async (req, res) => {
         }
 
         //check if comment is reply to another comment
-        if (foundComment.parentId !== 0) {
-            //if yes remove 1 from totalReplies of parent comment
+        if (foundComment.parentId !== null) {
+            //if reply
+            //remove 1 from totalReplies of parent comment
             const parentComment = await Comment.findById(foundComment.parentId).session(clientSession);
             if (parentComment.totalReplies > 0) {
                 parentComment.totalReplies -= 1;
             }
+            await parentComment.save({ clientSession });
+        } else {
+            //if root comment
+            //get all replies and likes to replies and delete them
+            const replies = await Comment.find({ targetId: id }).session(clientSession);
+            if (replies.length !== 0) {
+                // Get all reply ids
+                const replyIds = replies.map(reply => reply._id);
+                // Find all likes associated with these replies
+                await CommentLike.deleteMany({ commentId: { $in: replyIds } }).session(clientSession);
+                // Delete all replies to the comment
+                await Comment.deleteMany({ targetId: id }).session(clientSession);
+            }
         }
 
+        //delete all likes associated with comment
+        await Comment.deleteMany({ commentId: id }).session(clientSession);;
+        //delete comment itself
         await Comment.deleteOne({ _id: foundComment._id }).session(clientSession);
         await clientSession.commitTransaction();
         clientSession.endSession();
