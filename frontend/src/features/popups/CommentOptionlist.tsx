@@ -4,7 +4,7 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 
 import { setIsEditMode } from "src/features/comments/commentsSlice";
-import { selectPopup, setPopupIsOpen, toggleOpen } from "./popupSlice";
+import { addCommentDelete, selectPopup, setPopupIsOpen, toggleOpen } from "./popupSlice";
 import { isCommentOptionlistPropsType } from "src/utils/typeguards";
 import { IconMapKeyType } from "src/types";
 
@@ -53,19 +53,30 @@ const CommentOptionlist = () => {
                     bottom: position.bottom,
                 }}
             >
-                {isCommentOptionlistPropsType(props) && props.map((option, idx) => {
+                {isCommentOptionlistPropsType(props) && props.options.map((option, idx) => {
 
-                    const { text, icon, commentId } = option;
+                    const { text, icon } = option;
 
-                    const onClick = (icon === "edit" && commentId) ?
+                    const onClick = (icon === "edit" && props.commentId) ?
                         () => {
-                            dispatch(setIsEditMode(commentId));
+                            dispatch(setIsEditMode(props.commentId));
                             dispatch(toggleOpen());
                         }
-                        :
-                        () => {
-                            dispatch(toggleOpen());
-                        }
+                        : (icon === "delete" && props.commentId) ?
+                            () => {
+                                dispatch(addCommentDelete({
+                                    props: {
+                                        commentId: props.commentId,
+                                        targetType: props.targetType,
+                                        targetId: props.targetId,
+                                        parentId: props.parentId,
+                                    },
+                                }));
+                            }
+                            :
+                            () => {
+                                dispatch(toggleOpen());
+                            }
 
                     return (
                         <li key={idx}>
