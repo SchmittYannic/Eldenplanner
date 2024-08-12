@@ -16,6 +16,7 @@ import {
     AddLikeDislikeMutationParamsType,
     GetCommentsQueryParamsType,
     CreateCommentMutationParamsType,
+    DeleteCommentMutationParamsType,
 } from "src/types";
 import { mergeSortedArrays } from "src/utils/functions";
 
@@ -313,9 +314,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             }),
             // invalidatesTags: (_result, _error, { id }) => [{ type: "Comments", id }],
         }),
-        deleteComment: builder.mutation<{ success: boolean, id: string }, string>({
-            query: (id) => ({
-                url: `/comments/${id}`,
+        deleteComment: builder.mutation<{ success: boolean, id: string }, DeleteCommentMutationParamsType>({
+            query: ({ commentId }) => ({
+                url: `/comments/${commentId}`,
                 method: "DELETE",
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
