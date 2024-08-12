@@ -152,18 +152,22 @@ const Comment = memo(({
         if (userId !== comment.authorId) return
         dispatch(addCommentOptionlist({
             refId: `action-${comment.id}`,
-            props: [
-                {
-                    text: "Edit",
-                    icon: "edit",
-                    commentId: comment.id,
-                },
-                {
-                    text: "Delete",
-                    icon: "delete",
-                    commentId: comment.id,
-                },
-            ],
+            props: {
+                commentId: comment.id,
+                targetId,
+                targetType,
+                parentId,
+                options: [
+                    {
+                        text: "Edit",
+                        icon: "edit",
+                    },
+                    {
+                        text: "Delete",
+                        icon: "delete",
+                    },
+                ]
+            },
         }));
     };
 
