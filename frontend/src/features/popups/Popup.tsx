@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectPopup, setPosition } from "./popupSlice";
 import CommentOptionlist from "./CommentOptionlist";
+import CommentDelete from "./CommentDelete";
 import "src/features/popups/Popup.scss";
 
 const Popup = () => {
@@ -14,8 +15,9 @@ const Popup = () => {
         type,
     } = useSelector(selectPopup);
 
-    // whenever refId changes
+    // whenever refId changes for type "COMMENT_OPTIONLIST"
     useEffect(() => {
+        if (type !== "COMMENT_OPTIONLIST") return
         // reset Position
         dispatch(setPosition({}));
         // get element belonging to refId
@@ -46,6 +48,8 @@ const Popup = () => {
     switch (type) {
         case "COMMENT_OPTIONLIST":
             return <CommentOptionlist />
+        case "COMMENT_DELETE":
+            return <CommentDelete />
         default:
             return null;
     }
