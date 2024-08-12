@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-import { CommentOptionlistPropsType, PopupStateType, PositionType } from "src/types";
+import { CommentDeletePropsType, CommentOptionlistPropsType, PopupStateType, PositionType } from "src/types";
 
 
 const initialState: PopupStateType = {
@@ -15,6 +15,9 @@ const popupSlice = createSlice({
     name: "popup",
     initialState: { popup: initialState },
     reducers: {
+        resetPopupState: (state) => {
+            state.popup = initialState;
+        },
         toggleOpen: (state) => {
             state.popup.isOpen = !state.popup.isOpen;
         },
@@ -40,14 +43,26 @@ const popupSlice = createSlice({
                 };
             }
         },
+        addCommentDelete: (state, { payload }: PayloadAction<{ props: CommentDeletePropsType }>) => {
+            const { props } = payload;
+            state.popup = {
+                refId: null,
+                isOpen: true,
+                type: "COMMENT_DELETE",
+                position: state.popup.position,
+                props,
+            }
+        },
     },
 });
 
 export const {
+    resetPopupState,
     toggleOpen,
+    setPopupIsOpen,
     setPosition,
     addCommentOptionlist,
-    setPopupIsOpen,
+    addCommentDelete
 } = popupSlice.actions;
 
 export default popupSlice.reducer;
