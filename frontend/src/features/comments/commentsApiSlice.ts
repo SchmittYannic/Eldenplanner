@@ -166,13 +166,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     createdAt: tempCreatedAt,
                     updatedAt: tempCreatedAt,
                 };
-                console.log("tempId: ", tempId)
-                console.log("tempIdComment: ", tempComment)
 
                 // function to update cache with temp comment
                 const draftFunction: Recipe<GetCommentsResponseType<string>> = (draft: MaybeDrafted<GetCommentsResponseType<string>>) => {
-                    console.log("tempIdDraft: ", tempId)
-                    console.log("tempIdDraft: ", tempComment)
                     if (!parentId) {
                         // add comment to entities
                         draft.entities = {
@@ -268,8 +264,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     // overwrite tempId and tempComment with real id and comment
                     tempId = comment.id;
                     tempComment = comment;
-                    console.log("tempIdSuccess: ", tempId)
-                    console.log("tempIdCommentSuccess: ", tempComment)
 
                     dispatch(
                         commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "new", limit }, draftFunction)
