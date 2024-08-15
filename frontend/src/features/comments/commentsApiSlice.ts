@@ -144,6 +144,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 limit,
             }, { dispatch, queryFulfilled }) {
 
+                let sorting = sort;
+
                 const generateTempId = (prefix: string = "temp-"): string => {
                     return `${prefix}${uuidv4()}`;
                 };
@@ -180,9 +182,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         };
 
                         // push or unshift tempId into ids depending on sort setting
-                        if (sort === "new") {
+                        if (sorting === "new") {
                             draft.ids.unshift(tempId);
-                        } else if (sort === "old") {
+                        } else if (sorting === "old") {
                             draft.ids.push(tempId)
                         }
                     } else {
@@ -205,11 +207,13 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 }
 
                 // optimistic update of the cache for sort new
+                sorting = "new";
                 const patchResultNew = dispatch(
                     commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "new", limit }, draftFunction)
                 );
 
                 // optimistic update of the cache for sort old
+                sorting = "old";
                 const patchResultOld = dispatch(
                     commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "old", limit }, draftFunction)
                 );
@@ -271,10 +275,12 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     tempId = comment.id;
                     tempComment = comment;
 
+                    sorting = "new";
                     dispatch(
                         commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "new", limit }, draftFunction)
                     );
 
+                    sorting = "old";
                     dispatch(
                         commentsApiSlice.util.updateQueryData("getComments", { targetId, targetType, parentId, lastFetchedTimestamp, sort: "old", limit }, draftFunction)
                     );
