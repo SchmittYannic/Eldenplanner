@@ -1,4 +1,5 @@
 import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useCreateCommentMutation } from "src/features/comments/commentsApiSlice";
@@ -29,6 +30,8 @@ const CommentBox = ({
     initialText = "",
 }: CommentBoxPropsType) => {
 
+    const navigate = useNavigate();
+
     const [createComment, {
         isLoading,
     }] = useCreateCommentMutation();
@@ -41,9 +44,20 @@ const CommentBox = ({
     const textareaDefaultRef = useRef<HTMLTextAreaElement>(null);
     const [commentText, setCommentText] = useState(initialText);
 
+    const handleClick = () => {
+        if (userId) return
+        // redirect unauthenticated users to log in page
+        navigate("/login");
+    };
+
     const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const { value } = e.target;
-        setCommentText(value);
+        if (userId) {
+            const { value } = e.target;
+            setCommentText(value);
+        } else {
+            // redirect unauthenticated users to log in page
+            navigate("/login");
+        }
     };
 
     const handleCancelClicked = () => {
@@ -129,8 +143,8 @@ const CommentBox = ({
         <div className="comment-box">
             <div className="thumbnail-input-row">
                 <AuthorThumbnail
-                    href={`/user/`}
-                    src={avatarUrl}
+                    href={userId ? `/user/${userId}` : undefined}
+                    src={userId ? avatarUrl : "http://cdn.jsdelivr.net/gh/schmittyannic/images/eldenplanner/icons/default-user.svg"}
                     width={40}
                     height={40}
                 />
@@ -143,9 +157,11 @@ const CommentBox = ({
                             ref={textareaRef ? textareaRef : textareaDefaultRef}
                             rows={1}
                             value={commentText}
+                            onClick={handleClick}
                             onChange={handleCommentChange}
                             onFocus={onTextAreaFocus}
                             placeholder="Write comment..."
+                            title={userId ? undefined : "Requires login"}
                         >
 
                         </textarea>
@@ -154,7 +170,7 @@ const CommentBox = ({
                         </div>
                     </div>
 
-                    {showCommentBoxFooter &&
+                    {(showCommentBoxFooter && userId) &&
                         <div className="comment-box-footer">
                             <div className="comment-box-buttons flex">
                                 <div className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
