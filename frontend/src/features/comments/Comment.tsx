@@ -1,4 +1,4 @@
-import { MouseEventHandler, useRef, useState, memo } from "react";
+import { MouseEventHandler, useRef, useState, memo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,6 +17,7 @@ import {
     selectLimit,
     selectSort,
     selectIsEditMode,
+    setIsEditMode,
 } from "./commentsSlice";
 import { addCommentOptionlist } from "src/features/popups/popupSlice";
 import useAuth from "src/hooks/useAuth";
@@ -62,30 +63,37 @@ const Comment = memo(({
     const isEditMode = useSelector(selectIsEditMode(comment.id));
 
     const { userId } = useAuth();
-    const commentBoxTextAreaRef = useRef<HTMLTextAreaElement>(null)
+    const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
+    const updateCommentTextareaRef = useRef<HTMLTextAreaElement>(null);
     const [showCommentBox, setShowCommentBox] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
+    const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
 
     const commentCreatedAt = new Date(comment.createdAt);
     const commentSince = sinceDateInString(commentCreatedAt);
     const commentUpdatedAt = new Date(comment.updatedAt);
     const gotCommentUpdated = commentCreatedAt.getTime() !== commentUpdatedAt.getTime();
 
+    // when clicking the reply button below a comment make the commentbox appear and focus the textarea
     const onReplyClicked = () => {
         setShowCommentBox(true);
+        dispatch(setIsEditMode(null)); // reset isEditMode to make sure only 1 comment box is open at the time
         setTimeout(() => {
-            if (commentBoxTextAreaRef.current) commentBoxTextAreaRef.current.focus();
+            if (replyTextareaRef.current) replyTextareaRef.current.focus();
         }, 100);
     };
 
+    // clicking on show replies button will toggle the replies to appear/disappear
     const onShowRepliesClicked = () => {
         setShowReplies(!showReplies);
     };
 
+    // clicking on cancel on the comment box of a reply
     const onCommentBoxCancelClicked = () => {
         setShowCommentBox(false);
     };
 
+    // clicking like button
     const onLikeClicked = () => {
         // if visitor -> do nothing
         if (!userId) return
@@ -116,6 +124,7 @@ const Comment = memo(({
         }
     };
 
+    // clicking dislike button
     const onDislikeClicked = () => {
         // if visitor -> do nothing
         if (!userId) return
@@ -146,6 +155,7 @@ const Comment = memo(({
         }
     };
 
+    // clicking 3 dots button on right side of own comments
     const onActionButtonClicked: MouseEventHandler<HTMLButtonElement> = () => {
         if (userId !== comment.authorId) return
         dispatch(addCommentOptionlist({
@@ -169,114 +179,145 @@ const Comment = memo(({
         }));
     };
 
+    // clicking on cancel when editing own comment
+    const onUpdateCommentCancelClicked = () => {
+        // reset isEditMode -> makes comment box disappear again
+        dispatch(setIsEditMode(null));
+    };
+
+    // whenever isEditMode changes to true focus textarea after 100ms
+    // timeout to make sure updateCommentTextareaRef is referencing the textarea
+    useEffect(() => {
+        if (!isEditMode) return
+        if (debounceTimeout) clearTimeout(debounceTimeout);
+
+        const timeout = setTimeout(() => {
+            if (updateCommentTextareaRef.current) updateCommentTextareaRef.current.focus();
+        }, 100);
+
+        setDebounceTimeout(Number(timeout));
+    }, [isEditMode]);
+
     return (
         <div className="comment">
             <div className="comment-thread">
-                <div className="comment-body">
-                    <AuthorThumbnail
-                        href={`/user/${comment.authorId}`}
-                        src={comment.avatarUrl}
-                        width={40}
-                        height={40}
+                {isEditMode ? (
+                    <CommentBox
+                        targetId={targetId}
+                        targetType={targetType}
+                        parentId={parentId ? parentId : ""}
+                        showCommentBoxFooter={true}
+                        callbackOnCancel={onUpdateCommentCancelClicked}
+                        textareaRef={updateCommentTextareaRef}
+                        initialText={comment.content}
                     />
-                    <div className="comment-main">
-                        <div className="comment-header">
-                            <div className="comment-author">
-                                <h3>
-                                    <Link
-                                        className="text-sm"
-                                        to={`/user/${comment.authorId}`}
-                                    >
-                                        {comment.username}
-                                    </Link>
-                                </h3>
-                                <span className="published-time-text">
-                                    {commentSince} {gotCommentUpdated && "(edited)"}
-                                </span>
-                            </div>
-                        </div>
-                        <div className="comment-content">
-                            <span>{comment.content}</span>
-                        </div>
-                        <div className="comment-engagement-bar">
-                            <div className="toolbar">
-                                <button
-                                    className="like-btn"
-                                    type="button"
-                                    onClick={onLikeClicked}
-                                >
-                                    <div
-                                        className="icon-container"
-                                    >
-                                        {comment?.hasLiked ?
-                                            <BsHandThumbsUpFill aria-hidden />
-                                            :
-                                            <BsHandThumbsUp aria-hidden />
-                                        }
-                                    </div>
-                                </button>
-                                <span className="likecount">
-                                    {comment.likes}
-                                </span>
-                                <button
-                                    className="dislike-btn"
-                                    type="button"
-                                    onClick={onDislikeClicked}
-                                >
-                                    <div
-                                        className="icon-container"
-                                    >
-                                        {comment?.hasDisliked ?
-                                            <BsHandThumbsDownFill aria-hidden />
-                                            :
-                                            <BsHandThumbsDown aria-hidden />
-                                        }
-                                    </div>
-                                </button>
-                                <span className="dislikecount">
-                                    {comment.dislikes}
-                                </span>
-                                <span className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
-                                    <button
-                                        type="button"
-                                        onClick={onReplyClicked}
-                                    >
-                                        Reply
-                                    </button>
-                                </span>
-                            </div>
-                            <div className="reply-dialog">
-                                {showCommentBox &&
-                                    <CommentBox
-                                        targetId={targetId}
-                                        targetType={targetType}
-                                        parentId={parentId ? parentId : comment.id}
-                                        showCommentBoxFooter={true}
-                                        callbackOnCancel={onCommentBoxCancelClicked}
-                                        textareaRef={commentBoxTextAreaRef}
-                                        initialText={parentId ? `@${parentComment?.username} ` : undefined}
-                                    />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div className="comment-action-menu">
-                        {userId === comment.authorId &&
-                            <button
-                                id={`action-${comment.id}`}
-                                className="dot-btn"
-                                type="button"
-                                onClick={onActionButtonClicked}
-                            >
-                                <div
-                                    className="icon-container"
-                                >
-                                    <BsThreeDotsVertical aria-hidden />
+                ) : (
+                    <div className="comment-body">
+                        <AuthorThumbnail
+                            href={`/user/${comment.authorId}`}
+                            src={comment.avatarUrl}
+                            width={40}
+                            height={40}
+                        />
+                        <div className="comment-main">
+                            <div className="comment-header">
+                                <div className="comment-author">
+                                    <h3>
+                                        <Link
+                                            className="text-sm"
+                                            to={`/user/${comment.authorId}`}
+                                        >
+                                            {comment.username}
+                                        </Link>
+                                    </h3>
+                                    <span className="published-time-text">
+                                        {commentSince} {gotCommentUpdated && "(edited)"}
+                                    </span>
                                 </div>
-                            </button>
-                        }
+                            </div>
+                            <div className="comment-content">
+                                <span>{comment.content}</span>
+                            </div>
+                            <div className="comment-engagement-bar">
+                                <div className="toolbar">
+                                    <button
+                                        className="like-btn"
+                                        type="button"
+                                        onClick={onLikeClicked}
+                                    >
+                                        <div
+                                            className="icon-container"
+                                        >
+                                            {comment?.hasLiked ?
+                                                <BsHandThumbsUpFill aria-hidden />
+                                                :
+                                                <BsHandThumbsUp aria-hidden />
+                                            }
+                                        </div>
+                                    </button>
+                                    <span className="likecount">
+                                        {comment.likes}
+                                    </span>
+                                    <button
+                                        className="dislike-btn"
+                                        type="button"
+                                        onClick={onDislikeClicked}
+                                    >
+                                        <div
+                                            className="icon-container"
+                                        >
+                                            {comment?.hasDisliked ?
+                                                <BsHandThumbsDownFill aria-hidden />
+                                                :
+                                                <BsHandThumbsDown aria-hidden />
+                                            }
+                                        </div>
+                                    </button>
+                                    <span className="dislikecount">
+                                        {comment.dislikes}
+                                    </span>
+                                    <span className="text-btn-wrapper" style={{ marginLeft: "8px" }}>
+                                        <button
+                                            type="button"
+                                            onClick={onReplyClicked}
+                                        >
+                                            Reply
+                                        </button>
+                                    </span>
+                                </div>
+                                <div className="reply-dialog">
+                                    {showCommentBox &&
+                                        <CommentBox
+                                            targetId={targetId}
+                                            targetType={targetType}
+                                            parentId={parentId ? parentId : comment.id}
+                                            showCommentBoxFooter={true}
+                                            callbackOnCancel={onCommentBoxCancelClicked}
+                                            textareaRef={replyTextareaRef}
+                                            initialText={parentId ? `@${parentComment?.username} ` : undefined}
+                                        />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div className="comment-action-menu">
+                            {userId === comment.authorId &&
+                                <button
+                                    id={`action-${comment.id}`}
+                                    className="dot-btn"
+                                    type="button"
+                                    onClick={onActionButtonClicked}
+                                >
+                                    <div
+                                        className="icon-container"
+                                    >
+                                        <BsThreeDotsVertical aria-hidden />
+                                    </div>
+                                </button>
+                            }
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {(comment.totalReplies > 0 && parentId === "") &&
                     <div className="comment-replies">
