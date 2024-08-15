@@ -18,6 +18,8 @@ import {
     selectSort,
     selectIsEditMode,
     setIsEditMode,
+    selectIsReplyMode,
+    setIsReplyMode,
 } from "./commentsSlice";
 import { addCommentOptionlist } from "src/features/popups/popupSlice";
 import useAuth from "src/hooks/useAuth";
@@ -59,13 +61,13 @@ const Comment = memo(({
     const sort = useSelector(selectSort);
     const limit = useSelector(selectLimit);
 
-    // is comment in edit mode
+    // is comment in edit/reply mode
     const isEditMode = useSelector(selectIsEditMode(comment.id));
+    const isReplyMode = useSelector(selectIsReplyMode(comment.id));
 
     const { userId } = useAuth();
     const replyTextareaRef = useRef<HTMLTextAreaElement>(null);
     const updateCommentTextareaRef = useRef<HTMLTextAreaElement>(null);
-    const [showCommentBox, setShowCommentBox] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
     const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
 
@@ -76,7 +78,7 @@ const Comment = memo(({
 
     // when clicking the reply button below a comment make the commentbox appear and focus the textarea
     const onReplyClicked = () => {
-        setShowCommentBox(true);
+        dispatch(setIsReplyMode(comment.id));
         dispatch(setIsEditMode(null)); // reset isEditMode to make sure only 1 comment box is open at the time
         setTimeout(() => {
             if (replyTextareaRef.current) replyTextareaRef.current.focus();
@@ -90,7 +92,7 @@ const Comment = memo(({
 
     // clicking on cancel on the comment box of a reply
     const onCommentBoxCancelClicked = () => {
-        setShowCommentBox(false);
+        dispatch(setIsReplyMode(null));
     };
 
     // clicking like button
@@ -286,7 +288,7 @@ const Comment = memo(({
                                     </span>
                                 </div>
                                 <div className="reply-dialog">
-                                    {showCommentBox &&
+                                    {isReplyMode &&
                                         <CommentBox
                                             targetId={targetId}
                                             targetType={targetType}

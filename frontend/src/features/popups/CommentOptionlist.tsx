@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 
-import { setIsEditMode } from "src/features/comments/commentsSlice";
+import { setIsEditMode, setIsReplyMode } from "src/features/comments/commentsSlice";
 import { addCommentDelete, selectPopup, setPopupIsOpen, toggleOpen } from "./popupSlice";
 import { isCommentOptionlistPropsType } from "src/utils/typeguards";
 import { IconMapKeyType } from "src/types";
@@ -59,6 +59,7 @@ const CommentOptionlist = () => {
 
                     const onClick = (icon === "edit" && props.commentId) ?
                         () => {
+                            dispatch(setIsReplyMode(null)); // reset isReplyMode to make sure only 1 comment box is open at the time
                             dispatch(setIsEditMode(props.commentId));
                             dispatch(toggleOpen());
                         }

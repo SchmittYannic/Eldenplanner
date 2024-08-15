@@ -13,6 +13,7 @@ interface CommentsStateType<CommentId extends string> {
     sort: SortCommentsType;
     limit: number;
     isEditMode: CommentId | null;
+    isReplyMode: CommentId | null;
 }
 
 interface SetCommentEntityPayload<CommentId extends string> {
@@ -30,6 +31,7 @@ export const initialState: CommentsStateType<string> = {
     sort: "new",
     limit: 2,
     isEditMode: null,
+    isReplyMode: null,
 };
 
 export const commentsSlice = createSlice({
@@ -161,8 +163,11 @@ export const commentsSlice = createSlice({
                 state.commentEntities[parentId].repliesIds = ids
             }
         },
-        setIsEditMode: (state, { payload }: PayloadAction<string>) => {
+        setIsEditMode: (state, { payload }: PayloadAction<string | null>) => {
             state.isEditMode = payload;
+        },
+        setIsReplyMode: (state, { payload }: PayloadAction<string | null>) => {
+            state.isReplyMode = payload;
         },
     },
     extraReducers: (builder) => {
@@ -240,6 +245,7 @@ export const {
     incrementTotalComments,
     decrementTotalComments,
     setIsEditMode,
+    setIsReplyMode,
 } = commentsSlice.actions;
 
 export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
@@ -266,6 +272,10 @@ export const selectLastFetchedTimestamp = (state: RootState) => state.comments.l
 export const selectIsEditMode = (id: string) => createSelector(
     (state: RootState) => state.comments.isEditMode,
     (isEditMode) => isEditMode === id
+);
+export const selectIsReplyMode = (id: string) => createSelector(
+    (state: RootState) => state.comments.isReplyMode,
+    (isReplyMode) => isReplyMode === id
 );
 
 export default commentsSlice.reducer;
