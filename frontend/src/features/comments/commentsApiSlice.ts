@@ -170,6 +170,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 // function to update cache with temp comment
                 const draftFunction: Recipe<GetCommentsResponseType<string>> = (draft: MaybeDrafted<GetCommentsResponseType<string>>) => {
                     if (!parentId) {
+                        // increment totalComments
+                        draft.totalComments += 1;
+
                         // add comment to entities
                         draft.entities = {
                             ...draft.entities,
@@ -183,6 +186,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                             draft.ids.push(tempId)
                         }
                     } else {
+                        // increment totalReplies
+                        draft.entities[parentId].totalReplies += 1;
+
                         draft.entities[parentId].repliesEntities = {
                             ...draft.entities[parentId].repliesEntities,
                             [tempId]: tempComment,
@@ -316,6 +322,137 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 200 && !result.isError
                 },
             }),
+            async onQueryStarted({
+                commentId,
+                ...queryArgsGetComments
+            }, { dispatch, queryFulfilled }) {
+                // save previous state of comment 
+                let deletedComment: CommentType | null = null;
+                let indexOfComment: number | null = null;
+
+                // get cache for other sort options -> if new sort options are added they need to be included here
+                const currentSort = queryArgsGetComments.sort;
+                const oppositeSort = currentSort === "new" ? "old" : "new";
+                const oppositeQueryArgs: GetCommentsQueryParamsType = { ...queryArgsGetComments, sort: oppositeSort }
+
+                // function updating the cache
+                const draftFunction: Recipe<GetCommentsResponseType<string>> = (draft: MaybeDrafted<GetCommentsResponseType<string>>) => {
+                    const { parentId } = queryArgsGetComments;
+                    if (!parentId) {
+                        // if root comment
+                        // if the comment doesnt exist in cache return
+                        if (!draft.entities[commentId]) return
+                        if (!draft.ids.includes(commentId)) return
+
+                        // save previous state of comment
+                        deletedComment = draft.entities[commentId];
+
+                        // decrement totalComments
+                        draft.totalComments -= 1;
+
+                        // remove comment from entities
+                        const { [commentId]: _, ...newEntities } = draft.entities;
+                        draft.entities = newEntities;
+
+                        // get and save index of comment
+                        indexOfComment = draft.ids.indexOf(commentId);
+                        if (indexOfComment !== -1) {
+                            // remove the id of the comment from ids
+                            const newIds = [
+                                ...draft.ids.slice(0, indexOfComment),
+                                ...draft.ids.slice(indexOfComment + 1)
+                            ];
+                            draft.ids = newIds;
+                        }
+                    } else {
+                        // if reply
+                        // if the reply doesnt exist in cache return
+                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
+                        if (!draft.entities[parentId].repliesIds || !draft.entities[parentId].repliesIds.includes(commentId)) return
+
+                        // save previous state of reply
+                        deletedComment = draft.entities[parentId].repliesEntities[commentId];
+
+                        // decrement totalReplies
+                        draft.entities[parentId].totalReplies -= 1;
+
+                        // remove comment from entities
+                        const { [commentId]: _, ...newEntities } = draft.entities[parentId].repliesEntities;
+                        draft.entities[parentId].repliesEntities = newEntities;
+
+                        // get and save index of comment
+                        indexOfComment = draft.entities[parentId].repliesIds.indexOf(commentId);
+                        if (indexOfComment !== -1) {
+                            // remove the id of the comment from ids
+                            const newIds = [
+                                ...draft.entities[parentId].repliesIds.slice(0, indexOfComment),
+                                ...draft.entities[parentId].repliesIds.slice(indexOfComment + 1)
+                            ];
+                            draft.entities[parentId].repliesIds = newIds;
+                        }
+                    }
+                }
+
+                // optimistic update of the cache of current sort
+                const patchResult = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", queryArgsGetComments, draftFunction)
+                );
+
+                // optimistic update of other cache with different sort argument
+                const patchResultAlternativeSort = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", oppositeQueryArgs, draftFunction)
+                );
+
+                // Optimistic update for comment entity in commentsSlice state
+                if (deletedComment && indexOfComment) {
+                    dispatch(
+                        deleteCommentId({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                        })
+                    );
+                    dispatch(
+                        deleteCommentEntity({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                        })
+                    );
+                    dispatch(
+                        decrementTotalComments({
+                            parentId: queryArgsGetComments.parentId
+                        })
+                    )
+                }
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    patchResult.undo();
+                    patchResultAlternativeSort.undo();
+
+                    if (deletedComment && indexOfComment) {
+                        dispatch(
+                            addCommentId({
+                                parentId: queryArgsGetComments.parentId,
+                                commentId,
+                                position: indexOfComment,
+                            })
+                        );
+                        dispatch(
+                            setCommentEntity({
+                                parentId: queryArgsGetComments.parentId,
+                                commentId,
+                                newComment: deletedComment,
+                            })
+                        );
+                        dispatch(
+                            incrementTotalComments({
+                                parentId: queryArgsGetComments.parentId,
+                            })
+                        );
+                    }
+                }
+            },
             // invalidatesTags: (_result, _error, id) => [{ type: "Comments", id }],
         }),
         getUserLikedComment: builder.query<{ hasLiked: boolean }, { commentId: string, userId: string }>({
