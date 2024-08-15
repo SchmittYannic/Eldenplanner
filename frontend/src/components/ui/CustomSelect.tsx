@@ -37,6 +37,7 @@ const CustomSelect = ({
     const [focusedOption, setFocusedOption] = useState(-1);
     const optionContainer: MutableRefObject<HTMLLIElement | null> = useRef(null);
     const selectedOptionRef: MutableRefObject<HTMLLIElement | null> = useRef(null);
+    const optionslistRef: MutableRefObject<HTMLUListElement | null> = useRef(null);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const currentInputValue = e.target.value;
@@ -159,26 +160,31 @@ const CustomSelect = ({
         setInputValue(currentSelectedOption);
     }, [currentSelectedOption]);
 
+    // scroll option into center when focusedOption changes
     useEffect(() => {
         if (!optionContainer.current) return;
+        if (!optionslistRef.current) return;
         if (!optionScrollInView) return;
 
-        optionContainer.current.scrollIntoView({
-            block: "center",
-        });
+        const topPos = optionContainer.current.offsetTop;
+        const optionHeight = optionContainer.current.clientHeight;
+        const optionslistHeight = optionslistRef.current.clientHeight;
+        optionslistRef.current.scrollTop = topPos - (optionslistHeight / 2) + (optionHeight / 2);
+        // set scrollBehavior back to smooth in case it was set to auto before
+        optionslistRef.current.style.scrollBehavior = "smooth";
     }, [focusedOption]);
 
+    // set focusedOption when opening options
+    // set scrollBehavior to auto for instant scroll
     useEffect(() => {
         if (!showOptions) return
+        if (!optionslistRef.current) return;
         if (!selectedOptionRef.current) return
+
+        optionslistRef.current.style.scrollBehavior = "auto";
 
         // set focusedOption to the currentSelectedOptions index
         setFocusedOption(filteredOptions.indexOf(currentSelectedOption));
-
-        selectedOptionRef.current.scrollIntoView({
-            block: "center",
-            behavior: "instant",
-        });
     }, [showOptions]);
 
     return (
@@ -210,7 +216,10 @@ const CustomSelect = ({
             </label>
 
             {showOptions &&
-                <ul className="optionslist">
+                <ul
+                    ref={optionslistRef}
+                    className="optionslist"
+                >
                     {filteredOptions.map((option, idx) => {
 
                         const regEscape = (v: string) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');

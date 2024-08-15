@@ -131,6 +131,7 @@
         overflow-y: scroll;
         z-index: 70;
         background-color: hsla(v.$foreground);
+        scroll-behavior: smooth;
 
         li {
             list-style: none;
