@@ -112,22 +112,43 @@ export const commentsSlice = createSlice({
                 state.commentEntities[parentId].repliesEntities = entities
             }
         },
-        addCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
-            const { parentId, commentId } = payload;
+        addCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string, position?: number }>) => {
+            const { parentId, commentId, position } = payload;
 
-            if (!parentId && state.sort === "new") {
-                const ids = [...state.commentIds];
-                ids.unshift(commentId);
-                state.commentIds = ids;
-            } else if (!parentId && state.sort === "old") {
-                const ids = [...state.commentIds];
-                ids.push(commentId);
-                state.commentIds = ids;
-            } else if (parentId && state.commentEntities[parentId].repliesIds) {
-                // replies always oldest to newest therefore always push
-                const ids = [...state.commentEntities[parentId].repliesIds];
-                ids.push(commentId);
-                state.commentEntities[parentId].repliesIds = ids;
+            if (position && position >= 0) {
+                // allow position to be equal length to insert element at the end of array
+                if (!parentId && position <= state.commentIds.length) {
+                    const ids = [
+                        ...state.commentIds.slice(0, position),
+                        commentId,
+                        ...state.commentIds.slice(position)
+                    ];
+                    state.commentIds = ids;
+                } else if (parentId && state.commentEntities[parentId].repliesIds && position <= state.commentEntities[parentId].repliesIds.length) {
+                    const ids = [
+                        ...state.commentEntities[parentId].repliesIds.slice(0, position),
+                        commentId,
+                        ...state.commentEntities[parentId].repliesIds.slice(position)
+                    ];
+                    state.commentEntities[parentId].repliesIds = ids;
+                }
+            } else {
+                // if no position given just add depending on sort
+                // unshift for sort new and push for old
+                if (!parentId && state.sort === "new") {
+                    const ids = [...state.commentIds];
+                    ids.unshift(commentId);
+                    state.commentIds = ids;
+                } else if (!parentId && state.sort === "old") {
+                    const ids = [...state.commentIds];
+                    ids.push(commentId);
+                    state.commentIds = ids;
+                } else if (parentId && state.commentEntities[parentId].repliesIds) {
+                    // replies always oldest to newest therefore always push
+                    const ids = [...state.commentEntities[parentId].repliesIds];
+                    ids.push(commentId);
+                    state.commentEntities[parentId].repliesIds = ids;
+                }
             }
         },
         deleteCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
