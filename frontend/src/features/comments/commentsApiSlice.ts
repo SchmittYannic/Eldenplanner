@@ -17,6 +17,7 @@ import {
     GetCommentsQueryParamsType,
     CreateCommentMutationParamsType,
     DeleteCommentMutationParamsType,
+    UpdateCommentMutationParamsType,
 } from "src/types";
 import { mergeSortedArrays } from "src/utils/functions";
 
@@ -309,15 +310,108 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             //     result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
             //         : [],
         }),
-        updateComment: builder.mutation<CommentType, { id: string, content: string }>({
-            query: ({ id, content }) => ({
-                url: `/comments/${id}`,
+        updateComment: builder.mutation<CommentType, UpdateCommentMutationParamsType>({
+            query: ({ commentId, content }) => ({
+                url: `/comments/${commentId}`,
                 method: "PATCH",
                 body: { content },
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
+            async onQueryStarted({
+                commentId,
+                content,
+                ...queryArgsGetComments
+            }, { dispatch, queryFulfilled }) {
+                // save previous state of comment to be able to reset comment if mutation fails
+                let previousState: CommentType | null = null;
+                let newState: CommentType | null = null;
+
+                // temporary timestamp for comments updatedAt field
+                const tempUpdatedAt = new Date().toISOString();
+
+                // get cache for other sort options -> if new sort options are added they need to be included here
+                const currentSort = queryArgsGetComments.sort;
+                const oppositeSort = currentSort === "new" ? "old" : "new";
+                const oppositeQueryArgs: GetCommentsQueryParamsType = { ...queryArgsGetComments, sort: oppositeSort }
+
+                // function updating the cache
+                const draftFunction: Recipe<GetCommentsResponseType<string>> = (draft: MaybeDrafted<GetCommentsResponseType<string>>) => {
+                    const { parentId } = queryArgsGetComments;
+                    if (!parentId) {
+                        // if root comment
+                        // if the comment doesnt exist in cache return
+                        if (!draft.entities[commentId]) return
+                        // save previous state of comment
+                        previousState = { ...draft.entities[commentId] };
+                        // update content of comment
+                        draft.entities[commentId].content = content;
+                        // update updatedAt of comment with temporary timestamp
+                        draft.entities[commentId].updatedAt = tempUpdatedAt;
+                        // save new state of comment
+                        newState = { ...draft.entities[commentId] };
+                    } else {
+                        // if reply
+                        // if the reply doesnt exist in cache return
+                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
+                        // save previous state of comment
+                        previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        // update content of comment
+                        draft.entities[parentId].repliesEntities[commentId].content = content;
+                        // update updatedAt of comment with temporary timestamp
+                        draft.entities[parentId].repliesEntities[commentId].updatedAt = tempUpdatedAt;
+                        // save new state of comment
+                        newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                    }
+                }
+
+                // optimistic update of the cache of current sort
+                const patchResult = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", queryArgsGetComments, draftFunction)
+                );
+
+                // optimistic update of other cache with different sort argument
+                const patchResultAlternativeSort = dispatch(
+                    commentsApiSlice.util.updateQueryData("getComments", oppositeQueryArgs, draftFunction)
+                );
+
+                // Optimistic update for comment entity in commentsSlice state
+                if (newState) {
+                    dispatch(
+                        setCommentEntity({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                            newComment: newState,
+                        })
+                    );
+                }
+
+                try {
+                    const { data: comment } = await queryFulfilled
+
+                    dispatch(
+                        setCommentEntity({
+                            parentId: queryArgsGetComments.parentId,
+                            commentId,
+                            newComment: comment,
+                        })
+                    );
+                } catch (err) {
+                    patchResult.undo();
+                    patchResultAlternativeSort.undo();
+
+                    if (previousState) {
+                        dispatch(
+                            setCommentEntity({
+                                parentId: queryArgsGetComments.parentId,
+                                commentId,
+                                newComment: previousState,
+                            })
+                        );
+                    }
+                }
+            },
             // invalidatesTags: (_result, _error, { id }) => [{ type: "Comments", id }],
         }),
         deleteComment: builder.mutation<{ success: boolean, id: string }, DeleteCommentMutationParamsType>({
