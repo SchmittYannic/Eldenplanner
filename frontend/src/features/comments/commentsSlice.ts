@@ -38,15 +38,15 @@ export const commentsSlice = createSlice({
     name: "comments",
     initialState,
     reducers: {
-        resetState: (state) => {
+        resetCommentsSliceState: (state) => {
             state.totalComments = initialState.totalComments;
             state.commentIds = [];
             state.commentEntities = {};
             state.hasMore = initialState.hasMore;
             state.lastFetchedTimestamp = initialState.lastFetchedTimestamp;
-            state.sort = initialState.sort;
             state.limit = initialState.limit;
             state.isEditMode = null;
+            state.isReplyMode = null;
         },
         changeSort: (state, { payload }: PayloadAction<SortCommentsType>) => {
             state.totalComments = initialState.totalComments;
@@ -232,6 +232,7 @@ export const commentsSlice = createSlice({
 });
 
 export const {
+    resetCommentsSliceState,
     changeLimit,
     changeSort,
     setComments,
