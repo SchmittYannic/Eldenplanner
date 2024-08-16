@@ -97,19 +97,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     currentCache.entities[parentId].totalReplies = responseData.totalComments;
                 }
             },
-            // providesTags: (result) => (
-            //     result ?
-            //         [
-            //             ...result.comments.map((comment): { type: tagTypesType, id: string } => ({ type: "Comments", id: comment.id })),
-            //             { type: "Comments", id: 'LIST' }
-            //         ] : [{ type: "Comments", id: 'LIST' }]
-            // ),
-            // providesTags: (result, _error, { targetId, targetType }) =>
-            //     result ? [
-            //         ...result.comments.map(({ id }): { type: tagTypesType, id: string } => ({ type: "Comments", id })),
-            //         { type: "Comments", id: `${targetId}-${targetType}` }
-            //     ]
-            //         : [{ type: "Comments", id: `${targetId}-${targetType}` }],
         }),
         createComment: builder.mutation<CommentType, CreateCommentMutationParamsType>({
             query: ({
@@ -306,9 +293,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     dispatch(decrementTotalComments({ parentId }))
                 }
             },
-            // invalidatesTags: (result, _error, { targetId, targetType }) =>
-            //     result ? [{ type: "Comments", id: `${targetId}-${targetType}` }]
-            //         : [],
         }),
         updateComment: builder.mutation<CommentType, UpdateCommentMutationParamsType>({
             query: ({ commentId, content }) => ({
@@ -412,7 +396,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     }
                 }
             },
-            // invalidatesTags: (_result, _error, { id }) => [{ type: "Comments", id }],
         }),
         deleteComment: builder.mutation<{ success: boolean, id: string }, DeleteCommentMutationParamsType>({
             query: ({ commentId }) => ({
@@ -553,7 +536,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     }
                 }
             },
-            // invalidatesTags: (_result, _error, id) => [{ type: "Comments", id }],
         }),
         addLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
             query: ({ commentId, type }) => ({
@@ -688,7 +670,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     }
                 }
             },
-            // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
         removeLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
             query: ({ commentId, type }) => ({
@@ -787,7 +768,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     }
                 }
             },
-            // invalidatesTags: (_result, _error, { commentId }) => [{ type: 'Likes', id: commentId }],
         }),
     })
 });
