@@ -208,6 +208,7 @@ const Comment = memo(({
                         targetId={targetId}
                         targetType={targetType}
                         parentId={parentId ? parentId : ""}
+                        commentId={comment.id}
                         showCommentBoxFooter={true}
                         callbackOnCancel={onUpdateCommentCancelClicked}
                         textareaRef={updateCommentTextareaRef}
