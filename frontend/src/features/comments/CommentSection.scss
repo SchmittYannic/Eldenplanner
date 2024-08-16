@@ -16,6 +16,14 @@
     .comment-section-header {
         margin-top: 24px;
         margin-bottom: 32px;
+
+        h2 {
+            margin-right: 32px;
+        }
+    }
+
+    .comment-thread {
+        margin-bottom: 16px;
     }
 
     .comment-body {
@@ -24,6 +32,11 @@
 
     .author-thumbnail {
         width: 56px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
     }
 
     .comment-main {
@@ -177,6 +190,24 @@
                 }
             }
         }
+
+        // author-thumbnail of replies
+        .author-thumbnail {
+            width: 40px;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        .img-link {
+            div {
+                width: 24px;
+                height: 24px;
+                margin-right: 16px;
+            }
+        }
     }
 }
 
@@ -259,12 +290,11 @@
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        margin-left: .5rem;
 
         input {
             width: 100px;
             border-style: solid;
-            margin-left: .5rem;
+            margin-left: 8px;
             outline: none;
 
             &:focus {

@@ -169,8 +169,6 @@ const CommentBox = ({
                 <AuthorThumbnail
                     href={userId ? `/user/${userId}` : undefined}
                     src={userId ? avatarUrl : "http://cdn.jsdelivr.net/gh/schmittyannic/images/eldenplanner/icons/default-user.svg"}
-                    width={40}
-                    height={40}
                 />
                 <form
                     className="comment-box-main"

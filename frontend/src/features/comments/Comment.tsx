@@ -219,8 +219,6 @@ const Comment = memo(({
                         <AuthorThumbnail
                             href={`/user/${comment.authorId}`}
                             src={comment.avatarUrl}
-                            width={40}
-                            height={40}
                         />
                         <div className="comment-main">
                             <div className="comment-header">
