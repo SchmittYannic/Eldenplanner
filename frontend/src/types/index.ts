@@ -85,8 +85,13 @@ export type CreateCommentMutationParamsType = {
     content: string,
 } & GetCommentsQueryParamsType
 
+export type UpdateCommentMutationParamsType = {
+    commentId: string,
+    content: string,
+} & GetCommentsQueryParamsType
+
 export type DeleteCommentMutationParamsType = {
-    commentId: string
+    commentId: string,
 } & GetCommentsQueryParamsType
 
 /* Popup slice related types */
