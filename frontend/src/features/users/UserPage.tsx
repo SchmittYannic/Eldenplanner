@@ -1,11 +1,13 @@
 import { ReactElement } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+
 import { UserType, useGetUsersQuery } from "./usersApiSlice";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "src/hooks/useAuth";
 import UserBuilds from "./UserBuilds";
-import { isCustomError } from "src/utils/typeguards";
 import EditUser from "./EditUser";
+import CommentSection from "src/features/comments/CommentSection";
+import { isCustomError } from "src/utils/typeguards";
 
 const UserPage = (): ReactElement => {
 
@@ -70,6 +72,13 @@ const UserPage = (): ReactElement => {
                         {userId && <UserBuilds author={user} />}
                     </div>
                 </section>
+
+                {userId &&
+                    <CommentSection
+                        targetId={userId}
+                        targetType="User"
+                    />
+                }
             </main>
         )
     } else if (isLoading) {
