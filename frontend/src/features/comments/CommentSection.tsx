@@ -16,6 +16,7 @@ import {
     setTotalComments,
     updateHasMore,
     setLastFetchedTimestamp,
+    resetCommentsSliceState,
 } from "./commentsSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
@@ -73,8 +74,7 @@ const CommentSection = ({
         dispatch(changeSort(input))
     };
 
-    // if sort changes
-    useEffect(() => {
+    const fetchInitialComments = () => {
         if (cachedData && isValidCache(cachedData)) {
             // if cachedData exists
             const { ids, entities, totalComments } = cachedData;
@@ -99,6 +99,17 @@ const CommentSection = ({
                 limit,
             });
         }
+    };
+
+    useEffect(() => {
+        // reset state in commentSlice
+        dispatch(resetCommentsSliceState());
+        fetchInitialComments();
+    }, []);
+
+    // if sort changes
+    useEffect(() => {
+        fetchInitialComments();
     }, [sort]);
 
     useEffect(() => {
