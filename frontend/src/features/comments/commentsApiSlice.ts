@@ -555,15 +555,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             },
             // invalidatesTags: (_result, _error, id) => [{ type: "Comments", id }],
         }),
-        getUserLikedComment: builder.query<{ hasLiked: boolean }, { commentId: string, userId: string }>({
-            query: ({ commentId, userId }) => ({
-                url: `/comments/${commentId}/like?userId=${userId}`,
-                validateStatus: (response, result) => {
-                    return response.status === 200 && !result.isError
-                },
-            }),
-            // providesTags: (_result, _error, { commentId }) => [{ type: "Likes", id: commentId }],
-        }),
         addLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
             query: ({ commentId, type }) => ({
                 url: `/comments/${commentId}/like?type=${type}`,
@@ -806,7 +797,6 @@ export const {
     useCreateCommentMutation,
     useUpdateCommentMutation,
     useDeleteCommentMutation,
-    useGetUserLikedCommentQuery,
     useAddLikeDislikeMutation,
     useRemoveLikeDislikeMutation,
 } = commentsApiSlice;

@@ -132,23 +132,6 @@ const getComments = async (req, res) => {
     }
 };
 
-// @desc Get comment by id
-// @route GET /comments/:id
-// @access Public
-const getCommentById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const comment = await Comment.findById(id);
-        if (comment) {
-            res.status(200).json(comment);
-        } else {
-            res.status(404).json({ message: "Comment not found" });
-        }
-    } catch (err) {
-        res.status(500).json({ message: "Error retrieving comment by id" });
-    }
-};
-
 // @desc Create new comment
 // @route POST /comments
 // @access Private
@@ -354,21 +337,6 @@ const deleteComment = async (req, res) => {
     }
 };
 
-// @desc check if user liked/disliked comment
-// @route GET /comments/:id/like
-// @access Private
-const getUserLikedComment = async (req, res) => {
-    const { id } = req.params;
-    const { userId } = req.query;
-    try {
-        const like = await CommentLike.findOne({ commentId: id, userId, type: "like" });
-        const dislike = await CommentLike.findOne({ commentId: id, userId, type: "dislike" });
-        res.status(200).json({ hasLiked: !!like, hasDisliked: !!dislike });
-    } catch (err) {
-        res.status(500).json({ message: "Error retrieving has user liked comment" });
-    }
-};
-
 // @desc adds like to comment with id
 // @route POST /comments/:id/like
 // @access Private
@@ -527,11 +495,9 @@ const deleteLike = async (req, res) => {
 
 export {
     getComments,
-    getCommentById,
     createComment,
     updateComment,
     deleteComment,
-    getUserLikedComment,
     addLike,
     deleteLike,
 }
