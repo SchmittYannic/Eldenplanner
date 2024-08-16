@@ -16,6 +16,11 @@
     .comment-section-header {
         margin-top: 24px;
         margin-bottom: 32px;
+    }
+
+    .comment-section-title {
+        display: flex;
+        margin-bottom: 24px;
 
         h2 {
             margin-right: 32px;
@@ -285,6 +290,7 @@
 
 .selectsorttype {
     padding: 0;
+    width: fit-content;
 
     label {
         display: flex;
@@ -327,5 +333,16 @@
 
     .filter-substring {
         background-color: transparent;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .CommentSection .comment-section-title {
+        flex-direction: column;
+
+        h2 {
+            margin-right: 0;
+            margin-bottom: 16px;
+        }
     }
 }

@@ -157,7 +157,7 @@ const CommentSection = ({
     return (
         <section className="CommentSection">
             <div className="comment-section-header">
-                <div className="flex" style={{ marginBottom: "24px" }}>
+                <div className="comment-section-title">
                     <h2>{totalComments} Comments</h2>
                     <CustomSelect
                         id="sortComments"
