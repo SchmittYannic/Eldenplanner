@@ -2,7 +2,7 @@ import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect,
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { useCreateCommentMutation } from "src/features/comments/commentsApiSlice";
+import { useCreateCommentMutation, useUpdateCommentMutation } from "src/features/comments/commentsApiSlice";
 import { selectLastFetchedTimestamp, selectLimit, selectSort } from "./commentsSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "src/features/comments/AuthorThumbnail";
@@ -12,7 +12,8 @@ type CommentBoxPropsType = {
     targetId: string,
     targetType: TargetTypeType,
     parentId: string | null,
-    showCommentBoxFooter: boolean,
+    commentId?: string,
+    showCommentBoxFooter?: boolean,
     callbackOnCancel?: Function,
     textareaRef?: RefObject<HTMLTextAreaElement>,
     onTextAreaFocus?: FocusEventHandler<HTMLTextAreaElement>,
@@ -23,7 +24,8 @@ const CommentBox = ({
     targetId,
     targetType,
     parentId,
-    showCommentBoxFooter,
+    commentId,
+    showCommentBoxFooter = true,
     callbackOnCancel,
     textareaRef,
     onTextAreaFocus,
@@ -33,8 +35,12 @@ const CommentBox = ({
     const navigate = useNavigate();
 
     const [createComment, {
-        isLoading,
+        isLoading: isCreateCommentLoading,
     }] = useCreateCommentMutation();
+
+    const [updateComment, {
+        isLoading: isUpdateCommentLoading,
+    }] = useUpdateCommentMutation();
 
     const lastFetchedTimestamp = useSelector(selectLastFetchedTimestamp);
     const sort = useSelector(selectSort);
@@ -72,22 +78,40 @@ const CommentBox = ({
 
         try {
             // Trigger the mutation with the comment data
-            await createComment({
-                authorId: userId,
-                username,
-                avatarUrl,
-                parentId: parentId || "",
-                targetId,
-                targetType,
-                content: commentText,
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            }).unwrap();
+            // if commentId is provided to component trigger update mutation
+            if (commentId) {
+                await updateComment({
+                    commentId,
+                    content: commentText,
+                    targetId,
+                    targetType,
+                    parentId: parentId || "",
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            } else {
+                await createComment({
+                    authorId: userId,
+                    username,
+                    avatarUrl,
+                    parentId: parentId || "",
+                    targetId,
+                    targetType,
+                    content: commentText,
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            }
             handleCancelClicked();
-            //do optimistic update
         } catch (err) {
-            console.error("Failed to add the comment");
+            console.log(err)
+            if (commentId) {
+                console.error("Failed to update the comment");
+            } else {
+                console.error("Failed to add the comment");
+            }
         }
     }
 
@@ -185,7 +209,7 @@ const CommentBox = ({
                                     <button
                                         className="submit-btn"
                                         type="submit"
-                                        disabled={(commentText === "" || isLoading) ? true : false}
+                                        disabled={(commentText === initialText || isCreateCommentLoading || isUpdateCommentLoading) ? true : false}
                                     >
                                         Submit
                                     </button>
