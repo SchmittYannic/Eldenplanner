@@ -102,20 +102,24 @@ const sinceDateInString = (eventTime: Date): string => {
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
 
+    const pluralize = (value: number, unit: string) => {
+        return `${value} ${unit}${value === 1 ? "" : "s"} ago`;
+    };
+
     if (seconds < 60) {
-        return `${seconds} seconds ago`;
+        return pluralize(seconds, "second");
     } else if (minutes < 60) {
-        return `${minutes} minutes ago`;
+        return pluralize(minutes, "minute");
     } else if (hours < 24) {
-        return `${hours} hours ago`;
+        return pluralize(hours, "hour");
     } else if (days < 7) {
-        return `${days} days ago`;
+        return pluralize(days, "day");
     } else if (weeks < 4) {
-        return `${weeks} weeks ago`;
+        return pluralize(weeks, "week");
     } else if (months < 12) {
-        return `${months} months ago`;
+        return pluralize(months, "month");
     } else {
-        return `${years} years ago`;
+        return pluralize(years, "year");
     }
 }
 
