@@ -227,6 +227,8 @@ const createComment = async (req, res) => {
         clientSession.endSession();
         res.status(201).json(transformedComment);
     } catch (err) {
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(500).json({ message: "Error creating new comment" });
     }
 };
@@ -259,13 +261,31 @@ const updateComment = async (req, res) => {
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
+        //check if User exists in database -> maybe redundant
+        const author = await User.findById(userId).session(clientSession);
+        if (!author) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
+            return res.status(400).json({ message: "User not found" });
+        }
+
         foundComment.content = content;
         const updatedComment = await foundComment.save({ clientSession });
 
+        // add id and author details
+        const transformedComment = {
+            ...updatedComment.toObject(),
+            id: updatedComment._id.toString(),
+            username: author.username,
+            avatarUrl: author.avatarUrl,
+        };
+
         await clientSession.commitTransaction();
         clientSession.endSession();
-        res.status(200).json(updatedComment);
+        res.status(200).json(transformedComment);
     } catch (err) {
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(500).json({ message: "Error updating comment" });
     }
 };
@@ -328,6 +348,8 @@ const deleteComment = async (req, res) => {
         clientSession.endSession();
         res.status(200).json({ message: "Comment deleted successfully" });
     } catch (err) {
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(500).json({ message: "Error deleting comment" });
     }
 };
@@ -436,7 +458,8 @@ const addLike = async (req, res) => {
         clientSession.endSession();
         res.status(201).json({ message: `${type} added` });
     } catch (err) {
-        console.log(err)
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(500).json({ message: `Error adding ${type}` });
     }
 };
@@ -496,6 +519,8 @@ const deleteLike = async (req, res) => {
         clientSession.endSession();
         res.status(200).json({ message: "Like removed" });
     } catch (err) {
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(500).json({ message: "Error removing like" });
     }
 };
