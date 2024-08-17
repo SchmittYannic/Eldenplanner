@@ -85,7 +85,7 @@ const CommentDelete = () => {
             >
                 <h4>Delete Comment</h4>
                 <div className="text-container">
-                    <p>Do you want to permanently delete your comment?</p>
+                    <p>Do you want to permanently delete this comment?</p>
                 </div>
                 <div className="button-wrapper">
                     <button

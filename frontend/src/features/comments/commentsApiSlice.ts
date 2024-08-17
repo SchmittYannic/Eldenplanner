@@ -414,8 +414,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             },
         }),
         deleteComment: builder.mutation<{ success: boolean, id: string }, DeleteCommentMutationParamsType>({
-            query: ({ commentId }) => ({
-                url: `/comments/${commentId}`,
+            query: ({ commentId, targetId, targetType }) => ({
+                url: `/comments/${commentId}?targetId=${targetId}&targetType=${targetType}`,
                 method: "DELETE",
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError

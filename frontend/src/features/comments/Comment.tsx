@@ -78,6 +78,8 @@ const Comment = memo(({
     const [showReplies, setShowReplies] = useState(false);
     const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
 
+    const isOwnUserProfile = targetType === "User" && targetId === userId;
+
     const commentCreatedAt = new Date(comment.createdAt);
     const commentSince = sinceDateInString(commentCreatedAt);
     const commentUpdatedAt = new Date(comment.updatedAt);
@@ -182,26 +184,43 @@ const Comment = memo(({
 
     // clicking 3 dots button on right side of own comments
     const onActionButtonClicked: MouseEventHandler<HTMLButtonElement> = () => {
-        if (userId !== comment.authorId) return
-        dispatch(addCommentOptionlist({
-            refId: `action-${comment.id}`,
-            props: {
-                commentId: comment.id,
-                targetId,
-                targetType,
-                parentId,
-                options: [
-                    {
-                        text: "Edit",
-                        icon: "edit",
-                    },
-                    {
-                        text: "Delete",
-                        icon: "delete",
-                    },
-                ]
-            },
-        }));
+        if (userId === comment.authorId) {
+            dispatch(addCommentOptionlist({
+                refId: `action-${comment.id}`,
+                props: {
+                    commentId: comment.id,
+                    targetId,
+                    targetType,
+                    parentId,
+                    options: [
+                        {
+                            text: "Edit",
+                            icon: "edit",
+                        },
+                        {
+                            text: "Delete",
+                            icon: "delete",
+                        },
+                    ]
+                },
+            }));
+        } else if (isOwnUserProfile) {
+            dispatch(addCommentOptionlist({
+                refId: `action-${comment.id}`,
+                props: {
+                    commentId: comment.id,
+                    targetId,
+                    targetType,
+                    parentId,
+                    options: [
+                        {
+                            text: "Delete",
+                            icon: "delete",
+                        },
+                    ]
+                },
+            }));
+        }
     };
 
     // clicking on cancel when editing own comment
@@ -325,7 +344,7 @@ const Comment = memo(({
                             </div>
                         </div>
                         <div className="comment-action-menu">
-                            {userId === comment.authorId &&
+                            {(userId === comment.authorId || isOwnUserProfile) &&
                                 <button
                                     id={`action-${comment.id}`}
                                     className="dot-btn"

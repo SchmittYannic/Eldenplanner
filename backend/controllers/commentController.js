@@ -279,6 +279,10 @@ const updateComment = async (req, res) => {
 const deleteComment = async (req, res) => {
     const { userId } = req;
     const { id } = req.params;
+    const {
+        targetId,
+        targetType,
+    } = req.query;
 
     const clientSession = await mongoose.startSession();
     clientSession.startTransaction();
@@ -293,11 +297,11 @@ const deleteComment = async (req, res) => {
             return res.status(400).json({ message: "Comment not found" });
         }
 
-        //check if authenticated user is author
-        if (!foundComment.authorId.equals(userId)) {
+        //check if authenticated user is author or if it is his user profile
+        if (!foundComment.authorId.equals(userId) && !(targetType === "User" && targetId === userId)) {
             await clientSession.abortTransaction();
             clientSession.endSession();
-            return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
+            return res.status(403).json({ message: "Not authorized: only author or owner of page can delete a comment" })
         }
 
         //check if comment is reply to another comment
