@@ -1,16 +1,16 @@
 import { ReactElement } from "react"
 import { ClipLoader } from "react-spinners";
 import { BuildType, useGetBuildsQuery } from "../builds/buildsApiSlice";
-import { UserType } from "./usersApiSlice";
 import { calcSumObjectValues } from "../../utils/functions";
 import UserBuildsList from "./UserBuildsList";
 import { isCustomError } from "src/utils/typeguards";
+import { UserType } from "src/types";
 
-type PropsType = {
+type UserBuildsPropsType = {
     author: UserType,
 }
 
-const UserBuilds = ({ author }: PropsType): ReactElement => {
+const UserBuilds = ({ author }: UserBuildsPropsType): ReactElement => {
 
     const {
         data: buildsAsEntityState,

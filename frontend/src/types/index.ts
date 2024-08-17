@@ -59,6 +59,16 @@ export type CommentType<CommentId extends string = string, ReplyId extends strin
 }
 
 
+/* usersApiSlice related types */
+
+export type UserType = {
+    _id: string
+    id: string
+    username: string
+    createdAt: string
+};
+
+
 /* commentsApiSlice related types */
 
 export type GetCommentsResponseType<CommentId extends string> = {

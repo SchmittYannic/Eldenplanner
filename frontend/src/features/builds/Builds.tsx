@@ -1,9 +1,11 @@
-import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
 import { ClipLoader } from "react-spinners";
-import { calcSumObjectValues } from "../../utils/functions";
+
+import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
+import { useGetUsersQuery } from "src/features/users/usersApiSlice";
 import BuildsList from "./BuildsList";
-import { UserType, useGetUsersQuery } from "../users/usersApiSlice";
+import { calcSumObjectValues } from "src/utils/functions";
 import { isCustomError } from "src/utils/typeguards";
+import { UserType } from "src/types";
 
 const Builds = () => {
 
