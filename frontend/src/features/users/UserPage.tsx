@@ -116,7 +116,15 @@ const UserPage = (): ReactElement => {
                         className="CommentSection"
                     >
                         {loadComponent ? (
-                            <Suspense fallback={<div>Loading...</div>}>
+                            <Suspense
+                                fallback={
+                                    <ClipLoader
+                                        color={"rgb(231, 214, 182)"}
+                                        loading={true}
+                                        size={30}
+                                    />
+                                }
+                            >
                                 <CommentSection
                                     targetId={profileUserId}
                                     targetType="User"

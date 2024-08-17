@@ -17,6 +17,7 @@ import CharacterSection from "src/features/charplanner/CharacterSection";
 import EquipmentSection from "src/features/charplanner/EquipmentSection";
 import InfoSection from "src/features/charplanner/InfoSection";
 import ActionsSection from "src/features/charplanner/ActionsSection";
+import { ClipLoader } from "src/components/ui";
 import { UserType } from "src/types";
 import "src/features/charplanner/Charplanner.scss";
 
@@ -152,7 +153,15 @@ const Charplanner = (): ReactElement => {
                     className="CommentSection"
                 >
                     {loadComponent ? (
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense
+                            fallback={
+                                <ClipLoader
+                                    color={"rgb(231, 214, 182)"}
+                                    loading={true}
+                                    size={30}
+                                />
+                            }
+                        >
                             <CommentSection
                                 targetId={param.buildId}
                                 targetType="Build"
