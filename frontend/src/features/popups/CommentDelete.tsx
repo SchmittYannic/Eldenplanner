@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDeleteCommentMutation } from "src/features/comments/commentsApiSlice";
 import { resetPopupState, selectPopup, setPopupIsOpen } from "./popupSlice";
 import { selectLastFetchedTimestamp, selectLimit, selectSort, } from "src/features/comments/commentsSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import { isCommentDeletePropsType } from "src/utils/typeguards";
 
 const CommentDelete = () => {
@@ -25,16 +26,24 @@ const CommentDelete = () => {
         dispatch(resetPopupState());
     };
 
-    const onDeleteClicked = () => {
-        deleteComment({
-            commentId,
-            targetType,
-            targetId,
-            parentId,
-            lastFetchedTimestamp,
-            sort,
-            limit,
-        });
+    const onDeleteClicked = async () => {
+        try {
+            await deleteComment({
+                commentId,
+                targetType,
+                targetId,
+                parentId,
+                lastFetchedTimestamp,
+                sort,
+                limit,
+            }).unwrap();
+        } catch (err) {
+            dispatch(addToast({
+                type: "error",
+                text: "Deleting comment failed",
+            }));
+        }
+
         dispatch(resetPopupState());
     };
 

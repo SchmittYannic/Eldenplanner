@@ -1,4 +1,10 @@
-import { MouseEventHandler, useRef, useState, memo, useEffect } from "react";
+import {
+    MouseEventHandler,
+    useRef,
+    useState,
+    memo,
+    useEffect,
+} from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,6 +28,7 @@ import {
     setIsReplyMode,
 } from "./commentsSlice";
 import { addCommentOptionlist } from "src/features/popups/popupSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
@@ -96,64 +103,80 @@ const Comment = memo(({
     };
 
     // clicking like button
-    const onLikeClicked = () => {
+    const onLikeClicked = async () => {
         // if visitor -> do nothing
         if (!userId) return
         // if authenticated user is comment author -> do nothing
         if (userId === comment.authorId) return
-        if (comment.hasLiked) {
-            removeLikeDislike({
-                commentId: comment.id,
-                type: "like",
-                targetId,
-                targetType,
-                parentId,
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            })
-        } else {
-            addLikeDislike({
-                commentId: comment.id,
-                type: "like",
-                targetId,
-                targetType,
-                parentId,
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            })
+
+        try {
+            if (comment.hasLiked) {
+                await removeLikeDislike({
+                    commentId: comment.id,
+                    type: "like",
+                    targetId,
+                    targetType,
+                    parentId,
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            } else {
+                await addLikeDislike({
+                    commentId: comment.id,
+                    type: "like",
+                    targetId,
+                    targetType,
+                    parentId,
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            }
+        } catch (err) {
+            dispatch(addToast({
+                type: "error",
+                text: `${comment.hasLiked ? "Removing" : "Adding"} like failed`,
+            }));
         }
     };
 
     // clicking dislike button
-    const onDislikeClicked = () => {
+    const onDislikeClicked = async () => {
         // if visitor -> do nothing
         if (!userId) return
         // if authenticated user is comment author -> do nothing
         if (userId === comment.authorId) return
-        if (comment.hasDisliked) {
-            removeLikeDislike({
-                commentId: comment.id,
-                type: "dislike",
-                targetId,
-                targetType,
-                parentId,
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            })
-        } else {
-            addLikeDislike({
-                commentId: comment.id,
-                type: "dislike",
-                targetId,
-                targetType,
-                parentId,
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            })
+
+        try {
+            if (comment.hasDisliked) {
+                await removeLikeDislike({
+                    commentId: comment.id,
+                    type: "dislike",
+                    targetId,
+                    targetType,
+                    parentId,
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            } else {
+                await addLikeDislike({
+                    commentId: comment.id,
+                    type: "dislike",
+                    targetId,
+                    targetType,
+                    parentId,
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+            }
+        } catch (err) {
+            dispatch(addToast({
+                type: "error",
+                text: `${comment.hasDisliked ? "Removing" : "Adding"} dislike failed`,
+            }));
         }
     };
 

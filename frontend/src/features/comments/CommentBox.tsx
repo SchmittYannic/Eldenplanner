@@ -1,9 +1,18 @@
-import { ChangeEvent, FocusEventHandler, FormEventHandler, RefObject, useEffect, useRef, useState } from "react";
+import {
+    ChangeEvent,
+    FocusEventHandler,
+    FormEventHandler,
+    RefObject,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useCreateCommentMutation, useUpdateCommentMutation } from "src/features/comments/commentsApiSlice";
 import { selectLastFetchedTimestamp, selectLimit, selectSort } from "./commentsSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "src/features/comments/AuthorThumbnail";
 import { TargetTypeType } from "src/types";
@@ -33,6 +42,7 @@ const CommentBox = ({
 }: CommentBoxPropsType) => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [createComment, {
         isLoading: isCreateCommentLoading,
@@ -106,12 +116,10 @@ const CommentBox = ({
             }
             handleCancelClicked();
         } catch (err) {
-            console.log(err)
-            if (commentId) {
-                console.error("Failed to update the comment");
-            } else {
-                console.error("Failed to add the comment");
-            }
+            dispatch(addToast({
+                type: "error",
+                text: `${commentId ? "Updating" : "Posting"} comment failed`,
+            }));
         }
     }
 
