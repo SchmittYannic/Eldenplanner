@@ -1,19 +1,30 @@
-import { ReactElement } from "react";
+import {
+    ReactElement,
+    useRef,
+    useState,
+    Suspense,
+    useEffect,
+    lazy,
+} from "react";
 import { Link, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-import { UserType, useGetUsersQuery } from "./usersApiSlice";
+import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
-import CommentSection from "src/features/comments/CommentSection";
 import { isCustomError } from "src/utils/typeguards";
+import { UserType } from "src/types";
+
+const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
 const UserPage = (): ReactElement => {
 
     const param = useParams();
-    const userId = param?.userId;
-    const { username, isAdmin, isDemoadmin } = useAuth();
+    const profileUserId = param?.userId;
+    const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
+    const CommentSectionRef = useRef(null);
+    const [loadComponent, setLoadComponent] = useState(false);
 
     const {
         data: users,
@@ -23,12 +34,38 @@ const UserPage = (): ReactElement => {
         error,
     } = useGetUsersQuery("usersList");
 
-    const user = isSuccess && userId && users.entities[userId] as UserType;
+    const user = isSuccess && profileUserId && users.entities[profileUserId] as UserType;
     const userSince = user && new Date(user.createdAt);
     const month = userSince && userSince.toLocaleString("default", { month: "long" });
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
 
-    const isOwnProfile = user ? username === user?.username : false;
+    const isOwnProfile = user ? authUserId === user?.id : false;
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setLoadComponent(true);
+                    observer.disconnect();  // Stop observing after loading
+                }
+            },
+            {
+                root: null, // Use the viewport as the container
+                rootMargin: "0px",
+                threshold: 0.1, // Trigger when at least 10% of the target is visible
+            }
+        );
+
+        if (CommentSectionRef.current) {
+            observer.observe(CommentSectionRef.current);
+        }
+
+        return () => {
+            if (observer && CommentSectionRef.current) {
+                observer.unobserve(CommentSectionRef.current);
+            }
+        };
+    }, []);
 
     if (user) {
         return (
@@ -69,15 +106,26 @@ const UserPage = (): ReactElement => {
                     <div className="divider-4" />
 
                     <div className="userpage__userbuilds">
-                        {userId && <UserBuilds author={user} />}
+                        {profileUserId && <UserBuilds author={user} />}
                     </div>
                 </section>
 
-                {userId &&
-                    <CommentSection
-                        targetId={userId}
-                        targetType="User"
-                    />
+                {profileUserId &&
+                    <section
+                        ref={CommentSectionRef}
+                        className="CommentSection"
+                    >
+                        {loadComponent ? (
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <CommentSection
+                                    targetId={profileUserId}
+                                    targetType="User"
+                                />
+                            </Suspense>
+                        ) : (
+                            <div>Comment section will load when visible</div>
+                        )}
+                    </section>
                 }
             </main>
         )

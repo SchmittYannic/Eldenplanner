@@ -166,7 +166,7 @@ const CommentSection = ({
     ]);
 
     return (
-        <section className="CommentSection">
+        <>
             <div className="comment-section-header">
                 <div className="comment-section-title">
                     <h2>{totalComments} Comments</h2>
@@ -204,7 +204,7 @@ const CommentSection = ({
 
             <div id="load-more" ref={observerRef} />
             {isFetching && <p>Loading more comments...</p>}
-        </section>
+        </>
     )
 }
 

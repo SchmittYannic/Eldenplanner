@@ -1,10 +1,10 @@
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, useEffect, useRef, lazy, Suspense, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "src/app/store";
 import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
-import { selectUserById, UserType } from "src/features/users/usersApiSlice";
+import { selectUserById } from "src/features/users/usersApiSlice";
 import {
     CharplannerStateType,
     loadBuild,
@@ -17,8 +17,10 @@ import CharacterSection from "src/features/charplanner/CharacterSection";
 import EquipmentSection from "src/features/charplanner/EquipmentSection";
 import InfoSection from "src/features/charplanner/InfoSection";
 import ActionsSection from "src/features/charplanner/ActionsSection";
-import CommentSection from "../comments/CommentSection";
+import { UserType } from "src/types";
 import "src/features/charplanner/Charplanner.scss";
+
+const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
 const Charplanner = (): ReactElement => {
 
@@ -28,6 +30,8 @@ const Charplanner = (): ReactElement => {
     const buildRef = useRef<CharplannerStateType>();
     const { userId } = useAuth();
     const isMobile = windowSize.width && windowSize.width < 900;
+    const CommentSectionRef = useRef(null);
+    const [loadComponent, setLoadComponent] = useState(false);
 
     // if param exist select Build through buildId in param
     const build = useSelector((state: RootState) => {
@@ -78,6 +82,32 @@ const Charplanner = (): ReactElement => {
         }
     }, [buildRef.current]);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setLoadComponent(true);
+                    observer.disconnect();  // Stop observing after loading
+                }
+            },
+            {
+                root: null, // Use the viewport as the container
+                rootMargin: "0px",
+                threshold: 0.1, // Trigger when at least 10% of the target is visible
+            }
+        );
+
+        if (CommentSectionRef.current) {
+            observer.observe(CommentSectionRef.current);
+        }
+
+        return () => {
+            if (observer && CommentSectionRef.current) {
+                observer.unobserve(CommentSectionRef.current);
+            }
+        };
+    }, []);
+
     return (
         <main>
             <div className="charplanner__header">
@@ -117,10 +147,21 @@ const Charplanner = (): ReactElement => {
             </div>
 
             {param?.buildId &&
-                <CommentSection
-                    targetId={param.buildId}
-                    targetType="Build"
-                />
+                <section
+                    ref={CommentSectionRef}
+                    className="CommentSection"
+                >
+                    {loadComponent ? (
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <CommentSection
+                                targetId={param.buildId}
+                                targetType="Build"
+                            />
+                        </Suspense>
+                    ) : (
+                        <div>Comment section will load when visible</div>
+                    )}
+                </section>
             }
         </main>
     )
