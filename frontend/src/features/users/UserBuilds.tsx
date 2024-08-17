@@ -1,8 +1,9 @@
 import { ReactElement } from "react"
-import { ClipLoader } from "react-spinners";
-import { BuildType, useGetBuildsQuery } from "../builds/buildsApiSlice";
-import { calcSumObjectValues } from "../../utils/functions";
+
+import { BuildType, useGetBuildsQuery } from "src/features/builds/buildsApiSlice";
 import UserBuildsList from "./UserBuildsList";
+import { ClipLoader } from "src/components/ui";
+import { calcSumObjectValues } from "src/utils/functions";
 import { isCustomError } from "src/utils/typeguards";
 import { UserType } from "src/types";
 
@@ -57,8 +58,6 @@ const UserBuilds = ({ author }: UserBuildsPropsType): ReactElement => {
                 color={"rgb(231, 214, 182)"}
                 loading={isLoading}
                 size={30}
-                aria-label="Loading Spinner"
-                data-testid="loader"
             />
         )
     } else if (isError) {

@@ -1,8 +1,7 @@
-import { ClipLoader } from "react-spinners";
-
 import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
 import { useGetUsersQuery } from "src/features/users/usersApiSlice";
 import BuildsList from "./BuildsList";
+import { ClipLoader } from "src/components/ui";
 import { calcSumObjectValues } from "src/utils/functions";
 import { isCustomError } from "src/utils/typeguards";
 import { UserType } from "src/types";
@@ -62,8 +61,6 @@ const Builds = () => {
                     color={"rgb(231, 214, 182)"}
                     loading={isBuildsLoading ? isBuildsLoading : isUsersLoading}
                     size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
                 />
             </main>
         )

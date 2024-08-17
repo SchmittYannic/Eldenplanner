@@ -7,12 +7,12 @@ import {
     lazy,
 } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 
 import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
+import { ClipLoader } from "src/components/ui";
 import { isCustomError } from "src/utils/typeguards";
 import { UserType } from "src/types";
 
@@ -136,8 +136,6 @@ const UserPage = (): ReactElement => {
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
                     size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
                 />
             </main>
         )

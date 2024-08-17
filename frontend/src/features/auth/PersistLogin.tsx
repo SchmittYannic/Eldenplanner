@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ClipLoader } from "react-spinners";
+
 import { useRefreshMutation } from "./authApiSlice";
-import usePersist from "../../hooks/usePersist";
 import { selectCurrentToken } from "./authSlice";
+import usePersist from "src/hooks/usePersist";
+import { ClipLoader } from "src/components/ui";
 
 const PersistLogin = () => {
 
@@ -34,7 +35,7 @@ const PersistLogin = () => {
                     setTrueSuccess(true);
                 }
                 catch (err) {
-                    
+
                 }
             }
 
@@ -59,8 +60,6 @@ const PersistLogin = () => {
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
                     size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
                 />
             </main>
         )

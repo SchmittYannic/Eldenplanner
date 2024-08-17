@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 
 import { isCustomError } from "src/utils/typeguards";
 import { UserAsAdminType, isUserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList from "./UsersList";
 import EditUserAsAdmin from "./EditUserAsAdmin";
 import DeleteUserAsAdmin from "./DeleteUserAsAdmin";
+import { ClipLoader } from "src/components/ui";
 
 const Users = (): ReactElement => {
 
@@ -42,8 +42,6 @@ const Users = (): ReactElement => {
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
                     size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
                 />
             </main>
         )
