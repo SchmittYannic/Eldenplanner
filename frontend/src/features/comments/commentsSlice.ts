@@ -100,10 +100,9 @@ export const commentsSlice = createSlice({
                 state.commentEntities[commentId] = newComment;
             } else {
                 const parentEntity = state.commentEntities[parentId];
-                const repliesEntities = parentEntity?.repliesEntities;
-                if (repliesEntities && repliesEntities[commentId]) {
-                    repliesEntities[commentId] = newComment;
-                }
+                const repliesEntities = parentEntity.repliesEntities;
+                const newEntity = { [commentId]: newComment };
+                state.commentEntities[parentId].repliesEntities = { ...repliesEntities, ...newEntity }
             }
         },
         deleteCommentEntity: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
@@ -115,11 +114,9 @@ export const commentsSlice = createSlice({
             } else {
                 const parentEntity = state.commentEntities[parentId];
                 const repliesEntities = parentEntity?.repliesEntities;
-                if (repliesEntities && repliesEntities[commentId]) {
-                    const entities = { ...repliesEntities }
-                    delete entities[commentId];
-                    state.commentEntities[parentId].repliesEntities = entities
-                }
+                const entities = { ...repliesEntities }
+                delete entities[commentId];
+                state.commentEntities[parentId].repliesEntities = entities
             }
         },
         addCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string, position?: number }>) => {
@@ -229,12 +226,20 @@ export const commentsSlice = createSlice({
                         state.commentEntities[parentId].repliesIds = action.payload.ids;
                         state.commentEntities[parentId].repliesEntities = action.payload.entities;
                     } else if (currentRepliesIds && currentRepliesEntities) {
-                        // if replies already exist on the comment attach newly fetched replies to end
-                        state.commentEntities[parentId].repliesIds = [...currentRepliesIds, ...action.payload.ids];
-                        state.commentEntities[parentId].repliesEntities = {
+                        // if replies already exist on the comment
+                        // Step 1: Filter out Ids that are in the state and not in the response
+                        const oldIds = currentRepliesIds.filter(id => !action.payload.ids.includes(id))
+
+                        // Step 2: Merge the entities, which will replace old entities with the new ones
+                        const newRepliesEntities = {
                             ...currentRepliesEntities,
                             ...action.payload.entities
-                        }
+                        };
+                        state.commentEntities[parentId].repliesEntities = newRepliesEntities;
+
+                        // Step 3 merge the fetchedIds into oldIds making sure the ids in resulting array remain sorted
+                        const mergedIds = mergeSortedArrays(oldIds, action.payload.ids, newRepliesEntities, true);
+                        state.commentEntities[parentId].repliesIds = mergedIds;
                     } else {
                         throw new Error("Error while merging Cache: both repliesIds and repliesEntities of a comment must either be both undefined or both exist")
                     }
