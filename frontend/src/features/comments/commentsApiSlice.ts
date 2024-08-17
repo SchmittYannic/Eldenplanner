@@ -444,7 +444,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         if (!draft.ids.includes(commentId)) return
 
                         // save previous state of comment
-                        deletedComment = draft.entities[commentId];
+                        deletedComment = { ...draft.entities[commentId] };
 
                         // decrement totalComments
                         draft.totalComments -= 1;
@@ -473,7 +473,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         if (!repliesIds || !repliesIds.includes(commentId)) return
 
                         // save previous state of reply
-                        deletedComment = repliesEntities[commentId];
+                        deletedComment = { ...repliesEntities[commentId] };
 
                         // decrement totalReplies
                         draft.entities[parentId].totalReplies -= 1;
