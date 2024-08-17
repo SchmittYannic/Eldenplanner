@@ -1,15 +1,9 @@
-import {
-    ReactElement,
-    useRef,
-    useState,
-    Suspense,
-    useEffect,
-    lazy,
-} from "react";
+import { ReactElement, Suspense, lazy } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
+import useIsInView from "src/hooks/useIsInView";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader } from "src/components/ui";
@@ -23,8 +17,7 @@ const UserPage = (): ReactElement => {
     const param = useParams();
     const profileUserId = param?.userId;
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
-    const CommentSectionRef = useRef(null);
-    const [loadComponent, setLoadComponent] = useState(false);
+    const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
 
     const {
         data: users,
@@ -40,32 +33,6 @@ const UserPage = (): ReactElement => {
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
 
     const isOwnProfile = user ? authUserId === user?.id : false;
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    setLoadComponent(true);
-                    observer.disconnect();  // Stop observing after loading
-                }
-            },
-            {
-                root: null, // Use the viewport as the container
-                rootMargin: "0px",
-                threshold: 0.1, // Trigger when at least 10% of the target is visible
-            }
-        );
-
-        if (CommentSectionRef.current) {
-            observer.observe(CommentSectionRef.current);
-        }
-
-        return () => {
-            if (observer && CommentSectionRef.current) {
-                observer.unobserve(CommentSectionRef.current);
-            }
-        };
-    }, []);
 
     if (user) {
         return (
@@ -115,7 +82,7 @@ const UserPage = (): ReactElement => {
                         ref={CommentSectionRef}
                         className="CommentSection"
                     >
-                        {loadComponent ? (
+                        {isIntersecting ? (
                             <Suspense
                                 fallback={
                                     <ClipLoader

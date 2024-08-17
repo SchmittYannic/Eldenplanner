@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, lazy, Suspense, useState } from "react";
+import { ReactElement, useEffect, useRef, lazy, Suspense } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -13,6 +13,7 @@ import {
 
 import useAuth from "src/hooks/useAuth";
 import useWindowSize from "src/hooks/useWindowSize";
+import useIsInView from "src/hooks/useIsInView";
 import CharacterSection from "src/features/charplanner/CharacterSection";
 import EquipmentSection from "src/features/charplanner/EquipmentSection";
 import InfoSection from "src/features/charplanner/InfoSection";
@@ -31,8 +32,7 @@ const Charplanner = (): ReactElement => {
     const buildRef = useRef<CharplannerStateType>();
     const { userId } = useAuth();
     const isMobile = windowSize.width && windowSize.width < 900;
-    const CommentSectionRef = useRef(null);
-    const [loadComponent, setLoadComponent] = useState(false);
+    const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
 
     // if param exist select Build through buildId in param
     const build = useSelector((state: RootState) => {
@@ -83,32 +83,6 @@ const Charplanner = (): ReactElement => {
         }
     }, [buildRef.current]);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    setLoadComponent(true);
-                    observer.disconnect();  // Stop observing after loading
-                }
-            },
-            {
-                root: null, // Use the viewport as the container
-                rootMargin: "0px",
-                threshold: 0.1, // Trigger when at least 10% of the target is visible
-            }
-        );
-
-        if (CommentSectionRef.current) {
-            observer.observe(CommentSectionRef.current);
-        }
-
-        return () => {
-            if (observer && CommentSectionRef.current) {
-                observer.unobserve(CommentSectionRef.current);
-            }
-        };
-    }, []);
-
     return (
         <main>
             <div className="charplanner__header">
@@ -152,7 +126,7 @@ const Charplanner = (): ReactElement => {
                     ref={CommentSectionRef}
                     className="CommentSection"
                 >
-                    {loadComponent ? (
+                    {isIntersecting ? (
                         <Suspense
                             fallback={
                                 <ClipLoader
