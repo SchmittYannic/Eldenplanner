@@ -217,7 +217,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 // optimistic update increase of totalComments
                 dispatch(incrementTotalComments({ parentId }));
 
-                // Optimistic update for comment entity in commentsSlice state          
+                // Optimistic update for comment entity in commentsSlice state     
                 dispatch(
                     setCommentEntity({
                         parentId,
@@ -264,6 +264,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         })
                     );
 
+                    // undo cache with temp comment
                     patchResultNew.undo();
                     patchResultOld.undo();
 
@@ -505,7 +506,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 );
 
                 // Optimistic update for comment entity in commentsSlice state
-                if (deletedComment && indexOfComment) {
+                if (deletedComment && indexOfComment !== null) {
                     dispatch(
                         deleteCommentId({
                             parentId: queryArgsGetComments.parentId,
@@ -531,7 +532,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     patchResult.undo();
                     patchResultAlternativeSort.undo();
 
-                    if (deletedComment && indexOfComment) {
+                    if (deletedComment && indexOfComment !== null) {
                         dispatch(
                             addCommentId({
                                 parentId: queryArgsGetComments.parentId,
