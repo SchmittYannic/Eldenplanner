@@ -58,6 +58,9 @@ export type CommentType<CommentId extends string = string, ReplyId extends strin
     hasDisliked?: boolean,
 }
 
+
+/* commentsApiSlice related types */
+
 export type GetCommentsResponseType<CommentId extends string> = {
     ids: CommentId[],
     entities: Record<CommentId, CommentType<CommentId>>,
@@ -93,6 +96,7 @@ export type UpdateCommentMutationParamsType = {
 export type DeleteCommentMutationParamsType = {
     commentId: string,
 } & GetCommentsQueryParamsType
+
 
 /* Popup slice related types */
 
@@ -140,3 +144,9 @@ export type PopupStateType = {
     position: PositionType,
     props: PopupPropsType[PopupStateTypeTypes],
 };
+
+
+/* Toast related types */
+
+const toastTypesArray = ["success", "error"] as const;
+export type ToastTypeType = typeof toastTypesArray[number];
