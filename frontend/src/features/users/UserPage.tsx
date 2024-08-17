@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
-import useIsInView from "src/hooks/useIsInView";
+//import useIsInView from "src/hooks/useIsInView";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader } from "src/components/ui";
@@ -17,7 +17,7 @@ const UserPage = (): ReactElement => {
     const param = useParams();
     const profileUserId = param?.userId;
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
-    const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
+    //const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
 
     const {
         data: users,
@@ -79,10 +79,24 @@ const UserPage = (): ReactElement => {
 
                 {profileUserId &&
                     <section
-                        ref={CommentSectionRef}
+                        //ref={CommentSectionRef}
                         className="CommentSection"
                     >
-                        {isIntersecting ? (
+                        <Suspense
+                            fallback={
+                                <ClipLoader
+                                    color={"rgb(231, 214, 182)"}
+                                    loading={true}
+                                    size={30}
+                                />
+                            }
+                        >
+                            <CommentSection
+                                targetId={profileUserId}
+                                targetType="User"
+                            />
+                        </Suspense>
+                        {/* {isIntersecting ? (
                             <Suspense
                                 fallback={
                                     <ClipLoader
@@ -99,7 +113,7 @@ const UserPage = (): ReactElement => {
                             </Suspense>
                         ) : (
                             <div>Comment section will load when visible</div>
-                        )}
+                        )} */}
                     </section>
                 }
             </main>
