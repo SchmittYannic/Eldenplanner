@@ -18,9 +18,10 @@ import {
     setLastFetchedTimestamp,
     resetCommentsSliceState,
 } from "./commentsSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
-import { CustomSelect } from "src/components/ui";
+import { CustomSelect, ClipLoader } from "src/components/ui";
 import { SortCommentsType, sortOptions, TargetTypeType } from "src/types";
 import { isValidCache } from "src/utils/functions";
 import "src/features/comments/CommentSection.scss";
@@ -60,6 +61,7 @@ const CommentSection = ({
     // local state
     const [showCommentBoxFooter, setShowCommentBoxFooter] = useState(false);
     const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
+    const [isFetchingComments, setIsFetchingComments] = useState(false);
 
     // Event handlers for CommentBox and CustomSelect sortComments
     const onCommentBoxCancelClicked = () => {
@@ -74,7 +76,7 @@ const CommentSection = ({
         dispatch(changeSort(input))
     };
 
-    const fetchInitialComments = () => {
+    const fetchInitialComments = async () => {
         if (cachedData && isValidCache(cachedData)) {
             // if cachedData exists
             const { ids, entities, totalComments } = cachedData;
@@ -90,14 +92,24 @@ const CommentSection = ({
             dispatch(setLastFetchedTimestamp(lastFetchedTimestampFromCache));
         } else {
             // if no cachedData exists fetch comments
-            fetchComments({
-                targetId,
-                targetType,
-                parentId: "",
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            });
+            try {
+                setIsFetchingComments(true);
+                await fetchComments({
+                    targetId,
+                    targetType,
+                    parentId: "",
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+                setIsFetchingComments(false);
+            } catch (err) {
+                setIsFetchingComments(false);
+                dispatch(addToast({
+                    type: "error",
+                    text: `Error fetching comments for ${targetType} ${targetId}`,
+                }));
+            }
         }
     };
 
@@ -116,17 +128,27 @@ const CommentSection = ({
         if (observer.current) observer.current.disconnect();
 
         // if intersecting
-        const handleIntersection = () => {
+        const handleIntersection = async () => {
             // check if currently not fetching and there are more comments to load
             if (!hasMoreComments || isFetching) return
-            fetchComments({
-                targetId,
-                targetType,
-                parentId: "",
-                lastFetchedTimestamp,
-                sort,
-                limit,
-            });
+            try {
+                setIsFetchingComments(true);
+                await fetchComments({
+                    targetId,
+                    targetType,
+                    parentId: "",
+                    lastFetchedTimestamp,
+                    sort,
+                    limit,
+                }).unwrap();
+                setIsFetchingComments(false);
+            } catch (err) {
+                setIsFetchingComments(false);
+                dispatch(addToast({
+                    type: "error",
+                    text: `Error fetching comments for ${targetType} ${targetId}`,
+                }));
+            }
         };
 
         // add debounce to fetch
@@ -203,7 +225,15 @@ const CommentSection = ({
             </div>
 
             <div id="load-more" ref={observerRef} />
-            {isFetching && <p>Loading more comments...</p>}
+            {isFetchingComments &&
+                <div className="full flex justify-center">
+                    <ClipLoader
+                        color={"rgb(231, 214, 182)"}
+                        loading={true}
+                        size={30}
+                    />
+                </div>
+            }
         </>
     )
 }

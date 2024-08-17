@@ -1,10 +1,12 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 import { useLazyGetCommentsQuery } from "./commentsApiSlice";
 import { selectLimit, selectSort } from "./commentsSlice";
+import { addToast } from "src/features/toasts/toastSlice";
 import Comment from "./Comment";
+import { ClipLoader } from "src/components/ui";
 import { CommentType, TargetTypeType } from "src/types";
 
 type RepliesPropsType = {
@@ -19,25 +21,35 @@ const Replies = ({
     parentComment,
 }: RepliesPropsType) => {
 
-    const [fetchComments, {
-        isLoading,
-    }] = useLazyGetCommentsQuery();
+    const dispatch = useDispatch();
+    const [fetchComments] = useLazyGetCommentsQuery();
 
     const sort = useSelector(selectSort);
     const limit = useSelector(selectLimit);
 
-    const onLoadMoreRepliesClicked = () => {
+    const [isFetchingReplies, setIsFetchingReplies] = useState(false);
+
+    const onLoadMoreRepliesClicked = async () => {
         // if all replies are already loaded dont trigger fetch
         if (parentComment.hasMoreReplies === false) return
-
-        fetchComments({
-            targetId,
-            targetType,
-            parentId: parentComment.id,
-            lastFetchedTimestamp: parentComment.lastReplyFetchedTimestamp || "",
-            sort,
-            limit,
-        });
+        try {
+            setIsFetchingReplies(true);
+            await fetchComments({
+                targetId,
+                targetType,
+                parentId: parentComment.id,
+                lastFetchedTimestamp: parentComment.lastReplyFetchedTimestamp || "",
+                sort,
+                limit,
+            }).unwrap();
+            setIsFetchingReplies(false);
+        } catch (err) {
+            setIsFetchingReplies(false);
+            dispatch(addToast({
+                type: "error",
+                text: `Error fetching replies for ${parentComment.id}`,
+            }))
+        }
     }
 
     //initial fetch on component mount
@@ -85,7 +97,15 @@ const Replies = ({
                                     marginRight: "6px",
                                 }}
                             >
-                                <MdOutlineSubdirectoryArrowRight aria-hidden />
+                                {isFetchingReplies ?
+                                    <ClipLoader
+                                        color={"#3ea6ff"}
+                                        loading={true}
+                                        size={16}
+                                    />
+                                    :
+                                    <MdOutlineSubdirectoryArrowRight aria-hidden />
+                                }
                             </div>
                             <div>
                                 load more replies
