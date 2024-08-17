@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import 'express-async-errors';
+import "express-async-errors";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -14,13 +14,14 @@ import rootRoute from "./routes/root.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import buildRoutes from "./routes/buildRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 /* Configurations */
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 const PORT = process.env.PORT || 3500;
 console.log(process.env.NODE_ENV);
 connectDB();
@@ -42,6 +43,7 @@ app.use("/", rootRoute);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/builds", buildRoutes);
+app.use("/comments", commentRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes

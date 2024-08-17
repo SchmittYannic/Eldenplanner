@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-
-const toastTypesArray = ["success"] as const;
-export type ToastTypeType = typeof toastTypesArray[number];
+import { ToastTypeType } from "src/types";
 
 type ToastType = {
     id: number,

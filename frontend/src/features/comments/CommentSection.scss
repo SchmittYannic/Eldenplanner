@@ -1,0 +1,348 @@
+@use "src/Variables" as v;
+
+.CommentSection {
+    width: 100%;
+    margin-bottom: 50px; //just for testing remove later
+
+    .icon-container {
+        display: inline-block;
+        vertical-align: middle;
+
+        svg {
+            display: block;
+        }
+    }
+
+    .comment-section-header {
+        margin-top: 24px;
+        margin-bottom: 32px;
+    }
+
+    .comment-section-title {
+        display: flex;
+        margin-bottom: 24px;
+
+        h2 {
+            margin-right: 32px;
+        }
+    }
+
+    .comment-thread {
+        margin-bottom: 16px;
+    }
+
+    .comment-body {
+        display: flex;
+    }
+
+    .author-thumbnail {
+        width: 56px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .comment-main {
+        flex-grow: 1;
+    }
+
+    .comment-action-menu {
+        width: 40px;
+
+        .dot-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+
+            svg {
+                color: hsl(v.$accent-foreground);
+                height: 24px;
+            }
+
+            &:hover,
+            &:focus-visible {
+                background-color: hsl(v.$accent3);
+            }
+
+            &:active {
+                background-color: hsl(v.$muted-foreground);
+            }
+        }
+    }
+
+    .comment-header {
+        margin-bottom: 2px;
+    }
+
+    .comment-author {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+
+        a {
+            margin-right: 4px;
+            font-size: v.$font-size-normal;
+            font-weight: 500;
+            color: hsl(v.$accent-foreground);
+            text-decoration: none;
+        }
+
+        .published-time-text {
+            color: hsl(v.$muted-foreground);
+            font-size: v.$font-size-small;
+        }
+    }
+
+    .comment-engagement-bar {
+        margin-top: 4px;
+    }
+
+    .toolbar {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .img-link {
+        display: block;
+        width: 100%;
+
+        div {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 16px;
+            overflow: hidden;
+        }
+    }
+
+    .like-btn,
+    .dislike-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+
+        svg {
+            color: hsl(v.$accent-foreground);
+            width: 20px;
+            height: 20px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: hsl(v.$accent3);
+        }
+    }
+
+    .likecount,
+    .dislikecount {
+        align-self: center;
+        font-size: v.$font-size-small;
+        color: hsl(v.$muted-foreground);
+    }
+
+    .text-btn-wrapper {
+        button {
+            height: 100%;
+            padding: 0 12px;
+            font-size: v.$font-size-small;
+            font-weight: 500;
+            color: hsl(v.$accent-foreground);
+            border-radius: 16px;
+
+            &:hover,
+            &:focus-visible {
+                background-color: hsl(v.$accent3);
+            }
+
+            &:active {
+                background-color: hsl(v.$muted-foreground);
+            }
+        }
+    }
+
+
+    .comment-replies {
+        .expander {
+            margin-left: 56px;
+        }
+
+        .reply-expand-btn {
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            color: #3ea6ff;
+            font-size: v.$font-size-normal;
+
+            &:hover,
+            &:focus-visible {
+                background-color: #263850;
+            }
+
+            svg {
+                display: block;
+                height: 24px;
+                width: 24px;
+                transform: rotate(0deg);
+                transition: transform ease 300ms;
+
+                &.rotate {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        // author-thumbnail of replies
+        .author-thumbnail {
+            width: 40px;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        .img-link {
+            div {
+                width: 24px;
+                height: 24px;
+                margin-right: 16px;
+            }
+        }
+    }
+}
+
+.CommentSection {
+    .thumbnail-input-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .comment-box-main {
+        flex-grow: 1;
+    }
+
+    .comment-box-creation {
+        padding-bottom: 8px;
+
+        textarea {
+            width: 100%;
+            margin-bottom: .25em;
+            background-color: transparent;
+            border: none;
+            overflow-y: hidden;
+            resize: none;
+            outline: none;
+        }
+
+        .line {
+            display: flex;
+            justify-content: center;
+            height: 1px;
+            background-color: hsl(v.$muted-foreground);
+        }
+
+        .line-animation {
+            width: 0;
+            height: 2px;
+        }
+
+        textarea:focus+.line .line-animation {
+            width: 100%;
+            background-color: hsl(v.$accent-foreground);
+            transition: width ease-in-out 300ms;
+        }
+    }
+
+    .comment-box-footer {
+        display: flex;
+        justify-content: end;
+
+        button {
+            height: 36px;
+
+            &:disabled {
+                background-color: hsl(v.$accent2);
+                color: hsl(v.$muted-foreground);
+                cursor: default;
+            }
+        }
+
+        .submit-btn {
+            color: black;
+            background-color: v.$gold;
+
+            &:not(:disabled):hover,
+            &:not(:disabled):focus-visible {
+                background-color: hsl(v.$elden-ring-color);
+            }
+
+            &:not(:disabled):active {
+                background-color: hsl(v.$elden-ring-color-transparent);
+            }
+        }
+    }
+}
+
+.selectsorttype {
+    padding: 0;
+    width: fit-content;
+
+    label {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+
+        input {
+            width: 100px;
+            border-style: solid;
+            margin-left: 8px;
+            outline: none;
+
+            &:focus {
+                border-style: solid;
+                border-color: hsl(v.$muted-foreground);
+            }
+
+            &:not(:placeholder-shown)+p {
+                top: 0;
+                font-size: v.$font-size-normal;
+                color: hsl(v.$accent-foreground);
+            }
+        }
+
+        p {
+            position: inherit;
+        }
+    }
+
+    .ddBtn-container {
+        top: .5rem;
+    }
+
+    .optionslist {
+        left: calc(100% - 100px);
+        right: 0;
+        top: 40px;
+        overflow-y: auto;
+    }
+
+    .filter-substring {
+        background-color: transparent;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .CommentSection .comment-section-title {
+        flex-direction: column;
+
+        h2 {
+            margin-right: 0;
+            margin-bottom: 16px;
+        }
+    }
+}

@@ -4,6 +4,8 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import charplannerReducer from "src/features/charplanner/charplannerSlice";
 import authReducer from "src/features/auth/authSlice";
 import toastReducer from "src/features/toasts/toastSlice";
+import commentsReducer from "src/features/comments/commentsSlice";
+import popupReducer from "src/features/popups/popupSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,10 +13,12 @@ export const store = configureStore({
         charplanner: charplannerReducer,
         auth: authReducer,
         toast: toastReducer,
+        comments: commentsReducer,
+        popup: popupReducer,
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware),
-    devTools: true
+    devTools: process.env.NODE_ENV === "development" ? true : false,
 });
 
 setupListeners(store.dispatch);

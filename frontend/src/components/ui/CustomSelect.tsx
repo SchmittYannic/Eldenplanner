@@ -1,4 +1,4 @@
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
+import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
 import { MdClose, MdExpandMore } from "react-icons/md";
 import "./CustomSelect.scss";
 
@@ -12,6 +12,7 @@ type SearchSelectPropsType = {
     enableDelete?: boolean,
     searchable?: boolean,
     disabled?: boolean,
+    optionScrollInView?: boolean,
     title?: string,
 };
 
@@ -25,6 +26,7 @@ const CustomSelect = ({
     enableDelete = false,
     searchable = false,
     disabled = false,
+    optionScrollInView = true,
     title,
 }: SearchSelectPropsType): ReactElement => {
 
@@ -33,7 +35,9 @@ const CustomSelect = ({
     const [showOptions, setShowOptions] = useState<boolean>(false);
 
     const [focusedOption, setFocusedOption] = useState(-1);
-    const optionContainer = useRef<HTMLLIElement | null>(null);
+    const optionContainer: MutableRefObject<HTMLLIElement | null> = useRef(null);
+    const selectedOptionRef: MutableRefObject<HTMLLIElement | null> = useRef(null);
+    const optionslistRef: MutableRefObject<HTMLUListElement | null> = useRef(null);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const currentInputValue = e.target.value;
@@ -156,16 +160,45 @@ const CustomSelect = ({
         setInputValue(currentSelectedOption);
     }, [currentSelectedOption]);
 
+    // scroll option into center when focusedOption changes
     useEffect(() => {
         if (!optionContainer.current) return;
+        if (!optionslistRef.current) return;
+        if (!optionScrollInView) return;
 
-        optionContainer.current.scrollIntoView({
-            block: "center",
-        });
+        const topPos = optionContainer.current.offsetTop;
+        const optionHeight = optionContainer.current.clientHeight;
+        const optionslistHeight = optionslistRef.current.clientHeight;
+        optionslistRef.current.scrollTop = topPos - (optionslistHeight / 2) + (optionHeight / 2);
+        // set scrollBehavior back to smooth in case it was set to auto before
+        optionslistRef.current.style.scrollBehavior = "smooth";
     }, [focusedOption]);
+
+    // set focusedOption when opening options
+    // set scrollBehavior to auto for instant scroll
+    useEffect(() => {
+        if (!showOptions) return
+        if (!optionslistRef.current) return;
+        if (!selectedOptionRef.current) return
+
+        optionslistRef.current.style.scrollBehavior = "auto";
+
+        // set focusedOption to the currentSelectedOptions index
+        setFocusedOption(filteredOptions.indexOf(currentSelectedOption));
+    }, [showOptions]);
 
     return (
         <div className={className} title={title}>
+            <div className="ddBtn-container">
+                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
+                    {enableDelete ?
+                        inputValue === "" ?
+                            <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
+                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
+                        : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
+                    }
+                </button>
+            </div>
             <label>
                 <input
                     id={id}
@@ -181,19 +214,12 @@ const CustomSelect = ({
                 />
                 <p>{label}</p>
             </label>
-            <div className="ddBtn-container">
-                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
-                    {enableDelete ?
-                        inputValue === "" ?
-                            <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
-                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
-                        : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
-                    }
-                </button>
-            </div>
 
             {showOptions &&
-                <ul className="optionslist">
+                <ul
+                    ref={optionslistRef}
+                    className="optionslist"
+                >
                     {filteredOptions.map((option, idx) => {
 
                         const regEscape = (v: string) => v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -202,7 +228,14 @@ const CustomSelect = ({
                         return (
                             <li
                                 key={idx}
-                                ref={idx === focusedOption ? optionContainer : null}
+                                ref={(el) => {
+                                    if (idx === focusedOption) {
+                                        optionContainer.current = el;
+                                    }
+                                    if (option === currentSelectedOption) {
+                                        selectedOptionRef.current = el;
+                                    }
+                                }}
                                 className={idx === focusedOption ? "focused-option" : ""}
                                 onMouseDown={() => handleSelection(idx)}
                             >

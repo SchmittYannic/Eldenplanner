@@ -6,6 +6,7 @@ type UseAuthReturnType = {
     userId: string,
     username: string,
     email: string,
+    avatarUrl: string,
     roles: string[],
     status: string,
     isUser: boolean,
@@ -18,6 +19,7 @@ type tokenType = {
         userId: string,
         username: string,
         email: string,
+        avatarUrl: string,
         roles: string[],
     }
 }
@@ -32,7 +34,7 @@ const useAuth = (): UseAuthReturnType => {
     if (token) {
         const decoded: tokenType = jwtDecode(token);
 
-        const { userId, username, email, roles } = decoded.UserInfo;
+        const { userId, username, email, avatarUrl, roles } = decoded.UserInfo;
 
         isUser = roles.includes("User");
         isDemoadmin = roles.includes("Demoadmin");
@@ -42,9 +44,9 @@ const useAuth = (): UseAuthReturnType => {
         if (isDemoadmin) status = "Demoadmin";
         if (isAdmin) status = "Admin";
 
-        return { userId, username, email, roles, status, isUser, isDemoadmin, isAdmin }
+        return { userId, username, email, avatarUrl, roles, status, isUser, isDemoadmin, isAdmin }
     }
 
-    return { userId: "", username: "", email: "", roles: [], status, isUser, isDemoadmin, isAdmin }
+    return { userId: "", username: "", email: "", avatarUrl: "", roles: [], status, isUser, isDemoadmin, isAdmin }
 }
 export default useAuth

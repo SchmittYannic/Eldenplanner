@@ -3,19 +3,13 @@ import {
     createEntityAdapter,
     EntityState
 } from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/api/apiSlice"
-import { RootState } from "../../app/store";
+import { apiSlice } from "src/app/api/apiSlice"
+import { RootState } from "src/app/store";
+import { UserType } from "src/types";
 
 const usersAdapter = createEntityAdapter({});
 
 const initialState = usersAdapter.getInitialState();
-
-export type UserType = {
-    _id: number
-    id: number
-    username: string
-    createdAt: string
-};
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -31,16 +25,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     user.id = user._id
                     return user
                 });
-                return usersAdapter.setAll(initialState, loadedUsers)         
+                return usersAdapter.setAll(initialState, loadedUsers)
             },
             providesTags: (result) =>
                 result
-                ? [
-                    ...result.ids.map(( id ) => ({ type: 'User' as const, id })),
-                    { type: 'User', id: 'LIST' },
+                    ? [
+                        ...result.ids.map((id) => ({ type: 'User' as const, id })),
+                        { type: 'User', id: 'LIST' },
                     ]
-                : [{ type: 'User', id: 'LIST' }],
-            }),
+                    : [{ type: 'User', id: 'LIST' }],
+        }),
         addNewUser: builder.mutation({
             query: initialUserData => ({
                 url: '/users',

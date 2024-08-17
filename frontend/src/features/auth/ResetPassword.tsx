@@ -1,13 +1,12 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import useWindowSize from "src/hooks/useWindowSize";
 import { useResetMutation } from "src/features/auth/authApiSlice";
-import { AsyncButton, InputPassword } from "src/components/ui";
+import { AsyncButton, InputPassword, ClipLoader } from "src/components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { resetpasswordschema } from "src/validation/userschema";
@@ -90,8 +89,6 @@ const ResetPassword = (): ReactElement => {
                         color={"rgb(231, 214, 182)"}
                         loading={!isToken}
                         size={30}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
                     />
                 </main>
             }

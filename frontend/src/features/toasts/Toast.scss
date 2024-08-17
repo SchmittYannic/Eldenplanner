@@ -41,6 +41,10 @@
             &.success svg {
                 color: hsl(v.$succ-background-color);
             }
+
+            &.error svg {
+                color: hsl(v.$err-background-color);
+            }
         }
 
         .toast-text {

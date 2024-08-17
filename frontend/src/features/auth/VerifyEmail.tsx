@@ -1,7 +1,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+
 import { useVerifyMutation } from "./authApiSlice";
+import { ClipLoader } from "src/components/ui";
 
 const VerifyEmail = (): ReactElement => {
 
@@ -40,8 +41,6 @@ const VerifyEmail = (): ReactElement => {
                 color={"rgb(231, 214, 182)"}
                 loading={isLoading}
                 size={30}
-                aria-label="Loading Spinner"
-                data-testid="loader"
             />
 
             {isSuccess && (

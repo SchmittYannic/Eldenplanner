@@ -143,6 +143,10 @@ textarea {
     display: flex;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .text-right {
     text-align: right;
 }
@@ -782,15 +786,6 @@ td {
         cursor: default;
         opacity: .5;
     }
-}
-
-.cliploader-centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
 }
 
 

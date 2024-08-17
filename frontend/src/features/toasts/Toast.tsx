@@ -1,24 +1,27 @@
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdClose } from "react-icons/md";
-import { AiFillCheckCircle } from "react-icons/ai"
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+
 import { deleteToast, selectToast } from "src/features/toasts/toastSlice";
+import { ToastTypeType } from "src/types";
 import "src/features/toasts/Toast.scss";
+
+type ToastIconMapType = {
+    [key in ToastTypeType]: ReactNode;
+}
+
+const ToastIconMap: ToastIconMapType = {
+    success: <AiFillCheckCircle aria-hidden />,
+    error: <AiFillCloseCircle aria-hidden />,
+}
 
 const Toast = (): ReactElement => {
 
     const toastlist = useSelector(selectToast);
     const dispatch = useDispatch();
 
-    const listRef = useRef<HTMLDivElement | null>(null);
-
-    type ToastTypeMapType = {
-        success: ReactElement,
-    }
-
-    const ToastTypeMap: ToastTypeMapType = {
-        success: <AiFillCheckCircle />,
-    }
+    const listRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScrolling = (element: HTMLDivElement) => {
@@ -59,7 +62,7 @@ const Toast = (): ReactElement => {
                             role="alert"
                         >
                             <div className={`toast-icon ${toast.type}`}>
-                                {ToastTypeMap[toast.type as keyof ToastTypeMapType]}
+                                {ToastIconMap[toast.type]}
                             </div>
                             <p className="toast-text">
                                 {toast.text}
@@ -69,7 +72,7 @@ const Toast = (): ReactElement => {
                                 type="button"
                                 onClick={() => dispatch(deleteToast({ id: toast.id }))}
                             >
-                                <MdClose />
+                                <MdClose aria-hidden />
                             </button>
                         </div>
                     )

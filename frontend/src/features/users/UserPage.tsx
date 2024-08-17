@@ -1,17 +1,23 @@
-import { ReactElement } from "react";
+import { ReactElement, Suspense, lazy } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
-import { UserType, useGetUsersQuery } from "./usersApiSlice";
-import useAuth from "../../hooks/useAuth";
+
+import { useGetUsersQuery } from "./usersApiSlice";
+import useAuth from "src/hooks/useAuth";
+//import useIsInView from "src/hooks/useIsInView";
 import UserBuilds from "./UserBuilds";
-import { isCustomError } from "src/utils/typeguards";
 import EditUser from "./EditUser";
+import { ClipLoader } from "src/components/ui";
+import { isCustomError } from "src/utils/typeguards";
+import { UserType } from "src/types";
+
+const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
 const UserPage = (): ReactElement => {
 
     const param = useParams();
-    const userId = param?.userId;
-    const { username, isAdmin, isDemoadmin } = useAuth();
+    const profileUserId = param?.userId;
+    const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
+    //const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
 
     const {
         data: users,
@@ -21,12 +27,12 @@ const UserPage = (): ReactElement => {
         error,
     } = useGetUsersQuery("usersList");
 
-    const user = isSuccess && userId && users.entities[userId] as UserType;
+    const user = isSuccess && profileUserId && users.entities[profileUserId] as UserType;
     const userSince = user && new Date(user.createdAt);
     const month = userSince && userSince.toLocaleString("default", { month: "long" });
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
 
-    const isOwnProfile = user ? username === user?.username : false;
+    const isOwnProfile = user ? authUserId === user?.id : false;
 
     if (user) {
         return (
@@ -67,9 +73,49 @@ const UserPage = (): ReactElement => {
                     <div className="divider-4" />
 
                     <div className="userpage__userbuilds">
-                        {userId && <UserBuilds author={user} />}
+                        {profileUserId && <UserBuilds author={user} />}
                     </div>
                 </section>
+
+                {profileUserId &&
+                    <section
+                        //ref={CommentSectionRef}
+                        className="CommentSection"
+                    >
+                        <Suspense
+                            fallback={
+                                <ClipLoader
+                                    color={"rgb(231, 214, 182)"}
+                                    loading={true}
+                                    size={30}
+                                />
+                            }
+                        >
+                            <CommentSection
+                                targetId={profileUserId}
+                                targetType="User"
+                            />
+                        </Suspense>
+                        {/* {isIntersecting ? (
+                            <Suspense
+                                fallback={
+                                    <ClipLoader
+                                        color={"rgb(231, 214, 182)"}
+                                        loading={true}
+                                        size={30}
+                                    />
+                                }
+                            >
+                                <CommentSection
+                                    targetId={profileUserId}
+                                    targetType="User"
+                                />
+                            </Suspense>
+                        ) : (
+                            <div>Comment section will load when visible</div>
+                        )} */}
+                    </section>
+                }
             </main>
         )
     } else if (isLoading) {
@@ -79,8 +125,6 @@ const UserPage = (): ReactElement => {
                     color={"rgb(231, 214, 182)"}
                     loading={isLoading}
                     size={30}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
                 />
             </main>
         )

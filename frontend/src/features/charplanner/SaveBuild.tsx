@@ -131,7 +131,7 @@ const SaveBuild = ({
                         <div className="divider-4" />
 
                         <p>
-                            Add a descriptive title to your build so others can easily find it in the Community Builds section.
+                            Add a descriptive title to your build so others can easily find it on the Community Builds page.
                         </p>
 
                         <div className="divider-4" />

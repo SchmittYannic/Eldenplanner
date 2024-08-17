@@ -1,4 +1,13 @@
-import { CustomFormError, CustomError } from "src/types";
+import {
+    CustomFormError,
+    CustomError,
+    CommentOptionlistPropsType,
+    iconMapKeys,
+    IconMapKeyType,
+    TargetTypeType,
+    TargetTypeOptions,
+    CommentDeletePropsType,
+} from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
     return key in formData;
@@ -31,8 +40,64 @@ function isCustomError(object: any): object is CustomError {
     return true
 };
 
+function isIconMapKeyType(key: any): key is IconMapKeyType {
+    return iconMapKeys.includes(key);
+}
+
+function isTargetTypeType(type: any): type is TargetTypeType {
+    return TargetTypeOptions.includes(type);
+}
+
+function isCommentOptionlistPropsType(obj: any): obj is CommentOptionlistPropsType {
+    if (typeof obj !== "object" || obj === null) return false;
+
+    const { commentId, targetType, targetId, parentId, options } = obj;
+
+    // Check string fields
+    if (typeof commentId !== "string" || typeof targetId !== "string" || typeof parentId !== "string") {
+        return false;
+    }
+
+    // Check targetType
+    if (!isTargetTypeType(targetType)) {
+        return false;
+    }
+
+    // Check options array
+    if (!Array.isArray(options)) return false;
+    for (const option of options) {
+        if (typeof option !== "object" || option === null) return false;
+
+        if (option.text && typeof option.text !== "string") return false;
+
+        if (option.icon && !isIconMapKeyType(option.icon)) return false;
+    }
+
+    return true;
+}
+
+function isCommentDeletePropsType(obj: any): obj is CommentDeletePropsType {
+    if (typeof obj !== "object" || obj === null) return false;
+
+    const { commentId, targetType, targetId, parentId } = obj;
+
+    // Check string fields
+    if (typeof commentId !== "string" || typeof targetId !== "string" || typeof parentId !== "string") {
+        return false;
+    }
+
+    // Check targetType
+    if (!isTargetTypeType(targetType)) {
+        return false;
+    }
+
+    return true;
+}
+
 export {
     isFieldName,
     isCustomFormError,
     isCustomError,
+    isCommentOptionlistPropsType,
+    isCommentDeletePropsType,
 }

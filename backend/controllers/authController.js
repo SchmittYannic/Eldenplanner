@@ -26,8 +26,8 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "Password field is required", context: { label: "password" } });
         }
 
-        const foundUsername = await User.findOne({ username: user }).exec();
-        const foundEmail = await User.findOne({ email: user }).exec();
+        const foundUsername = await User.findOne({ username: user }).collation({ locale: "en", strength: 2 }).exec();
+        const foundEmail = await User.findOne({ email: user.toLowerCase() }).exec();
         const foundUser = foundUsername ?? foundEmail;
 
         if (!foundUser) {
@@ -72,6 +72,7 @@ const login = async (req, res) => {
                     "userId": foundUser._id,
                     "username": foundUser.username,
                     "email": foundUser.email,
+                    "avatarUrl": foundUser.avatarUrl,
                     "roles": foundUser.roles,
                 }
             },
@@ -130,6 +131,7 @@ const refresh = (req, res) => {
                         "userId": foundUser._id,
                         "username": foundUser.username,
                         "email": foundUser.email,
+                        "avatarUrl": foundUser.avatarUrl,
                         "roles": foundUser.roles,
                     }
                 },
@@ -229,8 +231,8 @@ const sendreset = async (req, res, next) => {
             return res.status(400).json({ message: "Providing a Username or Email is required", context: { label: "user" } });
         }
 
-        const foundUsername = await User.findOne({ username: user }).exec();
-        const foundEmail = await User.findOne({ email: user }).exec();
+        const foundUsername = await User.findOne({ username: user }).collation({ locale: "en", strength: 2 }).exec();
+        const foundEmail = await User.findOne({ email: user.toLowerCase() }).exec();
         const foundUser = foundUsername ?? foundEmail;
 
         if (!foundUser) {

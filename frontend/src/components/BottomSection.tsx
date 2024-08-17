@@ -9,7 +9,7 @@ const BottomSection = () => {
                         Forge Your Legend in Elden Ring
                     </h2>
                     <p className="subtext">
-                        Craft, Share, Conquer: Your Ultimate Elden Ring Character Awaits. Dive into a community-driven platform where warriors unite to exchange the most formidable character builds. Unearth the secrets to triumph in the Lands Between
+                        Craft, Share, Conquer: Your Ultimate Elden Ring Character Awaits. Dive into a community-driven platform where warriors unite to exchange the most formidable character builds. Unearth the secrets to triumph in the Lands Between.
                     </p>
                 </div>
                 <div className="bottom-section-link">

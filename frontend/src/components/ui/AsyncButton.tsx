@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { ClipLoader } from "react-spinners";
+import ClipLoader from "./ClipLoader";
 
 type AsyncButtonPropsType = {
     isLoading: boolean,
@@ -27,9 +27,7 @@ const AsyncButton = ({
                     <ClipLoader
                         color={color}
                         loading={isLoading}
-                        size={20}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
+                        size={size}
                     />
                 </div>
             )}
