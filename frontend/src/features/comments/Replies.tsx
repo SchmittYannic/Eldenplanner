@@ -67,7 +67,7 @@ const Replies = ({
             sort,
             limit,
         });
-    }, []);
+    }, [targetId, targetType]);
 
     if (!parentComment.repliesIds) return <></>
 

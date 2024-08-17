@@ -117,7 +117,7 @@ const CommentSection = ({
         // reset state in commentSlice
         dispatch(resetCommentsSliceState());
         fetchInitialComments();
-    }, []);
+    }, [targetId, targetType]);
 
     // if sort changes
     useEffect(() => {
