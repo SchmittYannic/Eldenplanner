@@ -66,31 +66,38 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     const lastReplyFetchedTimestamp = responseData.entities[lastId].createdAt;
                     currentCache.entities[parentId].lastReplyFetchedTimestamp = lastReplyFetchedTimestamp;
 
-                    if (!currentCache.entities[parentId].repliesIds && !currentCache.entities[parentId].repliesEntities) {
+                    const repliesIds = currentCache.entities[parentId].repliesIds;
+                    const repliesEntities = currentCache.entities[parentId].repliesEntities;
+
+                    if (!repliesIds && !repliesEntities) {
                         // if the replies to the comment are the first replies that got fetched
                         // write ids and entities to the parent comments repliesIds and repliesEntities keys
                         currentCache.entities[parentId].repliesIds = responseData.ids;
                         currentCache.entities[parentId].repliesEntities = responseData.entities;
-                    } else if (currentCache.entities[parentId].repliesIds && currentCache.entities[parentId].repliesEntities) {
+                    } else if (repliesIds && repliesEntities) {
                         // if replies already exist on the comment attach newly fetched replies to end
                         // Step 1: Filter out Ids that are in the cache and not in the response
-                        const oldIds = currentCache.entities[parentId].repliesIds.filter(id => !responseData.ids.includes(id))
+                        const oldIds = repliesIds.filter(id => !responseData.ids.includes(id))
 
                         // Step 2: Merge the entities, which will replace old entities with the new ones
-                        currentCache.entities[parentId].repliesEntities = {
-                            ...currentCache.entities[parentId].repliesEntities,
+                        const newEntities = {
+                            ...repliesEntities,
                             ...responseData.entities
                         }
+                        currentCache.entities[parentId].repliesEntities = { ...newEntities }
 
                         // Step 3 merge the fetchedIds into oldIds making sure the ids in resulting array remain sorted
-                        const mergedIds = mergeSortedArrays(oldIds, responseData.ids, currentCache.entities[parentId].repliesEntities, sort === "old");
+                        const mergedIds = mergeSortedArrays(oldIds, responseData.ids, newEntities, sort === "old");
                         currentCache.entities[parentId].repliesIds = mergedIds;
                     } else {
                         throw new Error("Error while merging Cache: both repliesIds and repliesEntities of a comment must either be both undefined or both exist")
                     }
 
+                    const newRepliesIds = currentCache.entities[parentId].repliesIds;
                     // update hasMore of parent comment
-                    const hasMore = currentCache.entities[parentId].repliesIds.length < responseData.totalComments;
+                    const hasMore = newRepliesIds
+                        ? newRepliesIds.length < responseData.totalComments
+                        : currentCache.entities[parentId].totalReplies !== 0;
                     currentCache.entities[parentId].hasMoreReplies = hasMore;
 
                     // update totalReplies of parent comment
@@ -185,11 +192,12 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         }
 
                         // if there is no repliesIds yet create one with tempId inside
-                        if (!draft.entities[parentId].repliesIds) {
+                        const repliesIds = draft.entities[parentId].repliesIds;
+                        if (!repliesIds) {
                             draft.entities[parentId].repliesIds = [tempId];
                         } else {
                             // replies always oldest to newest therefore always push
-                            draft.entities[parentId].repliesIds.push(tempId);
+                            draft.entities[parentId].repliesIds = [...repliesIds, tempId];
                         }
                     }
                 }
@@ -337,16 +345,23 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         newState = { ...draft.entities[commentId] };
                     } else {
                         // if reply
-                        // if the reply doesnt exist in cache return
-                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
+                        const parentEntity = draft.entities[parentId];
+                        const repliesEntities = parentEntity?.repliesEntities;
+
+                        // if the reply doesn't exist in cache return
+                        if (!repliesEntities || !repliesEntities[commentId]) return;
+
                         // save previous state of comment
-                        previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        previousState = { ...repliesEntities[commentId] };
+
                         // update content of comment
-                        draft.entities[parentId].repliesEntities[commentId].content = content;
+                        repliesEntities[commentId].content = content;
+
                         // update updatedAt of comment with temporary timestamp
-                        draft.entities[parentId].repliesEntities[commentId].updatedAt = tempUpdatedAt;
+                        repliesEntities[commentId].updatedAt = tempUpdatedAt;
+
                         // save new state of comment
-                        newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        newState = { ...repliesEntities[commentId] };
                     }
                 }
 
@@ -450,26 +465,29 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     } else {
                         // if reply
                         // if the reply doesnt exist in cache return
-                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
-                        if (!draft.entities[parentId].repliesIds || !draft.entities[parentId].repliesIds.includes(commentId)) return
+                        const parentEntity = draft.entities[parentId]
+                        const repliesEntities = parentEntity?.repliesEntities
+                        const repliesIds = parentEntity?.repliesIds
+                        if (!repliesEntities || !repliesEntities[commentId]) return
+                        if (!repliesIds || !repliesIds.includes(commentId)) return
 
                         // save previous state of reply
-                        deletedComment = draft.entities[parentId].repliesEntities[commentId];
+                        deletedComment = repliesEntities[commentId];
 
                         // decrement totalReplies
                         draft.entities[parentId].totalReplies -= 1;
 
                         // remove comment from entities
-                        const { [commentId]: _, ...newEntities } = draft.entities[parentId].repliesEntities;
+                        const { [commentId]: _, ...newEntities } = repliesEntities;
                         draft.entities[parentId].repliesEntities = newEntities;
 
                         // get and save index of comment
-                        indexOfComment = draft.entities[parentId].repliesIds.indexOf(commentId);
+                        indexOfComment = repliesIds.indexOf(commentId);
                         if (indexOfComment !== -1) {
                             // remove the id of the comment from ids
                             const newIds = [
-                                ...draft.entities[parentId].repliesIds.slice(0, indexOfComment),
-                                ...draft.entities[parentId].repliesIds.slice(indexOfComment + 1)
+                                ...repliesIds.slice(0, indexOfComment),
+                                ...repliesIds.slice(indexOfComment + 1)
                             ];
                             draft.entities[parentId].repliesIds = newIds;
                         }
@@ -597,39 +615,41 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     } else {
                         // if reply
                         // if the reply doesnt exist in cache return
-                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
+                        const parentEntity = draft.entities[parentId];
+                        const repliesEntities = parentEntity?.repliesEntities;
+                        if (!repliesEntities || !repliesEntities[commentId]) return
 
                         // save previous state of comment
-                        previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        previousState = { ...repliesEntities[commentId] };
 
-                        if (type === "like" && !draft.entities[parentId].repliesEntities[commentId].hasLiked && !draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                        if (type === "like" && !repliesEntities[commentId].hasLiked && !repliesEntities[commentId].hasDisliked) {
                             // if like is added and comment hasLiked and hasDisliked is false
                             // add the like
-                            draft.entities[parentId].repliesEntities[commentId].likes += 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasLiked = true;
-                        } else if (type === "dislike" && !draft.entities[parentId].repliesEntities[commentId].hasLiked && !draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                            repliesEntities[commentId].likes += 1;
+                            repliesEntities[commentId].hasLiked = true;
+                        } else if (type === "dislike" && !repliesEntities[commentId].hasLiked && !repliesEntities[commentId].hasDisliked) {
                             // if dislike is added and comment hasLiked and hasDisliked is false
                             // add the dislike
-                            draft.entities[parentId].repliesEntities[commentId].dislikes += 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasDisliked = true;
-                        } else if (type === "like" && draft.entities[parentId].repliesEntities && draft.entities[parentId].repliesEntities[commentId] && draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
+                            repliesEntities[commentId].dislikes += 1;
+                            repliesEntities[commentId].hasDisliked = true;
+                        } else if (type === "like" && repliesEntities && repliesEntities[commentId] && repliesEntities[commentId].hasDisliked) {
                             // if like is added and comments hasDisliked true
                             // add the like and remove the dislike
-                            draft.entities[parentId].repliesEntities[commentId].likes += 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasLiked = true;
-                            if (draft.entities[parentId].repliesEntities[commentId].dislikes > 0) draft.entities[parentId].repliesEntities[commentId].dislikes -= 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasDisliked = false;
-                        } else if (type === "dislike" && draft.entities[parentId].repliesEntities && draft.entities[parentId].repliesEntities[commentId] && draft.entities[parentId].repliesEntities[commentId].hasLiked) {
+                            repliesEntities[commentId].likes += 1;
+                            repliesEntities[commentId].hasLiked = true;
+                            if (repliesEntities[commentId].dislikes > 0) repliesEntities[commentId].dislikes -= 1;
+                            repliesEntities[commentId].hasDisliked = false;
+                        } else if (type === "dislike" && repliesEntities && repliesEntities[commentId] && repliesEntities[commentId].hasLiked) {
                             // if dislike is added and comments hasLiked true
                             // add the dislike and remove the like
-                            draft.entities[parentId].repliesEntities[commentId].dislikes += 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasDisliked = true;
-                            if (draft.entities[parentId].repliesEntities[commentId].likes > 0) draft.entities[parentId].repliesEntities[commentId].likes -= 1;
-                            draft.entities[parentId].repliesEntities[commentId].hasLiked = false;
+                            repliesEntities[commentId].dislikes += 1;
+                            repliesEntities[commentId].hasDisliked = true;
+                            if (repliesEntities[commentId].likes > 0) repliesEntities[commentId].likes -= 1;
+                            repliesEntities[commentId].hasLiked = false;
                         }
 
                         // save new state of comment
-                        newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        newState = { ...repliesEntities[commentId] };
                     }
                 }
 
@@ -713,21 +733,23 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     } else {
                         // if reply
                         // if the reply doesnt exist in cache return
-                        if (!draft.entities[parentId].repliesEntities || !draft.entities[parentId].repliesEntities[commentId]) return
+                        const parentEntity = draft.entities[parentId];
+                        const repliesEntities = parentEntity?.repliesEntities
+                        if (!repliesEntities || !repliesEntities[commentId]) return
 
                         // save previous state of comment
-                        previousState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        previousState = { ...repliesEntities[commentId] };
 
-                        if (type === "like" && draft.entities[parentId].repliesEntities[commentId].hasLiked) {
-                            draft.entities[parentId].repliesEntities[commentId].hasLiked = false;
-                            if (draft.entities[parentId].repliesEntities[commentId].likes > 0) draft.entities[parentId].repliesEntities[commentId].likes -= 1;
-                        } else if (type === "dislike" && draft.entities[parentId].repliesEntities[commentId].hasDisliked) {
-                            draft.entities[parentId].repliesEntities[commentId].hasDisliked = false;
-                            if (draft.entities[parentId].repliesEntities[commentId].dislikes > 0) draft.entities[parentId].repliesEntities[commentId].dislikes -= 1;
+                        if (type === "like" && repliesEntities[commentId].hasLiked) {
+                            repliesEntities[commentId].hasLiked = false;
+                            if (repliesEntities[commentId].likes > 0) repliesEntities[commentId].likes -= 1;
+                        } else if (type === "dislike" && repliesEntities[commentId].hasDisliked) {
+                            repliesEntities[commentId].hasDisliked = false;
+                            if (repliesEntities[commentId].dislikes > 0) repliesEntities[commentId].dislikes -= 1;
                         }
 
                         // save new state of comment
-                        newState = { ...draft.entities[parentId].repliesEntities[commentId] };
+                        newState = { ...repliesEntities[commentId] };
                     }
                 }
 

@@ -98,8 +98,12 @@ export const commentsSlice = createSlice({
             const { parentId, commentId, newComment } = payload;
             if (!parentId) {
                 state.commentEntities[commentId] = newComment;
-            } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId]) {
-                state.commentEntities[parentId].repliesEntities[commentId] = newComment;
+            } else {
+                const parentEntity = state.commentEntities[parentId];
+                const repliesEntities = parentEntity?.repliesEntities;
+                if (repliesEntities && repliesEntities[commentId]) {
+                    repliesEntities[commentId] = newComment;
+                }
             }
         },
         deleteCommentEntity: (state, { payload }: PayloadAction<{ parentId: string, commentId: string }>) => {
@@ -108,10 +112,14 @@ export const commentsSlice = createSlice({
                 const entities = { ...state.commentEntities }
                 delete entities[commentId];
                 state.commentEntities = entities
-            } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId]) {
-                const entities = { ...state.commentEntities[parentId].repliesEntities }
-                delete entities[commentId];
-                state.commentEntities[parentId].repliesEntities = entities
+            } else {
+                const parentEntity = state.commentEntities[parentId];
+                const repliesEntities = parentEntity?.repliesEntities;
+                if (repliesEntities && repliesEntities[commentId]) {
+                    const entities = { ...repliesEntities }
+                    delete entities[commentId];
+                    state.commentEntities[parentId].repliesEntities = entities
+                }
             }
         },
         addCommentId: (state, { payload }: PayloadAction<{ parentId: string, commentId: string, position?: number }>) => {
@@ -126,30 +134,38 @@ export const commentsSlice = createSlice({
                         ...state.commentIds.slice(position)
                     ];
                     state.commentIds = ids;
-                } else if (parentId && state.commentEntities[parentId].repliesIds && position <= state.commentEntities[parentId].repliesIds.length) {
-                    const ids = [
-                        ...state.commentEntities[parentId].repliesIds.slice(0, position),
-                        commentId,
-                        ...state.commentEntities[parentId].repliesIds.slice(position)
-                    ];
-                    state.commentEntities[parentId].repliesIds = ids;
+                } else {
+                    const parentEntity = state.commentEntities[parentId];
+                    const repliesIds = parentEntity?.repliesIds;
+                    if (repliesIds && position <= repliesIds.length) {
+                        const ids = [
+                            ...repliesIds.slice(0, position),
+                            commentId,
+                            ...repliesIds.slice(position)
+                        ];
+                        state.commentEntities[parentId].repliesIds = ids;
+                    }
                 }
             } else {
                 // if no position given just add depending on sort
                 // unshift for sort new and push for old
-                if (!parentId && state.sort === "new") {
-                    const ids = [...state.commentIds];
-                    ids.unshift(commentId);
-                    state.commentIds = ids;
-                } else if (!parentId && state.sort === "old") {
-                    const ids = [...state.commentIds];
-                    ids.push(commentId);
-                    state.commentIds = ids;
-                } else if (parentId && state.commentEntities[parentId].repliesIds) {
-                    // replies always oldest to newest therefore always push
-                    const ids = [...state.commentEntities[parentId].repliesIds];
-                    ids.push(commentId);
-                    state.commentEntities[parentId].repliesIds = ids;
+                if (!parentId) {
+                    if (state.sort === "new") {
+                        const ids = [...state.commentIds];
+                        ids.unshift(commentId);
+                        state.commentIds = ids;
+                    } else if (state.sort === "old") {
+                        const ids = [...state.commentIds];
+                        ids.push(commentId);
+                        state.commentIds = ids;
+                    }
+                } else {
+                    const parentEntity = state.commentEntities[parentId];
+                    const repliesIds = parentEntity?.repliesIds;
+                    if (repliesIds) {
+                        const ids = [...repliesIds, commentId];
+                        state.commentEntities[parentId].repliesIds = ids;
+                    }
                 }
             }
         },
@@ -158,9 +174,13 @@ export const commentsSlice = createSlice({
             if (!parentId) {
                 const ids = state.commentIds.filter(id => id !== commentId);
                 state.commentIds = ids;
-            } else if (parentId && state.commentEntities[parentId].repliesIds) {
-                const ids = state.commentEntities[parentId].repliesIds.filter(id => id !== commentId);
-                state.commentEntities[parentId].repliesIds = ids
+            } else {
+                const parentEntity = state.commentEntities[parentId];
+                const repliesIds = parentEntity?.repliesIds;
+                if (repliesIds) {
+                    const ids = repliesIds.filter(id => id !== commentId);
+                    state.commentEntities[parentId].repliesIds = ids
+                }
             }
         },
         setIsEditMode: (state, { payload }: PayloadAction<string | null>) => {
@@ -220,7 +240,12 @@ export const commentsSlice = createSlice({
                     }
 
                     // update hasMore of parent comment
-                    const hasMore = state.commentEntities[parentId].repliesIds.length < action.payload.totalComments;
+                    const parentEntity = state.commentEntities[parentId]
+                    const repliesIds = parentEntity.repliesIds
+                    const hasMore = repliesIds
+                        ? repliesIds.length < action.payload.totalComments
+                        : parentEntity.totalReplies !== 0;
+
                     state.commentEntities[parentId].hasMoreReplies = hasMore;
 
                     // update totalReplies of parent comment
