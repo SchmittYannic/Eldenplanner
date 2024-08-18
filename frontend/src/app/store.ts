@@ -3,6 +3,7 @@ import { apiSlice } from "./api/apiSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import charplannerReducer from "src/features/charplanner/charplannerSlice";
 import authReducer from "src/features/auth/authSlice";
+import buildsReducer from "src/features/builds/buildsSlice";
 import toastReducer from "src/features/toasts/toastSlice";
 import commentsReducer from "src/features/comments/commentsSlice";
 import popupReducer from "src/features/popups/popupSlice";
@@ -12,6 +13,7 @@ export const store = configureStore({
         [apiSlice.reducerPath]: apiSlice.reducer,
         charplanner: charplannerReducer,
         auth: authReducer,
+        builds: buildsReducer,
         toast: toastReducer,
         comments: commentsReducer,
         popup: popupReducer,
