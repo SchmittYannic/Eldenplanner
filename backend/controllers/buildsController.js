@@ -21,7 +21,7 @@ const getBuilds = async (req, res) => {
     const {
         limit = 10,
         skip = 0,
-        field = null,
+        field = "stars",
         order = "asc",
         title = null,
         minStars = 0,
