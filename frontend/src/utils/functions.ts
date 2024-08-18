@@ -196,6 +196,19 @@ const mergeSortedArrays = <CommentId extends string>(
     return mergedIds;
 }
 
+const findObjectById = <T extends { id: string }>(array: T[], id: string): T | undefined => {
+    return array.find(item => item.id === id);
+};
+
+const isFilterColumnValueArray = (value: unknown): value is [string | null, string | null] => {
+    return (
+        Array.isArray(value) &&       // Check if value is an array
+        value.length === 2 &&         // Check if the array has exactly two elements
+        (typeof value[0] === "string" || value[0] === null) && // Check if the first element is string or null
+        (typeof value[1] === "string" || value[1] === null)    // Check if the second element is string or null
+    );
+}
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -207,4 +220,6 @@ export {
     sinceDateInString,
     isValidCache,
     mergeSortedArrays,
+    findObjectById,
+    isFilterColumnValueArray,
 }
