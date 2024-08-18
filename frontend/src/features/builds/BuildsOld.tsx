@@ -1,4 +1,4 @@
-import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
+import { BuildType, useGetAllBuildsQuery } from "./buildsApiSlice";
 import { useGetUsersQuery } from "src/features/users/usersApiSlice";
 import BuildsList from "./BuildsList";
 import { ClipLoader } from "src/components/ui";
@@ -14,7 +14,7 @@ const Builds = () => {
         isSuccess: isBuildsSuccess,
         isError: isBuildsError,
         error: buildsError,
-    } = useGetBuildsQuery("buildsList", {
+    } = useGetAllBuildsQuery("buildsList", {
         pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
     });
 
