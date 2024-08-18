@@ -1,5 +1,7 @@
+import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
+
 export type BuildListItem = {
-    buildId: number,
+    buildId: string,
     authorId: string,
     title: string,
     author: string | null,
@@ -57,6 +59,44 @@ export type CommentType<CommentId extends string = string, ReplyId extends strin
     hasLiked?: boolean,
     hasDisliked?: boolean,
 }
+
+
+/* buildsApiSlice related types */
+
+export const OrderOptions = ["asc", "desc"] as const;
+export type OrderType = typeof OrderOptions[number];
+
+export type BuildType<BuildId extends string = string> = {
+    _id: BuildId
+    id: BuildId
+    user: string
+    username: string
+    title: string
+    level: number
+    stars: number
+    general: GeneralStateType
+    stats: StatsStateType
+    armament: ArmamentStateType
+    talisman: TalismanStateType
+    armor: ArmorStateType
+    createdAt: string
+    updatedAt: string
+}
+
+export type GetBuildsQueryParamsType = {
+    limit?: number,
+    skip?: number,
+    field?: string,
+    order?: OrderType,
+    title?: string,
+    minStars?: number,
+    maxStars?: number,
+}
+
+export type GetBuildsResponseType = {
+    builds: BuildType[],
+    totalBuilds: number,
+};
 
 
 /* usersApiSlice related types */
