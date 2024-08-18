@@ -11,6 +11,14 @@ const buildSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        level: {
+            type: Number,
+            required: true,
+        },
+        stars: {
+            type: Number,
+            default: 0,
+        },
         general: {
             charactername: {
                 type: String,
