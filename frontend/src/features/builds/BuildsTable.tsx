@@ -1,5 +1,6 @@
-import { ColumnDef, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
 import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import FilterTable from "src/components/FilterTable";
 import { DebouncedInput } from "src/components/ui";
 import useWindowSize from "src/hooks/useWindowSize";
 import { BuildType } from "src/types";
@@ -11,6 +12,7 @@ type BuildsTablePropsType = {
     loading: boolean,
     onPaginationChange: OnChangeFn<PaginationState>,
     onSortingChange: OnChangeFn<SortingState>,
+    onColumnFiltersChange: OnChangeFn<ColumnFiltersState>
     totalCount: number,
     pageCount: number,
     pagination: {
@@ -26,6 +28,7 @@ const BuildsTable = ({
     loading,
     onPaginationChange,
     onSortingChange,
+    onColumnFiltersChange,
     totalCount,
     pageCount,
     pagination,
@@ -41,8 +44,10 @@ const BuildsTable = ({
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
         manualSorting: true,
+        manualFiltering: true,
         onPaginationChange,
         onSortingChange,
+        onColumnFiltersChange,
         state: { pagination, sorting },
         pageCount,
     });
@@ -55,15 +60,19 @@ const BuildsTable = ({
 
             <div className="table--filter-wrapper">
                 <div className="table--filter">
-                    {/* {
+                    {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if (header.column.getCanFilter()) {
                                 return (
-                                    <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
+                                    <FilterTable
+                                        key={`filter` + header.column.id}
+                                        column={header.column}
+                                        table={table}
+                                    />
                                 )
                             }
                         }))
-                    } */}
+                    }
                 </div>
                 <div className="divider-2" />
             </div>
