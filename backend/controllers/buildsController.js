@@ -2,7 +2,7 @@ import Build from "../models/Build.js";
 import User from "../models/User.js";
 
 // @desc Get all builds
-// @route GET /builds
+// @route GET /builds/old
 // @access Public
 const getAllBuilds = async (req, res) => {
     // select all builds
@@ -13,6 +13,91 @@ const getAllBuilds = async (req, res) => {
     }
     res.status(200).json(builds);
 };
+
+// @desc Get builds for pagination
+// @route GET /builds
+// @access Public
+const getBuilds = async (req, res) => {
+    const {
+        limit = 10,
+        skip = 0,
+        field = null,
+        order = "asc",
+        title = null,
+        minStars = 0,
+        maxStars = null,
+    } = req.query;
+    try {
+        let filter = {};
+
+        // Add title filter if provided
+        if (title) {
+            filter.title = { $regex: title, $options: 'i' }; // Case-insensitive regex match
+        }
+
+        // Add star rating filter
+        filter.stars = { $gte: Number(minStars) };
+
+        // Conditionally add the maxStars filter if provided
+        if (maxStars !== null) {
+            filter.stars.$lte = Number(maxStars);
+        }
+
+        //get total amount of builds
+        const totalBuilds = await Build.countDocuments(filter);
+
+        // Build the sort object
+        let sort = {}
+
+        // Apply sorting if a field is provided
+        if (field) {
+            const sortOrder = order.toLowerCase() === "desc" ? -1 : 1;
+            sort = { [field]: sortOrder }
+        }
+
+        // Execute the query
+        const builds = await Build.aggregate([
+            // { $match: filter },
+            {
+                $lookup: {
+                    from: "users", // Name of the user collection
+                    localField: "user", // Field in Build collection
+                    foreignField: "_id", // Field in User collection
+                    as: "userDetails"
+                }
+            },
+            { $unwind: "$userDetails" }, // Unwind the userDetails array to have a single document for sorting
+            // Project the necessary fields
+            {
+                $project: {
+                    _id: 1,
+                    id: "$_id",
+                    title: 1,
+                    general: 1,
+                    stats: 1,
+                    armament: 1,
+                    talisman: 1,
+                    armor: 1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    level: 1,
+                    stars: 1,
+                    "user": "$userDetails._id",
+                    "username": "$userDetails.username",
+                }
+            },
+            { $match: filter },
+            { $sort: sort },
+            { $skip: Number(skip) },
+            { $limit: Number(limit) }
+        ]).collation({ locale: "en", strength: 2 }).exec();
+
+        // Send the response
+        res.status(200).json({ builds, totalBuilds });
+    } catch (err) {
+        res.status(500).json({ message: "Error retrieving builds" });
+    }
+}
 
 // @desc Create new build
 // @route POST /builds
@@ -177,6 +262,7 @@ const deleteBuild = async (req, res) => {
 
 export {
     getAllBuilds,
+    getBuilds,
     createNewBuild,
     updateBuild,
     deleteBuild
