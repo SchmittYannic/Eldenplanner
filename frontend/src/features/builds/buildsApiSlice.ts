@@ -2,6 +2,7 @@ import { createEntityAdapter, createSelector, EntityState } from "@reduxjs/toolk
 import { apiSlice } from "../../app/api/apiSlice";
 import { RootState } from "../../app/store";
 import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "../charplanner/charplannerSlice";
+import { GetBuildsQueryParamsType, GetBuildsResponseType } from "src/types";
 
 
 const buildsAdapter = createEntityAdapter({});
@@ -9,8 +10,8 @@ const buildsAdapter = createEntityAdapter({});
 const initialState = buildsAdapter.getInitialState();
 
 export type BuildType = {
-    _id: number
-    id: number   
+    _id: string
+    id: string
     user: string
     title: string
     general: GeneralStateType
@@ -24,9 +25,9 @@ export type BuildType = {
 
 export const buildsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getBuilds: builder.query<EntityState<unknown>, string>({
+        getAllBuilds: builder.query<EntityState<unknown>, string>({
             query: () => ({
-                url: '/builds',
+                url: '/builds/old',
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
@@ -36,25 +37,59 @@ export const buildsApiSlice = apiSlice.injectEndpoints({
                     build.id = build._id
                     return build
                 });
-                return buildsAdapter.setAll(initialState, loadedBuilds)         
+                return buildsAdapter.setAll(initialState, loadedBuilds)
             },
             providesTags: (result) =>
                 result
-                ? [
-                    ...result.ids.map(( id ) => ({ type: 'Build' as const, id })),
-                    { type: 'Build', id: 'LIST' },
+                    ? [
+                        ...result.ids.map((id) => ({ type: 'Build' as const, id })),
+                        { type: 'Build', id: 'LIST' },
                     ]
-                : [{ type: 'Build', id: 'LIST' }],
+                    : [{ type: 'Build', id: 'LIST' }],
+        }),
+        getBuilds: builder.query<GetBuildsResponseType, GetBuildsQueryParamsType>({
+            query: ({
+                limit = 10,
+                skip = 0,
+                field = null,
+                order = "asc",
+                title = null,
+                minStars = 0,
+                maxStars = null,
+            }) => {
+                // Construct the query parameters
+                let queryParams = new URLSearchParams({
+                    limit: String(limit),
+                    skip: String(skip),
+                    order,
+                    minStars: String(minStars),
+                });
+
+                if (field) queryParams.append("field", field);
+                if (title) queryParams.append("title", title);
+                if (maxStars !== null) queryParams.append("maxStars", String(maxStars));
+
+                return {
+                    url: `/builds?${queryParams.toString()}`,
+                    validateStatus: (response, result) => {
+                        return response.status === 200 && !result.isError
+                    },
+                }
+            },
+            providesTags: (_result, _error, { limit, skip, field, order, title, minStars, maxStars }) => [
+                { type: 'Build', id: `list-${limit}-${skip}-${field}-${order}-${title}-${minStars}-${maxStars}` },
+            ],
         }),
     })
 });
 
 export const {
+    useGetAllBuildsQuery,
     useGetBuildsQuery,
 } = buildsApiSlice;
 
 // returns the query result object
-export const selectBuildsResult = buildsApiSlice.endpoints.getBuilds.select("buildsList");
+export const selectBuildsResult = buildsApiSlice.endpoints.getAllBuilds.select("buildsList");
 
 //creates memoized selector
 const selectBuildsData = createSelector(
