@@ -24,6 +24,9 @@ const getBuilds = async (req, res) => {
         field = "stars",
         order = "asc",
         title = null,
+        username = null,
+        minLevel = 0,
+        maxLevel = null,
         minStars = 0,
         maxStars = null,
     } = req.query;
@@ -32,19 +35,27 @@ const getBuilds = async (req, res) => {
 
         // Add title filter if provided
         if (title) {
-            filter.title = { $regex: title, $options: 'i' }; // Case-insensitive regex match
+            filter.title = { $regex: title, $options: "i" }; // Case-insensitive regex match
         }
 
-        // Add star rating filter
+        // Add username filter if provided
+        if (username) {
+            filter.username = { $regex: username, $options: "i" }; // Case-insensitive regex match
+        }
+
+        // Add level and star filter
+        filter.level = { $gte: Number(minLevel) };
         filter.stars = { $gte: Number(minStars) };
+
+        // Conditionally add the maxLevel filter if provided
+        if (maxLevel !== null) {
+            filter.level.$lte = Number(maxLevel);
+        }
 
         // Conditionally add the maxStars filter if provided
         if (maxStars !== null) {
             filter.stars.$lte = Number(maxStars);
         }
-
-        //get total amount of builds
-        const totalBuilds = await Build.countDocuments(filter);
 
         // Build the sort object
         let sort = {}
@@ -56,8 +67,7 @@ const getBuilds = async (req, res) => {
         }
 
         // Execute the query
-        const builds = await Build.aggregate([
-            // { $match: filter },
+        const allBuilds = await Build.aggregate([
             {
                 $lookup: {
                     from: "users", // Name of the user collection
@@ -88,9 +98,15 @@ const getBuilds = async (req, res) => {
             },
             { $match: filter },
             { $sort: sort },
-            { $skip: Number(skip) },
-            { $limit: Number(limit) }
-        ]).collation({ locale: "en", strength: 2 }).exec();
+            // { $skip: Number(skip) },
+            // { $limit: Number(limit) }
+        ]).collation({ locale: "en", strength: 2 });
+
+        //get total amount of builds
+        const totalBuilds = allBuilds.length
+
+        //apply skip and limit
+        const builds = allBuilds.slice(skip, skip + limit);
 
         // Send the response
         res.status(200).json({ builds, totalBuilds });
