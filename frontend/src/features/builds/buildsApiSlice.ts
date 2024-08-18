@@ -51,23 +51,29 @@ export const buildsApiSlice = apiSlice.injectEndpoints({
             query: ({
                 limit = 10,
                 skip = 0,
-                field = null,
+                field = "stars",
                 order = "asc",
-                title = null,
-                minStars = 0,
-                maxStars = null,
+                title,
+                username,
+                minLevel = "0",
+                maxLevel,
+                minStars = "0",
+                maxStars,
             }) => {
                 // Construct the query parameters
                 let queryParams = new URLSearchParams({
                     limit: String(limit),
                     skip: String(skip),
                     order,
-                    minStars: String(minStars),
+                    minLevel,
+                    minStars,
                 });
 
                 if (field) queryParams.append("field", field);
-                if (title) queryParams.append("title", title);
-                if (maxStars !== null) queryParams.append("maxStars", String(maxStars));
+                if (title !== undefined) queryParams.append("title", title);
+                if (username !== undefined) queryParams.append("username", username);
+                if (typeof maxLevel === "string") queryParams.append("maxLevel", maxLevel);
+                if (typeof maxStars === "string") queryParams.append("maxStars", maxStars);
 
                 return {
                     url: `/builds?${queryParams.toString()}`,
