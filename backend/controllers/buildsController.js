@@ -92,8 +92,8 @@ const getBuilds = async (req, res) => {
                     updatedAt: 1,
                     level: 1,
                     stars: 1,
-                    "user": "$userDetails._id",
-                    "username": "$userDetails.username",
+                    "authorId": "$userDetails._id",
+                    "author": "$userDetails.username",
                 }
             },
             { $match: filter },

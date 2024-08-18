@@ -69,8 +69,8 @@ export type OrderType = typeof OrderOptions[number];
 export type BuildType<BuildId extends string = string> = {
     _id: BuildId
     id: BuildId
-    user: string
-    username: string
+    authorId: string
+    author: string
     title: string
     level: number
     stars: number

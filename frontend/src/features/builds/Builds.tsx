@@ -92,10 +92,10 @@ const BuildsNew = () => {
                 //sortingFn: sortCaseInsensitive,
             },
             {
-                accessorFn: row => row.username,
-                id: "username",
+                accessorFn: row => row.author,
+                id: "author",
                 cell: info => {
-                    const authorId = info.row.original.user;
+                    const authorId = info.row.original.authorId;
                     if (info.getValue() === null) {
                         return (
                             <>
