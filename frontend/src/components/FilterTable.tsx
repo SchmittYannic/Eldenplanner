@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { ReactElement } from "react";
 import { Column, Table } from "@tanstack/react-table";
 import { DebouncedInput } from "./ui";
 
@@ -14,14 +14,6 @@ const FilterTable = ({ column, table, }: PropsType): ReactElement => {
 
     const columnFilterValue = column.getFilterValue()
 
-    const sortedUniqueValues = useMemo(
-        () =>
-            typeof firstValue === "number"
-                ? []
-                : Array.from(column.getFacetedUniqueValues().keys()).sort(),
-        [column.getFacetedUniqueValues()]
-    );
-
     return typeof firstValue === "number" ? (
         <div className="table--filter--slot">
             <div className="table--filter-number-wrapper">
@@ -31,16 +23,12 @@ const FilterTable = ({ column, table, }: PropsType): ReactElement => {
                 <DebouncedInput
                     id={column.id + "filterMin"}
                     type="number"
-                    min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-                    max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
+                    min={0}
                     value={(columnFilterValue as [number, number])?.[0] ?? ""}
                     onChange={value =>
                         column.setFilterValue((old: [number, number]) => [value, old?.[1]])
                     }
-                    placeholder={`Min ${column.id} ${column.getFacetedMinMaxValues()?.[0]
-                        ? `(${column.getFacetedMinMaxValues()?.[0]})`
-                        : ""
-                        }`}
+                    placeholder={`Min ${column.id}`}
                     className="table--filter-number"
                     title={`Filter by minimum ${column.id}`}
                 />
@@ -50,16 +38,12 @@ const FilterTable = ({ column, table, }: PropsType): ReactElement => {
                 <DebouncedInput
                     id={column.id + "filterMax"}
                     type="number"
-                    min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-                    max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
+                    min={0}
                     value={(columnFilterValue as [number, number])?.[1] ?? ""}
                     onChange={value =>
                         column.setFilterValue((old: [number, number]) => [old?.[0], value])
                     }
-                    placeholder={`Max ${column.id} ${column.getFacetedMinMaxValues()?.[1]
-                        ? `(${column.getFacetedMinMaxValues()?.[1]})`
-                        : ""
-                        }`}
+                    placeholder={`Max ${column.id}`}
                     className="table--filter-number"
                     title={`Filter by maximum ${column.id}`}
                 />
@@ -67,11 +51,6 @@ const FilterTable = ({ column, table, }: PropsType): ReactElement => {
         </div>
     ) : (
         <div className="table--filter--slot">
-            <datalist id={column.id + "list"}>
-                {sortedUniqueValues.slice(0, 5000).map((value: any) => (
-                    <option value={value} key={value} />
-                ))}
-            </datalist>
             <label htmlFor={column.id + "filter"} className="sr-only">
                 {`filter Column ${column.id}`}
             </label>
@@ -80,9 +59,8 @@ const FilterTable = ({ column, table, }: PropsType): ReactElement => {
                 type="text"
                 value={(columnFilterValue ?? "") as string}
                 onChange={value => column.setFilterValue(value)}
-                placeholder={`Filter ${column.id} (${column.getFacetedUniqueValues().size})`}
+                placeholder={`Filter ${column.id}`}
                 className={`table--filter-text ${column.id}`}
-                list={column.id + "list"}
                 title={`Filter column: ${column.id}`}
             />
         </div>
