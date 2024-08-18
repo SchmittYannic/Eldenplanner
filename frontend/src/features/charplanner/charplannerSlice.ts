@@ -1,5 +1,6 @@
 import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "src/app/store";
+import { BuildType } from "src/types";
 
 export type GeneralStateType = {
     charactername: string,
@@ -540,6 +541,11 @@ export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
     talisman2: changeTalisman2,
     talisman3: changeTalisman3,
     talisman4: changeTalisman4,
+};
+
+export const selectGetBuildByIdCachedData = (state: RootState, buildId: string) => {
+    const cacheKey = `getBuildById("${buildId}")`;
+    return state.api.queries[cacheKey]?.data as BuildType ?? null;
 };
 
 export default charplannerSlice.reducer;
