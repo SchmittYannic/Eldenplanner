@@ -62,6 +62,7 @@ const BuildsNew = () => {
     const {
         data,
         isFetching,
+        isError,
     } = useGetBuildsQuery({
         limit,
         skip,
@@ -89,7 +90,6 @@ const BuildsNew = () => {
                     )
                 },
                 header: () => <span>Title</span>,
-                //sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.author,
@@ -111,7 +111,6 @@ const BuildsNew = () => {
                     }
                 },
                 header: () => <span>Author</span>,
-                //sortingFn: sortCaseInsensitive,
             },
             {
                 accessorFn: row => row.level,
@@ -151,22 +150,19 @@ const BuildsNew = () => {
     );
 
     return (
-        <>
-            {data &&
-                <BuildsTable
-                    cols={columns}
-                    data={data.builds}
-                    loading={isFetching}
-                    onPaginationChange={OnPaginationChange}
-                    onSortingChange={onSortingChange}
-                    onColumnFiltersChange={onColumnFiltersChange}
-                    totalCount={data.totalBuilds}
-                    pageCount={Math.ceil(data.totalBuilds / limit)}
-                    pagination={pagination}
-                    sorting={sorting}
-                />
-            }
-        </>
+        <BuildsTable
+            cols={columns}
+            data={data?.builds}
+            loading={isFetching}
+            error={isError}
+            onPaginationChange={OnPaginationChange}
+            onSortingChange={onSortingChange}
+            onColumnFiltersChange={onColumnFiltersChange}
+            totalCount={data ? data.totalBuilds : 0}
+            pageCount={data ? Math.ceil(data.totalBuilds / limit) : 0}
+            pagination={pagination}
+            sorting={sorting}
+        />
     )
 }
 

@@ -8,8 +8,9 @@ import { capitalizeFirstLetter } from "src/utils/functions";
 
 type BuildsTablePropsType = {
     cols: ColumnDef<BuildType>[],
-    data: BuildType[],
+    data?: BuildType[],
     loading: boolean,
+    error: boolean,
     onPaginationChange: OnChangeFn<PaginationState>,
     onSortingChange: OnChangeFn<SortingState>,
     onColumnFiltersChange: OnChangeFn<ColumnFiltersState>
@@ -26,6 +27,7 @@ const BuildsTable = ({
     cols,
     data,
     loading,
+    error,
     onPaginationChange,
     onSortingChange,
     onColumnFiltersChange,
@@ -39,7 +41,7 @@ const BuildsTable = ({
     const isMobile = windowSize.width && windowSize.width < 850;
 
     const table = useReactTable({
-        data,
+        data: data ? data : [],
         columns: cols,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
@@ -179,40 +181,79 @@ const BuildsTable = ({
                     </thead>
                 }
                 <tbody>
-                    {table.getRowModel().rows.map(row => {
-                        return (
-                            <tr key={row.id} className="table__row build">
-                                {row.getVisibleCells().map(cell => {
-                                    if (isMobile) {
-                                        const header = capitalizeFirstLetter(cell.column.id);
-
-                                        return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                <div className="table__cell__head">
-                                                    {header}:
-                                                </div>
-                                                <div className="table__cell__body">
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext()
-                                                    )}
-                                                </div>
-                                            </td>
-                                        )
-                                    } else {
-                                        return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        )
-                                    }
-                                })}
+                    {loading ?
+                        <tr className="table--placeholder">
+                            <td
+                                className="cliploader"
+                                style={{
+                                    width: "50px",
+                                    height: "50px",
+                                }}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            >
+                                <div
+                                    className="cliploader-section"
+                                    style={{
+                                        borderTopColor: "rgb(231, 214, 182)",
+                                        borderLeftColor: "rgb(231, 214, 182)",
+                                        borderBottomColor: "rgb(231, 214, 182)",
+                                        animationDuration: "1.5s",
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                        : error
+                            ?
+                            <tr className="table--placeholder">
+                                <td className="sm-alert errmsg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Error fetching builds</span>
+                                </td>
                             </tr>
-                        )
-                    })}
+                            : !data || data?.length === 0
+                                ?
+                                <tr className="table--placeholder">
+                                    <td>No Builds found</td>
+                                </tr>
+                                :
+                                <>
+                                    {table.getRowModel().rows.map(row => {
+                                        return (
+                                            <tr key={row.id} className="table__row build">
+                                                {row.getVisibleCells().map(cell => {
+                                                    if (isMobile) {
+                                                        const header = capitalizeFirstLetter(cell.column.id);
+
+                                                        return (
+                                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                                <div className="table__cell__head">
+                                                                    {header}:
+                                                                </div>
+                                                                <div className="table__cell__body">
+                                                                    {flexRender(
+                                                                        cell.column.columnDef.cell,
+                                                                        cell.getContext()
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                                {flexRender(
+                                                                    cell.column.columnDef.cell,
+                                                                    cell.getContext()
+                                                                )}
+                                                            </td>
+                                                        )
+                                                    }
+                                                })}
+                                            </tr>
+                                        )
+                                    })}
+                                </>
+                    }
                 </tbody>
             </table>
 

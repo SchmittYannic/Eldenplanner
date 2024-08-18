@@ -690,6 +690,20 @@ td {
     }
 }
 
+.table--placeholder {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / 7;
+    padding: 2rem 0;
+    border: 1px solid hsl(v.$border-color);
+    border-bottom-left-radius: calc(v.$border-radius - 2px);
+    border-bottom-right-radius: calc(v.$border-radius - 2px);
+
+    tr,
+    td {
+        border: none !important;
+    }
+}
 
 
 
@@ -1061,6 +1075,10 @@ td {
         .splitpage1__rightside {
             max-width: none;
         }
+    }
+
+    .table--placeholder {
+        border: none
     }
 }
 
