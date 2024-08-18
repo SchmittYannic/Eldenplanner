@@ -84,13 +84,16 @@ export type BuildType<BuildId extends string = string> = {
 }
 
 export type GetBuildsQueryParamsType = {
-    limit?: number,
-    skip?: number,
-    field?: string,
-    order?: OrderType,
+    limit: number,
+    skip: number,
+    field: string,
+    order: OrderType,
     title?: string,
-    minStars?: number,
-    maxStars?: number,
+    username?: string,
+    minLevel: string,
+    maxLevel?: string | null,
+    minStars: string,
+    maxStars?: string | null,
 }
 
 export type GetBuildsResponseType = {
