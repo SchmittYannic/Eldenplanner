@@ -68,7 +68,7 @@ const BuildsTable = ({
                 <div className="divider-2" />
             </div>
 
-            {/* {isMobile &&
+            {isMobile &&
                 <>
                     <div className="divider-4" />
 
@@ -82,14 +82,15 @@ const BuildsTable = ({
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >
+                                        <div
+                                            {...{
+                                                key: header.id,
+                                                className: "table__sort",
+                                                onClick: header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -120,7 +121,7 @@ const BuildsTable = ({
                     <div className="divider-4" />
                     <div className="divider-4" />
                 </>
-            } */}
+            }
 
             <table className="table table--builds">
                 {!isMobile &&
@@ -130,14 +131,17 @@ const BuildsTable = ({
                                 {headerGroup.headers.map(header => {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: loading ? () => { } : header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >
+                                        <th
+                                            {...{
+                                                className: "table__th table__sort",
+                                                key: header.id,
+                                                colSpan: header.colSpan,
+                                                scope: "col",
+                                                onClick: loading ? () => { } : header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
