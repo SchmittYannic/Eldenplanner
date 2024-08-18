@@ -8,7 +8,7 @@ const Prefetch = (): ReactElement => {
 
     useEffect(() => {
         store.dispatch(usersApiSlice.util.prefetch("getUsers", "usersList", { force: true }));
-        store.dispatch(buildsApiSlice.util.prefetch("getBuilds", "buildsList", { force: true }));
+        store.dispatch(buildsApiSlice.util.prefetch("getAllBuilds", "buildsList", { force: true }));
     }, []);
 
     return <Outlet />
