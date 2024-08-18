@@ -1,5 +1,7 @@
 import Build from "../models/Build.js";
 import User from "../models/User.js";
+import { mongooseidschema } from "../validation/userschema.js";
+import { parseError } from "../utils/helpers.js";
 
 // @desc Get all builds
 // @route GET /builds/old
@@ -113,7 +115,47 @@ const getBuilds = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: "Error retrieving builds" });
     }
-}
+};
+
+// @desc Get build using its id
+// @route GET /builds/:id
+// @access Public
+const getBuildById = async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
+        }
+
+        await mongooseidschema.required().validateAsync(id);
+
+        const build = await Build
+            .findById(id)
+            .populate({
+                path: "user",
+                select: "username"
+            })
+            .lean()
+            .exec();
+
+        if (!build) {
+            return res.status(400).json({ message: "Build not found" });
+        }
+
+        const transformedBuild = {
+            ...build,
+            id: build._id.toString(),
+            authorId: build.user._id.toString(),
+            author: build.user.username,
+        };
+
+        res.status(200).json(transformedBuild);
+    } catch (err) {
+        res.status(500).send(parseError(err));
+    }
+};
 
 // @desc Create new build
 // @route POST /builds
@@ -137,7 +179,7 @@ const createNewBuild = async (req, res) => {
     const user = await User.findById(userId).lean().exec();
 
     if (!user) {
-        return res.status(400).json({ message: "No corresponding user was found in database" });
+        return res.status(400).json({ message: "No corresponding user found in database" });
     }
 
     /* only allow active users to save builds. */
@@ -279,6 +321,7 @@ const deleteBuild = async (req, res) => {
 export {
     getAllBuilds,
     getBuilds,
+    getBuildById,
     createNewBuild,
     updateBuild,
     deleteBuild
