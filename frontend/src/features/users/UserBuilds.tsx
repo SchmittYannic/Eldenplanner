@@ -1,6 +1,6 @@
 import { ReactElement } from "react"
 
-import { BuildType, useGetBuildsQuery } from "src/features/builds/buildsApiSlice";
+import { BuildType, useGetAllBuildsQuery } from "src/features/builds/buildsApiSlice";
 import UserBuildsList from "./UserBuildsList";
 import { ClipLoader } from "src/components/ui";
 import { calcSumObjectValues } from "src/utils/functions";
@@ -19,7 +19,7 @@ const UserBuilds = ({ author }: UserBuildsPropsType): ReactElement => {
         isLoading,
         isError,
         error,
-    } = useGetBuildsQuery("buildsList");
+    } = useGetAllBuildsQuery("buildsList");
 
     const allBuilds = buildsAsEntityState && Object.values(buildsAsEntityState.entities) as BuildType[];
 
