@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
     ColumnDef,
+    ColumnFiltersState,
     functionalUpdate,
     OnChangeFn,
     PaginationState,
@@ -11,12 +12,18 @@ import {
 
 import { useGetBuildsQuery } from "./buildsApiSlice";
 import {
+    selectBuildsColumnFilter,
     selectBuildsField,
+    selectBuildsLevelFilter,
     selectBuildsLimit,
     selectBuildsOrder,
     selectBuildsPagination,
     selectBuildsSkip,
     selectBuildsSorting,
+    selectBuildsStarsFilter,
+    selectBuildsTitleFilter,
+    selectBuildsUsernameFilter,
+    setBuildsColumnFilter,
     setBuildsPagination,
     setBuildsSorting,
 } from "./buildsSlice";
@@ -41,6 +48,16 @@ const BuildsNew = () => {
     }
     const order = useSelector(selectBuildsOrder);
     const field = useSelector(selectBuildsField);
+    const columnFilter = useSelector(selectBuildsColumnFilter);
+    const onColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, columnFilter);
+        dispatch(setBuildsColumnFilter(newValue));
+    };
+
+    const title = useSelector(selectBuildsTitleFilter);
+    const username = useSelector(selectBuildsUsernameFilter);
+    const { minLevel, maxLevel } = useSelector(selectBuildsLevelFilter);
+    const { minStars, maxStars } = useSelector(selectBuildsStarsFilter);
 
     const {
         data,
@@ -50,6 +67,12 @@ const BuildsNew = () => {
         skip,
         field,
         order,
+        title,
+        username,
+        minLevel,
+        maxLevel,
+        minStars,
+        maxStars,
     });
 
     const columns = useMemo<ColumnDef<BuildType, any>[]>(
@@ -136,6 +159,7 @@ const BuildsNew = () => {
                     loading={isFetching}
                     onPaginationChange={OnPaginationChange}
                     onSortingChange={onSortingChange}
+                    onColumnFiltersChange={onColumnFiltersChange}
                     totalCount={data.totalBuilds}
                     pageCount={Math.ceil(data.totalBuilds / limit)}
                     pagination={pagination}
