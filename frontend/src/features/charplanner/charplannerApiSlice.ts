@@ -1,9 +1,19 @@
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "src/app/api/apiSlice";
+import { BuildType } from "src/types";
 
 
 export const charplannerApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        addNewBuild: builder.mutation({           
+        getBuildById: builder.query<BuildType, string>({
+            query: (id) => ({
+                url: `/builds/${id}`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            keepUnusedDataFor: 300,
+        }),
+        addNewBuild: builder.mutation({
             query: initialBuildData => ({
                 url: '/builds',
                 method: 'POST',
@@ -16,7 +26,7 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: [
                 { type: 'Build', id: "LIST" }
-            ]           
+            ]
         }),
         updateBuild: builder.mutation({
             query: initialBuildData => ({
@@ -40,7 +50,7 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
             }
         }),
         deleteBuild: builder.mutation({
-            query: ( buildId ) => ({
+            query: (buildId) => ({
                 url: "/builds",
                 method: "DELETE",
                 body: { buildId },
@@ -62,6 +72,7 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+    useLazyGetBuildByIdQuery,
     useAddNewBuildMutation,
     useUpdateBuildMutation,
     useDeleteBuildMutation,
