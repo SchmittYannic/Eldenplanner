@@ -1,5 +1,7 @@
 import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
 
+/* apiSlice related types */
+
 export type CustomFormError = {
     data: {
         message: string,
@@ -17,6 +19,9 @@ export type CustomError = {
     },
     status: number
 };
+
+export const apiSliceTagOptions = ["User", "Build", "Comments", "Likes"] as const;
+export type apiSliceTagType = typeof apiSliceTagOptions[number];
 
 
 /* buildsApiSlice related types */
