@@ -8,13 +8,15 @@ import { apiSlice } from "src/app/api/apiSlice";
 import { RootState } from "src/app/store";
 import { apiSliceTagType, UserAsAdminType } from "src/types";
 
-const usersAsAdminAdapter = createEntityAdapter({});
+const usersAsAdminAdapter = createEntityAdapter<UserAsAdminType>({
+    selectId: (user) => user._id,
+});
 
-const initialState = usersAsAdminAdapter.getInitialState();
+const initialState: EntityState<UserAsAdminType> = usersAsAdminAdapter.getInitialState();
 
 export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getUsersAsAdmin: builder.query<EntityState<unknown>, string>({
+        getUsersAsAdmin: builder.query<EntityState<UserAsAdminType>, string>({
             query: () => ({
                 url: "/users/admin",
                 validateStatus: (response, result) => {
