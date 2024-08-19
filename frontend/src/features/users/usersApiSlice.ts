@@ -43,6 +43,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             keepUnusedDataFor: 300,
+            providesTags: (_result, _error, id) => [
+                { type: "User", id },
+            ],
         }),
         addNewUser: builder.mutation({
             query: initialUserData => ({
@@ -108,7 +111,12 @@ export const {
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,
-} = usersApiSlice
+} = usersApiSlice;
+
+export const selectGetUserByIdCachedData = (state: RootState, userId: string) => {
+    const cacheKey = `getUserById("${userId}")`;
+    return state.api.queries[cacheKey]?.data as UserType ?? null;
+};
 
 // returns the query result object
 export const selectUsersResult = usersApiSlice.endpoints.getUsers.select("usersList");
