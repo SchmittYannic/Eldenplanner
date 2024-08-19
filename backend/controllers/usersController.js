@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Build from "../models/Build.js";
 import { signupschema, passwordschema, usernameschema, emailschema, mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
@@ -301,10 +302,46 @@ const deleteUser = async (req, res) => {
     }
 };
 
+// @desc Get all builds of user by id
+// @route GET /users/:id
+// @access Public
+const getAllBuildsOfUser = async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
+        }
+
+        await mongooseidschema.required().validateAsync(id);
+
+        const user = await User.findById(id).lean().exec();
+
+        if (!user) {
+            return res.status(400).json({ message: "No user found" });
+        }
+
+        const builds = await Build.find({ user: id }).lean().exec();
+
+        const transformedBuilds = builds.map(build => ({
+            ...build,
+            id: build._id.toString(),
+            authorId: user._id.toString(),
+            author: user.username,
+        }));
+
+        res.status(200).json({ builds: transformedBuilds, totalBuilds: builds.length });
+    } catch (err) {
+        return res.status(500).json({ message: "Error retrieving builds of user" })
+    }
+}
+
 export {
     getAllUsers,
     getUserById,
     createNewUser,
     updateUser,
     deleteUser,
+    getAllBuildsOfUser,
 };
