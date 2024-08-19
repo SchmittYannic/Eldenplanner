@@ -25,6 +25,12 @@ export const buildsSlice = createSlice({
     name: "builds",
     initialState,
     reducers: {
+        resetBuildsSliceState: (state) => {
+            state.pageSize = initialState.pageSize;
+            state.pageIndex = initialState.pageIndex;
+            state.sorting = initialState.sorting;
+            state.columnFilter = initialState.columnFilter;
+        },
         setBuildsPagination: (state, { payload }: PayloadAction<PaginationState>) => {
             const { pageSize, pageIndex } = payload;
             state.pageSize = pageSize;
@@ -40,6 +46,7 @@ export const buildsSlice = createSlice({
 });
 
 export const {
+    resetBuildsSliceState,
     setBuildsPagination,
     setBuildsSorting,
     setBuildsColumnFilter,
