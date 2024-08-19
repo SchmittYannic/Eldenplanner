@@ -13,27 +13,24 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-    //FilterFn,
     flexRender,
 } from "@tanstack/react-table";
-//import { RankingInfo } from "@tanstack/match-sorter-utils";
-import FuzzyFilter from "../../utils/FuzzyFilter";
-import FilterTable from "../../components/FilterTable";
-import useWindowSize from "../../hooks/useWindowSize";
-import { capitalizeFirstLetter } from "../../utils/functions";
-import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
-import { DebouncedInput } from "../../components/ui";
-import { UserAsAdminType } from "src/types";
-// declare module "@tanstack/table-core" {
-//     interface FilterFns {
-//         fuzzy: FilterFn<unknown>
-//     }
-//     interface FilterMeta {
-//         itemRank: RankingInfo
-//     }
-// }
 
-const UsersList = ({ data }: { data: UserAsAdminType[] }): ReactElement => {
+import FuzzyFilter from "src/utils/FuzzyFilter";
+import FilterTable from "src/components/FilterTable";
+import useWindowSize from "src/hooks/useWindowSize";
+import { capitalizeFirstLetter } from "src/utils/functions";
+import sortCaseInsensitive from "src/utils/sortCaseInsensitive";
+import { DebouncedInput } from "src/components/ui";
+import { UserAsAdminType } from "src/types";
+
+type UsersListPropsType = {
+    data: UserAsAdminType[],
+}
+
+const UsersList = ({
+    data,
+}: UsersListPropsType): ReactElement => {
 
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
@@ -209,14 +206,15 @@ const UsersList = ({ data }: { data: UserAsAdminType[] }): ReactElement => {
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >
+                                        <div
+                                            {...{
+                                                key: header.id,
+                                                className: "table__sort",
+                                                onClick: header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -259,14 +257,17 @@ const UsersList = ({ data }: { data: UserAsAdminType[] }): ReactElement => {
 
                                     if (header.column.getCanSort()) {
                                         return (
-                                            <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">
-                                                <div
-                                                    {...{
-                                                        className: "flex",
-                                                        onClick: header.column.getToggleSortingHandler(),
-                                                        title: `sort by ${header.id} column`,
-                                                    }}
-                                                >
+                                            <th
+                                                {...{
+                                                    className: "table__th table__sort",
+                                                    key: header.id,
+                                                    colSpan: header.colSpan,
+                                                    scope: "col",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
+                                                }}
+                                            >
+                                                <div className="flex">
                                                     {flexRender(
                                                         header.column.columnDef.header,
                                                         header.getContext()
@@ -406,7 +407,7 @@ const UsersList = ({ data }: { data: UserAsAdminType[] }): ReactElement => {
                     }}
                     title="max number of entries per page"
                 >
-                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                    {[5, 10, 15, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
