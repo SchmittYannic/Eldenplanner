@@ -3,18 +3,6 @@ import User from "../models/User.js";
 import { mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 
-// @desc Get all builds
-// @route GET /builds/old
-// @access Public
-const getAllBuilds = async (req, res) => {
-    // select all builds
-    // when not calling any methods like save later on and only want to get the data add a lean()
-    const builds = await Build.find().lean().exec();
-    if (!builds?.length) {
-        return res.status(400).json({ message: "No builds found" });
-    }
-    res.status(200).json(builds);
-};
 
 // @desc Get builds for pagination
 // @route GET /builds
@@ -322,7 +310,6 @@ const deleteBuild = async (req, res) => {
 };
 
 export {
-    getAllBuilds,
     getBuilds,
     getBuildById,
     createNewBuild,

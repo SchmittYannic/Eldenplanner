@@ -7,23 +7,6 @@ import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 import avatarUrlLookup from "../config/avatarUrlLookup.js";
 
-// @desc Get all users
-// @route GET /users
-// @access Public
-const getAllUsers = async (req, res) => {
-    try {
-        // select all users username and creation date
-        // when not calling any methods like save later on and only want to get the data add a lean()
-        const users = await User.find().select("username createdAt").lean().exec();;
-        if (!users?.length) {
-            return res.status(400).json({ message: "No users found" });
-        }
-
-        res.status(200).json(users);
-    } catch (err) {
-        return res.status(400).json({ message: "Error retrieving all usernames" })
-    }
-};
 
 // @desc Get user by id
 // @route GET /users/:id
@@ -338,7 +321,6 @@ const getAllBuildsOfUser = async (req, res) => {
 }
 
 export {
-    getAllUsers,
     getUserById,
     createNewUser,
     updateUser,

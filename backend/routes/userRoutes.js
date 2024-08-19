@@ -1,6 +1,5 @@
 import express from "express";
 import {
-    getAllUsers,
     createNewUser,
     updateUser,
     deleteUser,
@@ -17,7 +16,6 @@ import { signupLimiter } from "../middleware/rateLimiters.js";
 const router = express.Router();
 
 router.route("/")
-    .get(getAllUsers)
     .post(signupLimiter, createNewUser)
     .patch(verifyJWT, updateUser)
     .delete(verifyJWT, deleteUser);
