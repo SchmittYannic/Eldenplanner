@@ -3,7 +3,8 @@ import { ColumnFiltersState, PaginationState, SortingState } from "@tanstack/rea
 
 import { RootState } from "src/app/store";
 import { OrderType } from "src/types";
-import { findObjectById, isFilterColumnValueArray } from "src/utils/functions";
+import { findObjectById } from "src/utils/functions";
+import { isFilterColumnValueArray } from "src/utils/typeguards";
 
 interface BuildsStateType {
     pageSize: number,
