@@ -71,6 +71,14 @@ const Charplanner = (): ReactElement => {
         }
     }, [cachedData]);
 
+    // if userId changes to become falsy means user logged out
+    // setIsBuildAuthor to false
+    useEffect(() => {
+        if (!param.buildId) return
+        if (userId) return
+        setIsBuildAuthor(false);
+    }, [userId])
+
     // if fetch is successful load Build into state and check if user is the author
     useEffect(() => {
         if (!isSuccess) return
