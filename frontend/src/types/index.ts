@@ -18,37 +18,6 @@ export type CustomError = {
     status: number
 };
 
-export const TargetTypeOptions = ["Build", "User"] as const
-export type TargetTypeType = typeof TargetTypeOptions[number];
-
-export const sortOptions = ["new", "old"] as const;
-export type SortCommentsType = typeof sortOptions[number];
-
-const likeTypeOptions = ["like", "dislike"] as const;
-export type LikeTypeType = typeof likeTypeOptions[number];
-
-export type CommentType<CommentId extends string = string, ReplyId extends string = string> = {
-    id: CommentId,
-    authorId: string,
-    username: string,
-    avatarUrl: string,
-    parentId: string | null,
-    targetId: string,
-    targetType: TargetTypeType,
-    content: string,
-    totalReplies: number,
-    likes: number,
-    dislikes: number,
-    createdAt: string,
-    updatedAt: string,
-    repliesIds?: ReplyId[],
-    repliesEntities?: Record<ReplyId, CommentType<ReplyId>>,
-    lastReplyFetchedTimestamp?: string,
-    hasMoreReplies?: boolean,
-    hasLiked?: boolean,
-    hasDisliked?: boolean,
-}
-
 
 /* buildsApiSlice related types */
 
@@ -107,6 +76,37 @@ export type GetBuildsOfUserResponseType = {
 
 
 /* commentsApiSlice related types */
+
+export const TargetTypeOptions = ["Build", "User"] as const
+export type TargetTypeType = typeof TargetTypeOptions[number];
+
+export const sortOptions = ["new", "old"] as const;
+export type SortCommentsType = typeof sortOptions[number];
+
+const likeTypeOptions = ["like", "dislike"] as const;
+export type LikeTypeType = typeof likeTypeOptions[number];
+
+export type CommentType<CommentId extends string = string, ReplyId extends string = string> = {
+    id: CommentId,
+    authorId: string,
+    username: string,
+    avatarUrl: string,
+    parentId: string | null,
+    targetId: string,
+    targetType: TargetTypeType,
+    content: string,
+    totalReplies: number,
+    likes: number,
+    dislikes: number,
+    createdAt: string,
+    updatedAt: string,
+    repliesIds?: ReplyId[],
+    repliesEntities?: Record<ReplyId, CommentType<ReplyId>>,
+    lastReplyFetchedTimestamp?: string,
+    hasMoreReplies?: boolean,
+    hasLiked?: boolean,
+    hasDisliked?: boolean,
+}
 
 export type GetCommentsResponseType<CommentId extends string> = {
     ids: CommentId[],
