@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { signupschema, passwordschema, usernameschema, emailschema } from "../validation/userschema.js";
+import { signupschema, passwordschema, usernameschema, emailschema, mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 import avatarUrlLookup from "../config/avatarUrlLookup.js";
@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
     try {
         // select all users username and creation date
         // when not calling any methods like save later on and only want to get the data add a lean()
-        const users = await User.find().select("username createdAt").lean();
+        const users = await User.find().select("username createdAt").lean().exec();;
         if (!users?.length) {
             return res.status(400).json({ message: "No users found" });
         }
@@ -23,6 +23,37 @@ const getAllUsers = async (req, res) => {
         return res.status(400).json({ message: "Error retrieving all usernames" })
     }
 };
+
+// @desc Get user by id
+// @route GET /users/:id
+// @access Public
+const getUserById = async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
+        }
+
+        await mongooseidschema.required().validateAsync(id);
+
+        const user = await User.findById(id).select("username createdAt").lean().exec();;
+
+        if (!user) {
+            return res.status(400).json({ message: "No user found" });
+        }
+
+        const transformedUser = {
+            ...user,
+            id: user._id.toString(),
+        };
+
+        res.status(200).json(transformedUser);
+    } catch (err) {
+        return res.status(500).json({ message: "Error retrieving user" })
+    }
+}
 
 // @desc Create new user
 // @route POST /users
@@ -272,6 +303,7 @@ const deleteUser = async (req, res) => {
 
 export {
     getAllUsers,
+    getUserById,
     createNewUser,
     updateUser,
     deleteUser,
