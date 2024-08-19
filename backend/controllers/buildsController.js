@@ -291,35 +291,33 @@ const updateBuild = async (req, res) => {
 // @route DELETE /builds
 // @access Private
 const deleteBuild = async (req, res) => {
-
     const { userId } = req;
     const { buildId } = req.body;
+    try {
+        /* Confirm data */
+        if (!buildId) {
+            return res.status(400).json({ message: "Build ID Required" });
+        }
 
-    /* Confirm data */
-    if (!buildId) {
-        return res.status(400).json({ message: "Build ID Required" });
-    }
+        /* check if build is in database */
+        const build = await Build.findById(buildId).exec();
 
-    /* check if build is in database */
-    const build = await Build.findById(buildId).exec();
+        if (!build) {
+            return res.status(400).json({ message: "Build not found" });
+        }
 
-    if (!build) {
-        return res.status(400).json({ message: "Build not found" });
-    }
+        /* check if user sending request is the build author */
+        const isBuildAuthor = build.user.equals(userId);
 
-    /* check if user sending request is the build author */
-    const isBuildAuthor = build.user.equals(userId);
+        if (!isBuildAuthor) {
+            return res.status(401).json({ message: "Unauthorized to delete build" });
+        }
 
-    if (!isBuildAuthor) {
-        return res.status(401).json({ message: "Unauthorized to delete build" });
-    }
+        const result = await build.deleteOne();
 
-    const result = await build.deleteOne();
-
-    if (result) {
         res.status(200).json({ message: `Build ${result.title} deleted` });
-    } else {
-        return res.status(400).json({ message: "Failed to delete Build from database" });
+    } catch (err) {
+        return res.status(500).json({ message: "Error deleting Build" });
     }
 };
 
