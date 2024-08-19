@@ -7,7 +7,6 @@ import {
     TargetTypeType,
     TargetTypeOptions,
     CommentDeletePropsType,
-    UserAsAdminType,
 } from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
@@ -104,31 +103,6 @@ const isFilterColumnValueArray = (value: unknown): value is [string | null, stri
     );
 }
 
-const isUserAsAdminType = (object: any): object is UserAsAdminType => {
-    if (!object) return false
-    if (typeof object !== "object") return false
-    if (!("_id" in object)) return false
-    if (typeof object._id !== "string") return false
-    if (!("id" in object)) return false
-    if (typeof object.id !== "string") return false
-    if (!("username" in object)) return false
-    if (typeof object.username !== "string") return false
-    if (!("email" in object)) return false
-    if (typeof object.email !== "string") return false
-    if (!("validated" in object)) return false
-    if (typeof object.validated !== "boolean") return false
-    if (!("active" in object)) return false
-    if (typeof object.active !== "boolean") return false
-    if (!("roles" in object)) return false
-    if (!Array.isArray(object.roles)) return false
-    if (object.roles.some((value: any) => typeof value !== "string")) return false
-    if (!("createdAt" in object)) return false
-    if (typeof object.createdAt !== "string") return false
-    if (!("updatedAt" in object)) return false
-    if (typeof object.updatedAt !== "string") return false
-    return true
-};
-
 export {
     isFieldName,
     isCustomFormError,
@@ -136,5 +110,4 @@ export {
     isCommentOptionlistPropsType,
     isCommentDeletePropsType,
     isFilterColumnValueArray,
-    isUserAsAdminType,
 }
