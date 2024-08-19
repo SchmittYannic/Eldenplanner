@@ -15,8 +15,8 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
         }),
         addNewBuild: builder.mutation({
             query: initialBuildData => ({
-                url: '/builds',
-                method: 'POST',
+                url: "/builds",
+                method: "POST",
                 body: {
                     ...initialBuildData,
                 },
@@ -25,13 +25,13 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             invalidatesTags: [
-                { type: 'Build', id: "LIST" }
+                { type: "Build", id: "LIST" }
             ]
         }),
         updateBuild: builder.mutation({
             query: initialBuildData => ({
-                url: '/builds',
-                method: 'PATCH',
+                url: "/builds",
+                method: "PATCH",
                 body: {
                     ...initialBuildData,
                 },
