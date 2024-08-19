@@ -13,6 +13,7 @@ import {
 import { useGetBuildsQuery } from "./buildsApiSlice";
 import {
     resetBuildsSliceState,
+    selectBuildsAuthorFilter,
     selectBuildsColumnFilter,
     selectBuildsField,
     selectBuildsLevelFilter,
@@ -23,7 +24,6 @@ import {
     selectBuildsSorting,
     selectBuildsStarsFilter,
     selectBuildsTitleFilter,
-    selectBuildsUsernameFilter,
     setBuildsColumnFilter,
     setBuildsPagination,
     setBuildsSorting,
@@ -56,7 +56,7 @@ const BuildsNew = () => {
     };
 
     const title = useSelector(selectBuildsTitleFilter);
-    const username = useSelector(selectBuildsUsernameFilter);
+    const author = useSelector(selectBuildsAuthorFilter);
     const { minLevel, maxLevel } = useSelector(selectBuildsLevelFilter);
     const { minStars, maxStars } = useSelector(selectBuildsStarsFilter);
 
@@ -70,7 +70,7 @@ const BuildsNew = () => {
         field,
         order,
         title,
-        username,
+        author,
         minLevel,
         maxLevel,
         minStars,

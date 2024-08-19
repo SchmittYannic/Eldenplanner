@@ -26,7 +26,7 @@ const getBuilds = async (req, res) => {
         field = "stars",
         order = "asc",
         title = null,
-        username = null,
+        author = null,
         minLevel = 0,
         maxLevel = null,
         minStars = 0,
@@ -40,9 +40,9 @@ const getBuilds = async (req, res) => {
             filter.title = { $regex: title, $options: "i" }; // Case-insensitive regex match
         }
 
-        // Add username filter if provided
-        if (username) {
-            filter.username = { $regex: username, $options: "i" }; // Case-insensitive regex match
+        // Add author filter if provided
+        if (author) {
+            filter.author = { $regex: author, $options: "i" }; // Case-insensitive regex match
         }
 
         // Add level and star filter

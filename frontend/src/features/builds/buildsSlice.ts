@@ -80,10 +80,10 @@ export const selectBuildsTitleFilter = (state: RootState) => {
     return title
 }
 
-export const selectBuildsUsernameFilter = (state: RootState) => {
-    const usernameFilter = findObjectById(state.builds.columnFilter, "username");
-    const username = usernameFilter && typeof usernameFilter.value === "string" ? usernameFilter.value : undefined;
-    return username
+export const selectBuildsAuthorFilter = (state: RootState) => {
+    const authorFilter = findObjectById(state.builds.columnFilter, "author");
+    const author = authorFilter && typeof authorFilter.value === "string" ? authorFilter.value : undefined;
+    return author
 }
 
 export const selectBuildsLevelFilter = createSelector(

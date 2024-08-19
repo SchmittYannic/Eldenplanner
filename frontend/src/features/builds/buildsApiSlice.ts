@@ -54,7 +54,7 @@ export const buildsApiSlice = apiSlice.injectEndpoints({
                 field = "stars",
                 order = "asc",
                 title,
-                username,
+                author,
                 minLevel = "0",
                 maxLevel,
                 minStars = "0",
@@ -71,7 +71,7 @@ export const buildsApiSlice = apiSlice.injectEndpoints({
 
                 if (field) queryParams.append("field", field);
                 if (title !== undefined) queryParams.append("title", title);
-                if (username !== undefined) queryParams.append("username", username);
+                if (author !== undefined) queryParams.append("author", author);
                 if (typeof maxLevel === "string") queryParams.append("maxLevel", maxLevel);
                 if (typeof maxStars === "string") queryParams.append("maxStars", maxStars);
 

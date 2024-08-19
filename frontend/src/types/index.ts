@@ -89,7 +89,7 @@ export type GetBuildsQueryParamsType = {
     field: string,
     order: OrderType,
     title?: string,
-    username?: string,
+    author?: string,
     minLevel: string,
     maxLevel?: string | null,
     minStars: string,
