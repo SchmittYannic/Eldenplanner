@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdWarningAmber } from "react-icons/md";
 
-import { UserAsAdminType, useDeleteUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
+import { useDeleteUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import {
     AsyncButton,
@@ -16,6 +16,7 @@ import {
     Input,
 } from "src/components/ui";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
+import { UserAsAdminType } from "src/types";
 
 type DeleteUserAsAdminPropsType = {
     user: UserAsAdminType,

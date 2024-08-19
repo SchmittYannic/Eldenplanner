@@ -1,12 +1,13 @@
 import { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 
-import { isCustomError } from "src/utils/typeguards";
-import { UserAsAdminType, isUserAsAdminType, useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
+import { useGetUsersAsAdminQuery } from "./usersAsAdminApiSlice";
 import UsersList from "./UsersList";
 import EditUserAsAdmin from "./EditUserAsAdmin";
 import DeleteUserAsAdmin from "./DeleteUserAsAdmin";
 import { ClipLoader } from "src/components/ui";
+import { UserAsAdminType } from "src/types";
+import { isCustomError, isUserAsAdminType } from "src/utils/typeguards";
 
 const Users = (): ReactElement => {
 

@@ -202,3 +202,18 @@ export type PopupStateType = {
 
 const toastTypesArray = ["success", "error"] as const;
 export type ToastTypeType = typeof toastTypesArray[number];
+
+
+/* usersAsAdminApiSlice related types */
+
+export type UserAsAdminType = {
+    _id: string
+    id: string
+    username: string
+    email: string
+    validated: boolean
+    active: boolean
+    roles: string[]
+    createdAt: string
+    updatedAt: string
+};
