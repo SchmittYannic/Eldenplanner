@@ -1,16 +1,7 @@
-import { useCallback } from "react";
-import Particles from "react-tsparticles";
-import type { Engine } from "tsparticles-engine";
-import { loadSlim } from "tsparticles-slim";
-import { loadPolygonMaskPlugin } from "tsparticles-plugin-polygon-mask";
-import { herobg } from "../assets";
+import Particles from "@tsparticles/react";
+import { herobg } from "src/assets";
 
 const ParticlesHeroBg = () => {
-
-    const particlesInit = useCallback(async (engine: Engine) => {
-        await loadSlim(engine);
-        await loadPolygonMaskPlugin(engine);
-    }, []);
 
     // const particlesLoaded = useCallback(async (container: Container | undefined) => {
     //     await console.log(container);
@@ -19,7 +10,6 @@ const ParticlesHeroBg = () => {
     return (
         <Particles
             id="tsparticles"
-            init={particlesInit}
             //loaded={particlesLoaded}
             options={{
                 "autoPlay": true,
@@ -173,17 +163,9 @@ const ParticlesHeroBg = () => {
                 "particles": {
                     "bounce": {
                         "horizontal": {
-                            "random": {
-                                "enable": true,
-                                "minimumValue": 0.1
-                            },
                             "value": 1
                         },
                         "vertical": {
-                            "random": {
-                                "enable": true,
-                                "minimumValue": 0.1
-                            },
                             "value": 1
                         }
                     },
@@ -193,17 +175,9 @@ const ParticlesHeroBg = () => {
                         },
                         "bounce": {
                             "horizontal": {
-                                "random": {
-                                    "enable": false,
-                                    "minimumValue": 0.1
-                                },
                                 "value": 1
                             },
                             "vertical": {
-                                "random": {
-                                    "enable": false,
-                                    "minimumValue": 0.1
-                                },
                                 "value": 1
                             }
                         },
@@ -279,10 +253,6 @@ const ParticlesHeroBg = () => {
                         "path": {
                             "clamp": true,
                             "delay": {
-                                "random": {
-                                    "enable": false,
-                                    "minimumValue": 0
-                                },
                                 "value": 0
                             },
                             "enable": false,
@@ -315,14 +285,9 @@ const ParticlesHeroBg = () => {
                             "width": 500,
                             "height": 500
                         },
-                        "limit": 0,
                         "value": 150
                     },
                     "opacity": {
-                        "random": {
-                            "enable": false,
-                            "minimumValue": 0.1 //0.1
-                        },
                         "value": {
                             "min": 0.05,//0.05,
                             "max": 0.3
@@ -337,7 +302,6 @@ const ParticlesHeroBg = () => {
                             "mode": "auto",
                             "startValue": "random",
                             "destroy": "none",
-                            "minimumValue": 0.05
                         }
                     },
                     "reduceDuplicates": false,
@@ -358,10 +322,6 @@ const ParticlesHeroBg = () => {
                         "type": "circle"
                     },
                     "size": {
-                        "random": {
-                            "enable": false,
-                            "minimumValue": 1
-                        },
                         "value": 3,
                         "animation": {
                             "count": 0,
@@ -373,17 +333,12 @@ const ParticlesHeroBg = () => {
                             "mode": "auto",
                             "startValue": "random",
                             "destroy": "none",
-                            "minimumValue": 0.1
                         }
                     },
                     "stroke": {
                         "width": 0
                     },
                     "zIndex": {
-                        "random": {
-                            "enable": false,
-                            "minimumValue": 0
-                        },
                         "value": 1,
                         "opacityRate": 1,
                         "sizeRate": 1,

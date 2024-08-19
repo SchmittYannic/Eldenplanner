@@ -1,5 +1,9 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import { loadPolygonMaskPlugin } from "@tsparticles/plugin-polygon-mask";
+
 import Layout from "./components/Layout";
 import Frontpage from "./components/Frontpage";
 import Login from "./features/auth/Login";
@@ -19,6 +23,16 @@ import ResetPassword from "./features/auth/ResetPassword";
 import Impressum from "./components/Impressum";
 
 const App = (): ReactElement => {
+
+    useEffect(() => {
+        initParticlesEngine(async (engine) => {
+            // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+            // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+            // starting from v2 you can add only the features you need reducing the bundle size
+            await loadSlim(engine);
+            await loadPolygonMaskPlugin(engine);
+        });
+    }, []);
 
     return (
         <Routes>
