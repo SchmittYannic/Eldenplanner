@@ -18,7 +18,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: "/auth/logout",
                 method: "POST",
             }),
-            async onQueryStarted(_arg, { dispatch, queryFulfilled}) {
+            async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
                     dispatch(logOut());
@@ -31,7 +31,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                             This gets rid of any unwanted data in cache.
                             A simple resetApiState is not enough since there is no
                             refetching of data going on.
-                        */ 
+                        */
                         dispatch(apiSlice.util.invalidateTags(["User"]));
                         dispatch(apiSlice.util.invalidateTags(["Build"]));
                     }, 1000);
@@ -47,7 +47,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled;                    
+                    const { data } = await queryFulfilled;
                     const { accessToken } = data;
                     dispatch(setCredentials({ accessToken }));
                 } catch (err) {
@@ -56,7 +56,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }
         }),
         sendVerificationEmail: builder.mutation({
-            query: ( email ) => ({
+            query: (email) => ({
                 url: "/auth/sendverify",
                 method: "POST",
                 body: { email },
@@ -66,7 +66,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         verify: builder.mutation({
-            query: ( verificationToken ) => ({
+            query: (verificationToken) => ({
                 url: "/auth/verify",
                 method: "POST",
                 body: { verificationToken },
@@ -76,7 +76,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         sendResetRequest: builder.mutation({
-            query: ( user ) => ({
+            query: (user) => ({
                 url: "/auth/sendreset",
                 method: "POST",
                 body: { user },
