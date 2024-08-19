@@ -4,6 +4,7 @@ import {
     createNewUser,
     updateUser,
     deleteUser,
+    getUserById,
 } from "../controllers/usersController.js";
 import {
     getAllUsersAsAdmin,
@@ -24,5 +25,8 @@ router.route("/admin")
     .get(verifyJWT, getAllUsersAsAdmin)
     .patch(verifyJWT, updateUserAsAdmin)
     .delete(verifyJWT, deleteUserAsAdmin);
+
+router.route("/:id")
+    .get(getUserById)
 
 export default router;
