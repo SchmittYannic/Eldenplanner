@@ -10,10 +10,10 @@ router.route("/")
     .patch(verifyJWT, checkBuildData, updateBuild)
     .delete(verifyJWT, deleteBuild);
 
-router.route("/:id")
-    .get(getBuildById)
-
 router.route("/old")
     .get(getAllBuilds)
+
+router.route("/:id")
+    .get(getBuildById)
 
 export default router;
