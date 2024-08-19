@@ -1,11 +1,10 @@
-import { ReactElement, useEffect, lazy, Suspense, useState } from "react";
+import { ReactElement, useEffect, lazy, Suspense } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
 import { useLazyGetBuildByIdQuery } from "./charplannerApiSlice";
-import { loadBuild, resetCharplanner, selectGetBuildByIdCachedData } from "src/features/charplanner/charplannerSlice";
-import useAuth from "src/hooks/useAuth";
+import { loadBuild, resetCharplanner, selectBuildId, selectGetBuildByIdCachedData } from "src/features/charplanner/charplannerSlice";
 import useWindowSize from "src/hooks/useWindowSize";
 import useIsInView from "src/hooks/useIsInView";
 import CharacterSection from "src/features/charplanner/CharacterSection";
@@ -22,7 +21,6 @@ const Charplanner = (): ReactElement => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const param = useParams();
-    const { userId } = useAuth();
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 900;
 
@@ -33,19 +31,19 @@ const Charplanner = (): ReactElement => {
         isSuccess,
     }] = useLazyGetBuildByIdQuery();
 
-    const [isBuildAuthor, setIsBuildAuthor] = useState(false);
-    const [buildId, setBuildId] = useState<string | null>(null);
-    const {
-        isIntersecting,
-        elementRef: CommentSectionRef,
-    } = useIsInView({ shouldObserve: buildId !== null });
-
     const cachedData = useSelector((state: RootState) => {
         if (param.buildId) {
             return selectGetBuildByIdCachedData(state, param?.buildId)
         }
         return null
     })
+
+    const buildId = useSelector(selectBuildId);
+
+    const {
+        isIntersecting,
+        elementRef: CommentSectionRef,
+    } = useIsInView({ shouldObserve: buildId !== null });
 
     // on mount reset charplanner state
     useEffect(() => {
@@ -58,40 +56,34 @@ const Charplanner = (): ReactElement => {
         if (!param.buildId) return
         if (cachedData) {
             dispatch(loadBuild({
+                buildId: cachedData.id,
+                title: cachedData.title,
+                authorId: cachedData.authorId,
                 general: cachedData.general,
                 stats: cachedData.stats,
                 armament: cachedData.armament,
                 talisman: cachedData.talisman,
                 armor: cachedData.armor,
             }));
-            setIsBuildAuthor(cachedData.authorId === userId);
-            setBuildId(cachedData.id);
         } else {
             fetchBuildById(param.buildId);
         }
     }, [cachedData]);
-
-    // if userId changes to become falsy means user logged out
-    // setIsBuildAuthor to false
-    useEffect(() => {
-        if (!param.buildId) return
-        if (userId) return
-        setIsBuildAuthor(false);
-    }, [userId])
 
     // if fetch is successful load Build into state and check if user is the author
     useEffect(() => {
         if (!isSuccess) return
         if (!loadedBuild) return
         dispatch(loadBuild({
+            buildId: loadedBuild.id,
+            title: loadedBuild.title,
+            authorId: loadedBuild.authorId,
             general: loadedBuild.general,
             stats: loadedBuild.stats,
             armament: loadedBuild.armament,
             talisman: loadedBuild.talisman,
             armor: loadedBuild.armor,
         }));
-        setIsBuildAuthor(loadedBuild.authorId === userId);
-        setBuildId(loadedBuild.id);
     }, [isSuccess]);
 
     // if fetch fails direct user to /charplanner without params
@@ -147,7 +139,7 @@ const Charplanner = (): ReactElement => {
                 {!isMobile ? <div className="vertical-divider" /> : <div className="horizontal-divider" />}
                 {isMobile && <div className="divider-4" />}
                 <InfoSection />
-                <ActionsSection isBuildAuthor={isBuildAuthor} />
+                <ActionsSection />
             </div>
 
             {buildId &&
