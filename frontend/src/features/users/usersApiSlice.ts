@@ -1,6 +1,6 @@
 import { apiSlice } from "src/app/api/apiSlice"
 import { RootState } from "src/app/store";
-import { GetBuildsOfUserResponseType, UserType } from "src/types";
+import { apiSliceTagType, GetBuildsOfUserResponseType, UserType } from "src/types";
 
 
 export const usersApiSlice = apiSlice.injectEndpoints({
@@ -82,7 +82,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             providesTags: (result) =>
                 result
                     ? [
-                        ...result.builds.map(({ id }) => ({ type: "Build" as const, id })),
+                        ...result.builds.map(({ id }): { type: apiSliceTagType, id: string } => ({ type: "Build", id })),
                         { type: "Build", id: "LIST" },
                     ]
                     : [{ type: "Build", id: "LIST" }],

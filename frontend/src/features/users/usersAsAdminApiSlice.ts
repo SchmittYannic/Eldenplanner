@@ -2,9 +2,11 @@ import {
     createEntityAdapter,
     EntityState,
     createSelector,
+    EntityId,
 } from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/api/apiSlice";
-import { RootState } from "../../app/store";
+import { apiSlice } from "src/app/api/apiSlice";
+import { RootState } from "src/app/store";
+import { apiSliceTagType } from "src/types";
 
 const usersAsAdminAdapter = createEntityAdapter({});
 
@@ -61,16 +63,16 @@ export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
                     user.id = user._id
                     return user
                 });
-                return usersAsAdminAdapter.setAll(initialState, loadedUsers)         
+                return usersAsAdminAdapter.setAll(initialState, loadedUsers)
             },
             providesTags: (result) =>
                 result
-                ? [
-                    ...result.ids.map(( id ) => ({ type: "User" as const, id })),
-                    { type: "User", id: "LIST" },
+                    ? [
+                        ...result.ids.map((id): { type: apiSliceTagType, id: EntityId } => ({ type: "User", id })),
+                        { type: "User", id: "LIST" },
                     ]
-                : [{ type: "User", id: "LIST" }],
-            }),
+                    : [{ type: "User", id: "LIST" }],
+        }),
         updateUserAsAdmin: builder.mutation({
             query: initialUserData => ({
                 url: "/users/admin",
