@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import {
 
 import { useGetBuildsQuery } from "./buildsApiSlice";
 import {
+    resetBuildsSliceState,
     selectBuildsColumnFilter,
     selectBuildsField,
     selectBuildsLevelFilter,
@@ -148,6 +149,12 @@ const BuildsNew = () => {
             },
         ], []
     );
+
+    useEffect(() => {
+        return () => {
+            dispatch(resetBuildsSliceState());
+        }
+    }, []);
 
     return (
         <BuildsTable
