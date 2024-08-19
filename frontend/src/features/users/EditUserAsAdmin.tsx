@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 
-import { UserAsAdminType, useUpdateUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
+import { useUpdateUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import { ROLES } from "src/config/roles";
 import {
@@ -17,6 +17,7 @@ import {
     FormInput,
     MultiSelect,
 } from "src/components/ui";
+import { UserAsAdminType } from "src/types";
 
 type EditUserAsAdminPropsType = {
     user: UserAsAdminType,

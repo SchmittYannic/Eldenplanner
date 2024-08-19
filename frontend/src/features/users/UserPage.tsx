@@ -1,52 +1,106 @@
-import { ReactElement, Suspense, lazy } from "react";
-import { Link, useParams } from "react-router-dom";
+import { ReactElement, Suspense, lazy, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { useGetUsersQuery } from "./usersApiSlice";
+import { RootState } from "src/app/store";
+import { selectGetUserByIdCachedData, useLazyGetUserByIdQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
-//import useIsInView from "src/hooks/useIsInView";
+import useIsInView from "src/hooks/useIsInView";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader } from "src/components/ui";
-import { isCustomError } from "src/utils/typeguards";
 import { UserType } from "src/types";
 
 const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
 const UserPage = (): ReactElement => {
 
+    const navigate = useNavigate();
     const param = useParams();
     const profileUserId = param?.userId;
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
-    //const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
+
+    const [fetchUserById, {
+        data,
+        isSuccess,
+        isLoading,
+        isError,
+    }] = useLazyGetUserByIdQuery();
+
+    const cachedData = useSelector((state: RootState) => {
+        if (profileUserId) {
+            return selectGetUserByIdCachedData(state, profileUserId)
+        }
+        return null
+    });
+
+    const [user, setUser] = useState<UserType>();
+
+    const isOwnProfile = user?.id === authUserId;
 
     const {
-        data: users,
-        isLoading,
-        isSuccess,
-        isError,
-        error,
-    } = useGetUsersQuery("usersList");
+        isIntersecting,
+        elementRef: CommentSectionRef,
+    } = useIsInView({
+        shouldObserve: user !== undefined,
+    });
 
-    const user = isSuccess && profileUserId && users.entities[profileUserId] as UserType;
     const userSince = user && new Date(user.createdAt);
     const month = userSince && userSince.toLocaleString("default", { month: "long" });
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
 
-    const isOwnProfile = user ? authUserId === user?.id : false;
+    // if there is no profileUserId from param direct app user back to frontpage
+    // if cachedData exists use it instead of sending fetch request
+    useEffect(() => {
+        if (!profileUserId) {
+            navigate("/");
+            return
+        }
+        if (cachedData) {
+            setUser(cachedData);
+        } else {
+            fetchUserById(profileUserId);
+        }
+    }, [cachedData]);
+
+    // if fetch is successful setIsOwnProfile
+    useEffect(() => {
+        if (!isSuccess) return
+        if (!data) return
+        setUser(data);
+    }, [isSuccess]);
+
+    // if fetch fails direct user to frontpage
+    useEffect(() => {
+        if (!isError) return
+        navigate("/");
+    }, [isError]);
+
+    if (isLoading) {
+        return (
+            <main>
+                <ClipLoader
+                    color={"rgb(231, 214, 182)"}
+                    loading={isLoading}
+                    size={30}
+                />
+            </main>
+        )
+    }
 
     if (user) {
         return (
             <main className="main--userpage">
                 <section className="section--userpage infobuildswrapper">
                     <div className="userpage__userinfo">
-                        <h2>Builds of {user?.username}</h2>
+                        <h2>Builds of {user.username}</h2>
                         <div className="divider-2" />
                         <p>Joined {month} {year}</p>
                         <div className="divider-2" />
                         <div className="flex">
                             {isOwnProfile && (
                                 <Link
-                                    to={`/user/${param?.userId}/edit`}
+                                    to={`/user/${user.id}/edit`}
                                     className="button"
                                     title="edit account"
                                 >
@@ -73,15 +127,15 @@ const UserPage = (): ReactElement => {
                     <div className="divider-4" />
 
                     <div className="userpage__userbuilds">
-                        {profileUserId && <UserBuilds author={user} />}
+                        <UserBuilds author={user} />
                     </div>
                 </section>
 
-                {profileUserId &&
-                    <section
-                        //ref={CommentSectionRef}
-                        className="CommentSection"
-                    >
+                <section
+                    ref={CommentSectionRef}
+                    className="CommentSection"
+                >
+                    {isIntersecting ? (
                         <Suspense
                             fallback={
                                 <ClipLoader
@@ -92,62 +146,23 @@ const UserPage = (): ReactElement => {
                             }
                         >
                             <CommentSection
-                                targetId={profileUserId}
+                                targetId={user.id}
                                 targetType="User"
                             />
                         </Suspense>
-                        {/* {isIntersecting ? (
-                            <Suspense
-                                fallback={
-                                    <ClipLoader
-                                        color={"rgb(231, 214, 182)"}
-                                        loading={true}
-                                        size={30}
-                                    />
-                                }
-                            >
-                                <CommentSection
-                                    targetId={profileUserId}
-                                    targetType="User"
-                                />
-                            </Suspense>
-                        ) : (
-                            <div>Comment section will load when visible</div>
-                        )} */}
-                    </section>
-                }
-            </main>
-        )
-    } else if (isLoading) {
-        return (
-            <main>
-                <ClipLoader
-                    color={"rgb(231, 214, 182)"}
-                    loading={isLoading}
-                    size={30}
-                />
-            </main>
-        )
-    } else if (isError) {
-        const errormsg = isCustomError(error) && (error.status === 400 || error.status === 401) && error.data.message;
-        return (
-            <main>
-                <div className="sm-alert errmsg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>{errormsg ? errormsg : "an error occured"}</span>
-                </div>
-            </main>
-        )
-    } else {
-        return (
-            <main className="main--userpage">
-                <div className="sm-alert errmsg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>Something went wrong.</span>
-                </div>
+                    ) : (
+                        <div>Comment section will load when visible</div>
+                    )}
+                </section>
             </main>
         )
     }
+
+    // should only show this briefly on mount when fetch is uninitialized, no cache data exists and user is undefined
+    return (
+        <main className="main--userpage">
+        </main>
+    )
 }
 
 export default UserPage

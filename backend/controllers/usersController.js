@@ -1,28 +1,43 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { signupschema, passwordschema, usernameschema, emailschema } from "../validation/userschema.js";
+import Build from "../models/Build.js";
+import { signupschema, passwordschema, usernameschema, emailschema, mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
 import avatarUrlLookup from "../config/avatarUrlLookup.js";
 
-// @desc Get all users
-// @route GET /users
+
+// @desc Get user by id
+// @route GET /users/:id
 // @access Public
-const getAllUsers = async (req, res) => {
+const getUserById = async (req, res) => {
+    const {
+        id
+    } = req.params;
     try {
-        // select all users username and creation date
-        // when not calling any methods like save later on and only want to get the data add a lean()
-        const users = await User.find().select("username createdAt").lean();
-        if (!users?.length) {
-            return res.status(400).json({ message: "No users found" });
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
         }
 
-        res.status(200).json(users);
+        await mongooseidschema.required().validateAsync(id);
+
+        const user = await User.findById(id).select("username createdAt").lean().exec();;
+
+        if (!user) {
+            return res.status(400).json({ message: "No user found" });
+        }
+
+        const transformedUser = {
+            ...user,
+            id: user._id.toString(),
+        };
+
+        res.status(200).json(transformedUser);
     } catch (err) {
-        return res.status(400).json({ message: "Error retrieving all usernames" })
+        return res.status(500).json({ message: "Error retrieving user" })
     }
-};
+}
 
 // @desc Create new user
 // @route POST /users
@@ -270,9 +285,45 @@ const deleteUser = async (req, res) => {
     }
 };
 
+// @desc Get all builds of user by id
+// @route GET /users/:id
+// @access Public
+const getAllBuildsOfUser = async (req, res) => {
+    const {
+        id
+    } = req.params;
+    try {
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
+        }
+
+        await mongooseidschema.required().validateAsync(id);
+
+        const user = await User.findById(id).lean().exec();
+
+        if (!user) {
+            return res.status(400).json({ message: "No user found" });
+        }
+
+        const builds = await Build.find({ user: id }).lean().exec();
+
+        const transformedBuilds = builds.map(build => ({
+            ...build,
+            id: build._id.toString(),
+            authorId: user._id.toString(),
+            author: user.username,
+        }));
+
+        res.status(200).json({ builds: transformedBuilds, totalBuilds: builds.length });
+    } catch (err) {
+        return res.status(500).json({ message: "Error retrieving builds of user" })
+    }
+}
+
 export {
-    getAllUsers,
+    getUserById,
     createNewUser,
     updateUser,
     deleteUser,
+    getAllBuildsOfUser,
 };

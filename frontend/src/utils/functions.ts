@@ -196,6 +196,10 @@ const mergeSortedArrays = <CommentId extends string>(
     return mergedIds;
 }
 
+const findObjectById = <T extends { id: string }>(array: T[], id: string): T | undefined => {
+    return array.find(item => item.id === id);
+};
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -207,4 +211,5 @@ export {
     sinceDateInString,
     isValidCache,
     mergeSortedArrays,
+    findObjectById,
 }

@@ -1,17 +1,10 @@
-import { ReactElement, useEffect, useRef, lazy, Suspense } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { ReactElement, useEffect, lazy, Suspense } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
-import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
-import { selectUserById } from "src/features/users/usersApiSlice";
-import {
-    CharplannerStateType,
-    loadBuild,
-    resetCharplanner,
-} from "src/features/charplanner/charplannerSlice";
-
-import useAuth from "src/hooks/useAuth";
+import { useLazyGetBuildByIdQuery } from "./charplannerApiSlice";
+import { loadBuild, resetCharplanner, selectBuildId, selectGetBuildByIdCachedData } from "src/features/charplanner/charplannerSlice";
 import useWindowSize from "src/hooks/useWindowSize";
 import useIsInView from "src/hooks/useIsInView";
 import CharacterSection from "src/features/charplanner/CharacterSection";
@@ -19,69 +12,97 @@ import EquipmentSection from "src/features/charplanner/EquipmentSection";
 import InfoSection from "src/features/charplanner/InfoSection";
 import ActionsSection from "src/features/charplanner/ActionsSection";
 import { ClipLoader } from "src/components/ui";
-import { UserType } from "src/types";
 import "src/features/charplanner/Charplanner.scss";
 
 const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
 const Charplanner = (): ReactElement => {
 
-    const windowSize = useWindowSize();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const param = useParams();
-    const buildRef = useRef<CharplannerStateType>();
-    const { userId } = useAuth();
+    const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 900;
-    const { isIntersecting, elementRef: CommentSectionRef } = useIsInView();
 
-    // if param exist select Build through buildId in param
-    const build = useSelector((state: RootState) => {
-        if (param?.buildId) {
-            return selectBuildById(state, param.buildId) as BuildType
+    const [fetchBuildById, {
+        data: loadedBuild,
+        isLoading,
+        isError,
+        isSuccess,
+    }] = useLazyGetBuildByIdQuery();
+
+    const cachedData = useSelector((state: RootState) => {
+        if (param.buildId) {
+            return selectGetBuildByIdCachedData(state, param?.buildId)
         }
         return null
-    });
+    })
 
-    // if build exists select builds author
-    const buildAuthor = useSelector((state: RootState) => {
-        if (build?.user) {
-            return selectUserById(state, build.user) as UserType
-        }
-        return null
-    });
+    const buildId = useSelector(selectBuildId);
 
-    // is the logged in the person the one, who created the build
-    const isBuildAuthor = userId === build?.user;
+    const {
+        isIntersecting,
+        elementRef: CommentSectionRef,
+    } = useIsInView({ shouldObserve: buildId !== null });
 
-    if (build) {
-        // if a build was successfully selected save it to the buildRef
-        buildRef.current = {
-            general: build.general,
-            stats: build.stats,
-            armament: build.armament,
-            talisman: build.talisman,
-            armor: build.armor
-        };
-    }
-
-    // on mount check if buildRef is undefined. If yes reset charplannerSlice.
+    // on mount reset charplanner state
     useEffect(() => {
-        if (!buildRef.current) {
-            dispatch(resetCharplanner());
-        }
+        dispatch(resetCharplanner());
     }, []);
 
-    /*
-        whenever the buildRef changes check if it isnt undefined. 
-        In case it isnt use its value to load a build. Done in 
-        useEffect so dispatch is only getting triggered after 
-        component mounted.
-    */
+    // on mount check if buildId exists as param
+    // if yes try fetching Build from database
     useEffect(() => {
-        if (buildRef.current) {
-            dispatch(loadBuild(buildRef.current));
+        if (!param.buildId) return
+        if (cachedData) {
+            dispatch(loadBuild({
+                buildId: cachedData.id,
+                title: cachedData.title,
+                authorId: cachedData.authorId,
+                general: cachedData.general,
+                stats: cachedData.stats,
+                armament: cachedData.armament,
+                talisman: cachedData.talisman,
+                armor: cachedData.armor,
+            }));
+        } else {
+            fetchBuildById(param.buildId);
         }
-    }, [buildRef.current]);
+    }, [cachedData]);
+
+    // if fetch is successful load Build into state and check if user is the author
+    useEffect(() => {
+        if (!isSuccess) return
+        if (!loadedBuild) return
+        dispatch(loadBuild({
+            buildId: loadedBuild.id,
+            title: loadedBuild.title,
+            authorId: loadedBuild.authorId,
+            general: loadedBuild.general,
+            stats: loadedBuild.stats,
+            armament: loadedBuild.armament,
+            talisman: loadedBuild.talisman,
+            armor: loadedBuild.armor,
+        }));
+    }, [isSuccess]);
+
+    // if fetch fails direct user to /charplanner without params
+    useEffect(() => {
+        if (!isError) return
+        navigate("/charplanner");
+    }, [isError]);
+
+    if (isLoading) {
+        return (
+            <main>
+                <ClipLoader
+                    color={"rgb(231, 214, 182)"}
+                    loading={isLoading}
+                    size={30}
+                />
+            </main>
+        )
+    }
 
     return (
         <main>
@@ -96,11 +117,11 @@ const Charplanner = (): ReactElement => {
                 <p>
                     Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.13.1.</span>
                 </p>
-                {buildAuthor && (
+                {buildId && (
                     <>
                         <div className="divider-4" />
                         <p style={{ color: "white" }}>
-                            Loaded Build: <i>{build?.title}</i> by <Link className="link" to={`/user/${buildAuthor.id}`}>{buildAuthor.username}</Link>
+                            Loaded Build: <i>{loadedBuild?.title || cachedData?.title}</i> by <Link className="link" to={`/user/${loadedBuild?.authorId || cachedData?.authorId}`}>{loadedBuild?.author || cachedData?.author}</Link>
                         </p>
                     </>
                 )}
@@ -118,10 +139,10 @@ const Charplanner = (): ReactElement => {
                 {!isMobile ? <div className="vertical-divider" /> : <div className="horizontal-divider" />}
                 {isMobile && <div className="divider-4" />}
                 <InfoSection />
-                <ActionsSection isBuildAuthor={isBuildAuthor} />
+                <ActionsSection />
             </div>
 
-            {param?.buildId &&
+            {buildId &&
                 <section
                     ref={CommentSectionRef}
                     className="CommentSection"
@@ -137,7 +158,7 @@ const Charplanner = (): ReactElement => {
                             }
                         >
                             <CommentSection
-                                targetId={param.buildId}
+                                targetId={buildId}
                                 targetType="Build"
                             />
                         </Suspense>

@@ -2,54 +2,21 @@ import {
     createEntityAdapter,
     EntityState,
     createSelector,
+    EntityId,
 } from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/api/apiSlice";
-import { RootState } from "../../app/store";
+import { apiSlice } from "src/app/api/apiSlice";
+import { RootState } from "src/app/store";
+import { apiSliceTagType, UserAsAdminType } from "src/types";
 
-const usersAsAdminAdapter = createEntityAdapter({});
+const usersAsAdminAdapter = createEntityAdapter<UserAsAdminType>({
+    selectId: (user) => user._id,
+});
 
-const initialState = usersAsAdminAdapter.getInitialState();
-
-export type UserAsAdminType = {
-    _id: string
-    id: string
-    username: string
-    email: string
-    validated: boolean
-    active: boolean
-    roles: string[]
-    createdAt: string
-    updatedAt: string
-};
-
-export const isUserAsAdminType = (object: any): object is UserAsAdminType => {
-    if (!object) return false
-    if (typeof object !== "object") return false
-    if (!("_id" in object)) return false
-    if (typeof object._id !== "string") return false
-    if (!("id" in object)) return false
-    if (typeof object.id !== "string") return false
-    if (!("username" in object)) return false
-    if (typeof object.username !== "string") return false
-    if (!("email" in object)) return false
-    if (typeof object.email !== "string") return false
-    if (!("validated" in object)) return false
-    if (typeof object.validated !== "boolean") return false
-    if (!("active" in object)) return false
-    if (typeof object.active !== "boolean") return false
-    if (!("roles" in object)) return false
-    if (!Array.isArray(object.roles)) return false
-    if (object.roles.some((value: any) => typeof value !== "string")) return false
-    if (!("createdAt" in object)) return false
-    if (typeof object.createdAt !== "string") return false
-    if (!("updatedAt" in object)) return false
-    if (typeof object.updatedAt !== "string") return false
-    return true
-};
+const initialState: EntityState<UserAsAdminType> = usersAsAdminAdapter.getInitialState();
 
 export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getUsersAsAdmin: builder.query<EntityState<unknown>, string>({
+        getUsersAsAdmin: builder.query<EntityState<UserAsAdminType>, string>({
             query: () => ({
                 url: "/users/admin",
                 validateStatus: (response, result) => {
@@ -61,16 +28,16 @@ export const usersAsAdminApiSlice = apiSlice.injectEndpoints({
                     user.id = user._id
                     return user
                 });
-                return usersAsAdminAdapter.setAll(initialState, loadedUsers)         
+                return usersAsAdminAdapter.setAll(initialState, loadedUsers)
             },
             providesTags: (result) =>
                 result
-                ? [
-                    ...result.ids.map(( id ) => ({ type: "User" as const, id })),
-                    { type: "User", id: "LIST" },
+                    ? [
+                        ...result.ids.map((id): { type: apiSliceTagType, id: EntityId } => ({ type: "User", id })),
+                        { type: "User", id: "LIST" },
                     ]
-                : [{ type: "User", id: "LIST" }],
-            }),
+                    : [{ type: "User", id: "LIST" }],
+        }),
         updateUserAsAdmin: builder.mutation({
             query: initialUserData => ({
                 url: "/users/admin",

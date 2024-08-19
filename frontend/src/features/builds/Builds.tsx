@@ -1,99 +1,176 @@
-import { BuildType, useGetBuildsQuery } from "./buildsApiSlice";
-import { useGetUsersQuery } from "src/features/users/usersApiSlice";
-import BuildsList from "./BuildsList";
-import { ClipLoader } from "src/components/ui";
-import { calcSumObjectValues } from "src/utils/functions";
-import { isCustomError } from "src/utils/typeguards";
-import { UserType } from "src/types";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    functionalUpdate,
+    OnChangeFn,
+    PaginationState,
+    SortingState,
+} from "@tanstack/react-table";
 
-const Builds = () => {
+import { useGetBuildsQuery } from "./buildsApiSlice";
+import {
+    resetBuildsSliceState,
+    selectBuildsAuthorFilter,
+    selectBuildsColumnFilter,
+    selectBuildsField,
+    selectBuildsLevelFilter,
+    selectBuildsLimit,
+    selectBuildsOrder,
+    selectBuildsPagination,
+    selectBuildsSkip,
+    selectBuildsSorting,
+    selectBuildsStarsFilter,
+    selectBuildsTitleFilter,
+    setBuildsColumnFilter,
+    setBuildsPagination,
+    setBuildsSorting,
+} from "./buildsSlice";
+import BuildsTable from "./BuildsTable";
+import { BuildType } from "src/types";
 
-    const {
-        data: builds,
-        isLoading: isBuildsLoading,
-        isSuccess: isBuildsSuccess,
-        isError: isBuildsError,
-        error: buildsError,
-    } = useGetBuildsQuery("buildsList", {
-        pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
-    });
+const BuildsNew = () => {
 
-    const {
-        data: users,
-        isLoading: isUsersLoading,
-        isSuccess: isUsersSuccess,
-        isError: isUsersError,
-        error: usersError,
-    } = useGetUsersQuery("usersList", {
-        pollingInterval: 1000 * 60 * 5 // refetching data in 5 minutes
-    });
+    const dispatch = useDispatch();
 
-    const tableData = isBuildsSuccess && isUsersSuccess && builds.ids.map((buildId) => {
-        const build = builds.entities[buildId] as BuildType;
-        const author = users.entities[build.user] as UserType;
-
-        const sumStats = calcSumObjectValues(build.stats);
-
-        const runelevel = sumStats - 79;
-
-        return {
-            buildId: build.id,
-            authorId: build.user,
-            title: build.title,
-            author: author ? author.username : null,
-            level: runelevel,
-            stars: 0,
-            createdAt: build.createdAt,
-            updatedAt: build.updatedAt,
-        }
-    });
-
-    if (tableData) {
-        return (
-            <>
-                <BuildsList data={tableData} />
-            </>
-        )
-    } else if (isBuildsLoading || isUsersLoading) {
-        return (
-            <main>
-                <ClipLoader
-                    color={"rgb(231, 214, 182)"}
-                    loading={isBuildsLoading ? isBuildsLoading : isUsersLoading}
-                    size={30}
-                />
-            </main>
-        )
-    } else if (isBuildsError) {
-        const errormsg = isCustomError(buildsError) && buildsError.status === 400 && buildsError.data.message;
-        return (
-            <main>
-                <div className="sm-alert errmsg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>{errormsg ? errormsg : "an error occured"}</span>
-                </div>
-            </main>
-        )
-    } else if (isUsersError) {
-        const errormsg = isCustomError(usersError) && usersError.status === 400 && usersError.data.message;
-        return (
-            <main>
-                <div className="sm-alert errmsg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>{errormsg ? errormsg : "an error occured"}</span>
-                </div>
-            </main>
-        )
-    } else {
-        return (
-            <main>
-                <div className="sm-alert errmsg">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>Something went wrong.</span>
-                </div>
-            </main>
-        )
+    const limit = useSelector(selectBuildsLimit);
+    const skip = useSelector(selectBuildsSkip);
+    const pagination = useSelector(selectBuildsPagination);
+    const OnPaginationChange: OnChangeFn<PaginationState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, pagination);
+        dispatch(setBuildsPagination(newValue));
+    };
+    const sorting = useSelector(selectBuildsSorting);
+    const onSortingChange: OnChangeFn<SortingState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, sorting);
+        dispatch(setBuildsSorting(newValue));
     }
+    const order = useSelector(selectBuildsOrder);
+    const field = useSelector(selectBuildsField);
+    const columnFilter = useSelector(selectBuildsColumnFilter);
+    const onColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, columnFilter);
+        dispatch(setBuildsColumnFilter(newValue));
+    };
+
+    const title = useSelector(selectBuildsTitleFilter);
+    const author = useSelector(selectBuildsAuthorFilter);
+    const { minLevel, maxLevel } = useSelector(selectBuildsLevelFilter);
+    const { minStars, maxStars } = useSelector(selectBuildsStarsFilter);
+
+    const {
+        data,
+        isFetching,
+        isError,
+    } = useGetBuildsQuery({
+        limit,
+        skip,
+        field,
+        order,
+        title,
+        author,
+        minLevel,
+        maxLevel,
+        minStars,
+        maxStars,
+    });
+
+    const columns = useMemo<ColumnDef<BuildType, any>[]>(
+        () => [
+            {
+                accessorFn: row => row.title,
+                id: "title",
+                cell: info => {
+                    const buildId = info.row.original.id;
+                    return (
+                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
+                            {info.getValue()}
+                        </Link>
+                    )
+                },
+                header: () => <span>Title</span>,
+            },
+            {
+                accessorFn: row => row.author,
+                id: "author",
+                cell: info => {
+                    const authorId = info.row.original.authorId;
+                    if (info.getValue() === null) {
+                        return (
+                            <>
+                                Account deleted
+                            </>
+                        )
+                    } else {
+                        return (
+                            <Link to={`/user/${authorId}`} title="open profile of build author">
+                                {info.getValue()}
+                            </Link>
+                        )
+                    }
+                },
+                header: () => <span>Author</span>,
+            },
+            {
+                accessorFn: row => row.level,
+                id: "level",
+                cell: info => info.getValue(),
+                header: () => <span>Level</span>,
+            },
+            {
+                accessorFn: row => row.stars,
+                id: "stars",
+                cell: info => info.getValue(),
+                header: () => <span>Stars</span>,
+            },
+            {
+                accessorFn: row => row.createdAt,
+                id: "createdAt",
+                cell: info => {
+                    const createdDate = new Date(info.getValue());
+                    return createdDate.toLocaleDateString()
+                },
+                header: () => <span>Created</span>,
+                enableColumnFilter: false,
+            },
+            {
+                accessorFn: row => row.updatedAt,
+                id: "updatedAt",
+                cell: info => {
+                    const createdDate = new Date(info.row.original.createdAt);
+                    const modifiedDate = new Date(info.getValue());
+                    const isDateEqual = createdDate.valueOf() === modifiedDate.valueOf();
+                    return !isDateEqual ? modifiedDate.toLocaleDateString() : ""
+                },
+                header: () => <span>Modified</span>,
+                enableColumnFilter: false,
+            },
+        ], []
+    );
+
+    useEffect(() => {
+        return () => {
+            dispatch(resetBuildsSliceState());
+        }
+    }, []);
+
+    return (
+        <BuildsTable
+            cols={columns}
+            data={data?.builds}
+            loading={isFetching}
+            error={isError}
+            onPaginationChange={OnPaginationChange}
+            onSortingChange={onSortingChange}
+            onColumnFiltersChange={onColumnFiltersChange}
+            totalCount={data ? data.totalBuilds : 0}
+            pageCount={data ? Math.ceil(data.totalBuilds / limit) : 0}
+            pagination={pagination}
+            sorting={sorting}
+        />
+    )
 }
 
-export default Builds
+export default BuildsNew

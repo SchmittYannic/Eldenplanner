@@ -590,7 +590,7 @@ td {
     .table--filter {
         width: 100%;
         display: grid;
-        grid-template-columns: 2fr 1fr 2fr 2fr;
+        grid-template-columns: 3fr 2fr 2fr 2fr;
         justify-items: center;
         gap: 1.5rem;
 
@@ -690,6 +690,20 @@ td {
     }
 }
 
+.table--placeholder {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / 7;
+    padding: 2rem 0;
+    border: 1px solid hsl(v.$border-color);
+    border-bottom-left-radius: calc(v.$border-radius - 2px);
+    border-bottom-right-radius: calc(v.$border-radius - 2px);
+
+    tr,
+    td {
+        border: none !important;
+    }
+}
 
 
 
@@ -1061,6 +1075,10 @@ td {
         .splitpage1__rightside {
             max-width: none;
         }
+    }
+
+    .table--placeholder {
+        border: none
     }
 }
 

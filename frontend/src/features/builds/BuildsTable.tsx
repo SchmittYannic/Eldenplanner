@@ -1,139 +1,57 @@
-import { ReactElement, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
 import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
-import {
-    useReactTable,
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFacetedMinMaxValues,
-    getPaginationRowModel,
-    getSortedRowModel,
-    //FilterFn,
-    ColumnDef,
-    flexRender,
-} from "@tanstack/react-table";
-//import { RankingInfo } from "@tanstack/match-sorter-utils";
-import FuzzyFilter from "../../utils/FuzzyFilter";
-import { BuildListItem } from "src/types";
-import FilterTable from "../../components/FilterTable";
-import useWindowSize from "../../hooks/useWindowSize";
-import { capitalizeFirstLetter } from "../../utils/functions";
-import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
-import { DebouncedInput } from "../../components/ui";
-// declare module "@tanstack/table-core" {
-//     interface FilterFns {
-//         fuzzy: FilterFn<unknown>
-//     }
-//     interface FilterMeta {
-//         itemRank: RankingInfo
-//     }
-// }
+import FilterTable from "src/components/FilterTable";
+import { DebouncedInput } from "src/components/ui";
+import useWindowSize from "src/hooks/useWindowSize";
+import { BuildType } from "src/types";
+import { capitalizeFirstLetter } from "src/utils/functions";
 
-const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
+type BuildsTablePropsType = {
+    cols: ColumnDef<BuildType>[],
+    data?: BuildType[],
+    loading: boolean,
+    error: boolean,
+    onPaginationChange: OnChangeFn<PaginationState>,
+    onSortingChange: OnChangeFn<SortingState>,
+    onColumnFiltersChange: OnChangeFn<ColumnFiltersState>
+    totalCount: number,
+    pageCount: number,
+    pagination: {
+        pageSize: number,
+        pageIndex: number,
+    },
+    sorting: SortingState,
+}
+
+const BuildsTable = ({
+    cols,
+    data,
+    loading,
+    error,
+    onPaginationChange,
+    onSortingChange,
+    onColumnFiltersChange,
+    totalCount,
+    pageCount,
+    pagination,
+    sorting,
+}: BuildsTablePropsType) => {
 
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
 
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-    const columns = useMemo<ColumnDef<BuildListItem, any>[]>(
-        () => [
-            {
-                accessorFn: row => row.title,
-                id: "title",
-                cell: info => {
-                    const buildId = info.row.original.buildId;
-                    return (
-                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
-                            {info.getValue()}
-                        </Link>
-                    )
-                },
-                header: () => <span>Title</span>,
-                sortingFn: sortCaseInsensitive,
-            },
-            {
-                accessorFn: row => row.author,
-                id: "author",
-                cell: info => {
-                    const authorId = info.row.original.authorId;
-                    if (info.getValue() === null) {
-                        return (
-                            <>
-                                Account deleted
-                            </>
-                        )
-                    } else {
-                        return (
-                            <Link to={`/user/${authorId}`} title="open profile of build author">
-                                {info.getValue()}
-                            </Link>
-                        )
-                    }
-                },
-                header: () => <span>Author</span>,
-                sortingFn: sortCaseInsensitive,
-            },
-            {
-                accessorFn: row => row.level,
-                id: "level",
-                cell: info => info.getValue(),
-                header: () => <span>Level</span>,
-            },
-            {
-                accessorFn: row => row.stars,
-                id: "stars",
-                cell: info => info.getValue(),
-                header: () => <span>Stars</span>,
-            },
-            {
-                accessorFn: row => row.createdAt,
-                id: "created",
-                cell: info => {
-                    const createdDate = new Date(info.getValue());
-                    return createdDate.toLocaleDateString()
-                },
-                header: () => <span>Created</span>,
-                enableColumnFilter: false,
-            },
-            {
-                accessorFn: row => row.updatedAt,
-                id: "modified",
-                cell: info => {
-                    const createdDate = new Date(info.row.original.createdAt);
-                    const modifiedDate = new Date(info.getValue());
-                    const isDateEqual = createdDate.valueOf() === modifiedDate.valueOf();
-                    return !isDateEqual ? modifiedDate.toLocaleDateString() : ""
-                },
-                header: () => <span>Modified</span>,
-                enableColumnFilter: false,
-            },
-        ], []
-    );
-
     const table = useReactTable({
-        data,
-        columns,
-        filterFns: {
-            fuzzy: FuzzyFilter,
-        },
-        state: {
-            columnFilters,
-        },
-        onColumnFiltersChange: setColumnFilters,
+        data: data ? data : [],
+        columns: cols,
         getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
-        getFacetedMinMaxValues: getFacetedMinMaxValues(),
-        debugTable: false,
-        debugHeaders: false,
-        debugColumns: false,
+        manualPagination: true,
+        manualSorting: true,
+        manualFiltering: true,
+        onPaginationChange,
+        onSortingChange,
+        onColumnFiltersChange,
+        state: { pagination, sorting },
+        pageCount,
     });
 
     return (
@@ -148,7 +66,11 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if (header.column.getCanFilter()) {
                                 return (
-                                    <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
+                                    <FilterTable
+                                        key={`filter` + header.column.id}
+                                        column={header.column}
+                                        table={table}
+                                    />
                                 )
                             }
                         }))
@@ -171,14 +93,15 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >
+                                        <div
+                                            {...{
+                                                key: header.id,
+                                                className: "table__sort",
+                                                onClick: header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -219,14 +142,17 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                                 {headerGroup.headers.map(header => {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >
+                                        <th
+                                            {...{
+                                                className: "table__th table__sort",
+                                                key: header.id,
+                                                colSpan: header.colSpan,
+                                                scope: "col",
+                                                onClick: loading ? () => { } : header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -255,40 +181,79 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                     </thead>
                 }
                 <tbody>
-                    {table.getRowModel().rows.map(row => {
-                        return (
-                            <tr key={row.id} className="table__row build">
-                                {row.getVisibleCells().map(cell => {
-                                    if (isMobile) {
-                                        const header = capitalizeFirstLetter(cell.column.id);
-
-                                        return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                <div className="table__cell__head">
-                                                    {header}:
-                                                </div>
-                                                <div className="table__cell__body">
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext()
-                                                    )}
-                                                </div>
-                                            </td>
-                                        )
-                                    } else {
-                                        return (
-                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        )
-                                    }
-                                })}
+                    {loading ?
+                        <tr className="table--placeholder">
+                            <td
+                                className="cliploader"
+                                style={{
+                                    width: "50px",
+                                    height: "50px",
+                                }}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            >
+                                <div
+                                    className="cliploader-section"
+                                    style={{
+                                        borderTopColor: "rgb(231, 214, 182)",
+                                        borderLeftColor: "rgb(231, 214, 182)",
+                                        borderBottomColor: "rgb(231, 214, 182)",
+                                        animationDuration: "1.5s",
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                        : error
+                            ?
+                            <tr className="table--placeholder">
+                                <td className="sm-alert errmsg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Error fetching builds</span>
+                                </td>
                             </tr>
-                        )
-                    })}
+                            : !data || data?.length === 0
+                                ?
+                                <tr className="table--placeholder">
+                                    <td>No Builds found</td>
+                                </tr>
+                                :
+                                <>
+                                    {table.getRowModel().rows.map(row => {
+                                        return (
+                                            <tr key={row.id} className="table__row build">
+                                                {row.getVisibleCells().map(cell => {
+                                                    if (isMobile) {
+                                                        const header = capitalizeFirstLetter(cell.column.id);
+
+                                                        return (
+                                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                                <div className="table__cell__head">
+                                                                    {header}:
+                                                                </div>
+                                                                <div className="table__cell__body">
+                                                                    {flexRender(
+                                                                        cell.column.columnDef.cell,
+                                                                        cell.getContext()
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <td key={cell.id} className={`table__cell ${cell.column.id}`}>
+                                                                {flexRender(
+                                                                    cell.column.columnDef.cell,
+                                                                    cell.getContext()
+                                                                )}
+                                                            </td>
+                                                        )
+                                                    }
+                                                })}
+                                            </tr>
+                                        )
+                                    })}
+                                </>
+                    }
                 </tbody>
             </table>
 
@@ -356,13 +321,13 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
                     }}
                     title="max number of entries per page"
                 >
-                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                    {[5, 10, 15, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
                     ))}
                 </select>
-                <div>{table.getPrePaginationRowModel().rows.length} Builds Total</div>
+                <div>{totalCount} Builds Total</div>
             </div>
 
             {/* keep for debug purposes */}
@@ -370,7 +335,6 @@ const BuildsList = ({ data }: { data: BuildListItem[] }): ReactElement => {
             <div className="divider-4" />
         </main>
     )
-
 }
 
-export default BuildsList
+export default BuildsTable

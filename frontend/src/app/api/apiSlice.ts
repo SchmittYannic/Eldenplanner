@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query/react";
 import { setCredentials } from "src/features/auth/authSlice";
 import { RootState } from "src/app/store";
-import { CustomError } from "src/types";
+import { apiSliceTagOptions, CustomError } from "src/types";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.API_BASEURL,
@@ -49,11 +49,8 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
     return result
 }
 
-const tagTypes = ["User", "Build", "Comments", "Likes"] as const;
-export type tagTypesType = typeof tagTypes[number];
-
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: tagTypes,
+    tagTypes: apiSliceTagOptions,
     endpoints: () => ({})
 });

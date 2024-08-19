@@ -1,44 +1,26 @@
-import {
-    createSelector,
-    createEntityAdapter,
-    EntityState
-} from "@reduxjs/toolkit";
 import { apiSlice } from "src/app/api/apiSlice"
 import { RootState } from "src/app/store";
-import { UserType } from "src/types";
+import { apiSliceTagType, GetBuildsOfUserResponseType, UserType } from "src/types";
 
-const usersAdapter = createEntityAdapter({});
-
-const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getUsers: builder.query<EntityState<unknown>, string>({
-            query: () => ({
-                url: '/users',
+        getUserById: builder.query<UserType, string>({
+            query: (id) => ({
+                url: `/users/${id}`,
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
             }),
-            transformResponse: (responseData: UserType[]) => {
-                const loadedUsers = responseData.map(user => {
-                    user.id = user._id
-                    return user
-                });
-                return usersAdapter.setAll(initialState, loadedUsers)
-            },
-            providesTags: (result) =>
-                result
-                    ? [
-                        ...result.ids.map((id) => ({ type: 'User' as const, id })),
-                        { type: 'User', id: 'LIST' },
-                    ]
-                    : [{ type: 'User', id: 'LIST' }],
+            keepUnusedDataFor: 300,
+            providesTags: (_result, _error, id) => [
+                { type: "User", id },
+            ],
         }),
         addNewUser: builder.mutation({
             query: initialUserData => ({
-                url: '/users',
-                method: 'POST',
+                url: "/users",
+                method: "POST",
                 body: {
                     ...initialUserData,
                 },
@@ -47,13 +29,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             invalidatesTags: [
-                { type: 'User', id: "LIST" }
+                { type: "User", id: "LIST" }
             ]
         }),
         updateUser: builder.mutation({
             query: initialUserData => ({
-                url: '/users',
-                method: 'PATCH',
+                url: "/users",
+                method: "PATCH",
                 body: {
                     ...initialUserData,
                 },
@@ -74,7 +56,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         deleteUser: builder.mutation({
             query: ({ id }) => ({
                 url: `/users`,
-                method: 'DELETE',
+                method: "DELETE",
                 body: { id },
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
@@ -90,29 +72,33 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        getBuildsOfUser: builder.query<GetBuildsOfUserResponseType, { id: string }>({
+            query: ({ id }) => ({
+                url: `/users/${id}/builds`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                        ...result.builds.map(({ id }): { type: apiSliceTagType, id: string } => ({ type: "Build", id })),
+                        { type: "Build", id: "LIST" },
+                    ]
+                    : [{ type: "Build", id: "LIST" }],
+        }),
     }),
 })
 
 export const {
-    useGetUsersQuery,
+    useLazyGetUserByIdQuery,
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,
-} = usersApiSlice
+    useGetBuildsOfUserQuery,
+} = usersApiSlice;
 
-// returns the query result object
-export const selectUsersResult = usersApiSlice.endpoints.getUsers.select("usersList");
-
-//creates memoized selector
-const selectUsersData = createSelector(
-    selectUsersResult,
-    usersResult => usersResult.data // normalized state object with ids & entities
-);
-
-//getSelectors creates these selectors and we rename them with aliases using destructuring
-export const {
-    selectAll: selectAllUsers,
-    selectById: selectUserById,
-    selectIds: selectUserIds
-    // Pass in a selector that returns the users slice of state
-} = usersAdapter.getSelectors((state: RootState) => selectUsersData(state) ?? initialState);
+export const selectGetUserByIdCachedData = (state: RootState, userId: string) => {
+    const cacheKey = `getUserById("${userId}")`;
+    return state.api.queries[cacheKey]?.data as UserType ?? null;
+};

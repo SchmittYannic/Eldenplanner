@@ -1,23 +1,25 @@
 import { ReactElement, useState } from "react";
+import { useSelector } from "react-redux";
+
+import { selectAuthorId } from "./charplannerSlice";
+import useAuth from "src/hooks/useAuth";
 import SaveBuild from "./SaveBuild";
-import useAuth from "../../hooks/useAuth";
 import DeleteBuild from "./DeleteBuild";
 
-type PropsType = {
-    isBuildAuthor: boolean
-};
 
-const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
+const ActionsSection = (): ReactElement => {
 
-    const { status } = useAuth();
+    const authorId = useSelector(selectAuthorId);
+    const { userId } = useAuth();
 
     const [isDeleteTriggered, setIsDeleteTriggered] = useState(false);
     const [isSaveTriggered, setIsSaveTriggered] = useState(false);
 
+    const isBuildAuthor = authorId === userId;
+
     const onSaveClicked = () => {
-        if (status !== "Visitor") {
-            setIsSaveTriggered(true);
-        }
+        if (!userId) return
+        setIsSaveTriggered(true);
     };
 
     const onDeleteClick = () => setIsDeleteTriggered(true);
@@ -42,8 +44,8 @@ const ActionsSection = ({ isBuildAuthor }: PropsType): ReactElement => {
                 className="Charplanner__Save action-btn"
                 type="button"
                 onClick={onSaveClicked}
-                title={status === "Visitor" ? "Requires Login" : isBuildAuthor ? "Update Build" : "Save Build"}
-                disabled={status === "Visitor"}
+                title={!userId ? "Requires Login" : isBuildAuthor ? "Update Build" : "Save Build"}
+                disabled={!userId}
             >
                 {isBuildAuthor ? "Update" : "Save"}
             </button>

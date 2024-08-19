@@ -4,11 +4,14 @@ const useIsInView = ({
     threshold = 0.1,
     root = null,
     rootMargin = "0px",
+    shouldObserve = true,
 } = {}) => {
     const [isIntersecting, setIsIntersecting] = useState(false);
     const elementRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
+        if (!shouldObserve) return;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
@@ -34,10 +37,12 @@ const useIsInView = ({
                 observer.unobserve(element);
             }
         };
-    }, [root, rootMargin, threshold]);
+    }, [root, rootMargin, threshold, shouldObserve]);
 
     // Immediate check if element is already in view
     useEffect(() => {
+        if (!shouldObserve) return;
+
         const checkIfAlreadyInView = () => {
             if (elementRef.current) {
                 const rect = elementRef.current.getBoundingClientRect();
@@ -49,9 +54,9 @@ const useIsInView = ({
         };
 
         checkIfAlreadyInView();
-    }, []);
+    }, [shouldObserve]);
 
     return { isIntersecting, elementRef };
 };
 
-export default useIsInView
+export default useIsInView;

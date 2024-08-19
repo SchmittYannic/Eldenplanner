@@ -1,13 +1,6 @@
-export type BuildListItem = {
-    buildId: number,
-    authorId: string,
-    title: string,
-    author: string | null,
-    level: number,
-    stars: number,
-    createdAt: string,
-    updatedAt: string,
-};
+import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
+
+/* apiSlice related types */
 
 export type CustomFormError = {
     data: {
@@ -26,6 +19,68 @@ export type CustomError = {
     },
     status: number
 };
+
+export const apiSliceTagOptions = ["User", "Build", "Comments", "Likes"] as const;
+export type apiSliceTagType = typeof apiSliceTagOptions[number];
+
+
+/* buildsApiSlice related types */
+
+export const OrderOptions = ["asc", "desc"] as const;
+export type OrderType = typeof OrderOptions[number];
+
+export type BuildType<BuildId extends string = string> = {
+    _id: BuildId
+    id: BuildId
+    authorId: string
+    author: string
+    title: string
+    level: number
+    stars: number
+    general: GeneralStateType
+    stats: StatsStateType
+    armament: ArmamentStateType
+    talisman: TalismanStateType
+    armor: ArmorStateType
+    createdAt: string
+    updatedAt: string
+}
+
+export type GetBuildsQueryParamsType = {
+    limit: number,
+    skip: number,
+    field: string,
+    order: OrderType,
+    title?: string,
+    author?: string,
+    minLevel: string,
+    maxLevel?: string | null,
+    minStars: string,
+    maxStars?: string | null,
+}
+
+export type GetBuildsResponseType = {
+    builds: BuildType[],
+    totalBuilds: number,
+};
+
+
+/* usersApiSlice related types */
+
+export type UserType = {
+    _id: string
+    id: string
+    username: string
+    createdAt: string
+};
+
+export type GetBuildsOfUserResponseType = {
+    builds: BuildType[],
+    totalBuilds: number,
+}
+
+
+/* commentsApiSlice related types */
 
 export const TargetTypeOptions = ["Build", "User"] as const
 export type TargetTypeType = typeof TargetTypeOptions[number];
@@ -57,19 +112,6 @@ export type CommentType<CommentId extends string = string, ReplyId extends strin
     hasLiked?: boolean,
     hasDisliked?: boolean,
 }
-
-
-/* usersApiSlice related types */
-
-export type UserType = {
-    _id: string
-    id: string
-    username: string
-    createdAt: string
-};
-
-
-/* commentsApiSlice related types */
 
 export type GetCommentsResponseType<CommentId extends string> = {
     ids: CommentId[],
@@ -160,3 +202,18 @@ export type PopupStateType = {
 
 const toastTypesArray = ["success", "error"] as const;
 export type ToastTypeType = typeof toastTypesArray[number];
+
+
+/* usersAsAdminApiSlice related types */
+
+export type UserAsAdminType = {
+    _id: string
+    id: string
+    username: string
+    email: string
+    validated: boolean
+    active: boolean
+    roles: string[]
+    createdAt: string
+    updatedAt: string
+};

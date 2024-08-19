@@ -1,13 +1,11 @@
 import { ReactElement, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdSave } from "react-icons/md";
 
-import { RootState } from "src/app/store";
 import { useAddNewBuildMutation, useUpdateBuildMutation } from "src/features/charplanner/charplannerApiSlice";
-import { BuildType, selectBuildById } from "src/features/builds/buildsApiSlice";
-import { selectCharplannerData } from "src/features/charplanner/charplannerSlice";
+import { selectAuthorId, selectBuildId, selectCharplannerData, selectTitle } from "src/features/charplanner/charplannerSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import useAuth from "src/hooks/useAuth";
 import {
@@ -36,7 +34,6 @@ const SaveBuild = ({
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const charplannerData = useSelector(selectCharplannerData);
-    const param = useParams();
     const { userId } = useAuth();
 
     const [addNewBuild, {
@@ -49,14 +46,12 @@ const SaveBuild = ({
         isError: isUpdateError,
     }] = useUpdateBuildMutation();
 
-    const build = useSelector((state: RootState) => {
-        if (param?.buildId) {
-            return selectBuildById(state, param.buildId) as BuildType
-        }
-        return null
-    });
-    const isBuildAuthor = userId === build?.user;
-    const initialBuildTitle = isBuildAuthor ? build?.title : "";
+    const buildId = useSelector(selectBuildId);
+    const authorId = useSelector(selectAuthorId);
+    const title = useSelector(selectTitle);
+
+    const isBuildAuthor = userId === authorId;
+    const initialBuildTitle = isBuildAuthor && title ? title : "";
 
     const {
         register,
@@ -79,12 +74,12 @@ const SaveBuild = ({
         setResponseMsg("");
 
         try {
-            if (isBuildAuthor) {
+            if (isBuildAuthor && buildId) {
                 const { message } = await updateBuild({
-                    buildId: param.buildId,
+                    buildId,
                     userId,
                     title: buildtitle,
-                    data: charplannerData
+                    data: charplannerData,
                 }).unwrap();
                 reset({
                     buildtitle: "",
@@ -95,7 +90,7 @@ const SaveBuild = ({
                 const { message, action } = await addNewBuild({
                     userId,
                     title: buildtitle,
-                    data: charplannerData
+                    data: charplannerData,
                 }).unwrap();
                 reset({
                     buildtitle: "",

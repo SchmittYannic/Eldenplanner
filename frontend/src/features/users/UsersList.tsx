@@ -13,31 +13,28 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-    //FilterFn,
     flexRender,
 } from "@tanstack/react-table";
-//import { RankingInfo } from "@tanstack/match-sorter-utils";
-import { UserAsAdminType } from "./usersAsAdminApiSlice";
-import FuzzyFilter from "../../utils/FuzzyFilter";
-import FilterTable from "../../components/FilterTable";
-import useWindowSize from "../../hooks/useWindowSize";
-import { capitalizeFirstLetter } from "../../utils/functions";
-import sortCaseInsensitive from "../../utils/sortCaseInsensitive";
-import { DebouncedInput } from "../../components/ui";
-// declare module "@tanstack/table-core" {
-//     interface FilterFns {
-//         fuzzy: FilterFn<unknown>
-//     }
-//     interface FilterMeta {
-//         itemRank: RankingInfo
-//     }
-// }
 
-const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
+import FuzzyFilter from "src/utils/FuzzyFilter";
+import FilterTable from "src/components/FilterTable";
+import useWindowSize from "src/hooks/useWindowSize";
+import { capitalizeFirstLetter } from "src/utils/functions";
+import sortCaseInsensitive from "src/utils/sortCaseInsensitive";
+import { DebouncedInput } from "src/components/ui";
+import { UserAsAdminType } from "src/types";
+
+type UsersListPropsType = {
+    data: UserAsAdminType[],
+}
+
+const UsersList = ({
+    data,
+}: UsersListPropsType): ReactElement => {
 
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
-    
+
     const navigate = useNavigate();
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -125,7 +122,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     >
                         <MdEdit />
                     </button>
-                )  
+                )
                 ,
                 header: () => <span>Edit</span>,
                 enableColumnFilter: false,
@@ -143,7 +140,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     >
                         <BsFillTrashFill />
                     </button>
-                )  
+                )
                 ,
                 header: () => <span>Delete</span>,
                 enableColumnFilter: false,
@@ -184,7 +181,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                 <div className="table--filter">
                     {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
-                            if(header.column.getCanFilter()) {
+                            if (header.column.getCanFilter()) {
                                 return (
                                     <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
                                 )
@@ -209,14 +206,15 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                 if (header.column.getCanSort()) {
                                     const isSorted = header.column.getIsSorted();
                                     return (
-                                        <div key={header.id} className="table__sort">                                     
-                                            <div
-                                                {...{
-                                                    className: "flex",
-                                                    onClick: header.column.getToggleSortingHandler(),
-                                                    title: `sort by ${header.id} column`,
-                                                }}
-                                            >                                                                                                  
+                                        <div
+                                            {...{
+                                                key: header.id,
+                                                className: "table__sort",
+                                                onClick: header.column.getToggleSortingHandler(),
+                                                title: `sort by ${header.id} column`,
+                                            }}
+                                        >
+                                            <div className="flex">
                                                 {flexRender(
                                                     header.column.columnDef.header,
                                                     header.getContext()
@@ -224,7 +222,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                 {!isSorted && (
                                                     <span className="swap-vert">
                                                         <MdSwapVert />
-                                                    </span> 
+                                                    </span>
                                                 )}
                                                 {isSorted === "desc" && (
                                                     <span className="arrow-downward">
@@ -235,7 +233,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                     <span className="arrow-upward">
                                                         <MdArrowUpward />
                                                     </span>
-                                                )}                                    
+                                                )}
                                             </div>
                                         </div>
                                     )
@@ -257,16 +255,19 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                 {headerGroup.headers.map(header => {
                                     const isSorted = header.column.getIsSorted();
 
-                                    if (header.column.getCanSort()) {                           
+                                    if (header.column.getCanSort()) {
                                         return (
-                                            <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th table__sort">                              
-                                                <div
-                                                    {...{
-                                                        className: "flex",
-                                                        onClick: header.column.getToggleSortingHandler(),
-                                                        title: `sort by ${header.id} column`,
-                                                    }}
-                                                >                                                                                                  
+                                            <th
+                                                {...{
+                                                    className: "table__th table__sort",
+                                                    key: header.id,
+                                                    colSpan: header.colSpan,
+                                                    scope: "col",
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                    title: `sort by ${header.id} column`,
+                                                }}
+                                            >
+                                                <div className="flex">
                                                     {flexRender(
                                                         header.column.columnDef.header,
                                                         header.getContext()
@@ -274,7 +275,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                     {!isSorted && (
                                                         <span className="swap-vert">
                                                             <MdSwapVert />
-                                                        </span> 
+                                                        </span>
                                                     )}
                                                     {isSorted === "desc" && (
                                                         <span className="arrow-downward">
@@ -285,18 +286,18 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                         <span className="arrow-upward">
                                                             <MdArrowUpward />
                                                         </span>
-                                                    )}                                    
+                                                    )}
                                                 </div>
                                             </th>
                                         )
                                     } else {
                                         return (
-                                            <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">                              
-                                                <div>                                                                                                  
+                                            <th key={header.id} colSpan={header.colSpan} scope="col" className="table__th">
+                                                <div>
                                                     {flexRender(
                                                         header.column.columnDef.header,
                                                         header.getContext()
-                                                    )}                                    
+                                                    )}
                                                 </div>
                                             </th>
                                         )
@@ -312,7 +313,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                             {row.getVisibleCells().map(cell => {
                                 if (isMobile) {
                                     const header = capitalizeFirstLetter(cell.column.id);
-                                    
+
                                     return (
                                         <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                             <div className="table__cell__head">
@@ -325,16 +326,16 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                                                 )}
                                             </div>
                                         </td>
-                                    ) 
+                                    )
                                 } else {
                                     return (
-                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>                                
+                                        <td key={cell.id} className={`table__cell ${cell.column.id}`}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
                                             )}
                                         </td>
-                                    ) 
+                                    )
                                 }
                             })}
                         </tr>
@@ -406,7 +407,7 @@ const UsersList = ({ data }: {data: UserAsAdminType[]}): ReactElement => {
                     }}
                     title="max number of entries per page"
                 >
-                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                    {[5, 10, 15, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                             Show {pageSize}
                         </option>
