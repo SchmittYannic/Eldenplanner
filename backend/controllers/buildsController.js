@@ -163,69 +163,70 @@ const getBuildById = async (req, res) => {
 const createNewBuild = async (req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
     const { userId, title, data } = req.body;
+    try {
+        if (!userId) {
+            return res.status(400).json({ message: "Missing entries in received request body" });
+        }
 
-    if (!userId) {
-        return res.status(400).json({ message: "Missing entries in received request body" });
-    }
+        if (!title) {
+            return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
+        }
 
-    if (!title) {
-        return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
-    }
+        const { general, stats, armament, talisman, armor } = data;
 
-    const { general, stats, armament, talisman, armor } = data;
+        const { charactername } = general;
 
-    const { charactername } = general;
+        const user = await User.findById(userId).lean().exec();
 
-    const user = await User.findById(userId).lean().exec();
+        if (!user) {
+            return res.status(400).json({ message: "No corresponding user found in database" });
+        }
 
-    if (!user) {
-        return res.status(400).json({ message: "No corresponding user found in database" });
-    }
+        /* only allow active users to save builds. */
+        if (!user.active) {
+            return res.status(400).json({ message: "Your account is blocked from saving new builds. Please get in touch with support." });
+        }
 
-    /* only allow active users to save builds. */
-    if (!user.active) {
-        return res.status(400).json({ message: "Your account is blocked from saving new builds. Please get in touch with support." });
-    }
+        /* check if user is below buildLimit. Maximum of 20 builds per account by default unless changed in .env */
+        const builds = await Build.find({ user: userId }).exec();
+        const buildsCount = builds.length;
 
-    /* check if user is below buildLimit. Maximum of 20 builds per account by default unless changed in .env */
-    const builds = await Build.find({ user: userId }).exec();
-    const buildsCount = builds.length;
+        const buildLimit = (process.env.BUILD_LIMIT_PER_ACCOUNT | 0) ?? 20;
+        if (buildsCount >= buildLimit) {
+            return res.status(400).json({ message: `You are exceeding the buildlimit. Max ${buildLimit} builds per account.` });
+        }
 
-    const buildLimit = (process.env.BUILD_LIMIT_PER_ACCOUNT | 0) ?? 20;
-    if (buildsCount >= buildLimit) {
-        return res.status(400).json({ message: "You are exceeding the buildlimit. Max 20 builds per account." });
-    }
+        /* empty string characternames default to Tarnished */
+        let validCharactername = charactername
+        if (charactername === "") {
+            validCharactername = "Tarnished";
+        }
 
-    /* empty string characternames default to Tarnished */
-    let validCharactername = charactername
-    if (charactername === "") {
-        validCharactername = "Tarnished";
-    }
+        const level = stats.vigor + stats.mind + stats.endurance + stats.strength + stats.dexterity + stats.intelligence + stats.faith + stats.arcane - 79;
 
-    /* create buildObject to send to DB */
-    const buildObject = {
-        user: userId,
-        title,
-        general: {
-            charactername: validCharactername,
-            startingclass: general.startingclass,
-            greatrune: general.greatrune,
-            greatruneactive: general.greatruneactive
-        },
-        stats,
-        armament,
-        talisman,
-        armor
-    };
+        /* create buildObject to send to DB */
+        const buildObject = {
+            user: userId,
+            title,
+            level,
+            general: {
+                charactername: validCharactername,
+                startingclass: general.startingclass,
+                greatrune: general.greatrune,
+                greatruneactive: general.greatruneactive
+            },
+            stats,
+            armament,
+            talisman,
+            armor
+        };
 
-    /* Create and store new build in DB */
-    const build = await Build.create(buildObject);
+        /* Create and store new build in DB */
+        const build = await Build.create(buildObject);
 
-    if (build) {
-        // created build successfully
         res.status(201).json({ message: `New build ${build.title} created`, action: build._id });
-    } else {
-        res.status(400).json({ message: "Invalid build data received" });
+    } catch (err) {
+        res.status(500).json({ message: "Error creating new Build" });
     }
 };
 
