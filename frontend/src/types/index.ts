@@ -111,6 +111,11 @@ export type UserType = {
     createdAt: string
 };
 
+export type GetBuildsOfUserResponseType = {
+    builds: BuildType[],
+    totalBuilds: number,
+}
+
 
 /* commentsApiSlice related types */
 
