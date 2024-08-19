@@ -34,8 +34,9 @@ const UserPage = (): ReactElement => {
         return null
     });
 
-    const [isOwnProfile, setIsOwnProfile] = useState(false);
     const [user, setUser] = useState<UserType>();
+
+    const isOwnProfile = user?.id === authUserId;
 
     const {
         isIntersecting,
@@ -56,7 +57,6 @@ const UserPage = (): ReactElement => {
             return
         }
         if (cachedData) {
-            setIsOwnProfile(cachedData.id === authUserId);
             setUser(cachedData);
         } else {
             fetchUserById(profileUserId);
@@ -67,7 +67,6 @@ const UserPage = (): ReactElement => {
     useEffect(() => {
         if (!isSuccess) return
         if (!data) return
-        setIsOwnProfile(data.id === authUserId);
         setUser(data);
     }, [isSuccess]);
 
