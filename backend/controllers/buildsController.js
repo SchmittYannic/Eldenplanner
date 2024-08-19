@@ -236,50 +236,54 @@ const createNewBuild = async (req, res) => {
 const updateBuild = async (req, res) => {
     /* the data objects validity gets checked beforehand by the middleware checkBuildData */
     const { buildId, userId, title, data } = req.body;
-
-    if (!userId || !buildId) {
-        return res.status(400).json({ message: "Missing entries in received request body" });
-    }
-
-    if (!title) {
-        return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
-    }
-
-    const build = await Build.findById(buildId).exec();
-
-    if (!build) {
-        return res.status(400).json({ message: "Build not found" });
-    }
-
-    if (!build.user.equals(userId)) {
-        return res.status(401).json({ message: "User unauthorized" });
-    }
-
-    build.title = title;
-
-    /* check for empty charactername */
-    if (data.general.charactername === "") {
-        build.general = {
-            charactername: "Tarnished",
-            startingclass: data.general.startingclass,
-            greatrune: data.general.greatrune,
-            greatruneactive: data.general.greatruneactive
+    try {
+        if (!userId || !buildId) {
+            return res.status(400).json({ message: "Missing entries in received request body" });
         }
-    } else {
-        build.general = data.general;
-    }
 
-    build.stats = data.stats;
-    build.armament = data.armament;
-    build.talisman = data.talisman;
-    build.armor = data.armor;
+        if (!title) {
+            return res.status(400).json({ message: "Build title is required", context: { label: "buildtitle" } });
+        }
 
-    const updatedBuild = await build.save();
+        const build = await Build.findById(buildId).exec();
 
-    if (updatedBuild) {
+        if (!build) {
+            return res.status(400).json({ message: "Build not found" });
+        }
+
+        if (!build.user.equals(userId)) {
+            return res.status(401).json({ message: "User unauthorized" });
+        }
+
+        build.title = title;
+
+        const { general, stats, armament, talisman, armor } = data;
+
+        /* check for empty charactername */
+        if (general.charactername === "") {
+            build.general = {
+                charactername: "Tarnished",
+                startingclass: general.startingclass,
+                greatrune: general.greatrune,
+                greatruneactive: general.greatruneactive
+            }
+        } else {
+            build.general = general;
+        }
+
+        const level = stats.vigor + stats.mind + stats.endurance + stats.strength + stats.dexterity + stats.intelligence + stats.faith + stats.arcane - 79;
+
+        build.level = level;
+        build.stats = stats;
+        build.armament = armament;
+        build.talisman = talisman;
+        build.armor = armor;
+
+        const updatedBuild = await build.save();
+
         res.status(200).json({ message: `Build ${updatedBuild.title} updated` });
-    } else {
-        res.status(400).json({ message: "Failed to write changes into database" });
+    } catch (err) {
+        res.status(500).json({ message: "Error updating Build" });
     }
 };
 
