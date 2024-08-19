@@ -1,16 +1,5 @@
 import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
 
-export type BuildListItem = {
-    buildId: string,
-    authorId: string,
-    title: string,
-    author: string | null,
-    level: number,
-    stars: number,
-    createdAt: string,
-    updatedAt: string,
-};
-
 export type CustomFormError = {
     data: {
         message: string,
