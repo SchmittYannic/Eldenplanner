@@ -4,6 +4,7 @@ import { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { loadPolygonMaskPlugin } from "@tsparticles/plugin-polygon-mask";
 
+import useWindowSize from "./hooks/useWindowSize";
 import Layout from "./components/Layout";
 import Frontpage from "./components/Frontpage";
 import Login from "./features/auth/Login";
@@ -24,7 +25,11 @@ import Impressum from "./components/Impressum";
 
 const App = (): ReactElement => {
 
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
+
     useEffect(() => {
+        if (isMobile) return
         initParticlesEngine(async (engine) => {
             // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
             // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
