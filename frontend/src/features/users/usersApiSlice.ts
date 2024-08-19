@@ -15,7 +15,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query<EntityState<unknown>, string>({
             query: () => ({
-                url: '/users',
+                url: "/users",
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
@@ -34,6 +34,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                         { type: 'User', id: 'LIST' },
                     ]
                     : [{ type: 'User', id: 'LIST' }],
+        }),
+        getUserById: builder.query<UserType, string>({
+            query: (id) => ({
+                url: `/users/${id}`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            keepUnusedDataFor: 300,
         }),
         addNewUser: builder.mutation({
             query: initialUserData => ({
@@ -95,6 +104,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetUsersQuery,
+    useLazyGetUserByIdQuery,
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,
