@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { apiSlice } from "src/app/api/apiSlice"
 import { RootState } from "src/app/store";
-import { UserType } from "src/types";
+import { GetBuildsOfUserResponseType, UserType } from "src/types";
 
 const usersAdapter = createEntityAdapter({});
 
@@ -102,6 +102,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        getBuildsOfUser: builder.query<GetBuildsOfUserResponseType, { id: string }>({
+            query: ({ id }) => ({
+                url: `/users/${id}/builds`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                        ...result.builds.map(({ id }) => ({ type: "Build" as const, id })),
+                        { type: "Build", id: "LIST" },
+                    ]
+                    : [{ type: "Build", id: "LIST" }],
+        }),
     }),
 })
 
@@ -111,6 +126,7 @@ export const {
     useAddNewUserMutation,
     useUpdateUserMutation,
     useDeleteUserMutation,
+    useGetBuildsOfUserQuery,
 } = usersApiSlice;
 
 export const selectGetUserByIdCachedData = (state: RootState, userId: string) => {
