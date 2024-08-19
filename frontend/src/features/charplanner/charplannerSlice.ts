@@ -1,4 +1,4 @@
-import { ActionCreatorWithPayload, createSlice } from "@reduxjs/toolkit";
+import { ActionCreatorWithPayload, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
 import { BuildType } from "src/types";
 
@@ -51,6 +51,9 @@ export type ArmamentStateType = {
 }
 
 export type CharplannerStateType = {
+    buildId: null | string,
+    title: null | string,
+    authorId: null | string,
     general: GeneralStateType,
     stats: StatsStateType,
     armament: ArmamentStateType,
@@ -59,6 +62,9 @@ export type CharplannerStateType = {
 };
 
 const initialState: CharplannerStateType = {
+    buildId: null,
+    title: null,
+    authorId: null,
     general: {
         charactername: "Tarnished",
         startingclass: "Hero",
@@ -133,14 +139,29 @@ export const charplannerSlice = createSlice({
     initialState,
     reducers: {
         resetCharplanner: (state) => {
+            state.buildId = initialState.buildId;
+            state.title = initialState.title;
+            state.authorId = initialState.authorId;
             state.general = initialState.general;
             state.stats = initialState.stats;
             state.armament = initialState.armament;
             state.talisman = initialState.talisman;
             state.armor = initialState.armor;
         },
-        loadBuild: (state, action) => {
-            const { general, stats, armament, talisman, armor } = action.payload;
+        loadBuild: (state, { payload }: PayloadAction<CharplannerStateType>) => {
+            const {
+                buildId,
+                title,
+                authorId,
+                general,
+                stats,
+                armament,
+                talisman,
+                armor,
+            } = payload;
+            state.buildId = buildId;
+            state.title = title;
+            state.authorId = authorId;
             state.general = general;
             state.stats = stats;
             state.armament = armament;
@@ -312,6 +333,10 @@ export const charplannerSlice = createSlice({
 });
 
 export const selectCharplannerData = (state: RootState): CharplannerStateType => state.charplanner;
+
+export const selectBuildId = (state: RootState): string | null => state.charplanner.buildId;
+export const selectTitle = (state: RootState): string | null => state.charplanner.title;
+export const selectAuthorId = (state: RootState): string | null => state.charplanner.authorId;
 
 export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
 export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
