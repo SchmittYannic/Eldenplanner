@@ -1,12 +1,15 @@
 import { ReactElement, Suspense, lazy, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { useLazyGetUserByIdQuery } from "./usersApiSlice";
+import { RootState } from "src/app/store";
+import { selectGetUserByIdCachedData, useLazyGetUserByIdQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import useIsInView from "src/hooks/useIsInView";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader } from "src/components/ui";
+import { UserType } from "src/types";
 
 const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
@@ -18,11 +21,21 @@ const UserPage = (): ReactElement => {
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
 
     const [fetchUserById, {
-        data: user,
+        data,
         isSuccess,
         isLoading,
         isError,
     }] = useLazyGetUserByIdQuery();
+
+    const cachedData = useSelector((state: RootState) => {
+        if (profileUserId) {
+            return selectGetUserByIdCachedData(state, profileUserId)
+        }
+        return null
+    });
+
+    const [isOwnProfile, setIsOwnProfile] = useState(false);
+    const [user, setUser] = useState<UserType>();
 
     const {
         isIntersecting,
@@ -30,25 +43,32 @@ const UserPage = (): ReactElement => {
     } = useIsInView({
         shouldObserve: user !== undefined,
     });
-    const [isOwnProfile, setIsOwnProfile] = useState(false);
 
     const userSince = user && new Date(user.createdAt);
     const month = userSince && userSince.toLocaleString("default", { month: "long" });
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
 
-    // on mount fetchUserById if it exists else navigate to frontpage
+    // if there is no profileUserId from param direct app user back to frontpage
+    // if cachedData exists use it instead of sending fetch request
     useEffect(() => {
-        if (profileUserId) {
-            fetchUserById(profileUserId);
-        } else {
+        if (!profileUserId) {
             navigate("/");
+            return
         }
-    }, []);
+        if (cachedData) {
+            setIsOwnProfile(cachedData.id === authUserId);
+            setUser(cachedData);
+        } else {
+            fetchUserById(profileUserId);
+        }
+    }, [cachedData]);
 
+    // if fetch is successful setIsOwnProfile
     useEffect(() => {
         if (!isSuccess) return
-        if (!user) return
-        setIsOwnProfile(user.id === authUserId);
+        if (!data) return
+        setIsOwnProfile(data.id === authUserId);
+        setUser(data);
     }, [isSuccess]);
 
     // if fetch fails direct user to frontpage
