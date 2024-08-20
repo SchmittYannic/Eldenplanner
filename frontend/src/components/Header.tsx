@@ -26,7 +26,11 @@ const Header = (): ReactElement => {
 
     return (
         <header>
-            <nav className="primary-nav">
+            <nav
+                className="primary-nav"
+                role="navigation"
+                aria-label="Main menu"
+            >
                 <div className="page-padding">
                     <div className="container-large">
                         <div className="nav-inner">
@@ -46,8 +50,10 @@ const Header = (): ReactElement => {
                                     className="mobile-menu-button"
                                     type="button"
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                    aria-expanded={isMenuOpen}
+                                    aria-controls="main-menu"
                                 >
-                                    <MdMenu />
+                                    <MdMenu aria-hidden />
                                 </button>
                             ) : (
                                 <ul>
@@ -91,7 +97,7 @@ const Header = (): ReactElement => {
                                             >
                                                 <p>
                                                     Logout
-                                                    <MdLogout />
+                                                    <MdLogout aria-hidden />
                                                 </p>
                                             </button>
                                         </li>
@@ -103,7 +109,7 @@ const Header = (): ReactElement => {
                 </div>
 
                 {(isMenuOpen && isMobile) && (
-                    <div className="mobile-menu">
+                    <div id="main-menu" className="mobile-menu">
                         <ul>
                             <li>
                                 <NavLink
@@ -167,10 +173,11 @@ const Header = (): ReactElement => {
                                         className="nav-link logout"
                                         type="button"
                                         onClick={onLogoutClick}
+                                        aria-label="Logout from your account"
                                     >
                                         <p>
                                             Logout
-                                            <MdLogout />
+                                            <MdLogout aria-hidden />
                                         </p>
                                     </button>
                                 </li>
