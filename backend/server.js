@@ -26,7 +26,7 @@ console.log(process.env.NODE_ENV);
 connectDB();
 const db = mongoose.connection;
 app.use(logger);
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 app.use(express.json()); // lets app receive and parse json data
 app.use(cookieParser());
 app.set("trust proxy", 1);
@@ -39,10 +39,10 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 /* ROUTES */
 app.use("/", rootRoute);
-app.use("/auth", authRoutes);
-app.use("/users", userRoutes);
-app.use("/builds", buildRoutes);
-app.use("/comments", commentRoutes);
+app.use("/auth", cors(corsOptions), authRoutes);
+app.use("/users", cors(corsOptions), userRoutes);
+app.use("/builds", cors(corsOptions), buildRoutes);
+app.use("/comments", cors(corsOptions), commentRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes
