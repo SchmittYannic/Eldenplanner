@@ -7,14 +7,6 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    BsHandThumbsUp,
-    BsHandThumbsUpFill,
-    BsHandThumbsDown,
-    BsHandThumbsDownFill,
-    BsThreeDotsVertical,
-} from "react-icons/bs";
-import { MdExpandMore } from "react-icons/md";
 
 import { useAddLikeDislikeMutation, useRemoveLikeDislikeMutation } from "./commentsApiSlice";
 import {
@@ -33,6 +25,14 @@ import useAuth from "src/hooks/useAuth";
 import AuthorThumbnail from "./AuthorThumbnail";
 import CommentBox from "./CommentBox";
 import Replies from "./Replies";
+import {
+    BsHandThumbsUp,
+    BsHandThumbsUpFill,
+    BsHandThumbsDown,
+    BsHandThumbsDownFill,
+    BsThreeDotsVertical,
+    MdExpandMore
+} from "src/components/icons";
 import { sinceDateInString } from "src/utils/functions";
 import { TargetTypeType } from "src/types";
 

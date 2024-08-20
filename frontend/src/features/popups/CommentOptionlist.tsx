@@ -1,10 +1,9 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { PiTrash } from "react-icons/pi";
 
 import { setIsEditMode, setIsReplyMode } from "src/features/comments/commentsSlice";
 import { addCommentDelete, selectPopup, setPopupIsOpen, toggleOpen } from "./popupSlice";
+import { PiTrash, MdOutlineModeEdit } from "src/components/icons";
 import { isCommentOptionlistPropsType } from "src/utils/typeguards";
 import { IconMapKeyType } from "src/types";
 

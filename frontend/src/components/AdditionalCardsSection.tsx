@@ -1,7 +1,6 @@
 import { ReactElement } from "react";
-import { AiOutlineGift, AiOutlineClockCircle } from "react-icons/ai";
-import { GiNetworkBars } from "react-icons/gi";
 
+import { AiOutlineGift, AiOutlineClockCircle, GiNetworkBars } from "src/components/icons/";
 import { Radialhovercard, Radialhovercardimg, Radialhovercards, Radialhovercardtext } from "./ui";
 
 const AdditionalCardsSection = (): ReactElement => {

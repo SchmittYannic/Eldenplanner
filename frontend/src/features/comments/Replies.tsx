@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 import { useLazyGetCommentsQuery } from "./commentsApiSlice";
 import { selectLimit, selectSort } from "./commentsSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import Comment from "./Comment";
 import { ClipLoader } from "src/components/ui";
+import { MdOutlineSubdirectoryArrowRight } from "src/components/icons";
 import { CommentType, TargetTypeType } from "src/types";
 
 type RepliesPropsType = {

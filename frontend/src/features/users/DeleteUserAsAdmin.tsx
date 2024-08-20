@@ -2,7 +2,6 @@ import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MdWarningAmber } from "react-icons/md";
 
 import { useDeleteUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
@@ -15,6 +14,7 @@ import {
     DialogMain,
     Input,
 } from "src/components/ui";
+import { MdWarningAmber } from "src/components/icons";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { UserAsAdminType } from "src/types";
 

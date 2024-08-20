@@ -1,6 +1,6 @@
 import { ReactElement, useRef, useEffect, useState, PropsWithChildren } from "react";
 import FocusTrap from "focus-trap-react";
-import { MdClose } from "react-icons/md";
+import { MdClose } from "src/components/icons";
 import "src/components/ui/Dialog.scss";
 
 type DialogIconPropsType = PropsWithChildren<{}>;

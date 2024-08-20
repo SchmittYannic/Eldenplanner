@@ -2,7 +2,6 @@ import { ReactElement, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MdWarningAmber } from "react-icons/md";
 
 import { useDeleteBuildMutation } from "src/features/charplanner/charplannerApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
@@ -16,6 +15,7 @@ import {
     DialogMain,
     Input,
 } from "src/components/ui";
+import { MdWarningAmber } from "src/components/icons";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type DeleteBuildPropsType = {

@@ -1,9 +1,8 @@
 import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdClose } from "react-icons/md";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 import { deleteToast, selectToast } from "src/features/toasts/toastSlice";
+import { AiFillCheckCircle, AiFillCloseCircle, MdClose } from "src/components/icons";
 import { ToastTypeType } from "src/types";
 import "src/features/toasts/Toast.scss";
 

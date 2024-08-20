@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MdEdit } from "react-icons/md";
 
 import { useUpdateUserMutation } from "src/features/users/usersApiSlice";
 import { setCredentials } from "src/features/auth/authSlice";
@@ -19,6 +18,7 @@ import {
     Input,
     InputPassword,
 } from "src/components/ui";
+import { MdEdit } from "src/components/icons";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { edituserschema } from "src/validation/userschema";
 

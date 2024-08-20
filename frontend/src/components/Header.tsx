@@ -1,16 +1,17 @@
 import { ReactElement, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MdLogout, MdMenu } from "react-icons/md";
-import { useSendLogoutMutation } from "../features/auth/authApiSlice";
-import useAuth from "../hooks/useAuth";
-import useWindowSize from "../hooks/useWindowSize";
-import { navbarlogo } from "../assets";
+
+import { useSendLogoutMutation } from "src/features/auth/authApiSlice";
+import useAuth from "src/hooks/useAuth";
+import useWindowSize from "src/hooks/useWindowSize";
+import { navbarlogo } from "src/assets";
+import { MdLogout, MdMenu } from "src/components/icons";
 
 const Header = (): ReactElement => {
 
     const { userId, status, isUser, isDemoadmin, isAdmin } = useAuth();
     const windowSize = useWindowSize();
-    const [sendLogout, {}] = useSendLogoutMutation();
+    const [sendLogout, { }] = useSendLogoutMutation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const isSmallDesktop = windowSize.width && windowSize.width < 920;
@@ -40,12 +41,12 @@ const Header = (): ReactElement => {
                                 </Link>
                             )}
 
-                            {isMobile ? (                              
+                            {isMobile ? (
                                 <button
                                     className="mobile-menu-button"
                                     type="button"
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                >                                      
+                                >
                                     <MdMenu />
                                 </button>
                             ) : (
@@ -177,7 +178,7 @@ const Header = (): ReactElement => {
                         </ul>
                     </div>
                 )}
-                
+
             </nav>
         </header>
     )

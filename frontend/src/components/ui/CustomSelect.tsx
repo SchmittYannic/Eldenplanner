@@ -1,5 +1,5 @@
 import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
-import { MdClose, MdExpandMore } from "react-icons/md";
+import { MdClose, MdExpandMore } from "src/components/icons";
 import "./CustomSelect.scss";
 
 type SearchSelectPropsType = {
@@ -190,11 +190,15 @@ const CustomSelect = ({
     return (
         <div className={className} title={title}>
             <div className="ddBtn-container">
-                <button tabIndex={disabled ? -1 : 0} onKeyDown={handleButtonKeyDown} >
+                <button
+                    tabIndex={disabled ? -1 : 0}
+                    onKeyDown={handleButtonKeyDown}
+                    title={enableDelete && inputValue !== "" ? "Remove current selection" : ""}
+                >
                     {enableDelete ?
                         inputValue === "" ?
                             <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} /> :
-                            <MdClose className="ddBtn" onMouseDown={handleReset} title="Remove current selection" />
+                            <MdClose className="ddBtn" onMouseDown={handleReset} />
                         : <MdExpandMore className="ddBtn" onClick={handleClickExpandButton} />
                     }
                 </button>

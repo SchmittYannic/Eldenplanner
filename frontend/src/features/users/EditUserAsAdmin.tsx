@@ -1,7 +1,6 @@
 import { ReactElement, ChangeEvent, MouseEvent, KeyboardEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { MdEdit } from "react-icons/md";
 
 import { useUpdateUserAsAdminMutation } from "src/features/users/usersAsAdminApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
@@ -17,6 +16,7 @@ import {
     FormInput,
     MultiSelect,
 } from "src/components/ui";
+import { MdEdit } from "src/components/icons";
 import { UserAsAdminType } from "src/types";
 
 type EditUserAsAdminPropsType = {

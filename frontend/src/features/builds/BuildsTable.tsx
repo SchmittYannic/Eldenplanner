@@ -1,8 +1,9 @@
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
-import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
+
+import useWindowSize from "src/hooks/useWindowSize";
 import FilterTable from "src/components/FilterTable";
 import { DebouncedInput } from "src/components/ui";
-import useWindowSize from "src/hooks/useWindowSize";
+import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "src/components/icons";
 import { BuildType } from "src/types";
 import { capitalizeFirstLetter } from "src/utils/functions";
 

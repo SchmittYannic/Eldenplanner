@@ -171,6 +171,11 @@
             color: hsl(v.$muted-foreground);
             transform: scale(2);
 
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+
             &:not(:disabled):hover {
                 color: hsl(v.$accent-foreground);
             }

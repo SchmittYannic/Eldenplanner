@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
-import { MdMessage } from "react-icons/md";
 
 import { addToast } from "src/features/toasts/toastSlice";
 import {
@@ -16,6 +15,7 @@ import {
     Input,
     FormTextArea,
 } from "src/components/ui";
+import { MdMessage } from "src/components/icons";
 
 type ContactFormType = {
     email: string,

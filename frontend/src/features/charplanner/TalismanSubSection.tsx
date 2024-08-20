@@ -1,14 +1,22 @@
 import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdWarningAmber } from "react-icons/md";
+
 import {
     talismanReduceractionsMap,
     TalismanReduceractionsMapType,
     selectTalisman,
     TalismanStateType
 } from "./charplannerSlice";
-import { TalismansOptions, TalismansData } from "../../../data/TalismanData";
-import { CustomSelect, Dialog, DialogButtons, DialogContent, DialogIcon, DialogMain } from "../../components/ui";
+import { TalismansOptions, TalismansData } from "src/../data/TalismanData";
+import {
+    CustomSelect,
+    Dialog,
+    DialogButtons,
+    DialogContent,
+    DialogIcon,
+    DialogMain,
+} from "src/components/ui";
+import { MdWarningAmber } from "src/components/icons";
 
 const TalismanSubSection = (): ReactElement => {
 

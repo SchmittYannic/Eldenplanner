@@ -2,7 +2,6 @@ import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MdSave } from "react-icons/md";
 
 import { useAddNewBuildMutation, useUpdateBuildMutation } from "src/features/charplanner/charplannerApiSlice";
 import { selectAuthorId, selectBuildId, selectCharplannerData, selectTitle } from "src/features/charplanner/charplannerSlice";
@@ -17,6 +16,7 @@ import {
     DialogMain,
     Input,
 } from "src/components/ui";
+import { MdSave } from "src/components/icons";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type SaveBuildPropsType = {

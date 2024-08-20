@@ -1,7 +1,5 @@
 import { ReactElement, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MdSwapVert, MdArrowDownward, MdArrowUpward, MdEdit } from "react-icons/md";
-import { BsFillTrashFill } from "react-icons/bs"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -22,6 +20,13 @@ import useWindowSize from "src/hooks/useWindowSize";
 import { capitalizeFirstLetter } from "src/utils/functions";
 import sortCaseInsensitive from "src/utils/sortCaseInsensitive";
 import { DebouncedInput } from "src/components/ui";
+import {
+    MdSwapVert,
+    MdArrowDownward,
+    MdArrowUpward,
+    MdEdit,
+    BsFillTrashFill,
+} from "src/components/icons";
 import { UserAsAdminType } from "src/types";
 
 type UsersListPropsType = {

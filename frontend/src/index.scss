@@ -453,6 +453,11 @@ textarea {
             display: flex;
             align-items: center;
             gap: .5rem;
+
+            svg {
+                height: 20px;
+                width: 20px;
+            }
         }
 
         &:hover p:before {
@@ -624,13 +629,15 @@ td {
 .arrow-upward,
 .arrow-downward,
 .swap-vert {
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
 }
 
 .arrow-upward,
 .arrow-downward {
-    color: hsl(v.$accent-foreground);
+    color: v.$gold;
 }
 
 .table--filter-text {
@@ -997,6 +1004,11 @@ td {
     &.edit,
     &.delete {
         place-content: center;
+    }
+
+    &.edit svg,
+    &.delete svg {
+        width: 14px;
     }
 }
 

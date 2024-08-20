@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
 import { useGetBuildsOfUserQuery } from "./usersApiSlice";
 import useWindowSize from "src/hooks/useWindowSize";
 import { DebouncedInput } from "src/components/ui";
+import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "src/components/icons";
 import sortCaseInsensitive from "src/utils/sortCaseInsensitive";
 import { BuildType, UserType } from "src/types";
-import { capitalizeFirstLetter } from "src/utils/functions";
+import { capitalizeFirstLetter } from "src/utils/functions"
 
 type UserBuildsPropsType = {
     author: UserType

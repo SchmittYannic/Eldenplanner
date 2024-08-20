@@ -7,16 +7,17 @@ import {
     useState
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdExpandMore, MdExpandLess } from "react-icons/md";
+
 import {
     StatsStateType,
     selectStartingclass,
     statReduceractionsMap,
     statSelectorsMap
 } from "./charplannerSlice";
-import useTotalstats from "../../hooks/useTotalstats";
-import { capitalizeFirstLetter } from "../../utils/functions";
-import StartingClassData from "../../../data/StartingClassData";
+import useTotalstats from "src/hooks/useTotalstats";
+import { capitalizeFirstLetter } from "src/utils/functions";
+import { MdExpandMore, MdExpandLess } from "src/components/icons";
+import StartingClassData from "src/../data/StartingClassData";
 
 type PropsType = {
     keyName: string
@@ -25,7 +26,7 @@ type PropsType = {
 const AttributeRow = ({ keyName }: PropsType): ReactElement => {
 
     const dispatch = useDispatch();
-    
+
     const totalStat = useTotalstats(keyName as keyof StatsStateType);
     const startingclass = useSelector(selectStartingclass);
     const minStat = StartingClassData[startingclass][keyName as keyof StatsStateType];
@@ -49,11 +50,11 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
     /*
         Last check before writing the value of the input to state.
         Checks if value is within range of minimum and maximum.
-    */ 
+    */
     const setStatInState = (value: number): void => {
         if (value > 99) {
             value = 99;
-        } else if (value < minStat ) {
+        } else if (value < minStat) {
             value = minStat;
         }
 
@@ -125,7 +126,7 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
         make sure the current inputValue isnt below the new stat minimum.
     */
     useEffect(() => {
-        if(typeof inputValue === "string" || minStat > statValue ) {
+        if (typeof inputValue === "string" || minStat > statValue) {
             resetInput();
         }
     }, [minStat]);
@@ -140,7 +141,7 @@ const AttributeRow = ({ keyName }: PropsType): ReactElement => {
         <div className="AttributeRow">
             <span>{capitalizeFirstLetter(keyName)}</span>
             <span>{minStat}</span>
-            <input 
+            <input
                 value={inputValue}
                 type="text" //number for mobile keyboard?
                 inputMode="numeric"
