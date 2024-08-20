@@ -180,7 +180,7 @@
 
     .card-above {
         position: relative;
-        background-image: url("nettunnelbg.png");
+        background-image: url("/nettunnelbg.png");
         background-position: 50%;
         background-size: cover;
         z-index: 2;
@@ -191,7 +191,7 @@
         bottom: calc(((100vh - 700px) / 2));
         margin-top: 6rem;
         transform: scale(0.80);
-        background-image: url("onofframpsbg.png");
+        background-image: url("/onofframpsbg.png");
         background-position: 50%;
         background-size: cover;
         z-index: 1;
