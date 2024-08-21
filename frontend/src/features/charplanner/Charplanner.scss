@@ -226,6 +226,9 @@
 
 .weaponslot {
     margin-bottom: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .weaponslot-details {
         padding-left: .7em;
