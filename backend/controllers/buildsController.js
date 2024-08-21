@@ -327,12 +327,14 @@ const deleteBuild = async (req, res) => {
             await Comment.deleteMany({ targetType: "Build", targetId: buildId }).session(clientSession);
         }
 
+        const deleteBuildTitle = build.title;
+
         /* delete the build itself */
-        const result = await build.deleteOne().session(clientSession);
+        await build.deleteOne().session(clientSession);
 
         await clientSession.commitTransaction();
         clientSession.endSession();
-        res.status(200).json({ message: `Build ${result.title} deleted` });
+        res.status(200).json({ message: `Build ${deleteBuildTitle} deleted` });
     } catch (err) {
         await clientSession.commitTransaction();
         clientSession.endSession();
