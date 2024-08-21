@@ -250,7 +250,7 @@
     position: relative;
     padding-left: v.$FormPaddingLeft;
     padding-right: v.$FormPaddingRight;
-    font-size: v.$font-size-small;
+    font-size: 0.885rem;
     line-height: 1;
     color: v.$default-label-font-color;
     display: flex;
@@ -264,7 +264,7 @@
 
     .arText,
     .reqText {
-        min-height: v.$font-size-small;
+        min-height: 0.885rem;
     }
 
     .redText {
