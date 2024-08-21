@@ -220,12 +220,12 @@ export const commentsSlice = createSlice({
                     const currentRepliesIds = state.commentEntities[parentId].repliesIds
                     const currentRepliesEntities = state.commentEntities[parentId].repliesEntities
 
-                    if (!currentRepliesIds && !currentRepliesEntities) {
+                    if (!currentRepliesIds || currentRepliesIds.length === 0) {
                         // if the replies to the comment are the first replies that got fetched
                         // write ids and entities to the parent comments repliesIds and repliesEntities keys
                         state.commentEntities[parentId].repliesIds = action.payload.ids;
                         state.commentEntities[parentId].repliesEntities = action.payload.entities;
-                    } else if (currentRepliesIds && currentRepliesEntities) {
+                    } else if (currentRepliesIds && currentRepliesIds.length !== 0) {
                         // if replies already exist on the comment
                         // Step 1: Filter out Ids that are in the state and not in the response
                         const oldIds = currentRepliesIds.filter(id => !action.payload.ids.includes(id))
