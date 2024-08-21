@@ -1018,9 +1018,15 @@ td {
 /* MEDIA QUERIES */
 
 @media only screen and (max-width: 849px) {
+
     // #root {
     //     display: block;
     // }
+    .primary-nav .nav-link {
+        margin-left: 0;
+        padding: 18px 15px;
+        font-size: 18px;
+    }
 
     tbody tr {
         max-width: 300px;
