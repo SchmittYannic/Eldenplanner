@@ -212,6 +212,7 @@
         input {
             background-color: hsla(v.$accent);
             border-color: transparent;
+            border-style: none;
             border-radius: 5px;
             padding-top: 1.3rem;
             padding-bottom: 1.3rem;
@@ -236,16 +237,6 @@
         button {
             top: calc(1.4rem / 2);
             right: 1rem;
-        }
-
-        &:hover+label {
-            color: unset;
-
-            input {
-                color: unset;
-                border-color: unset;
-                border-style: none;
-            }
         }
     }
 
