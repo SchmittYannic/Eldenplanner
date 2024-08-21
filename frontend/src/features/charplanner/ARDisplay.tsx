@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { useSelector } from "react-redux";
 import {
     armamentSelectorMap,
@@ -17,6 +17,14 @@ type PropsType = {
 }
 
 const ARDisplay = ({ id }: PropsType): ReactElement => {
+
+    const [reqIsHovered, setReqIsHovered] = useState(false);
+    const [arIsHovered, setArIsHovered] = useState(false);
+
+    const handleReqMouseEnter = () => setReqIsHovered(true);
+    const handleReqMouseLeave = () => setReqIsHovered(false);
+    const handleArMouseEnter = () => setArIsHovered(true);
+    const handleArMouseLeave = () => setArIsHovered(false);
 
     const totalStats = useTotalstats() as StatsStateType;
 
@@ -78,13 +86,45 @@ const ARDisplay = ({ id }: PropsType): ReactElement => {
 
     return (
         <div className={weapon ? "ARDisplay" : "ARDisplay Invisible"}>
-            <span className={isFulfilled ? "" : "redText"}>
+            <span
+                className={isFulfilled ? "" : "redText"}
+                onMouseEnter={handleReqMouseEnter}
+                onMouseLeave={handleReqMouseLeave}
+                onFocus={handleReqMouseEnter}
+                onBlur={handleReqMouseLeave}
+                tabIndex={weapon ? 0 : -1}
+                aria-hidden={weapon ? false : true}
+                aria-describedby={weapon ? "tooltip-req" : undefined}
+            >
                 <div className="reqText">{text}</div>
-                <div className="Tooltip">{tooltipText}</div>
+                <div
+                    id="tooltip-req"
+                    className="Tooltip left"
+                    role="tooltip"
+                    aria-hidden={weapon && reqIsHovered ? false : true}
+                >
+                    {tooltipText}
+                </div>
             </span>
-            <span className={isFulfilled ? "" : "Invisible"}>
+            <span
+                className={isFulfilled ? "" : "Invisible"}
+                onMouseEnter={handleArMouseEnter}
+                onMouseLeave={handleArMouseLeave}
+                onFocus={handleArMouseEnter}
+                onBlur={handleArMouseLeave}
+                tabIndex={weapon && isFulfilled ? 0 : -1}
+                aria-hidden={weapon && isFulfilled ? false : true}
+                aria-describedby={weapon && isFulfilled ? "tooltip-ar" : undefined}
+            >
                 <div className="arText">{ARCalculation[0]}</div>
-                <div className="Tooltip">{ARCalculation[1]}</div>
+                <div
+                    id="tooltip-ar"
+                    className="Tooltip right"
+                    role="tooltip"
+                    aria-hidden={weapon && isFulfilled && arIsHovered ? false : true}
+                >
+                    {ARCalculation[1]}
+                </div>
             </span>
         </div>
     )
