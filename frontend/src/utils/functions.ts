@@ -200,6 +200,18 @@ const findObjectById = <T extends { id: string }>(array: T[], id: string): T | u
     return array.find(item => item.id === id);
 };
 
+const resetZoomOnMobile = () => {
+    const doc = document.querySelector('meta[name="viewport"]')
+    if (!doc) return
+    // Temporarily disable zoom
+    doc.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0');
+
+    // Re-enable zoom after a short delay to restore normal behavior
+    setTimeout(() => {
+        doc.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    }, 500); // 500ms delay to ensure zoom is reset
+}
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -212,4 +224,5 @@ export {
     isValidCache,
     mergeSortedArrays,
     findObjectById,
+    resetZoomOnMobile,
 }
