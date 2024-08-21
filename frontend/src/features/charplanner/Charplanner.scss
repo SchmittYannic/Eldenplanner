@@ -269,11 +269,11 @@
 
     .redText {
         div:not(.Tooltip) {
-            color: #f44336;
+            color: hsl(v.$err-background-color);
         }
 
         .Tooltip {
-            background-color: #f44336;
+            background-color: hsl(v.$err-background-color);
         }
     }
 
