@@ -109,6 +109,10 @@
                 color: v.$default-hover-label-font-color;
                 background-color: rgba(255, 255, 255, 0.432);
             }
+
+            &:disabled {
+                color: hsla(v.$muted-foreground);
+            }
         }
 
         &:hover+label {
@@ -187,7 +191,7 @@
         }
 
         label input {
-            color: v.$InputDisabledColor; //v.$default-label-font-color;
+            color: hsla(v.$muted-foreground); //v.$default-label-font-color;
         }
     }
 
