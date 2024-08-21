@@ -332,7 +332,7 @@ const deleteComment = async (req, res) => {
         }
 
         //delete all likes associated with comment
-        await Comment.deleteMany({ commentId: id }).session(clientSession);;
+        await CommentLike.deleteMany({ commentId: id }).session(clientSession);;
         //delete comment itself
         await Comment.deleteOne({ _id: foundComment._id }).session(clientSession);
         await clientSession.commitTransaction();
