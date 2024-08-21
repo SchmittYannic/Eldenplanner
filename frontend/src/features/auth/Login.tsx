@@ -11,7 +11,6 @@ import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
 import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isFieldName } from "src/utils/typeguards";
-import { resetZoomOnMobile } from "src/utils/functions";
 
 type LoginUserType = {
     user: string,
@@ -41,7 +40,6 @@ const Login = (): ReactElement => {
     const [responseMsg, setResponseMsg] = useState("");
 
     const onSubmit: SubmitHandler<LoginUserType> = async (data) => {
-        resetZoomOnMobile();
         try {
             setResponseMsg("");
             const { message, accessToken } = await login(data).unwrap();
