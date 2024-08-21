@@ -184,7 +184,7 @@ const createComment = async (req, res) => {
             // only increase totalReplies if parentComment is a root comment and not a reply
             if (parentComment.parentId === null) {
                 parentComment.totalReplies += 1;
-                parentComment.save({ clientSession });
+                await parentComment.save({ clientSession });
             }
         }
 
