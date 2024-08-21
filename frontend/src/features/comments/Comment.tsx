@@ -133,6 +133,7 @@ const Comment = memo(({
                     lastFetchedTimestamp,
                     sort,
                     limit,
+                    hasDisliked: comment.hasDisliked,
                 }).unwrap();
             }
         } catch (err) {
@@ -172,6 +173,7 @@ const Comment = memo(({
                     lastFetchedTimestamp,
                     sort,
                     limit,
+                    hasLiked: comment.hasLiked,
                 }).unwrap();
             }
         } catch (err) {

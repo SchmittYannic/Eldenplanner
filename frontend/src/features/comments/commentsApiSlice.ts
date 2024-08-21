@@ -4,11 +4,15 @@ import { v4 as uuidv4 } from "uuid";
 import { apiSlice } from "src/app/api/apiSlice";
 import {
     addCommentId,
+    changeDislikes,
+    changeLikes,
     decrementTotalComments,
     deleteCommentEntity,
     deleteCommentId,
     incrementTotalComments,
     setCommentEntity,
+    setHasDislikedOfComment,
+    setHasLikedOfComment,
 } from "./commentsSlice";
 import {
     CommentType,
@@ -18,6 +22,7 @@ import {
     CreateCommentMutationParamsType,
     DeleteCommentMutationParamsType,
     UpdateCommentMutationParamsType,
+    RemoveLikeDislikeMutationParamsType,
 } from "src/types";
 import { mergeSortedArrays } from "src/utils/functions";
 
@@ -564,10 +569,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     return response.status === 201 && !result.isError
                 },
             }),
-            async onQueryStarted({ commentId, type, ...queryArgsGetComments }, { dispatch, queryFulfilled }) {
-                // save previous state of comment to be able to reset comment if mutation fails
-                let previousState: CommentType | null = null;
-                let newState: CommentType | null = null;
+            async onQueryStarted({ commentId, type, hasLiked, hasDisliked, ...queryArgsGetComments }, { dispatch, queryFulfilled }) {
+
+                const { parentId } = queryArgsGetComments;
 
                 // get cache for other sort options -> if new sort options are added they need to be included here
                 const currentSort = queryArgsGetComments.sort;
@@ -580,9 +584,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     if (!parentId) {
                         // if the comment doesnt exist in cache return
                         if (!draft.entities[commentId]) return
-
-                        // save previous state of comment
-                        previousState = { ...draft.entities[commentId] };
 
                         // if root comment
                         if (type === "like" && !draft.entities[commentId].hasLiked && !draft.entities[commentId].hasDisliked) {
@@ -610,18 +611,12 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                             if (draft.entities[commentId].likes > 0) draft.entities[commentId].likes -= 1;
                             draft.entities[commentId].hasLiked = false;
                         }
-
-                        // save new state of comment
-                        newState = { ...draft.entities[commentId] };
                     } else {
                         // if reply
                         // if the reply doesnt exist in cache return
                         const parentEntity = draft.entities[parentId];
                         const repliesEntities = parentEntity?.repliesEntities;
                         if (!repliesEntities || !repliesEntities[commentId]) return
-
-                        // save previous state of comment
-                        previousState = { ...repliesEntities[commentId] };
 
                         if (type === "like" && !repliesEntities[commentId].hasLiked && !repliesEntities[commentId].hasDisliked) {
                             // if like is added and comment hasLiked and hasDisliked is false
@@ -648,9 +643,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                             if (repliesEntities[commentId].likes > 0) repliesEntities[commentId].likes -= 1;
                             repliesEntities[commentId].hasLiked = false;
                         }
-
-                        // save new state of comment
-                        newState = { ...repliesEntities[commentId] };
                     }
                 }
 
@@ -664,14 +656,66 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 );
 
                 // Optimistic update for comment entity in commentsSlice state
-                if (newState) {
-                    dispatch(
-                        setCommentEntity({
-                            parentId: queryArgsGetComments.parentId,
+                // adding a like
+                if (type === "like") {
+                    // if comment is already disliked
+                    if (hasDisliked) {
+                        // set dislike to false
+                        dispatch(setHasDislikedOfComment({
                             commentId,
-                            newComment: newState,
-                        })
-                    );
+                            parentId,
+                            hasDisliked: false,
+                        }));
+                        // decrement dislikes
+                        dispatch(changeDislikes({
+                            commentId,
+                            parentId,
+                            type: "decrement",
+                        }));
+                    }
+
+                    // set hasLiked to true
+                    dispatch(setHasLikedOfComment({
+                        commentId,
+                        parentId,
+                        hasLiked: true,
+                    }));
+                    // increment likes
+                    dispatch(changeLikes({
+                        commentId,
+                        parentId,
+                        type: "increment",
+                    }));
+                } else if (type === "dislike") {
+                    // if adding disliked
+                    // if comment is already liked
+                    if (hasLiked) {
+                        // set hasLiked to false
+                        dispatch(setHasLikedOfComment({
+                            commentId,
+                            parentId,
+                            hasLiked: false,
+                        }));
+                        // decrement likes
+                        dispatch(changeLikes({
+                            commentId,
+                            parentId,
+                            type: "decrement",
+                        }));
+                    }
+
+                    // set dislike to true
+                    dispatch(setHasDislikedOfComment({
+                        commentId,
+                        parentId,
+                        hasDisliked: true,
+                    }));
+                    // increment dislikes
+                    dispatch(changeDislikes({
+                        commentId,
+                        parentId,
+                        type: "increment",
+                    }));
                 }
 
                 try {
@@ -679,20 +723,69 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 } catch (err) {
                     // if mutation fails undo cache changes and save previous comment entity in commentsSlice state
                     patchResult.undo();
-                    patchResultAlternativeSort.undo()
-                    if (previousState) {
-                        dispatch(
-                            setCommentEntity({
-                                parentId: queryArgsGetComments.parentId,
+                    patchResultAlternativeSort.undo();
+
+                    if (type === "like") {
+                        if (hasDisliked) {
+                            // set dislike to true
+                            dispatch(setHasDislikedOfComment({
                                 commentId,
-                                newComment: previousState,
-                            })
-                        );
+                                parentId,
+                                hasDisliked: true,
+                            }));
+                            // increment dislikes
+                            dispatch(changeDislikes({
+                                commentId,
+                                parentId,
+                                type: "increment",
+                            }));
+                        }
+
+                        // set hasLiked to false
+                        dispatch(setHasLikedOfComment({
+                            commentId,
+                            parentId,
+                            hasLiked: false,
+                        }));
+                        // decrement likes
+                        dispatch(changeLikes({
+                            commentId,
+                            parentId,
+                            type: "decrement",
+                        }));
+                    } else if (type === "dislike") {
+                        if (hasLiked) {
+                            // set hasLiked to true
+                            dispatch(setHasLikedOfComment({
+                                commentId,
+                                parentId,
+                                hasLiked: true,
+                            }));
+                            // increment likes
+                            dispatch(changeLikes({
+                                commentId,
+                                parentId,
+                                type: "increment",
+                            }));
+                        }
+
+                        // set dislike to false
+                        dispatch(setHasDislikedOfComment({
+                            commentId,
+                            parentId,
+                            hasDisliked: false,
+                        }));
+                        // decrement dislikes
+                        dispatch(changeDislikes({
+                            commentId,
+                            parentId,
+                            type: "decrement",
+                        }));
                     }
                 }
             },
         }),
-        removeLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
+        removeLikeDislike: builder.mutation<void, RemoveLikeDislikeMutationParamsType>({
             query: ({ commentId, type }) => ({
                 url: `/comments/${commentId}/like?type=${type}`,
                 method: "DELETE",
@@ -701,9 +794,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             async onQueryStarted({ commentId, type, ...queryArgsGetComments }, { dispatch, queryFulfilled }) {
-                // save previous state of comment 
-                let previousState: CommentType | null = null;
-                let newState: CommentType | null = null;
+
+                const { parentId } = queryArgsGetComments;
 
                 // get cache for other sort options -> if new sort options are added they need to be included here
                 const currentSort = queryArgsGetComments.sort;
@@ -718,9 +810,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         // if the comment doesnt exist in cache return
                         if (!draft.entities[commentId]) return
 
-                        // save previous state of comment
-                        previousState = { ...draft.entities[commentId] };
-
                         if (type === "like" && draft.entities[commentId].hasLiked) {
                             draft.entities[commentId].hasLiked = false;
                             if (draft.entities[commentId].likes > 0) draft.entities[commentId].likes -= 1;
@@ -728,18 +817,12 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                             draft.entities[commentId].hasDisliked = false;
                             if (draft.entities[commentId].dislikes > 0) draft.entities[commentId].dislikes -= 1;
                         }
-
-                        // save new state of comment
-                        newState = { ...draft.entities[commentId] };
                     } else {
                         // if reply
                         // if the reply doesnt exist in cache return
                         const parentEntity = draft.entities[parentId];
                         const repliesEntities = parentEntity?.repliesEntities
                         if (!repliesEntities || !repliesEntities[commentId]) return
-
-                        // save previous state of comment
-                        previousState = { ...repliesEntities[commentId] };
 
                         if (type === "like" && repliesEntities[commentId].hasLiked) {
                             repliesEntities[commentId].hasLiked = false;
@@ -748,9 +831,6 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                             repliesEntities[commentId].hasDisliked = false;
                             if (repliesEntities[commentId].dislikes > 0) repliesEntities[commentId].dislikes -= 1;
                         }
-
-                        // save new state of comment
-                        newState = { ...repliesEntities[commentId] };
                     }
                 }
 
@@ -764,14 +844,28 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                 );
 
                 // Optimistic update for comment entity in commentsSlice state
-                if (newState) {
-                    dispatch(
-                        setCommentEntity({
-                            parentId: queryArgsGetComments.parentId,
-                            commentId,
-                            newComment: newState,
-                        })
-                    );
+                if (type === "like") {
+                    dispatch(setHasLikedOfComment({
+                        commentId,
+                        parentId,
+                        hasLiked: false,
+                    }));
+                    dispatch(changeLikes({
+                        commentId,
+                        parentId,
+                        type: "decrement",
+                    }));
+                } else if (type === "dislike") {
+                    dispatch(setHasDislikedOfComment({
+                        commentId,
+                        parentId,
+                        hasDisliked: false,
+                    }));
+                    dispatch(changeDislikes({
+                        commentId,
+                        parentId,
+                        type: "decrement",
+                    }));
                 }
 
                 try {
@@ -780,14 +874,29 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     // if mutation fails undo cache changes and save previous comment entity in commentsSlice state
                     patchResult.undo();
                     patchResultAlternativeSort.undo();
-                    if (previousState) {
-                        dispatch(
-                            setCommentEntity({
-                                parentId: queryArgsGetComments.parentId,
-                                commentId,
-                                newComment: previousState,
-                            })
-                        );
+
+                    if (type === "like") {
+                        dispatch(setHasLikedOfComment({
+                            commentId,
+                            parentId,
+                            hasLiked: true,
+                        }));
+                        dispatch(changeLikes({
+                            commentId,
+                            parentId,
+                            type: "increment",
+                        }));
+                    } else if (type === "dislike") {
+                        dispatch(setHasDislikedOfComment({
+                            commentId,
+                            parentId,
+                            hasDisliked: true,
+                        }));
+                        dispatch(changeDislikes({
+                            commentId,
+                            parentId,
+                            type: "increment",
+                        }));
                     }
                 }
             },

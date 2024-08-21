@@ -82,6 +82,9 @@ export type GetBuildsOfUserResponseType = {
 
 /* commentsApiSlice related types */
 
+const NumericOperationOption = ["increment", "decrement"];
+export type NumericOperationType = typeof NumericOperationOption[number];
+
 export const TargetTypeOptions = ["Build", "User"] as const
 export type TargetTypeType = typeof TargetTypeOptions[number];
 
@@ -129,6 +132,13 @@ export type GetCommentsQueryParamsType = {
 }
 
 export type AddLikeDislikeMutationParamsType = {
+    commentId: string,
+    type: LikeTypeType,
+    hasLiked?: boolean,
+    hasDisliked?: boolean,
+} & GetCommentsQueryParamsType
+
+export type RemoveLikeDislikeMutationParamsType = {
     commentId: string,
     type: LikeTypeType,
 } & GetCommentsQueryParamsType

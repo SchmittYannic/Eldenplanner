@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-import { CommentType, GetCommentsResponseType, SortCommentsType } from "src/types";
+import { CommentType, GetCommentsResponseType, NumericOperationType, SortCommentsType } from "src/types";
 import { commentsApiSlice } from "./commentsApiSlice";
 import { mergeSortedArrays } from "src/utils/functions";
 
@@ -186,6 +186,58 @@ export const commentsSlice = createSlice({
         setIsReplyMode: (state, { payload }: PayloadAction<string | null>) => {
             state.isReplyMode = payload;
         },
+        changeLikes: (state, { payload }: PayloadAction<{ commentId: string, parentId: string, type: NumericOperationType }>) => {
+            const { commentId, parentId, type } = payload;
+
+            if (type === "increment") {
+                if (!parentId) {
+                    state.commentEntities[commentId].likes += 1;
+                } else if (parentId && state.commentEntities[parentId].repliesEntities) {
+                    state.commentEntities[parentId].repliesEntities[commentId].likes += 1;
+                }
+            } else if (type === "decrement") {
+                if (!parentId && state.commentEntities[commentId].likes > 0) {
+                    state.commentEntities[commentId].likes -= 1;
+                } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId].likes > 0) {
+                    state.commentEntities[parentId].repliesEntities[commentId].likes -= 1;
+                }
+            }
+        },
+        changeDislikes: (state, { payload }: PayloadAction<{ commentId: string, parentId: string, type: NumericOperationType }>) => {
+            const { commentId, parentId, type } = payload;
+
+            if (type === "increment") {
+                if (!parentId) {
+                    state.commentEntities[commentId].dislikes += 1;
+                } else if (parentId && state.commentEntities[parentId].repliesEntities) {
+                    state.commentEntities[parentId].repliesEntities[commentId].dislikes += 1;
+                }
+            } else if (type === "decrement") {
+                if (!parentId && state.commentEntities[commentId].dislikes > 0) {
+                    state.commentEntities[commentId].dislikes -= 1;
+                } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId].dislikes > 0) {
+                    state.commentEntities[parentId].repliesEntities[commentId].dislikes -= 1;
+                }
+            }
+        },
+        setHasLikedOfComment: (state, { payload }: PayloadAction<{ commentId: string, parentId: string, hasLiked: boolean }>) => {
+            const { commentId, parentId, hasLiked } = payload;
+
+            if (!parentId) {
+                state.commentEntities[commentId].hasLiked = hasLiked;
+            } else if (parentId && state.commentEntities[parentId].repliesEntities) {
+                state.commentEntities[parentId].repliesEntities[commentId].hasLiked = hasLiked;
+            }
+        },
+        setHasDislikedOfComment: (state, { payload }: PayloadAction<{ commentId: string, parentId: string, hasDisliked: boolean }>) => {
+            const { commentId, parentId, hasDisliked } = payload;
+
+            if (!parentId) {
+                state.commentEntities[commentId].hasDisliked = hasDisliked;
+            } else if (parentId && state.commentEntities[parentId].repliesEntities) {
+                state.commentEntities[parentId].repliesEntities[commentId].hasDisliked = hasDisliked;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -277,6 +329,10 @@ export const {
     decrementTotalComments,
     setIsEditMode,
     setIsReplyMode,
+    changeLikes,
+    changeDislikes,
+    setHasLikedOfComment,
+    setHasDislikedOfComment,
 } = commentsSlice.actions;
 
 export const selectCachedCommentsData = (state: RootState, targetId: string, targetType: string) => {
