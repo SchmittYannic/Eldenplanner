@@ -288,6 +288,10 @@ const deleteComment = async (req, res) => {
     clientSession.startTransaction();
 
     try {
+        if (!id) {
+            return res.status(400).json({ message: "Comment id required" });
+        }
+
         const foundComment = await Comment.findById(id).session(clientSession);
 
         //check if comment exists
@@ -316,14 +320,14 @@ const deleteComment = async (req, res) => {
         } else {
             //if root comment
             //get all replies and likes to replies and delete them
-            const replies = await Comment.find({ targetId: id }).session(clientSession);
+            const replies = await Comment.find({ parentId: id }).session(clientSession);
             if (replies.length !== 0) {
                 // Get all reply ids
                 const replyIds = replies.map(reply => reply._id);
                 // Find all likes associated with these replies
                 await CommentLike.deleteMany({ commentId: { $in: replyIds } }).session(clientSession);
                 // Delete all replies to the comment
-                await Comment.deleteMany({ targetId: id }).session(clientSession);
+                await Comment.deleteMany({ parentId: id }).session(clientSession);
             }
         }
 
