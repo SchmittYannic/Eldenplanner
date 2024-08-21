@@ -192,14 +192,23 @@ export const commentsSlice = createSlice({
             if (type === "increment") {
                 if (!parentId) {
                     state.commentEntities[commentId].likes += 1;
-                } else if (parentId && state.commentEntities[parentId].repliesEntities) {
-                    state.commentEntities[parentId].repliesEntities[commentId].likes += 1;
+                } else if (parentId) {
+                    const repliesEntities = state.commentEntities[parentId].repliesEntities;
+                    if (!repliesEntities) return
+                    const reply = repliesEntities[commentId];
+                    if (!reply) return
+                    reply.likes += 1;
                 }
             } else if (type === "decrement") {
                 if (!parentId && state.commentEntities[commentId].likes > 0) {
                     state.commentEntities[commentId].likes -= 1;
-                } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId].likes > 0) {
-                    state.commentEntities[parentId].repliesEntities[commentId].likes -= 1;
+                } else if (parentId) {
+                    const repliesEntities = state.commentEntities[parentId].repliesEntities
+                    if (!repliesEntities) return
+                    const reply = repliesEntities[commentId]
+                    if (!reply) return
+                    if (reply.likes === 0) return
+                    reply.likes -= 1;
                 }
             }
         },
@@ -210,13 +219,22 @@ export const commentsSlice = createSlice({
                 if (!parentId) {
                     state.commentEntities[commentId].dislikes += 1;
                 } else if (parentId && state.commentEntities[parentId].repliesEntities) {
-                    state.commentEntities[parentId].repliesEntities[commentId].dislikes += 1;
+                    const repliesEntities = state.commentEntities[parentId].repliesEntities;
+                    if (!repliesEntities) return
+                    const reply = repliesEntities[commentId];
+                    if (!reply) return
+                    reply.dislikes += 1;
                 }
             } else if (type === "decrement") {
                 if (!parentId && state.commentEntities[commentId].dislikes > 0) {
                     state.commentEntities[commentId].dislikes -= 1;
-                } else if (parentId && state.commentEntities[parentId].repliesEntities && state.commentEntities[parentId].repliesEntities[commentId].dislikes > 0) {
-                    state.commentEntities[parentId].repliesEntities[commentId].dislikes -= 1;
+                } else if (parentId) {
+                    const repliesEntities = state.commentEntities[parentId].repliesEntities
+                    if (!repliesEntities) return
+                    const reply = repliesEntities[commentId]
+                    if (!reply) return
+                    if (reply.dislikes === 0) return
+                    reply.dislikes -= 1;
                 }
             }
         },
@@ -225,8 +243,10 @@ export const commentsSlice = createSlice({
 
             if (!parentId) {
                 state.commentEntities[commentId].hasLiked = hasLiked;
-            } else if (parentId && state.commentEntities[parentId].repliesEntities) {
-                state.commentEntities[parentId].repliesEntities[commentId].hasLiked = hasLiked;
+            } else if (parentId) {
+                const repliesEntities = state.commentEntities[parentId].repliesEntities;
+                if (!repliesEntities) return
+                repliesEntities[commentId].hasLiked = hasLiked;
             }
         },
         setHasDislikedOfComment: (state, { payload }: PayloadAction<{ commentId: string, parentId: string, hasDisliked: boolean }>) => {
@@ -234,8 +254,10 @@ export const commentsSlice = createSlice({
 
             if (!parentId) {
                 state.commentEntities[commentId].hasDisliked = hasDisliked;
-            } else if (parentId && state.commentEntities[parentId].repliesEntities) {
-                state.commentEntities[parentId].repliesEntities[commentId].hasDisliked = hasDisliked;
+            } else if (parentId) {
+                const repliesEntities = state.commentEntities[parentId].repliesEntities;
+                if (!repliesEntities) return
+                repliesEntities[commentId].hasDisliked = hasDisliked;
             }
         },
     },
