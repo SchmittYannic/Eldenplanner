@@ -203,10 +203,15 @@
     padding-right: 0;
     padding-left: 0;
     min-width: 60px;
-    background-color: hsla(v.$accent);
 
     label {
+        height: 100%;
+        display: inline-block;
+        background-color: hsla(v.$accent);
+        border-radius: 5px;
+
         p {
+            top: calc(v.$default-label-y-offset + (1.3rem / 2));
             left: calc(v.$default-label-x-offset + .75rem);
         }
 
