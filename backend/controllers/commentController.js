@@ -181,8 +181,11 @@ const createComment = async (req, res) => {
                 return res.status(400).json({ message: "Parent comment not found" });
             }
 
-            parentComment.totalReplies += 1;
-            parentComment.save({ clientSession });
+            // only increase totalReplies if parentComment is a root comment and not a reply
+            if (parentComment.parentId === null) {
+                parentComment.totalReplies += 1;
+                parentComment.save({ clientSession });
+            }
         }
 
         //create new comment in database
