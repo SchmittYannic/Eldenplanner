@@ -278,11 +278,9 @@
     }
 
     .Tooltip {
-        display: none;
+        visibility: hidden;
         position: absolute;
         top: 20px;
-        left: 0px;
-        right: 0px;
         padding: 1.2rem;
         font-size: v.$font-size-small;
         line-height: 1;
@@ -291,10 +289,22 @@
         border-radius: v.$border-radius;
         white-space: pre-wrap;
         z-index: 3;
+        transform: scale(0.8);
+        transition: transform 300ms ease;
+
+        &.left {
+            left: 0px;
+        }
+
+        &.right {
+            right: 0px;
+        }
     }
 
-    span:hover>.Tooltip {
-        display: block;
+    span:hover>.Tooltip,
+    span:focus>.Tooltip {
+        visibility: visible;
+        transform: scale(1);
     }
 }
 
