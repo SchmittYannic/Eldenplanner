@@ -205,6 +205,8 @@
     min-width: 60px;
 
     label {
+        background-color: hsla(v.$accent);
+
         p {
             left: calc(v.$default-label-x-offset + .75rem);
         }
