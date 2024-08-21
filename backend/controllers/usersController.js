@@ -311,7 +311,7 @@ const deleteUser = async (req, res) => {
             }
         }
 
-        //get all comment of users profile
+        //get all comments of users profile
         const commentsOnProfile = await Comment
             .find({ targetType: "User", targetId: userId })
             .session(clientSession)
