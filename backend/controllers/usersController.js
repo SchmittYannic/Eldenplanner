@@ -1,7 +1,10 @@
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Build from "../models/Build.js";
+import Comment from "../models/Comment.js";
+import CommentLike from "../models/CommentLike.js";
 import { signupschema, passwordschema, usernameschema, emailschema, mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
@@ -250,37 +253,154 @@ const updateUser = async (req, res) => {
 // @route DELETE /users
 // @access Private
 const deleteUser = async (req, res) => {
-    try {
-        const {
-            userId,
-        } = req;
-        const {
-            password,
-        } = req.body;
+    const {
+        userId,
+    } = req;
+    const {
+        password,
+    } = req.body;
 
+    const clientSession = await mongoose.startSession();
+    clientSession.startTransaction();
+
+    try {
         if (!password) {
             return res.status(400).json({ message: "No password field in request body", context: { label: "password" } });
         }
 
         //find user in database
-        const user = await User.findById(userId).exec();
+        const user = await User.findById(userId).session(clientSession).exec();
 
         if (!user) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "User not found" });
         }
         //check if password matches with user password
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
         }
 
-        //delete User
-        const result = await user.deleteOne();
+        //get all comments of user
+        const commentsOfUser = await Comment
+            .find({ authorId: userId })
+            .session(clientSession)
+            .lean()
+            .exec();
 
-        const reply = `Username ${result.username} deleted`;
+        if (commentsOfUser.length !== 0) {
+            // iterate through commentsOfUser
+            for (const { _id, parentId } of commentsOfUser) {
+                // if it is a reply
+                if (parentId) {
+                    // get parent comment
+                    const parentComment = await Comment.findById(parentId).session(clientSession);
+                    // decrement totalReplies count
+                    if (parentComment && parentComment.totalReplies > 0) {
+                        parentComment.totalReplies -= 1;
+                        await parentComment.save({ clientSession });
+                    }
+                }
+                // delete all likes associated with the comment
+                await CommentLike.deleteMany({ commentId: _id }).session(clientSession);
+                // delete the comment itself
+                await Comment.findByIdAndDelete(_id).session(clientSession);
+            }
+        }
 
-        res.json(reply);
+        //get all comment of users profile
+        const commentsOnProfile = await Comment
+            .find({ targetType: "User", targetId: userId })
+            .session(clientSession)
+            .exec();
+
+        if (commentsOnProfile.length !== 0) {
+            // Get all ids of the comments
+            const commentsOnProfileIds = commentsOnProfile.map(comment => comment._id);
+            // Find all likes/dislikes associated with these comments and delete them
+            await CommentLike.deleteMany({ commentId: { $in: commentsOnProfileIds } }).session(clientSession);
+            // Delete all comments on users profile
+            await Comment.deleteMany({ targetType: "User", targetId: userId }).session(clientSession);
+        }
+
+        //get all builds of user
+        const userBuilds = await Build
+            .find({ user: userId })
+            .session(clientSession)
+            .exec();
+
+        if (userBuilds.length !== 0) {
+            // Get all ids of the builds
+            const userBuildsIds = userBuilds.map(comment => comment._id);
+            // Get all comments on those builds pages
+            const commentsToUserBuilds = await Comment
+                .find({ targetType: "Build", targetId: { $in: userBuildsIds } })
+                .session(clientSession)
+                .exec();
+
+            if (commentsToUserBuilds.length !== 0) {
+                // Get all ids of the comments made on builds page belonging to the user
+                const commentsToUserBuildsIds = commentsToUserBuilds.map(comment => comment._id);
+                // Find all likes/dislikes associated with these comments and delete them
+                await CommentLike.deleteMany({ commentId: { $in: commentsToUserBuildsIds } }).session(clientSession);
+                // Delete all the comments made on builds page belonging to the user
+                await Comment.deleteMany({ targetType: "Build", targetId: { $in: userBuildsIds } }).session(clientSession);
+            }
+
+            // Delete all the builds of the user
+            await Build.deleteMany({ user: userId }).session(clientSession);
+        }
+
+        //get all likes/dislikes placed by the user 
+        const userslikes = await CommentLike
+            .find({ userId: userId })
+            .session(clientSession)
+            .exec();
+
+        if (userslikes.length !== 0) {
+            // get comment ids of comments liked/disliked by user
+            const commentIds = userslikes.map((like) => ({
+                commentId: like.commentId,
+                type: like.type,
+            }));
+
+            // adjust the like/dislike counts for each comment
+            for (const { commentId, type } of commentIds) {
+                if (type === "like") {
+                    // Decrease the like count
+                    const comment = await Comment.findById(commentId).session(clientSession);
+                    if (comment && comment.likes > 0) {
+                        comment.likes -= 1;
+                        comment.save({ clientSession });
+                    }
+                } else if (type === "dislike") {
+                    // Decrease the dislike count
+                    const comment = await Comment.findById(commentId).session(clientSession);
+                    if (comment && comment.dislikes > 0) {
+                        comment.dislikes -= 1;
+                        comment.save({ clientSession });
+                    }
+                }
+            }
+        }
+
+        //delete all likes/dislikes placed by the user
+        await CommentLike.deleteMany({ userId: userId }).session(clientSession);
+
+        const deleteUsername = user.username;
+
+        //delete the User
+        await user.deleteOne().session(clientSession);
+
+        await clientSession.commitTransaction();
+        clientSession.endSession();
+        res.status(200).json({ message: `User ${deleteUsername} deleted` });
     } catch (err) {
+        await clientSession.abortTransaction();
+        clientSession.endSession();
         return res.status(400).json({ message: "Error deleting User" })
     }
 };

@@ -64,21 +64,23 @@ db.once("open", () => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+
+    /* not needed anymore done in deleteUser function */
     // stream watching if document from users collection is deleted
-    const userDeleteStream = db.collection("users").watch([
-        { $match: { operationType: "delete" } }
-    ]);
+    // const userDeleteStream = db.collection("users").watch([
+    //     { $match: { operationType: "delete" } }
+    // ]);
 
     // whenever a user gets deleted trigger cascade delete for all associated builds
-    userDeleteStream.on("change", async (change) => {
-        try {
-            const deletedUserId = change.documentKey._id;
-            const buildsCollection = db.collection("builds");
-            await buildsCollection.deleteMany({ user: deletedUserId });
-        } catch (err) {
-            logEvents(`"userDeleteStream": ${change.documentKey._id}\t${err}`, "streamErrLog.log");
-        }
-    })
+    // userDeleteStream.on("change", async (change) => {
+    //     try {
+    //         const deletedUserId = change.documentKey._id;
+    //         const buildsCollection = db.collection("builds");
+    //         await buildsCollection.deleteMany({ user: deletedUserId });
+    //     } catch (err) {
+    //         logEvents(`"userDeleteStream": ${change.documentKey._id}\t${err}`, "streamErrLog.log");
+    //     }
+    // })
 });
 
 // listen to error
