@@ -1,5 +1,8 @@
+import mongoose from "mongoose";
 import Build from "../models/Build.js";
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
+import CommentLike from "../models/CommentLike.js";
 import { mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 
@@ -281,6 +284,10 @@ const updateBuild = async (req, res) => {
 const deleteBuild = async (req, res) => {
     const { userId } = req;
     const { buildId } = req.body;
+
+    const clientSession = await mongoose.startSession();
+    clientSession.startTransaction();
+
     try {
         /* Confirm data */
         if (!buildId) {
@@ -288,9 +295,11 @@ const deleteBuild = async (req, res) => {
         }
 
         /* check if build is in database */
-        const build = await Build.findById(buildId).exec();
+        const build = await Build.findById(buildId).session(clientSession).exec();
 
         if (!build) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(400).json({ message: "Build not found" });
         }
 
@@ -298,13 +307,35 @@ const deleteBuild = async (req, res) => {
         const isBuildAuthor = build.user.equals(userId);
 
         if (!isBuildAuthor) {
+            await clientSession.abortTransaction();
+            clientSession.endSession();
             return res.status(401).json({ message: "Unauthorized to delete build" });
         }
 
-        const result = await build.deleteOne();
+        /* get all comments and replies of build */
+        const commentsAndReplies = await Comment
+            .find({ targetType: "Build", targetId: buildId })
+            .session(clientSession);
 
+        /* if build has comments */
+        if (commentsAndReplies.length !== 0) {
+            // Get all ids of the comments and replies
+            const commentsAndRepliesIds = commentsAndReplies.map(comment => comment._id);
+            // Find all likes/dislikes associated with these comments and replies and delete them
+            await CommentLike.deleteMany({ commentId: { $in: commentsAndRepliesIds } }).session(clientSession);
+            // Delete all comments and replies to build
+            await Comment.deleteMany({ targetType: "Build", targetId: buildId }).session(clientSession);
+        }
+
+        /* delete the build itself */
+        const result = await build.deleteOne().session(clientSession);
+
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         res.status(200).json({ message: `Build ${result.title} deleted` });
     } catch (err) {
+        await clientSession.commitTransaction();
+        clientSession.endSession();
         return res.status(500).json({ message: "Error deleting Build" });
     }
 };
