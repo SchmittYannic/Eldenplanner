@@ -41,6 +41,7 @@ const Login = (): ReactElement => {
     const [responseMsg, setResponseMsg] = useState("");
 
     const onSubmit: SubmitHandler<LoginUserType> = async (data) => {
+        resetZoomOnMobile();
         try {
             setResponseMsg("");
             const { message, accessToken } = await login(data).unwrap();
@@ -63,7 +64,6 @@ const Login = (): ReactElement => {
                 setResponseMsg("an error occured");
             }
         }
-        resetZoomOnMobile();
     }
 
     return (
