@@ -194,6 +194,7 @@ const CustomSelect = ({
                     tabIndex={disabled ? -1 : 0}
                     onKeyDown={handleButtonKeyDown}
                     title={enableDelete && inputValue !== "" ? "Remove current selection" : ""}
+                    disabled={disabled}
                 >
                     {enableDelete ?
                         inputValue === "" ?
