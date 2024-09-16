@@ -28,14 +28,6 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
-    "Oil Pot": {
-        "AtkID": 10038001,
-        "attackBasePhysics": 0,
-        "attackBaseMagic": 0,
-        "attackBaseFire": 0,
-        "attackBaseThunder": 0,
-        "attackBaseDark": 0
-    },
     "Redmane Fire Pot": {
         "AtkID": 10030101,
         "attackBasePhysics": 0,
@@ -49,6 +41,38 @@ export const ConsumableData: ConsumableDataType = {
         "attackBasePhysics": 0,
         "attackBaseMagic": 0,
         "attackBaseFire": 344,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Fire Pot": {
+        "AtkID": 210030001,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 360,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Furnace Pot": {
+        "AtkID": 210068000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 370,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Oil Pot": {
+        "AtkID": 10038001,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Oil Pot": {
+        "AtkID": 210038000,
+        "attackBasePhysics": 105,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
@@ -68,6 +92,14 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Hefty Magic Pot": {
+        "AtkID": 210066000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 360,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Lightning Pot": {
         "AtkID": 10032000,
         "attackBasePhysics": 0,
@@ -82,6 +114,30 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 340,
+        "attackBaseDark": 0
+    },
+    "Hefty Lightning Pot": {
+        "AtkID": 210032000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 370,
+        "attackBaseDark": 0
+    },
+    "Red Lightning Pot": {
+        "AtkID": 210070002,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 260,
+        "attackBaseDark": 0
+    },
+    "Hefty Red Lightning Pot": {
+        "AtkID": 210069002,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 310,
         "attackBaseDark": 0
     },
     "Holy Water Pot": {
@@ -108,9 +164,25 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Hefty Poison Pot": {
+        "AtkID": 210037000,
+        "attackBasePhysics": 105,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Fetid Pot": {
         "AtkID": 10033001,
         "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Fetid Pot": {
+        "AtkID": 210033000,
+        "attackBasePhysics": 105,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
@@ -124,9 +196,25 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Hefty Rot Pot": {
+        "AtkID": 210067000,
+        "attackBasePhysics": 105,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Swarm Pot": {
         "AtkID": 10034001,
         "attackBasePhysics": 116,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Fly Pot": {
+        "AtkID": 210034000,
+        "attackBasePhysics": 105,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
@@ -140,9 +228,49 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Hefty Freezing Pot": {
+        "AtkID": 210036001,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 200,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Sleep Pot": {
         "AtkID": 10064000,
         "attackBasePhysics": 1,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Eternal Sleep Pot": {
+        "AtkID": 210074000,
+        "attackBasePhysics": 1,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Frenzied Flame Pot": {
+        "AtkID": 210071000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 240,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Frenzied Flame Pot": {
+        "AtkID": 210062000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 326,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Rock Pot": {
+        "AtkID": 210031001,
+        "attackBasePhysics": 370,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
@@ -156,12 +284,28 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Hefty Volcano Pot": {
+        "AtkID": 210060000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 105,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Rancor Pot": {
         "AtkID": 10065001,
         "attackBasePhysics": 0,
         "attackBaseMagic": 139,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Hefty Rancor Pot": {
+        "AtkID": 210069002,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 310,
         "attackBaseDark": 0
     },
     "Cursed-Blood Pot": {
@@ -257,6 +401,14 @@ export const ConsumableData: ConsumableDataType = {
         "attackBasePhysics": 116,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Roped Frenzied Flame Pot": {
+        "AtkID": 210071000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 240,
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
@@ -364,9 +516,25 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Dragon Communion Harpoon": {
+        "AtkID": 210171000,
+        "attackBasePhysics": 330,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Ruin Fragment": {
         "AtkID": 10176000,
         "attackBasePhysics": 1,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Roundrock": {
+        "AtkID": 210172000,
+        "attackBasePhysics": 200,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
@@ -428,6 +596,14 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
+    "Glinting Nail": {
+        "AtkID": 210320000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 210,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
     "Gravity Stone Fan": {
         "AtkID": 10306001,
         "attackBasePhysics": 160,
@@ -440,6 +616,54 @@ export const ConsumableData: ConsumableDataType = {
         "AtkID": 10307001,
         "attackBasePhysics": 247,
         "attackBaseMagic": 50,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Fire Spritestone": {
+        "AtkID": 210319000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 192,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Spritestone": {
+        "AtkID": 210300100,
+        "attackBasePhysics": 360,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Fire Coil": {
+        "AtkID": 210318000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 125,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Surging Frenzied Flame": {
+        "AtkID": 210316000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 165,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Innard Meat": {
+        "AtkID": 210170000,
+        "attackBasePhysics": 120,
+        "attackBaseMagic": 120,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Call of Tibia": {
+        "AtkID": 210315000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 10,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
         "attackBaseDark": 0
@@ -460,7 +684,15 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 0
     },
-    "Omen Bairn1": {
+    "Miranda's Prayer": {
+        "AtkID": 10302000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 95
+    },
+    "Omen Bairn 1": {
         "AtkID": 10301001,
         "attackBasePhysics": 0,
         "attackBaseMagic": 0,
@@ -468,7 +700,7 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 105
     },
-    "Omen Bairn2": {
+    "Omen Bairn 2": {
         "AtkID": 10301002,
         "attackBasePhysics": 0,
         "attackBaseMagic": 0,
@@ -476,7 +708,7 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 70
     },
-    "Regal Omen Bairn1": {
+    "Regal Omen Bairn 1": {
         "AtkID": 10301101,
         "attackBasePhysics": 0,
         "attackBaseMagic": 0,
@@ -484,12 +716,36 @@ export const ConsumableData: ConsumableDataType = {
         "attackBaseThunder": 0,
         "attackBaseDark": 115
     },
-    "Regal Omen Bairn2": {
+    "Regal Omen Bairn 2": {
         "AtkID": 10301102,
         "attackBasePhysics": 0,
         "attackBaseMagic": 0,
         "attackBaseFire": 0,
         "attackBaseThunder": 0,
         "attackBaseDark": 60
+    },
+    "Horned Bairn": {
+        "AtkID": 210313000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 105
+    },
+    "Perfumed Oil of Ranah": {
+        "AtkID": 210314000,
+        "attackBasePhysics": 0,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 300,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
+    },
+    "Lamenter's Mask - Attack": {
+        "AtkID": 210203000,
+        "attackBasePhysics": 260,
+        "attackBaseMagic": 0,
+        "attackBaseFire": 0,
+        "attackBaseThunder": 0,
+        "attackBaseDark": 0
     }
 }
