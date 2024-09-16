@@ -11,7 +11,7 @@ import {
     changeGreatruneactive
 } from "src/features/charplanner/charplannerSlice";
 import { CharplannerTextInput, Checkbox, CustomSelect } from "src/components/ui";
-import StartingClassData from "src/../data/StartingClassData";
+import { StartingClassData } from "src/utils/constants";
 
 const NameSubSection = (): ReactElement => {
     const dispatch = useDispatch();
