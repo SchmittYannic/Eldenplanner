@@ -1,12 +1,6 @@
-import { AffinityData } from "../../data/AffinityData";
-import { WeaponsData } from "../../data/WeaponsData";
-import { EquipParamWeapon } from "../../data/EquipParamWeapon";
-import { ConsumableData } from "../../data/ConsumableData";
-import { ReinforceParamWeapon } from "../../data/ReinforceParamWeapon";
-import { AttackElementCorrectParam } from "../../data/AttackElementCorrectParam";
-import { CalcCorrectGraphEz } from "../../data/CalcCorrectGraphEz";
-import { StatusEffectData } from "../../data/StatusEffectData";
+import { AffinityData } from "./constants";
 import { StatsStateType } from "../features/charplanner/charplannerSlice";
+import { RootState, store } from "src/app/store";
 
 export function calcWeaponAttackRating(
     selectedWeapon: string,
@@ -15,6 +9,25 @@ export function calcWeaponAttackRating(
     totalStats: StatsStateType,
     twoHandChecked: boolean
 ): string[] {
+
+    const state: RootState = store.getState();
+    const isFinalError = state.charplannerData.isFinalError;
+    const isDataReady = state.charplannerData.isDataReady;
+
+    if (!isDataReady && isFinalError) {
+        return ["!ERROR", ""];
+    } else if (!isDataReady && !isFinalError) {
+        return ["", ""];
+    }
+
+    const AttackElementCorrectParam = state.charplannerData.AttackElementCorrectParam;
+    const CalcCorrectGraphEz = state.charplannerData.CalcCorrectGraphEz;
+    const ConsumableData = state.charplannerData.ConsumableData;
+    const EquipParamWeapon = state.charplannerData.EquipParamWeapon;
+    const ReinforceParamWeapon = state.charplannerData.ReinforceParamWeapon;
+    const StatusEffectData = state.charplannerData.StatusEffectData;
+    const WeaponsData = state.charplannerData.WeaponsData;
+
 
     // console.log(
     //     "ARCalculation for weapon: " + selectedWeapon,
