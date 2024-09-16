@@ -43,22 +43,22 @@ const App = (): ReactElement => {
         <Routes>
             <Route path="/" element={<Layout />} >
                 <Route element={<PersistLogin />}>
-                    <Route index element={<Frontpage />} />
-                    <Route path=":params?" element={<Frontpage />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<Signup />} />
-                    <Route path="verify">
-                        <Route index element={<Verify />} />
-                        <Route path=":verificationToken" element={<VerifyEmail />} />
-                    </Route>
-                    <Route path="reset">
-                        <Route index element={<Reset />} />
-                        <Route path=":resetPasswordToken" element={<ResetPassword />} />
-                    </Route>
-
-                    <Route path="charplanner" element={<Charplanner />} />
-
                     <Route element={<Prefetch />}>
+                        <Route index element={<Frontpage />} />
+                        <Route path=":params?" element={<Frontpage />} />
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup" element={<Signup />} />
+                        <Route path="verify">
+                            <Route index element={<Verify />} />
+                            <Route path=":verificationToken" element={<VerifyEmail />} />
+                        </Route>
+                        <Route path="reset">
+                            <Route index element={<Reset />} />
+                            <Route path=":resetPasswordToken" element={<ResetPassword />} />
+                        </Route>
+
+                        <Route path="charplanner" element={<Charplanner />} />
+
                         <Route path="charplanner/:buildId" element={<Charplanner />} />
 
                         <Route path="builds">
