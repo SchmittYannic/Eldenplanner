@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeChest, changeHands, changeHead, changeLegs, selectArmor } from "./charplannerSlice";
-import { ChestOptions, HandsOptions, HeadOptions, LegsOptions } from "../../../data/ArmorData";
-import { CustomSelect } from "../../components/ui";
+import { ChestOptions, HandsOptions, HeadOptions, LegsOptions } from "src/utils/constants";
+import { CustomSelect } from "src/components/ui";
 
 const ArmorSubSection = (): ReactElement => {
 
