@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
+import { staticDataSlice } from "./api/staticDataSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import charplannerReducer from "src/features/charplanner/charplannerSlice";
+import charplannerDataReducer from "src/features/charplanner/charplannerDataSlice";
 import authReducer from "src/features/auth/authSlice";
 import buildsReducer from "src/features/builds/buildsSlice";
 import toastReducer from "src/features/toasts/toastSlice";
@@ -11,7 +13,9 @@ import popupReducer from "src/features/popups/popupSlice";
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
+        [staticDataSlice.reducerPath]: staticDataSlice.reducer,
         charplanner: charplannerReducer,
+        charplannerData: charplannerDataReducer,
         auth: authReducer,
         builds: buildsReducer,
         toast: toastReducer,
@@ -19,7 +23,9 @@ export const store = configureStore({
         popup: popupReducer,
     },
     middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
+        getDefaultMiddleware()
+            .concat(apiSlice.middleware)
+            .concat(staticDataSlice.middleware),
     devTools: process.env.NODE_ENV === "development" ? true : false,
 });
 
