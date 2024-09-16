@@ -7,8 +7,9 @@ import {
     selectGreatruneactive,
     StatsStateType,
     statSelectorsMap
-} from "../features/charplanner/charplannerSlice";
-import { calcStatChange } from "../utils/functions";
+} from "src/features/charplanner/charplannerSlice";
+import { calcStatChange } from "src/utils/functions";
+import { selectEffectData } from "src/features/charplanner/charplannerDataSlice";
 
 /*
     Hook calculates the total stat points of a character.
@@ -17,6 +18,9 @@ import { calcStatChange } from "../utils/functions";
     the total stat of this particular stat.
 */
 const useTotalstats = (statName?: keyof StatsStateType): StatsStateType | number => {
+
+    const EffectData = useSelector(selectEffectData);
+
     // select the current value/s of stat/s depending on the existence of a parameter
     const stat = statName ? useSelector(statSelectorsMap[statName]) : null;
     const stats = !statName ? useSelector(selectStats) : null;
@@ -29,7 +33,7 @@ const useTotalstats = (statName?: keyof StatsStateType): StatsStateType | number
 
     if (statName) {
         // if a parameter was given calculate the change of the stat
-        const statChange = calcStatChange(statName, talisman, armor, greatrune, greatruneactive);
+        const statChange = calcStatChange(EffectData, statName, talisman, armor, greatrune, greatruneactive);
         const statCurrent = stat as number;
         if (statChange !== 0) {
             // if the change in stat is not 0
@@ -62,7 +66,7 @@ const useTotalstats = (statName?: keyof StatsStateType): StatsStateType | number
         */
         for (let stat in statsArray) {
             const statName = statsArray[stat]
-            const statChange = calcStatChange(statName as keyof StatsStateType, talisman, armor, greatrune, greatruneactive);
+            const statChange = calcStatChange(EffectData, statName as keyof StatsStateType, talisman, armor, greatrune, greatruneactive);
             const statCurrent = (stats as StatsStateType)[statName as keyof StatsStateType];
             if (statChange !== 0) {
                 const statNew = statCurrent + statChange > 99 ? 99 : statCurrent + statChange;

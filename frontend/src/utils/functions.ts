@@ -1,7 +1,6 @@
-import { CommentType, GetCommentsResponseType } from "src/types";
-import { EffectData, ItemEffectDataType } from "../../data/EffectData";
-import { StatsType } from "../../data/StartingClassData";
-import { ArmorStateType, StatsStateKeysType, StatsStateType, TalismanStateType } from "../features/charplanner/charplannerSlice";
+import { CommentType, EffectDataType, GetCommentsResponseType, ItemEffectDataType } from "src/types";
+import { StatsType } from "./constants";
+import { ArmorStateType, StatsStateKeysType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
 
 const calcRuneLevel = (statsObj: StatsType): number => {
     const objKeys = Object.keys(statsObj);
@@ -53,6 +52,7 @@ const calcSumObjectValues = (obj: { [key: string]: number }): number => {
 };
 
 const calcStatChange = (
+    EffectData: EffectDataType,
     statName: keyof StatsStateType,
     talismans: TalismanStateType,
     armor: ArmorStateType,
