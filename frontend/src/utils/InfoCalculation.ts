@@ -148,6 +148,40 @@ function calcAbsBase(
     }
 }
 
+const defaultStatus = {
+    hp: null,
+    fp: null,
+    stamina: null,
+    equipLoad: null,
+    loadType: null,
+    poise: null,
+    discovery: null,
+    physicalDefense: null,
+    strikeDefense: null,
+    slashDefense: null,
+    pierceDefense: null,
+    magicDefense: null,
+    fireDefense: null,
+    lightningDefense: null,
+    holyDefense: null,
+    physicalNegation: null,
+    strikeNegation: null,
+    slashNegation: null,
+    pierceNegation: null,
+    magicNegation: null,
+    fireNegation: null,
+    lightningNegation: null,
+    holyNegation: null,
+    immunityRes: null,
+    robustnessRes: null,
+    focusRes: null,
+    vitalityRes: null,
+    immunityArmor: null,
+    robustnessArmor: null,
+    focusArmor: null,
+    vitalityArmor: null
+}
+
 function calcStatus(
     greatRune: string,
     greatRuneChecked: boolean,
@@ -161,9 +195,9 @@ function calcStatus(
     const isDataReady = state.charplannerData.isDataReady;
 
     if (!isDataReady && isFinalError) {
-        return ["!ERROR", ""];
+        return defaultStatus;
     } else if (!isDataReady && !isFinalError) {
-        return ["", ""];
+        return defaultStatus;
     }
 
     const CalcCorrectGraphEz = state.charplannerData.CalcCorrectGraphEz;
