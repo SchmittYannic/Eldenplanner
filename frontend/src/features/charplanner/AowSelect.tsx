@@ -6,9 +6,8 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
-import { CompatibleAowData } from "../../../data/CompatibleAowData";
-import { CustomSelect } from "../../components/ui";
-import { WeaponsData } from "../../../data/WeaponsData";
+import { CustomSelect } from "src/components/ui";
+import { selectCompatibleAowData, selectWeaponsData } from "./charplannerDataSlice";
 
 type PropsType = {
     id: string
@@ -17,6 +16,9 @@ type PropsType = {
 const AowSelect = ({ id }: PropsType): ReactElement => {
 
     const dispatch = useDispatch();
+
+    const WeaponsData = useSelector(selectWeaponsData);
+    const CompatibleAowData = useSelector(selectCompatibleAowData)
 
     const idWeapon = id + "Weapon";
     const idAow = id + "Aow";
