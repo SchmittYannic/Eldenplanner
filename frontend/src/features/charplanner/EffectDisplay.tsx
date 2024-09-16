@@ -15,15 +15,15 @@ const EffectDisplay = (): ReactElement => {
 
     const setEffectList = (): string[] => {
         let list = [];
-        greatruneactive && greatrune && list.push("Great Rune: " + (EffectData[greatrune]?.["Ported Effects"] ?? fallbackUnknownEffect));
-        talisman1 && list.push("Talisman 1: " + (EffectData[talisman1]?.["Ported Effects"] ?? fallbackUnknownEffect));
-        talisman2 && list.push("Talisman 2: " + (EffectData[talisman2]?.["Ported Effects"] ?? fallbackUnknownEffect));
-        talisman3 && list.push("Talisman 3: " + (EffectData[talisman3]?.["Ported Effects"] ?? fallbackUnknownEffect));
-        talisman4 && list.push("Talisman 4: " + (EffectData[talisman4]?.["Ported Effects"] ?? fallbackUnknownEffect));
-        head && EffectData[head]?.["Ported Effects"] && list.push("Head: " + EffectData[head]?.["Ported Effects"]);
-        chest && EffectData[chest]?.["Ported Effects"] && list.push("Chest: " + EffectData[chest]?.["Ported Effects"]);
-        hands && EffectData[hands]?.["Ported Effects"] && list.push("Hands: " + EffectData[hands]?.["Ported Effects"]);
-        legs && EffectData[legs]?.["Ported Effects"] && list.push("Legs: " + EffectData[legs]?.["Ported Effects"]);
+        greatruneactive && greatrune && list.push("Great Rune: " + (EffectData[greatrune]?.["Import Effects"] ?? fallbackUnknownEffect));
+        talisman1 && list.push("Talisman 1: " + (EffectData[talisman1]?.["Import Effects"] ?? fallbackUnknownEffect));
+        talisman2 && list.push("Talisman 2: " + (EffectData[talisman2]?.["Import Effects"] ?? fallbackUnknownEffect));
+        talisman3 && list.push("Talisman 3: " + (EffectData[talisman3]?.["Import Effects"] ?? fallbackUnknownEffect));
+        talisman4 && list.push("Talisman 4: " + (EffectData[talisman4]?.["Import Effects"] ?? fallbackUnknownEffect));
+        head && EffectData[head]?.["Import Effects"] && list.push("Head: " + EffectData[head]?.["Import Effects"]);
+        chest && EffectData[chest]?.["Import Effects"] && list.push("Chest: " + EffectData[chest]?.["Import Effects"]);
+        hands && EffectData[hands]?.["Import Effects"] && list.push("Hands: " + EffectData[hands]?.["Import Effects"]);
+        legs && EffectData[legs]?.["Import Effects"] && list.push("Legs: " + EffectData[legs]?.["Import Effects"]);
         return list
     };
 
