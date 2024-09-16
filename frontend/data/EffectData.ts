@@ -7,7 +7,7 @@ data source:
 5. Important!!: Check for #REF! because some fields reference max hp and other values
 6. use https://jsoneditoronline.org/ to format
 function query(data) {
-    let keysToKeep = ["Ported Effects", "conditionHp", "conditionHpRate", "addLifeForceStatus", "addWillpowerStatus", "addEndureStatus", "addStrengthStatus", "addDexterityStatus", "addMagicStatus", "addFaithStatus", "addLuckStatus", "maxHpRate", "maxMpRate", "maxStaminaRate", "equipWeightChangeRate", "neutralDamageCutRate", "blowDamageCutRate", "slashDamageCutRate", "thrustDamageCutRate", "magicDamageCutRate", "fireDamageCutRate", "thunderDamageCutRate", "darkDamageCutRate", "changePoisonResistPoint", "changeBloodResistPoint", "changeSleepResistPoint", "changeCurseResistPoint", "itemDropRate"];  // Add any other keys you want to keep
+    let keysToKeep = ["Import Effects", "conditionHp", "conditionHpRate", "addLifeForceStatus", "addWillpowerStatus", "addEndureStatus", "addStrengthStatus", "addDexterityStatus", "addMagicStatus", "addFaithStatus", "addLuckStatus", "maxHpRate", "maxMpRate", "maxStaminaRate", "equipWeightChangeRate", "neutralDamageCutRate", "blowDamageCutRate", "slashDamageCutRate", "thrustDamageCutRate", "magicDamageCutRate", "fireDamageCutRate", "thunderDamageCutRate", "darkDamageCutRate", "changePoisonResistPoint", "changeBloodResistPoint", "changeSleepResistPoint", "changeCurseResistPoint", "itemDropRate"];  // Add any other keys you want to keep
 
 
     let newObj = {};
@@ -26,7 +26,7 @@ function query(data) {
 */
 
 export type ItemEffectDataType = {
-    "Ported Effects": string, // used
+    "Import Effects": string, // used
     "conditionHp": number, // used
     "conditionHpRate": number, // used
     "addLifeForceStatus": number, // used
@@ -80,7 +80,7 @@ type EffectDataType = {
 
 export const EffectData: EffectDataType = {
     "Celebrant's Sickle": {
-        "Ported Effects": "Gain 10 runes on hit",
+        "Import Effects": "Gain 10 runes on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -110,7 +110,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cinquedea": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with bestial incantations",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with bestial incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -140,7 +140,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Golden Epitaph": {
-        "Ported Effects": "Increases damage by 1.3x to Those Who Live in Death enemies",
+        "Import Effects": "Increases damage by 1.3x to Those Who Live in Death enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -170,7 +170,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Inseparable Sword": {
-        "Ported Effects": "Increases damage by 1.2x to Those Who Live in Death enemies",
+        "Import Effects": "Increases damage by 1.2x to Those Who Live in Death enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -200,7 +200,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sword of Milos": {
-        "Ported Effects": "Restores 5 FP when an enemy dies",
+        "Import Effects": "Restores 5 FP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -230,7 +230,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Alabaster Lord's Sword": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -260,7 +260,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blasphemous Blade": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.04⌋ + 40 HP when an enemy dies",
+        "Import Effects": "Restores ⌊MaxHP * 0.04⌋ + 40 HP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -290,7 +290,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Golden Order Greatsword": {
-        "Ported Effects": "Increases damage by 1.2x to Those Who Live in Death enemies",
+        "Import Effects": "Increases damage by 1.2x to Those Who Live in Death enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -320,7 +320,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Starscourge Greatsword": {
-        "Ported Effects": "Increases damage by 1.3x to Void enemies",
+        "Import Effects": "Increases damage by 1.3x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -350,7 +350,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Carian Sorcery Sword": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -380,7 +380,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragon King's Cragblade": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -410,7 +410,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Serpent-God's Curved Sword": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.025⌋ + 25 HP when an enemy dies",
+        "Import Effects": "Restores ⌊MaxHP * 0.025⌋ + 25 HP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -440,7 +440,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Wing of Astel": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -470,7 +470,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Freyja's Greatsword": {
-        "Ported Effects": "Increases damage by 1.1x (1.07x in PvP)  with Redmane battle skills",
+        "Import Effects": "Increases damage by 1.1x (1.07x in PvP)  with Redmane battle skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -500,7 +500,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Onyx Lord's Greatsword": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -530,7 +530,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Meteoric Ore Blade": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -560,7 +560,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragonscale Blade": {
-        "Ported Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -590,7 +590,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragon-Hunter's Great Katana": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -620,7 +620,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rakshasa's Great Katana": {
-        "Ported Effects": "Gains hyper armor frames during attacks, but decreases damage negations by -10%",
+        "Import Effects": "Gains hyper armor frames during attacks, but decreases damage negations by -10%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -650,7 +650,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Euporia": {
-        "Ported Effects": "Does something at 25 and 50 accumuVal",
+        "Import Effects": "Gains \"Luster\" tier 1 at 25 accumuVal (adds 95 holy attack power) and \"Luster\" tier 2 at 50 accumuVal (adds 120 holy attack power); \"Luster\" tier lingers for 30 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -680,7 +680,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Highland Axe": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with roar attacks and Shriek of Milos",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with roar attacks and Shriek of Milos",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -710,7 +710,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Celebrant's Cleaver": {
-        "Ported Effects": "Gain 10 runes on hit",
+        "Import Effects": "Gain 10 runes on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -740,7 +740,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sacrificial Axe": {
-        "Ported Effects": "Restores 4 FP when an enemy dies",
+        "Import Effects": "Restores 4 FP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -770,7 +770,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Icerind Hatchet": {
-        "Ported Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -800,7 +800,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Butchering Knife": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
+        "Import Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -830,7 +830,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Bonny Butchering Knife": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
+        "Import Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -860,7 +860,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flowerstone Gavel": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -890,7 +890,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Bastard's Stars": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -920,7 +920,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Celebrant's Skull": {
-        "Ported Effects": "Gain 20 runes on hit",
+        "Import Effects": "Gain 20 runes on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -950,7 +950,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Great Stars": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
+        "Import Effects": "Restores ⌊MaxHP * 0.01⌋ HP on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -980,7 +980,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greathorn Hammer": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.02⌋ + 20 HP when an enemy dies",
+        "Import Effects": "Restores ⌊MaxHP * 0.02⌋ + 20 HP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1010,7 +1010,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragon Greatclaw": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1040,7 +1040,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fallingstar Beast Jaw": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1070,7 +1070,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Celebrant's Rib-Rake": {
-        "Ported Effects": "Gain 10 runes on hit",
+        "Import Effects": "Gain 10 runes on hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1100,7 +1100,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cleanrot Spear": {
-        "Ported Effects": "Increases immunity by 50",
+        "Import Effects": "Increases immunity by 50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1130,7 +1130,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Bolt of Gransax": {
-        "Ported Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.1x to Ancient Draconic enemies and 1.2x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1160,7 +1160,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Nightrider Glaive": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1190,7 +1190,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pest's Glaive": {
-        "Ported Effects": "Increases elemental damage negations by 2%",
+        "Import Effects": "Increases elemental damage negations by 2%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1220,7 +1220,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragon Halberd": {
-        "Ported Effects": "Increases damage by 1.05x to Ancient Draconic enemies and 1.1x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.05x to Ancient Draconic enemies and 1.1x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1250,7 +1250,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Grave Scythe": {
-        "Ported Effects": "Increases vitality by 35",
+        "Import Effects": "Increases vitality by 35",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1280,7 +1280,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Poisoned Hand": {
-        "Ported Effects": "Increases damage by 1.075x (1.05x in PvP) for 20 seconds when poison/scarlet rot is triggered within 7m",
+        "Import Effects": "Increases damage by 1.075x (1.05x in PvP) for 20 seconds when poison/scarlet rot is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1310,7 +1310,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Madding Hand": {
-        "Ported Effects": "Increases damage by 1.075x (1.05x in PvP) for 30 seconds when madness is triggered within 7m",
+        "Import Effects": "Increases damage by 1.075x (1.05x in PvP) for 30 seconds when madness is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1340,7 +1340,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Grafted Dragon": {
-        "Ported Effects": "Increases damage by 1.05x to Ancient Draconic enemies and 1.1x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.05x to Ancient Draconic enemies and 1.1x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1370,7 +1370,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Raptor Talons": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1400,7 +1400,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Beast Claw": {
-        "Ported Effects": "vfx?",
+        "Import Effects": "vfx?",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1430,7 +1430,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Red Bear's Claw": {
-        "Ported Effects": "vfx?",
+        "Import Effects": "vfx?",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1460,7 +1460,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Igon's Greatbow": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Igon's Harpoon",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Igon's Harpoon",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1490,7 +1490,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lion Greatbow": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Radahn's Spear",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Radahn's Spear",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1520,7 +1520,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Digger's Staff": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with stonedigger sorceries",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with stonedigger sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1550,7 +1550,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Azur's Glintstone Staff": {
-        "Ported Effects": "Increases vdex by 40, but increases the FP cost of sorceries by ⌈1.2x⌉",
+        "Import Effects": "Increases vdex by 40, but increases the FP cost of sorceries by ⌈1.2x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1580,7 +1580,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lusat's Glintstone Staff": {
-        "Ported Effects": "Increases the FP cost of sorceries by ⌈1.5x⌉",
+        "Import Effects": "Increases the FP cost of sorceries by ⌈1.5x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1610,7 +1610,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Carian Glintstone Staff": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with carian sword sorceries",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with carian sword sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1640,7 +1640,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Carian Glintblade Staff": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with glintblade sorceries",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with glintblade sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1670,7 +1670,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Carian Regal Scepter": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with full moon sorceries",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with full moon sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1700,7 +1700,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Staff of Loss": {
-        "Ported Effects": "Increases damage by 1.3x (holy bugged in PvP: 1x) with night sorceries",
+        "Import Effects": "Increases damage by 1.3x (holy bugged in PvP: 1x) with night sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1730,7 +1730,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gelmir Glintstone Staff": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with lava sorceries",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with lava sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1760,7 +1760,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crystal Staff": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with crystalian sorceries",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with crystalian sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1790,7 +1790,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rotten Crystal Staff": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with crystalian sorceries",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with crystalian sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1820,7 +1820,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Meteorite Staff": {
-        "Ported Effects": "Increases damage by 1.3x (holy bugged in PvP: 1x) with gravity sorceries",
+        "Import Effects": "Increases damage by 1.3x (holy bugged in PvP: 1x) with gravity sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1850,7 +1850,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Staff of the Guilty": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1880,7 +1880,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Prince of Death's Staff": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with death sorceries",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with death sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1910,7 +1910,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Maternal Staff": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with finger sorceries",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with finger sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1940,7 +1940,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Golden Order Seal": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Golden Order Fundamentalist incantations",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Golden Order Fundamentalist incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -1970,7 +1970,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dryleaf Seal": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Miquella's light incantations",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with golden ring of light incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2000,7 +2000,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fire Knight's Seal": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Messmer's flame incantations",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Messmer's flame incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2030,7 +2030,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spiraltree Seal": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with spiral incantations",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with spiral incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2060,7 +2060,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gravel Stone Seal": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Dragon Cult incantations",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Dragon Cult incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2090,7 +2090,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Giant's Seal": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Giants' Flame incantations",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Giants' Flame incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2120,7 +2120,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Godslayer's Seal": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with godslayer incantations",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with godslayer incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2150,7 +2150,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Clawmark Seal": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with bestial incantations",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with bestial incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2180,7 +2180,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Frenzied Flame Seal": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Frenzied Flame incantations",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Frenzied Flame incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2210,7 +2210,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragon Communion Seal": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Dragon Communion incantations",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Dragon Communion incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2240,7 +2240,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radahn's Spear": {
-        "Ported Effects": "Increases damage by 1.2x to Void enemies",
+        "Import Effects": "Increases damage by 1.2x to Void enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2270,7 +2270,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Igon's Harpoon": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2300,7 +2300,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Beast-Repellent Torch": {
-        "Ported Effects": "Prevents certain enemies from being aggressive",
+        "Import Effects": "Prevents certain enemies from being aggressive",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2330,7 +2330,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sentry's Torch": {
-        "Ported Effects": "Makes invisible enemies visible",
+        "Import Effects": "Makes invisible enemies visible",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2360,7 +2360,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lamenting Visage": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2390,7 +2390,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pillory Shield": {
-        "Ported Effects": "Increases vitality by 50",
+        "Import Effects": "Increases vitality by 50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2420,7 +2420,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ice Crest Shield": {
-        "Ported Effects": "Increases robustness by 40",
+        "Import Effects": "Increases robustness by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2450,7 +2450,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rift Shield": {
-        "Ported Effects": "Increases focus by 40",
+        "Import Effects": "Increases focus by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2480,7 +2480,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Perfumer's Shield": {
-        "Ported Effects": "Increases immunity by 40",
+        "Import Effects": "Increases immunity by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2510,7 +2510,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shield of the Guilty": {
-        "Ported Effects": "Increases focus by 40",
+        "Import Effects": "Increases focus by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2540,7 +2540,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spiralhorn Shield": {
-        "Ported Effects": "Increases immunity, robustness, and focus by 50",
+        "Import Effects": "Increases immunity, robustness, and focus by 50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2570,7 +2570,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Smoldering Shield": {
-        "Ported Effects": "Increases robustness by 30",
+        "Import Effects": "Increases robustness by 30",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2600,7 +2600,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Coil Shield": {
-        "Ported Effects": "Increases immunity by 40",
+        "Import Effects": "Increases immunity by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2630,7 +2630,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shield of Night": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2660,7 +2660,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Twinbird Kite Shield": {
-        "Ported Effects": "Increases damage by 1.05x and damage negations by 10% while at less than 20% HP",
+        "Import Effects": "Increases damage by 1.05x and damage negations by 10% while at less than 20% HP",
         "conditionHp": 20,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2690,7 +2690,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Great Turtle Shell": {
-        "Ported Effects": "Increases stamina regeneration by 3/s",
+        "Import Effects": "Increases stamina regeneration by 3/s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2720,7 +2720,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Icon Shield": {
-        "Ported Effects": "Regenerates 3 HP/s",
+        "Import Effects": "Regenerates 3 HP/s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2750,7 +2750,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragonclaw Shield": {
-        "Ported Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
+        "Import Effects": "Increases damage by 1.15x to Ancient Draconic enemies and 1.3x to Draconic enemies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2780,7 +2780,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Eclipse Crest Greatshield": {
-        "Ported Effects": "Increases immunity, robustness, and focus by 50",
+        "Import Effects": "Increases immunity, robustness, and focus by 50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2810,7 +2810,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ant's Skull Plate": {
-        "Ported Effects": "Increases immunity by 60",
+        "Import Effects": "Increases immunity by 60",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2840,7 +2840,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Black Dumpling": {
-        "Ported Effects": "Increases damage by 1.1x for 60 seconds when the wearer suffers from madness",
+        "Import Effects": "Increases damage by 1.1x for 60 seconds when the wearer suffers from madness",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2870,7 +2870,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Mushroom Crown": {
-        "Ported Effects": "Increases damage by 1.1x for 20 seconds when poison/scarlet rot is triggered within 7m",
+        "Import Effects": "Increases damage by 1.1x for 20 seconds when poison/scarlet rot is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2900,7 +2900,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "St. Trina's Blossom": {
-        "Ported Effects": "Increases FP by ⌊1.06x⌋",
+        "Import Effects": "Increases FP by ⌊1.06x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2930,7 +2930,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Circlet of Light": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Miquella's light incantations and increases intelligence, faith, and arcane by 1",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Light of Miquella and increases intelligence, faith, and arcane by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2960,7 +2960,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Karolos Glintstone Crown": {
-        "Ported Effects": "Increases intelligence by 3, but decreases stamina by ⌊0.91x⌋",
+        "Import Effects": "Increases intelligence by 3, but decreases stamina by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -2990,7 +2990,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Olivinus Glintstone Crown": {
-        "Ported Effects": "Increases intelligence by 3, but decreases HP by ⌊0.91x⌋",
+        "Import Effects": "Increases intelligence by 3, but decreases HP by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3020,7 +3020,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Twinsage Glintstone Crown": {
-        "Ported Effects": "Increases intelligence by 6, but decreases HP by ⌊0.91x⌋",
+        "Import Effects": "Increases intelligence by 6, but decreases HP by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3050,7 +3050,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Witch's Glintstone Crown": {
-        "Ported Effects": "Increases intelligence and arcane by 3, but decreases stamina by ⌊0.82x⌋",
+        "Import Effects": "Increases intelligence and arcane by 3, but decreases stamina by ⌊0.82x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3080,7 +3080,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lazuli Glintstone Crown": {
-        "Ported Effects": "Increases dexterity by 3, but decreases HP by ⌊0.82x⌋",
+        "Import Effects": "Increases dexterity by 3, but decreases HP by ⌊0.82x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3110,7 +3110,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haima Glintstone Crown": {
-        "Ported Effects": "Increases strength and intelligence by 2, but decreases FP by ⌊0.91x⌋",
+        "Import Effects": "Increases strength and intelligence by 2, but decreases FP by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3140,7 +3140,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Hierodas Glintstone Crown": {
-        "Ported Effects": "Increases endurance and intelligence by 2, but decreases FP by ⌊0.91x⌋",
+        "Import Effects": "Increases endurance and intelligence by 2, but decreases FP by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3170,7 +3170,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spellblade's Pointed Hat": {
-        "Ported Effects": "Increases magic damage by 1.02x with weapon skills",
+        "Import Effects": "Increases magic damage by 1.02x with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3200,7 +3200,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Alberich's Pointed Hat": {
-        "Ported Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
+        "Import Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3230,7 +3230,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Alberich's Pointed Hat (Altered)": {
-        "Ported Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
+        "Import Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3260,7 +3260,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Preceptor's Big Hat": {
-        "Ported Effects": "Increases mind by 3, but decreases stamina by ⌊0.91x⌋",
+        "Import Effects": "Increases mind by 3, but decreases stamina by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3290,7 +3290,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Mask of Confidence": {
-        "Ported Effects": "Increases arcane by 3",
+        "Import Effects": "Increases arcane by 3",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3320,7 +3320,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Azur's Glintstone Crown": {
-        "Ported Effects": "Increases damage by 1.1x with Azur's [1.1x] sorceries & 1.15x with Azur's [1.15x] sorceries, but increases the FP cost of sorceries by ⌈1.15x⌉",
+        "Import Effects": "Increases damage by 1.1x with Azur's [1.1x] sorceries & 1.15x with Azur's [1.15x] sorceries, but increases the FP cost of sorceries by ⌈1.15x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3350,7 +3350,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lusat's Glintstone Crown": {
-        "Ported Effects": "Increases damage by 1.1x with Lusat's [1.1x] sorceries & 1.15x with Lusat's [1.15x] sorceries, but increases the FP cost of sorceries by ⌈1.15x⌉",
+        "Import Effects": "Increases damage by 1.1x with Lusat's [1.1x] sorceries & 1.15x with Lusat's [1.15x] sorceries, but increases the FP cost of sorceries by ⌈1.15x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3380,7 +3380,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Queen's Crescent Crown": {
-        "Ported Effects": "Increases intelligence by 3",
+        "Import Effects": "Increases intelligence by 3",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3410,7 +3410,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Snow Witch Hat": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with cold sorceries",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with cold sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3440,7 +3440,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "High Priest Hat": {
-        "Ported Effects": "Increases intelligence and arcane by 1",
+        "Import Effects": "Increases intelligence and arcane by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3470,7 +3470,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greathood": {
-        "Ported Effects": "Increases intelligence and faith by 2, but decreases HP by ⌊0.91x⌋",
+        "Import Effects": "Increases intelligence and faith by 2, but decreases HP by ⌊0.91x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3500,7 +3500,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radiant Gold Mask": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Golden Order Fundamentalist incantations",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Golden Order Fundamentalist incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3530,7 +3530,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ruler's Mask": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3560,7 +3560,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Consort's Mask": {
-        "Ported Effects": "Increases dexterity by 1",
+        "Import Effects": "Increases dexterity by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3590,7 +3590,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Marais Mask": {
-        "Ported Effects": "Increases arcane by 1",
+        "Import Effects": "Increases arcane by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3620,7 +3620,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shining Horned Headband": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Ancestral Infant's Head",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Ancestral Infant's Head",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3650,7 +3650,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Wise Man's Mask": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3680,7 +3680,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Tear Scarab": {
-        "Ported Effects": "Increases Flask of Crimson Tears restoration by ⌊1.1x⌋, but reduces damage negations by -10%",
+        "Import Effects": "Increases Flask of Crimson Tears restoration by ⌊1.1x⌋, but reduces damage negations by -10%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3710,7 +3710,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Tear Scarab": {
-        "Ported Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.1x⌋, but reduces damage negations by -10%",
+        "Import Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.1x⌋, but reduces damage negations by -10%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3740,7 +3740,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ash-of-War Scarab": {
-        "Ported Effects": "⌈0.85x⌉ FP cost of skills; -10% damage negation",
+        "Import Effects": "⌈0.85x⌉ FP cost of skills; -10% damage negation",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3770,7 +3770,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Glintstone Scarab": {
-        "Ported Effects": "⌈0.85x⌉ FP cost of sorceries; -10% damage negation",
+        "Import Effects": "⌈0.85x⌉ FP cost of sorceries; -10% damage negation",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3800,7 +3800,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Incantation Scarab": {
-        "Ported Effects": "⌈0.85x⌉ FP cost of incantations; -10% damage negation",
+        "Import Effects": "⌈0.85x⌉ FP cost of incantations; -10% damage negation",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3830,7 +3830,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Cat)": {
-        "Ported Effects": "Increases intelligence by 2",
+        "Import Effects": "Increases intelligence by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3860,7 +3860,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Wolf)": {
-        "Ported Effects": "Increases endurance by 2",
+        "Import Effects": "Increases endurance by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3890,7 +3890,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Fanged)": {
-        "Ported Effects": "Increases strength by 2",
+        "Import Effects": "Increases strength by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3920,7 +3920,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Long-Tongued)": {
-        "Ported Effects": "Increases dexterity by 2",
+        "Import Effects": "Increases dexterity by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3950,7 +3950,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Corpse)": {
-        "Ported Effects": "Increases faith by 2",
+        "Import Effects": "Increases faith by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -3980,7 +3980,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Elder)": {
-        "Ported Effects": "Increases arcane by 2",
+        "Import Effects": "Increases arcane by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4010,7 +4010,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Imp Head (Lion)": {
-        "Ported Effects": "Increases vigor by 2",
+        "Import Effects": "Increases vigor by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 2,
@@ -4040,7 +4040,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Silver Tear Mask": {
-        "Ported Effects": "Increases arcane by 8, but decreases physical attack power by 0.95x",
+        "Import Effects": "Increases arcane by 8, but decreases physical attack power by 0.95x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4070,7 +4070,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Envoy Crown": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with bubble skills",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with bubble skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4100,7 +4100,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Jar": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4130,7 +4130,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greatjar": {
-        "Ported Effects": "Increases damage by 1.17x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks and Hefty Cracked Pot attacks",
+        "Import Effects": "Increases damage by 1.17x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks and Hefty Cracked Pot attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4160,7 +4160,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Albinauric Mask": {
-        "Ported Effects": "Increases arcane by 4, but decreases Flask of Crimson Tears restoration by ⌊0.9x⌋",
+        "Import Effects": "Increases arcane by 4, but decreases Flask of Crimson Tears restoration by ⌊0.9x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4190,7 +4190,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Hood": {
-        "Ported Effects": "Increases vigor by 1",
+        "Import Effects": "Increases vigor by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 1,
@@ -4220,7 +4220,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Navy Hood": {
-        "Ported Effects": "Increases mind by 1",
+        "Import Effects": "Increases mind by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4250,7 +4250,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "White Mask": {
-        "Ported Effects": "Increases damage by 1.1x (1.06x in PvP) for 20 seconds when bleed is triggered within 7m",
+        "Import Effects": "Increases damage by 1.1x (1.06x in PvP) for 20 seconds when bleed is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4280,7 +4280,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Thiollier's Mask": {
-        "Ported Effects": "Increases arcane by 3",
+        "Import Effects": "Increases arcane by 3",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4310,7 +4310,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Omensmirk Mask": {
-        "Ported Effects": "Increases strength by 2",
+        "Import Effects": "Increases strength by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4340,7 +4340,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gravebird Helm": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with spectral light sorceries",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with spectral light sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4370,7 +4370,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dancer's Hood": {
-        "Ported Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
+        "Import Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4400,7 +4400,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sacred Crown Helm": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4430,7 +4430,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Duelist Helm": {
-        "Ported Effects": "Increases targetPriority by 0.03",
+        "Import Effects": "Increases targetPriority by 0.03",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4460,7 +4460,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rotten Duelist Helm": {
-        "Ported Effects": "Increases targetPriority by 0.03",
+        "Import Effects": "Increases targetPriority by 0.03",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4490,7 +4490,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Curseblade Mask": {
-        "Ported Effects": "Increases dexterity by 5, but decreases Flask of Crimson Tears restoration by ⌊0.93x⌋ and focus by -30",
+        "Import Effects": "Increases dexterity by 5, but decreases Flask of Crimson Tears restoration by ⌊0.93x⌋ and focus by -30",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4520,7 +4520,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pelt of Ralva": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Bear Communion incantations",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with Bear Communion incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4550,7 +4550,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haligtree Helm": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4580,7 +4580,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Okina Mask": {
-        "Ported Effects": "Increases dexterity by 3, but decreases focus by -50",
+        "Import Effects": "Increases dexterity by 3, but decreases focus by -50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4610,7 +4610,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Messmer's Helm": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Messmer's flame incantations & 1.08x (holy bugged in PvP: 1x) with Fire Knight skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Messmer's flame incantations & 1.08x (holy bugged in PvP: 1x) with Fire Knight skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4640,7 +4640,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Messmer's Helm (Altered)": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Messmer's flame incantations & 1.08x (holy bugged in PvP: 1x) with Fire Knight skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Messmer's flame incantations & 1.08x (holy bugged in PvP: 1x) with Fire Knight skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4670,7 +4670,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haligtree Knight Helm": {
-        "Ported Effects": "Increases faith by 2",
+        "Import Effects": "Increases faith by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4700,7 +4700,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fire Knight Helm": {
-        "Ported Effects": "Increases HP by ⌊1.02x⌋, stamina by ⌊1.05x⌋, and equip load by 1.045x",
+        "Import Effects": "Increases HP by ⌊1.02x⌋, stamina by ⌊1.05x⌋, and equip load by 1.045x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4730,7 +4730,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Winged Serpent Helm": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Fire Knight skills",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with Fire Knight skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4760,7 +4760,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Death Mask Helm": {
-        "Ported Effects": "Decreases the FP cost of spirit ashes by ⌈???x⌉",
+        "Import Effects": "Decreases the FP cost of spirit ashes by ⌈0.85x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4790,7 +4790,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Salza's Hood": {
-        "Ported Effects": "Increases intelligence by 2",
+        "Import Effects": "Increases intelligence by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4820,7 +4820,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Death Knight Helm": {
-        "Ported Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
+        "Import Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4850,7 +4850,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Horned Warrior Helm": {
-        "Ported Effects": "Increases strength by 5, but decreases Flask of Crimson Tears restoration by ⌊0.93x⌋ and focus by -30",
+        "Import Effects": "Increases strength by 5, but decreases Flask of Crimson Tears restoration by ⌊0.93x⌋ and focus by -30",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4880,7 +4880,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Divine Beast Helm": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with storm attacks and increases strength and dexterity by 3, but decreases Flask of Crimson Tears restoration by ⌊0.91x⌋ and focus by -45",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with storm attacks and increases strength and dexterity by 3, but decreases Flask of Crimson Tears restoration by ⌊0.91x⌋ and focus by -45",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4910,7 +4910,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Divine Bird Helm": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with divine bird feathers incantations and increases strength by 3 and dexterity by 4, but decreases Flask of Crimson Tears restoration by ⌊0.91x⌋ and focus by -45",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with divine bird feathers incantations and increases strength by 3 and dexterity by 4, but decreases Flask of Crimson Tears restoration by ⌊0.91x⌋ and focus by -45",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4940,7 +4940,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Briar Helm": {
-        "Ported Effects": "Adds 18 physical attack power to rolling",
+        "Import Effects": "Adds 18 physical attack power to rolling",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -4970,7 +4970,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rakshasa Helm": {
-        "Ported Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
+        "Import Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5000,7 +5000,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Royal Remains Helm": {
-        "Ported Effects": "Regenerates 2 HP/s while at less than 18% HP",
+        "Import Effects": "Regenerates 2 HP/s while at less than 18% HP",
         "conditionHp": 18,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5030,7 +5030,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Axe Helm": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5060,7 +5060,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Tree Helm": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5090,7 +5090,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Hammer-Helm": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5120,7 +5120,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Omen Helm": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5150,7 +5150,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pumpkin Helm": {
-        "Ported Effects": "Nulifies headshot bonus damage and prevents headshot stagger animation",
+        "Import Effects": "Nullifies headshot bonus damage and prevents headshot stagger animation",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5180,7 +5180,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Divine Beast Head": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with storm attacks and increases strength and dexterity by 4, but decreases Flask of Crimson Tears restoration by ⌊0.89x⌋ and focus by -60",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with storm attacks and increases strength and dexterity by 4, but decreases Flask of Crimson Tears restoration by ⌊0.89x⌋ and focus by -60",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5210,7 +5210,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Commoner's Simple Garb": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5240,7 +5240,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Commoner's Simple Garb (Altered)": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5270,7 +5270,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Commoner's Garb": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5300,7 +5300,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Commoner's Garb (Altered)": {
-        "Ported Effects": "Increases faith by 1",
+        "Import Effects": "Increases faith by 1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5330,7 +5330,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Guardian Garb (Full Bloom)": {
-        "Ported Effects": "Increases Flask of Crimson Tears restoration by ⌊1.1x⌋",
+        "Import Effects": "Increases Flask of Crimson Tears restoration by ⌊1.1x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5360,7 +5360,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Braided Cord Robe": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with watchful / vengeful spirits",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with watchful / vengeful spirits",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5390,7 +5390,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spellblade's Traveling Attire": {
-        "Ported Effects": "Increases magic damage by 1.02x with weapon skills",
+        "Import Effects": "Increases magic damage by 1.02x with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5420,7 +5420,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spellblade's Traveling Attire (Altered)": {
-        "Ported Effects": "Increases magic damage by 1.02x with weapon skills",
+        "Import Effects": "Increases magic damage by 1.02x with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5450,7 +5450,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Alberich's Robe": {
-        "Ported Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
+        "Import Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5480,7 +5480,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Finger Robe": {
-        "Ported Effects": "Increases damage by 1.08x (holy bugged in PvP: 1x) with finger sorceries",
+        "Import Effects": "Increases damage by 1.08x (holy bugged in PvP: 1x) with finger sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5510,7 +5510,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Deathbed Dress": {
-        "Ported Effects": "Regenerates 2 HP/s to allies within 7m",
+        "Import Effects": "Regenerates 2 HP/s to allies within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5540,7 +5540,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Godskin Noble Robe": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Noble Presence",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Noble Presence",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5570,7 +5570,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ansbach's Attire": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5600,7 +5600,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ansbach's Attire (Altered)": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5630,7 +5630,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Thiollier's Garb": {
-        "Ported Effects": "Increases arcane by 2",
+        "Import Effects": "Increases arcane by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5660,7 +5660,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Raptor's Black Feathers": {
-        "Ported Effects": "Increases damage by 1.1x (1.05x in PvP)  with jump attacks",
+        "Import Effects": "Increases damage by 1.1x (1.05x in PvP)  with jump attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5690,7 +5690,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gravebird's Blackquill Armor": {
-        "Ported Effects": "Increases damage by 1.1x (1.05x in PvP)  with jump attacks",
+        "Import Effects": "Increases damage by 1.1x (1.05x in PvP)  with jump attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5720,7 +5720,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dancer's Dress": {
-        "Ported Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
+        "Import Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5750,7 +5750,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dancer's Dress (Altered)": {
-        "Ported Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
+        "Import Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5780,7 +5780,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gravekeeper Cloak (Altered)": {
-        "Ported Effects": "Increases targetPriority by 0.04",
+        "Import Effects": "Increases targetPriority by 0.04",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5810,7 +5810,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rotten Gravekeeper Cloak (Altered)": {
-        "Ported Effects": "Increases targetPriority by 0.04",
+        "Import Effects": "Increases targetPriority by 0.04",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5840,7 +5840,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Black Knife Armor": {
-        "Ported Effects": "Makes user silent",
+        "Import Effects": "Makes user silent",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5870,7 +5870,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fire Knight Armor": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Messmer's flame incantations",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Messmer's flame incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5900,7 +5900,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Death Knight Armor": {
-        "Ported Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
+        "Import Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5930,7 +5930,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Leda's Armor": {
-        "Ported Effects": "Increases damage by 1.1x (1.05x in PvP) with rolling / backstep attacks and dashing attacks",
+        "Import Effects": "Increases damage by 1.1x (1.05x in PvP) with rolling / backstep attacks and dashing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5960,7 +5960,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Briar Armor": {
-        "Ported Effects": "Adds 25 physical attack power to rolling",
+        "Import Effects": "Adds 25 physical attack power to rolling",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -5990,7 +5990,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Briar Armor (Altered)": {
-        "Ported Effects": "Adds 25 physical attack power to rolling",
+        "Import Effects": "Adds 25 physical attack power to rolling",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6020,7 +6020,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rakshasa Armor": {
-        "Ported Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
+        "Import Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6050,7 +6050,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Royal Remains Armor": {
-        "Ported Effects": "Regenerates 2 HP/s while at less than 18% HP",
+        "Import Effects": "Regenerates 2 HP/s while at less than 18% HP",
         "conditionHp": 18,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6080,7 +6080,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Axe Armor": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6110,7 +6110,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Axe Armor (Altered)": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6140,7 +6140,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Tree Armor": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6170,7 +6170,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Tree Armor (Altered)": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6200,7 +6200,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Omen Armor": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6230,7 +6230,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spellblade's Gloves": {
-        "Ported Effects": "Increases magic damage by 1.02x with weapon skills",
+        "Import Effects": "Increases magic damage by 1.02x with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6260,7 +6260,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Alberich's Bracers": {
-        "Ported Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
+        "Import Effects": "Increases damage by 1.06x (holy bugged in PvP: 1x) with thorn / aberrant sorceries",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6290,7 +6290,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ansbach's Manchettes": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6320,7 +6320,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dancer's Bracer": {
-        "Ported Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
+        "Import Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6350,7 +6350,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Death Knight Gauntlets": {
-        "Ported Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
+        "Import Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6380,7 +6380,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Briar Gauntlets": {
-        "Ported Effects": "Adds 18 physical attack power to rolling",
+        "Import Effects": "Adds 18 physical attack power to rolling",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6410,7 +6410,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rakshasa Gauntlets": {
-        "Ported Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
+        "Import Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6440,7 +6440,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Royal Remains Gauntlets": {
-        "Ported Effects": "Regenerates 2 HP/s while at less than 18% HP",
+        "Import Effects": "Regenerates 2 HP/s while at less than 18% HP",
         "conditionHp": 18,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6470,7 +6470,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Gauntlets": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6500,7 +6500,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Omen Gauntlets": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6530,7 +6530,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spellblade's Trousers": {
-        "Ported Effects": "Increases magic damage by 1.02x with weapon skills",
+        "Import Effects": "Increases magic damage by 1.02x with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6560,7 +6560,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ansbach's Boots": {
-        "Ported Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
+        "Import Effects": "Increases damage by 1.03x (holy bugged in PvP: 1x) with Blood Oath / dynastic skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6590,7 +6590,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dancer's Trousers": {
-        "Ported Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
+        "Import Effects": "Increases damage by 1.025x (holy bugged in PvP: 1x) with dancing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6620,7 +6620,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Duelist Greaves": {
-        "Ported Effects": "Increases targetPriority by 0.03",
+        "Import Effects": "Increases targetPriority by 0.03",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6650,7 +6650,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rotten Duelist Greaves": {
-        "Ported Effects": "Increases targetPriority by 0.03",
+        "Import Effects": "Increases targetPriority by 0.03",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6680,7 +6680,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Death Knight Greaves": {
-        "Ported Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
+        "Import Effects": "Increases damage by 1.02x (holy bugged in PvP: 1x) with Dragon Cult incantations and Dragon Cult skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6710,7 +6710,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Divine Bird Warrior Greaves": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with kicking / stomping skills",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with kicking / stomping skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6740,7 +6740,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Briar Greaves": {
-        "Ported Effects": "Adds 18 physical attack power to rolling",
+        "Import Effects": "Adds 18 physical attack power to rolling",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6770,7 +6770,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rakshasa Greaves": {
-        "Ported Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
+        "Import Effects": "Increases damage by 1.02x, but decreases damage negations by -2%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6800,7 +6800,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Royal Remains Greaves": {
-        "Ported Effects": "Regenerates 2 HP/s while at less than 18% HP",
+        "Import Effects": "Regenerates 2 HP/s while at less than 18% HP",
         "conditionHp": 18,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6830,7 +6830,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Greaves": {
-        "Ported Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
+        "Import Effects": "Increases damage by 1.04x (holy bugged in PvP: 1x) with Aspects of the Crucible incantations",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6860,7 +6860,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Omen Greaves": {
-        "Ported Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
+        "Import Effects": "Increases damage by 1.05x (holy bugged in PvP: 1x) with Shriek of Milos and (Regal) Omen Bairn",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6890,7 +6890,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Amber Medallion": {
-        "Ported Effects": "Increases HP by ⌊1.06x⌋",
+        "Import Effects": "Increases HP by ⌊1.06x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6920,7 +6920,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Amber Medallion +1": {
-        "Ported Effects": "Increases HP by ⌊1.07x⌋",
+        "Import Effects": "Increases HP by ⌊1.07x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6950,7 +6950,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Amber Medallion +2": {
-        "Ported Effects": "Increases HP by ⌊1.08x⌋",
+        "Import Effects": "Increases HP by ⌊1.08x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -6980,7 +6980,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Amber Medallion +3": {
-        "Ported Effects": "Increases HP by ⌊1.1x⌋",
+        "Import Effects": "Increases HP by ⌊1.1x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7010,7 +7010,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Seed Talisman": {
-        "Ported Effects": "Increases Flask of Crimson Tears restoration by ⌊1.2x⌋",
+        "Import Effects": "Increases Flask of Crimson Tears restoration by ⌊1.2x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7040,7 +7040,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Seed Talisman +1": {
-        "Ported Effects": "Increases Flask of Crimson Tears restoration by ⌊1.3x⌋",
+        "Import Effects": "Increases Flask of Crimson Tears restoration by ⌊1.3x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7070,7 +7070,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blessed Dew Talisman": {
-        "Ported Effects": "Regenerates 2 HP/s",
+        "Import Effects": "Regenerates 2 HP/s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7100,7 +7100,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Amber Medallion": {
-        "Ported Effects": "Increases FP by ⌊1.07x⌋",
+        "Import Effects": "Increases FP by ⌊1.07x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7130,7 +7130,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Amber Medallion +1": {
-        "Ported Effects": "Increases FP by ⌊1.09x⌋",
+        "Import Effects": "Increases FP by ⌊1.09x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7160,7 +7160,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Amber Medallion +2": {
-        "Ported Effects": "Increases FP by ⌊1.11x⌋",
+        "Import Effects": "Increases FP by ⌊1.11x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7190,7 +7190,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Amber Medallion +3": {
-        "Ported Effects": "Increases FP by ⌊1.13x⌋",
+        "Import Effects": "Increases FP by ⌊1.13x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7220,7 +7220,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Seed Talisman": {
-        "Ported Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.2x⌋",
+        "Import Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.2x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7250,7 +7250,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Seed Talisman +1": {
-        "Ported Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.3x⌋",
+        "Import Effects": "Increases Flask of Cerulean Tears restoration by ⌊1.3x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7280,7 +7280,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blessed Blue Dew Talisman": {
-        "Ported Effects": "Regenerates 1 FP every 2 seconds",
+        "Import Effects": "Regenerates 1 FP every 2 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7310,7 +7310,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Talisman of Lord's Bestowal": {
-        "Ported Effects": "Decreases incoming poise damage by 0.65x while drinking a Flask of Tears and prevents stagger from dmgLevel 0, 1, 2, and 8 for 16 seconds",
+        "Import Effects": "Decreases incoming poise damage by 0.65x while drinking a Flask of Tears and prevents stagger from dmgLevel 0, 1, 2, and 8 for 16 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7340,7 +7340,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Viridian Amber Medallion": {
-        "Ported Effects": "Increases stamina by ⌊1.11x⌋",
+        "Import Effects": "Increases stamina by ⌊1.11x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7370,7 +7370,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Viridian Amber Medallion +1": {
-        "Ported Effects": "Increases stamina by ⌊1.13x⌋",
+        "Import Effects": "Increases stamina by ⌊1.13x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7400,7 +7400,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Viridian Amber Medallion +2": {
-        "Ported Effects": "Increases stamina by ⌊1.15x⌋",
+        "Import Effects": "Increases stamina by ⌊1.15x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7430,7 +7430,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Viridian Amber Medallion +3": {
-        "Ported Effects": "Increases stamina by ⌊1.17x⌋",
+        "Import Effects": "Increases stamina by ⌊1.17x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7460,7 +7460,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Green Turtle Talisman": {
-        "Ported Effects": "Increases stamina regeneration by 8/s",
+        "Import Effects": "Increases stamina regeneration by 8/s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7490,7 +7490,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Two-Headed Turtle Talisman": {
-        "Ported Effects": "Increases stamina regeneration by 10/s",
+        "Import Effects": "Increases stamina regeneration by 10/s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7520,7 +7520,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Arsenal Charm": {
-        "Ported Effects": "Increases equip Load by 1.15x",
+        "Import Effects": "Increases equip Load by 1.15x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7550,7 +7550,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Arsenal Charm +1": {
-        "Ported Effects": "Increases equip Load by 1.17x",
+        "Import Effects": "Increases equip Load by 1.17x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7580,7 +7580,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Great-Jar's Arsenal": {
-        "Ported Effects": "Increases equip Load by 1.19x",
+        "Import Effects": "Increases equip Load by 1.19x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7610,7 +7610,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Erdtree's Favor": {
-        "Ported Effects": "Increases HP by ⌊1.03x⌋, stamina by ⌊1.07x⌋, and equip load by 1.05x",
+        "Import Effects": "Increases HP by ⌊1.03x⌋, stamina by ⌊1.07x⌋, and equip load by 1.05x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7640,7 +7640,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Erdtree's Favor +1": {
-        "Ported Effects": "Increases HP by ⌊1.035x⌋, stamina by ⌊1.085x⌋, and equip load by 1.065x",
+        "Import Effects": "Increases HP by ⌊1.035x⌋, stamina by ⌊1.085x⌋, and equip load by 1.065x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7670,7 +7670,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Erdtree's Favor +2": {
-        "Ported Effects": "Increases HP by ⌊1.04x⌋, stamina by ⌊1.1x⌋, and equip load by 1.08x",
+        "Import Effects": "Increases HP by ⌊1.04x⌋, stamina by ⌊1.1x⌋, and equip load by 1.08x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7700,7 +7700,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radagon's Scarseal": {
-        "Ported Effects": "Increases vigor, endurance, strength, and dexterity by 3, but decreases damage negations by -10%",
+        "Import Effects": "Increases vigor, endurance, strength, and dexterity by 3, but decreases damage negations by -10%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 3,
@@ -7730,7 +7730,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radagon's Soreseal": {
-        "Ported Effects": "Increases vigor, endurance, strength, and dexterity by 5, but decreases damage negations by -15%",
+        "Import Effects": "Increases vigor, endurance, strength, and dexterity by 5, but decreases damage negations by -15%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 5,
@@ -7760,7 +7760,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Marika's Scarseal": {
-        "Ported Effects": "Increases mind, intelligence, faith, and arcane by 3, but decreases damage negations by -10%",
+        "Import Effects": "Increases mind, intelligence, faith, and arcane by 3, but decreases damage negations by -10%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7790,7 +7790,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Marika's Soreseal": {
-        "Ported Effects": "Increases mind, intelligence, faith, and arcane by 5, but decreases damage negations by -15%",
+        "Import Effects": "Increases mind, intelligence, faith, and arcane by 5, but decreases damage negations by -15%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7820,7 +7820,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Starscourge Heirloom": {
-        "Ported Effects": "Increases strength by 5",
+        "Import Effects": "Increases strength by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7850,7 +7850,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Prosthesis-Wearer Heirloom": {
-        "Ported Effects": "Increases dexterity by 5",
+        "Import Effects": "Increases dexterity by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7880,7 +7880,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Stargazer Heirloom": {
-        "Ported Effects": "Increases intelligence by 5",
+        "Import Effects": "Increases intelligence by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7910,7 +7910,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Two Fingers Heirloom": {
-        "Ported Effects": "Increases faith by 5",
+        "Import Effects": "Increases faith by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7940,7 +7940,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Outer God Heirloom": {
-        "Ported Effects": "Increases arcane by 5",
+        "Import Effects": "Increases arcane by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -7970,7 +7970,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragoncrest Shield Talisman": {
-        "Ported Effects": "Increases physical damage negations by 10% (2% in PvP)",
+        "Import Effects": "Increases physical damage negations by 10% (2% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8000,7 +8000,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragoncrest Shield Talisman +1": {
-        "Ported Effects": "Increases physical damage negations by 13% (3% in PvP)",
+        "Import Effects": "Increases physical damage negations by 13% (3% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8030,7 +8030,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragoncrest Shield Talisman +2": {
-        "Ported Effects": "Increases physical damage negations by 17% (4% in PvP)",
+        "Import Effects": "Increases physical damage negations by 17% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8060,7 +8060,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dragoncrest Greatshield Talisman": {
-        "Ported Effects": "Increases physical damage negations by 20% (5% in PvP)",
+        "Import Effects": "Increases physical damage negations by 20% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8090,7 +8090,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spelldrake Talisman": {
-        "Ported Effects": "Increases magic damage negations by 13% (4% in PvP)",
+        "Import Effects": "Increases magic damage negation by 13% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8120,7 +8120,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spelldrake Talisman +1": {
-        "Ported Effects": "Increases magic damage negations by 17% (5% in PvP)",
+        "Import Effects": "Increases magic damage negation by 17% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8150,7 +8150,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spelldrake Talisman +2": {
-        "Ported Effects": "Increases magic damage negations by 20% (6% in PvP)",
+        "Import Effects": "Increases magic damage negation by 20% (6% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8180,7 +8180,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spelldrake Talisman +3": {
-        "Ported Effects": "Increases magic damage negations by 22% (7% in PvP)",
+        "Import Effects": "Increases magic damage negation by 22% (7% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8210,7 +8210,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flamedrake Talisman": {
-        "Ported Effects": "Increases fire damage negations by 13% (4% in PvP)",
+        "Import Effects": "Increases fire damage negation by 13% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8240,7 +8240,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flamedrake Talisman +1": {
-        "Ported Effects": "Increases fire damage negations by 17% (5% in PvP)",
+        "Import Effects": "Increases fire damage negation by 17% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8270,7 +8270,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flamedrake Talisman +2": {
-        "Ported Effects": "Increases fire damage negations by 20% (6% in PvP)",
+        "Import Effects": "Increases fire damage negation by 20% (6% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8300,7 +8300,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flamedrake Talisman +3": {
-        "Ported Effects": "Increases fire damage negations by 22% (7% in PvP)",
+        "Import Effects": "Increases fire damage negation by 22% (7% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8330,7 +8330,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Boltdrake Talisman": {
-        "Ported Effects": "Increases lightning damage negations by 13% (4% in PvP)",
+        "Import Effects": "Increases lightning damage negation by 13% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8360,7 +8360,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Boltdrake Talisman +1": {
-        "Ported Effects": "Increases lightning damage negations by 17% (5% in PvP)",
+        "Import Effects": "Increases lightning damage negation by 17% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8390,7 +8390,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Boltdrake Talisman +2": {
-        "Ported Effects": "Increases lightning damage negations by 20% (6% in PvP)",
+        "Import Effects": "Increases lightning damage negation by 20% (6% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8420,7 +8420,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Boltdrake Talisman +3": {
-        "Ported Effects": "Increases lightning damage negations by 22% (7% in PvP)",
+        "Import Effects": "Increases lightning damage negation by 22% (7% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8450,7 +8450,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haligdrake Talisman": {
-        "Ported Effects": "Increases holy damage negations by 13% (4% in PvP)",
+        "Import Effects": "Increases holy damage negation by 13% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8480,7 +8480,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haligdrake Talisman +1": {
-        "Ported Effects": "Increases holy damage negations by 17% (5% in PvP)",
+        "Import Effects": "Increases holy damage negation by 17% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8510,7 +8510,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Haligdrake Talisman +2": {
-        "Ported Effects": "Increases holy damage negations by 20% (6% in PvP)",
+        "Import Effects": "Increases holy damage negation by 20% (6% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8540,7 +8540,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Golden Braid": {
-        "Ported Effects": "Increases holy damage negations by 22% (7% in PvP)",
+        "Import Effects": "Increases holy damage negation by 22% (7% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8570,7 +8570,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pearldrake Talisman": {
-        "Ported Effects": "Increases elemental damage negations by 5% (2% in PvP)",
+        "Import Effects": "Increases elemental damage negations by 5% (2% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8600,7 +8600,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pearldrake Talisman +1": {
-        "Ported Effects": "Increases elemental damage negations by 7% (3% in PvP)",
+        "Import Effects": "Increases elemental damage negations by 7% (3% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8630,7 +8630,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pearldrake Talisman +2": {
-        "Ported Effects": "Increases elemental damage negations by 9% (4% in PvP)",
+        "Import Effects": "Increases elemental damage negations by 9% (4% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8660,7 +8660,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pearldrake Talisman +3": {
-        "Ported Effects": "Increases elemental damage negations by 11% (5% in PvP)",
+        "Import Effects": "Increases elemental damage negations by 11% (5% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8690,7 +8690,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Immunizing Horn Charm": {
-        "Ported Effects": "Increases immunity by 90",
+        "Import Effects": "Increases immunity by 90",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8720,7 +8720,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Immunizing Horn Charm +1": {
-        "Ported Effects": "Increases immunity by 140",
+        "Import Effects": "Increases immunity by 140",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8750,7 +8750,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Immunizing Horn Charm +2": {
-        "Ported Effects": "Increases immunity by 180",
+        "Import Effects": "Increases immunity by 180",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8780,7 +8780,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Stalwart Horn Charm": {
-        "Ported Effects": "Increases robustness by 90",
+        "Import Effects": "Increases robustness by 90",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8810,7 +8810,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Stalwart Horn Charm +1": {
-        "Ported Effects": "Increases robustness by 140",
+        "Import Effects": "Increases robustness by 140",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8840,7 +8840,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Stalwart Horn Charm +2": {
-        "Ported Effects": "Increases robustness by 180",
+        "Import Effects": "Increases robustness by 180",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8870,37 +8870,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Clarifying Horn Charm": {
-        "Ported Effects": "Increases focus by 90",
-        "conditionHp": -1,
-        "conditionHpRate": -1,
-        "addLifeForceStatus": 0,
-        "addWillpowerStatus": 0,
-        "addEndureStatus": 0,
-        "addStrengthStatus": 0,
-        "addDexterityStatus": 0,
-        "addMagicStatus": 0,
-        "addFaithStatus": 0,
-        "addLuckStatus": 0,
-        "maxHpRate": 1,
-        "maxMpRate": 1,
-        "maxStaminaRate": 1,
-        "equipWeightChangeRate": 1,
-        "neutralDamageCutRate": 1,
-        "blowDamageCutRate": 1,
-        "slashDamageCutRate": 1,
-        "thrustDamageCutRate": 1,
-        "magicDamageCutRate": 1,
-        "fireDamageCutRate": 1,
-        "thunderDamageCutRate": 1,
-        "darkDamageCutRate": 1,
-        "changePoisonResistPoint": 0,
-        "changeBloodResistPoint": 0,
-        "changeSleepResistPoint": 90,
-        "changeCurseResistPoint": 0,
-        "itemDropRate": 0
-    },
-    "Clarifying Horn Charm +1": {
-        "Ported Effects": "Increases focus by 140",
+        "Import Effects": "Increases focus by 140",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8929,8 +8899,8 @@ export const EffectData: EffectDataType = {
         "changeCurseResistPoint": 0,
         "itemDropRate": 0
     },
-    "Clarifying Horn Charm +2": {
-        "Ported Effects": "Increases focus by 180",
+    "Clarifying Horn Charm +1": {
+        "Import Effects": "Increases focus by 190",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8955,12 +8925,42 @@ export const EffectData: EffectDataType = {
         "darkDamageCutRate": 1,
         "changePoisonResistPoint": 0,
         "changeBloodResistPoint": 0,
-        "changeSleepResistPoint": 180,
+        "changeSleepResistPoint": 190,
+        "changeCurseResistPoint": 0,
+        "itemDropRate": 0
+    },
+    "Clarifying Horn Charm +2": {
+        "Import Effects": "Increases focus by 230",
+        "conditionHp": -1,
+        "conditionHpRate": -1,
+        "addLifeForceStatus": 0,
+        "addWillpowerStatus": 0,
+        "addEndureStatus": 0,
+        "addStrengthStatus": 0,
+        "addDexterityStatus": 0,
+        "addMagicStatus": 0,
+        "addFaithStatus": 0,
+        "addLuckStatus": 0,
+        "maxHpRate": 1,
+        "maxMpRate": 1,
+        "maxStaminaRate": 1,
+        "equipWeightChangeRate": 1,
+        "neutralDamageCutRate": 1,
+        "blowDamageCutRate": 1,
+        "slashDamageCutRate": 1,
+        "thrustDamageCutRate": 1,
+        "magicDamageCutRate": 1,
+        "fireDamageCutRate": 1,
+        "thunderDamageCutRate": 1,
+        "darkDamageCutRate": 1,
+        "changePoisonResistPoint": 0,
+        "changeBloodResistPoint": 0,
+        "changeSleepResistPoint": 230,
         "changeCurseResistPoint": 0,
         "itemDropRate": 0
     },
     "Mottled Necklace": {
-        "Ported Effects": "Increases immunity, robustness, and focus by 40",
+        "Import Effects": "Increases immunity, robustness, and focus by 40",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -8990,7 +8990,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Mottled Necklace +1": {
-        "Ported Effects": "Increases immunity, robustness, and focus by 60",
+        "Import Effects": "Increases immunity, robustness, and focus by 60",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9020,7 +9020,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Mottled Necklace +2": {
-        "Ported Effects": "Increases immunity, robustness, and focus by 100",
+        "Import Effects": "Increases immunity, robustness, and focus by 100",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9050,7 +9050,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Prince of Death's Pustule": {
-        "Ported Effects": "Increases vitality by 90",
+        "Import Effects": "Increases vitality by 90",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9080,7 +9080,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Prince of Death's Cyst": {
-        "Ported Effects": "Increases vitality by 140",
+        "Import Effects": "Increases vitality by 140",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9110,7 +9110,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ailment Talisman": {
-        "Ported Effects": "Increases immunity, robustness, or focus by 350 for 120, 45, or 30 seconds respectively after being afflicted with a status effect",
+        "Import Effects": "Increases immunity, robustness, or focus by 350 for 120, 45, or 30 seconds respectively after being afflicted with a status effect",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9140,7 +9140,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dagger Talisman": {
-        "Ported Effects": "Increases critical damage by 1.17x (holy bugged in PvP: 1x)",
+        "Import Effects": "Increases critical damage by 1.17x (holy bugged in PvP: 1x)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9170,7 +9170,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Curved Sword Talisman": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with guard counters",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with guard counters",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9200,7 +9200,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Twinblade Talisman": {
-        "Ported Effects": "Increases damage by 1.45x  with the final light attack in a chain",
+        "Import Effects": "Increases damage by 1.45x  with the final light attack in a chain",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9230,7 +9230,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Axe Talisman": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with charged R2s",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with charged R2s",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9260,7 +9260,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Hammer Talisman": {
-        "Ported Effects": "Increases stamina damage by 1.4x",
+        "Import Effects": "Increases stamina damage by 1.4x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9290,7 +9290,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spear Talisman": {
-        "Ported Effects": "Increases counter hit damage by 1.15x",
+        "Import Effects": "Increases counter hit damage by 1.15x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9320,7 +9320,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lance Talisman": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with horseback attacks",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with horseback attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9350,7 +9350,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Claw Talisman": {
-        "Ported Effects": "Increases damage by 1.15x (1.075x in PvP)  with jump attacks",
+        "Import Effects": "Increases damage by 1.15x (1.075x in PvP)  with jump attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9380,7 +9380,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Two-Handed Sword Talisman": {
-        "Ported Effects": "Increases damage by 1.15x (1.1x in PvP)  with 2h attacks",
+        "Import Effects": "Increases damage by 1.15x (1.1x in PvP)  with 2h attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9410,7 +9410,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greatshield Talisman": {
-        "Ported Effects": "Decreases incoming stamina damage by 0.8x",
+        "Import Effects": "Decreases incoming stamina damage by 0.8x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9440,7 +9440,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Pearl Shield Talisman": {
-        "Ported Effects": "Increases elemental damage negations by 20% while guarding",
+        "Import Effects": "Increases elemental damage negations by 20% while guarding",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9470,7 +9470,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Retaliatory Crossed-Tree": {
-        "Ported Effects": "Increases damage by 1.17x (1.12x in PvP)  with rolling / backstep attacks",
+        "Import Effects": "Increases damage by 1.17x (1.12x in PvP)  with rolling / backstep attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9500,7 +9500,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lacerating Crossed-Tree": {
-        "Ported Effects": "Increases damage by 1.15x (1.075x in PvP)  with dashing attacks",
+        "Import Effects": "Increases damage by 1.15x (1.075x in PvP)  with dashing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9530,7 +9530,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Arrow's Sting Talisman": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with arrow / bolt attacks",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with arrow / bolt attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9560,7 +9560,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Arrow's Reach Talisman": {
-        "Ported Effects": "Increases bowDistRate by 65",
+        "Import Effects": "Increases bowDistRate by 65",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9590,7 +9590,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Arrow's Soaring Sting Talisman": {
-        "Ported Effects": "Increases damage by 1.08x (holy bugged in PvP: 1x) with arrow / bolt attacks and bowDistRate by 50",
+        "Import Effects": "Increases damage by 1.08x (holy bugged in PvP: 1x) with arrow / bolt attacks and bowDistRate by 50",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9620,7 +9620,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sharpshot Talisman": {
-        "Ported Effects": "Increases damage by 1.12x (1.08x in PvP) with arrow / bolt headshot? attacks",
+        "Import Effects": "Increases damage by 1.12x (1.08x in PvP) with aimed arrow / bolt  attacks (crosshair aiming)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9650,7 +9650,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Graven-School Talisman": {
-        "Ported Effects": "Increases sorcery damage by 1.04x (holy bugged in PvP: 1x)",
+        "Import Effects": "Increases sorcery damage by 1.04x (holy bugged in PvP: 1x)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9680,7 +9680,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Graven-Mass Talisman": {
-        "Ported Effects": "Increases sorcery damage by 1.08x (holy bugged in PvP: 1x)",
+        "Import Effects": "Increases sorcery damage by 1.08x (holy bugged in PvP: 1x)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9710,7 +9710,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Faithful's Canvas Talisman": {
-        "Ported Effects": "Increases incantation damage by 1.04x (holy bugged in PvP: 1x)",
+        "Import Effects": "Increases incantation damage by 1.04x (holy bugged in PvP: 1x)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9740,7 +9740,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flock's Canvas Talisman": {
-        "Ported Effects": "Increases incantation damage by 1.08x (holy bugged in PvP: 1x)",
+        "Import Effects": "Increases incantation damage by 1.08x (holy bugged in PvP: 1x)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9770,7 +9770,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Primal Glintstone Blade": {
-        "Ported Effects": "Decreases the FP cost of spells by ⌈0.75x⌉, but decreases HP by ⌊0.85x⌋",
+        "Import Effects": "Decreases the FP cost of spells by ⌈0.75x⌉, but decreases HP by ⌊0.85x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9800,7 +9800,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Moon of Nokstella": {
-        "Ported Effects": "Increases memory slots by 2",
+        "Import Effects": "Increases memory slots by 2",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9830,7 +9830,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Old Lord's Talisman": {
-        "Ported Effects": "Increases the duration of spell buffs by 1.3x",
+        "Import Effects": "Increases the duration of spell buffs by 1.3x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9860,7 +9860,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radagon Icon": {
-        "Ported Effects": "Increases virtual dexterity by 30",
+        "Import Effects": "Increases virtual dexterity by 30",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9890,7 +9890,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Beloved Stardust": {
-        "Ported Effects": "Increases virtual dexterity by 99, but decreases damage negations by -30%",
+        "Import Effects": "Increases virtual dexterity by 99, but decreases damage negations by -30%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9920,7 +9920,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Roar Medallion": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with roar attacks and Shriek of Milos & 1.1x (1.05x in PvP) with breath attacks",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with roar attacks and Shriek of Milos & 1.1x (1.05x in PvP) with breath attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9950,7 +9950,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Companion Jar": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks & 1.1x (holy bugged in PvP: 1x) with Hefty Cracked Pot attacks",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Cracked / Ritual Pot attacks & 1.1x (holy bugged in PvP: 1x) with Hefty Cracked Pot attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -9980,7 +9980,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Perfumer's Talisman": {
-        "Ported Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Perfume Bottle attacks",
+        "Import Effects": "Increases damage by 1.2x (holy bugged in PvP: 1x) with Perfume Bottle attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10010,7 +10010,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Carian Filigreed Crest": {
-        "Ported Effects": "Decreases the FP cost of weapon skills by ⌈0.75x⌉",
+        "Import Effects": "Decreases the FP cost of weapon skills by ⌈0.75x⌉",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10040,7 +10040,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Warrior Jar Shard": {
-        "Ported Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with weapon skills",
+        "Import Effects": "Increases damage by 1.1x (holy bugged in PvP: 1x) with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10070,7 +10070,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shard of Alexander": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with weapon skills",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10100,7 +10100,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Godfrey Icon": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with charged spells and charged weapon skills",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with charged spells and charged weapon skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10130,7 +10130,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rellana's Cameo": {
-        "Ported Effects": "Increases damage by 1.15x (1.1x in PvP) for 10 seconds when stance is held for (???) seconds",
+        "Import Effects": "Increases damage by 1.45x when stance is held for ? seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10160,7 +10160,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shattered Stone Talisman": {
-        "Ported Effects": "Increases damage by 1.1x (1.05x in PvP)  with kicking / stomping skills",
+        "Import Effects": "Increases damage by 1.1x (1.05x in PvP)  with kicking / stomping skills",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10190,7 +10190,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Smithing Talisman": {
-        "Ported Effects": "Increases damage by 1.1x (1.05x in PvP)  with weapon-throwing attacks",
+        "Import Effects": "Increases damage by 1.1x (1.05x in PvP)  with weapon-throwing attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10220,7 +10220,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Enraged Divine Beast": {
-        "Ported Effects": "Increases damage by 1.1x  with storm attacks",
+        "Import Effects": "Increases damage by 1.1x  with storm attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10250,7 +10250,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Talisman of the Dread": {
-        "Ported Effects": "Increases damage by 1.15x (1.1x in PvP)  with magma attacks",
+        "Import Effects": "Increases damage by 1.15x (1.1x in PvP)  with magma attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10280,7 +10280,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Bull-Goat's Talisman": {
-        "Ported Effects": "Decreases incoming poise damage by 0.75x",
+        "Import Effects": "Decreases incoming poise damage by 0.75x",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10310,7 +10310,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blue Dancer Charm": {
-        "Ported Effects": "Increases physical attack power by 1.15x; effectiveness reduced with equipped weight",
+        "Import Effects": "Increases physical attack power by 1.15x; effectiveness reduced with equipped weight",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10340,7 +10340,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Verdigris Discus": {
-        "Ported Effects": "Increases damage negations by 10% (7.5% in PvP) when Heavy Load and 20% (15% in PvP) when Overloaded",
+        "Import Effects": "Increases damage negations by 10% (7.5% in PvP) when Heavy Load and 20% (15% in PvP) when Overloaded",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10370,7 +10370,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Magic Scorpion Charm": {
-        "Ported Effects": "Increases magic damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
+        "Import Effects": "Increases magic damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10400,7 +10400,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fire Scorpion Charm": {
-        "Ported Effects": "Increases fire damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
+        "Import Effects": "Increases fire damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10430,7 +10430,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lightning Scorpion Charm": {
-        "Ported Effects": "Increases lightning damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
+        "Import Effects": "Increases lightning damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10460,7 +10460,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sacred Scorpion Charm": {
-        "Ported Effects": "Increases holy damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
+        "Import Effects": "Increases holy damage by 1.12x (1.08x in PvP), but decreases physical damage negations by -10% (-15% in PvP)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10490,7 +10490,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Scale Talisman": {
-        "Ported Effects": "Increases damage negations by 30% for critical attacks",
+        "Import Effects": "Increases damage negations by 30% for critical attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10520,7 +10520,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Feather Talisman": {
-        "Ported Effects": "Adds 3 iframes (30 fps) to roll, but decreases damage negations by -30%",
+        "Import Effects": "Adds 3 iframes (30 fps) to roll, but decreases damage negations by -30% (iframe bonus does not stack with Windy Crystal Tear)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10550,7 +10550,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crucible Knot Talisman": {
-        "Ported Effects": "Nulifies headshot bonus damage and prevents headshot stagger animation",
+        "Import Effects": "Nullifies headshot bonus damage and prevents headshot stagger animation",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10580,7 +10580,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Fine Crucible Feather Talisman": {
-        "Ported Effects": "Adds 11 iframes (30 fps) to backstep, but decreases damage negations by -15%",
+        "Import Effects": "Adds 7 iframes (30 fps) to backstep (8 iframes to over the shoulder weapons), but decreases damage negations by -15%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10610,7 +10610,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Talisman of All Crucibles": {
-        "Ported Effects": "Provides all positive effects of the other 4 Crucible Talismans, but decreases damage negations by -45%",
+        "Import Effects": "Provides all positive effects of the other 4 Crucible Talismans, but decreases damage negations by -45%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10640,7 +10640,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Red-Feathered Branchsword": {
-        "Ported Effects": "Increases damage by 1.2x while at less than 20% HP",
+        "Import Effects": "Increases damage by 1.2x while at less than 20% HP",
         "conditionHp": 20,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10670,7 +10670,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blue-Feathered Branchsword": {
-        "Ported Effects": "Increases damage negations by 50% while at less than 20% HP",
+        "Import Effects": "Increases damage negations by 50% while at less than 20% HP",
         "conditionHp": 20,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10700,7 +10700,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ritual Sword Talisman": {
-        "Ported Effects": "Increases damage by 1.1x while at full HP",
+        "Import Effects": "Increases damage by 1.1x while at full HP",
         "conditionHp": -1,
         "conditionHpRate": 100,
         "addLifeForceStatus": 0,
@@ -10730,7 +10730,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ritual Shield Talisman": {
-        "Ported Effects": "Increases damage negations by 30% while at full HP",
+        "Import Effects": "Increases damage negations by 30% while at full HP",
         "conditionHp": -1,
         "conditionHpRate": 100,
         "addLifeForceStatus": 0,
@@ -10760,7 +10760,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Assassin's Crimson Dagger": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.1⌋ + 85 HP while performing a critical attack",
+        "Import Effects": "Restores ⌊MaxHP * 0.1⌋ + 85 HP while performing a critical attack",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10790,7 +10790,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Assassin's Cerulean Dagger": {
-        "Ported Effects": "Restores 15 FP while performing a critical attack",
+        "Import Effects": "Restores 15 FP while performing a critical attack",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10820,7 +10820,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Winged Sword Insignia": {
-        "Ported Effects": "Increases damage by 1.03x /1.05x /1.1x /1.1x with continuous attacks",
+        "Import Effects": "Increases damage by 1.03x /1.05x /1.1x /1.1x with continuous attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10850,7 +10850,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rotten Winged Sword Insignia": {
-        "Ported Effects": "Increases damage by 1.06x /1.08x /1.13x /1.13x with continuous attacks",
+        "Import Effects": "Increases damage by 1.06x /1.08x /1.13x /1.13x with continuous attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10880,7 +10880,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Millicent's Prosthesis": {
-        "Ported Effects": "Increases damage by 1.04x /1.06x /1.11x /1.11x with continuous attacks and increases dexterity by 5",
+        "Import Effects": "Increases damage by 1.04x /1.06x /1.11x /1.11x with continuous attacks and increases dexterity by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10910,7 +10910,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Godskin Swaddling Cloth": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP with continuous attacks",
+        "Import Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP with continuous attacks",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10940,7 +10940,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Kindred of Rot's Exultation": {
-        "Ported Effects": "Increases damage by 1.2x for 20 seconds when poison/scarlet rot is triggered within 7m",
+        "Import Effects": "Increases damage by 1.2x for 20 seconds when poison/scarlet rot is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -10970,7 +10970,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lord of Blood's Exultation": {
-        "Ported Effects": "Increases damage by 1.2x (1.12x in PvP) for 20 seconds when bleed is triggered within 7m",
+        "Import Effects": "Increases damage by 1.2x (1.12x in PvP) for 20 seconds when bleed is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11000,7 +11000,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Aged One's Exultation": {
-        "Ported Effects": "Increases damage by 1.2x (1.12x in PvP) for 30 seconds when madness is triggered within 7m",
+        "Import Effects": "Increases damage by 1.2x (1.12x in PvP) for 30 seconds when madness is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11030,7 +11030,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "St. Trina's Smile": {
-        "Ported Effects": "Increases damage by 1.2x (1.12x in PvP) for 30 seconds when bleed is triggered within 7m",
+        "Import Effects": "Increases damage by 1.2x (1.12x in PvP) for 30 seconds when sleep is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11060,7 +11060,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Blade of Mercy": {
-        "Ported Effects": "Increases damage by 1.2x (1.12x in PvP) for 20 seconds after performing a critical attack",
+        "Import Effects": "Increases damage by 1.2x (1.12x in PvP) for 20 seconds after performing a critical attack",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11090,7 +11090,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Taker's Cameo": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP when an enemy dies",
+        "Import Effects": "Restores ⌊MaxHP * 0.03⌋ + 30 HP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11120,7 +11120,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ancestral Spirit's Horn": {
-        "Ported Effects": "Restores 3 FP when an enemy dies",
+        "Import Effects": "Restores 3 FP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11150,7 +11150,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crusade Insignia": {
-        "Ported Effects": "Deal 1.15x (1.1x in PvP) damage for 20 seconds after an enemy dies",
+        "Import Effects": "Deal 1.15x (1.1x in PvP) damage for 20 seconds after an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11180,7 +11180,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dried Bouquet": {
-        "Ported Effects": "Increases damage by 1.2x for 30 seconds after spirit ash death",
+        "Import Effects": "Increases damage by 1.2x for 30 seconds after spirit ash death",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11210,7 +11210,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Gold Scarab": {
-        "Ported Effects": "Increases runes gained by 1.2x runes",
+        "Import Effects": "Increases runes gained by 1.2x runes",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11240,7 +11240,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Silver Scarab": {
-        "Ported Effects": "Increases discovery by 75",
+        "Import Effects": "Increases discovery by 75",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11270,7 +11270,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0.75
     },
     "Crepus's Vial": {
-        "Ported Effects": "Makes user silent",
+        "Import Effects": "Makes user silent",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11300,7 +11300,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Concealing Veil": {
-        "Ported Effects": "Makes user invisible to other players while crouched with enough distance",
+        "Import Effects": "Makes user invisible to other players while crouched with enough distance",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11330,7 +11330,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Longtail Cat Talisman": {
-        "Ported Effects": "Protects from non-lethal fall damage",
+        "Import Effects": "Protects from non-lethal fall damage",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11360,7 +11360,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Furled Finger's Trick-Mirror": {
-        "Ported Effects": "Makes character appear as Host of Fingers",
+        "Import Effects": "Makes character appear as Host of Fingers",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11390,7 +11390,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Host's Trick-Mirror": {
-        "Ported Effects": "Makes character appear as gold phantom",
+        "Import Effects": "Makes character appear as gold phantom",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11420,7 +11420,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Shabriri's Woe": {
-        "Ported Effects": "Increases targetPriority by 0.1",
+        "Import Effects": "Increases targetPriority by 0.1",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11450,7 +11450,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Daedicar's Woe": {
-        "Ported Effects": "Decreases damage negations by -100%",
+        "Import Effects": "Decreases damage negations by -100%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11480,7 +11480,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Sacrificial Twig": {
-        "Ported Effects": "Prevents rune loss on death, but the talisman is lost instead",
+        "Import Effects": "Prevents rune loss on death, but the talisman is lost instead",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11510,7 +11510,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Godrick's Great Rune": {
-        "Ported Effects": "Increases all attributes by 5",
+        "Import Effects": "Increases all attributes by 5",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 5,
@@ -11540,7 +11540,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rykard's Great Rune": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.07⌋ + 80 HP when an enemy dies",
+        "Import Effects": "Restores ⌊MaxHP * 0.07⌋ + 80 HP when an enemy dies",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11570,7 +11570,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Radahn's Great Rune": {
-        "Ported Effects": "Increases HP, FP, and stamina, by ⌊1.15x⌋",
+        "Import Effects": "Increases HP, FP, and stamina, by ⌊1.15x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11600,7 +11600,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Morgott's Great Rune": {
-        "Ported Effects": "Increases HP by ⌊1.25x⌋",
+        "Import Effects": "Increases HP by ⌊1.25x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11630,7 +11630,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Mohg's Great Rune": {
-        "Ported Effects": "Spirit Ashes restore ⌊MaxHP * 0.05⌋ + 60 when an enemy dies and get increased damage by 1.3x for 40 seconds when bleed is triggered within 7m",
+        "Import Effects": "Spirit ashes restore ⌊MaxHP * 0.05⌋ + 60 when an enemy dies and get increased damage by 1.3x for 40 seconds when bleed is triggered within 7m",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11660,7 +11660,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Malenia's Great Rune": {
-        "Ported Effects": "Attacks recover HP after damage is recieved, but decreases Flask of Crimson Tears restoration by ⌊0.85x⌋",
+        "Import Effects": "Attacks recover HP after damage is recieved, but decreases Flask of Crimson Tears restoration by ⌊0.85x⌋",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11690,7 +11690,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Crystal Tear 1": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.5⌋ HP",
+        "Import Effects": "Restores ⌊MaxHP * 0.5⌋ HP",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11720,7 +11720,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Crystal Tear 2": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.5⌋ HP",
+        "Import Effects": "Restores ⌊MaxHP * 0.5⌋ HP",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11750,7 +11750,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimsonspill Crystal Tear": {
-        "Ported Effects": "Increases HP by ⌊1.1x⌋ for 180 seconds",
+        "Import Effects": "Increases HP by ⌊1.1x⌋ for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11780,7 +11780,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimsonburst Crystal Tear": {
-        "Ported Effects": "Regenerates 7 HP/s for 180 seconds (1260 total)",
+        "Import Effects": "Regenerates 7 HP/s for 180 seconds (1260 total)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11810,7 +11810,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimsonburst Dried Tear": {
-        "Ported Effects": "Regenerates 7 HP/s for 180 seconds to allies within 7m (1260 HP total)",
+        "Import Effects": "Regenerates 7 HP/s for 180 seconds to allies within 7m (1260 HP total)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11840,7 +11840,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Crystal Tear 1": {
-        "Ported Effects": "Restores ⌊MaxFP * 0.5⌋ FP",
+        "Import Effects": "Restores ⌊MaxFP * 0.5⌋ FP",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11870,7 +11870,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Crystal Tear 2": {
-        "Ported Effects": "Restores ⌊MaxFP * 0.5⌋ FP",
+        "Import Effects": "Restores ⌊MaxFP * 0.5⌋ FP",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11900,7 +11900,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greenspill Crystal Tear": {
-        "Ported Effects": "Increases stamina by ⌊1.15x⌋ for 180 seconds",
+        "Import Effects": "Increases stamina by ⌊1.15x⌋ for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11930,7 +11930,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Greenburst Crystal Tear": {
-        "Ported Effects": "Increases stamina regeneration by 15/s for 180 seconds",
+        "Import Effects": "Increases stamina regeneration by 15/s for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11960,7 +11960,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Strength-knot Crystal Tear": {
-        "Ported Effects": "Increases strength by 10 for 180 seconds",
+        "Import Effects": "Increases strength by 10 for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -11990,7 +11990,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Dexterity-knot Crystal Tear": {
-        "Ported Effects": "Increases dexterity by 10 for 180 seconds",
+        "Import Effects": "Increases dexterity by 10 for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12020,7 +12020,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Intelligence-knot Crystal Tear": {
-        "Ported Effects": "Increases intelligence by 10 for 180 seconds",
+        "Import Effects": "Increases intelligence by 10 for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12050,7 +12050,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Faith-knot Crystal Tear": {
-        "Ported Effects": "Increases faith by 10 for 180 seconds",
+        "Import Effects": "Increases faith by 10 for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12080,7 +12080,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Opaline Hardtear": {
-        "Ported Effects": "Increases damage negations by 15% (10% in PvP) for 180 seconds",
+        "Import Effects": "Increases damage negations by 15% (10% in PvP) for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12110,7 +12110,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Speckled Hardtear": {
-        "Ported Effects": "Increases all resistances by 90 for 180 seconds, removes all buildup, and cures all status effects",
+        "Import Effects": "Increases all resistances by 90 for 180 seconds, removes all buildup, and cures all status effects",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12140,7 +12140,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Leaden Hardtear": {
-        "Ported Effects": "Prevents stagger from dmgLevel 1, 2, 3, 5, and 8 for 10 seconds",
+        "Import Effects": "Prevents stagger from dmgLevel 1, 2, 3, 5, and 8 for 10 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12170,7 +12170,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Deflecting Hardtear": {
-        "Ported Effects": "",
+        "Import Effects": "For 300 seconds: guarding will increase physical guard negation by 100%, elemental guard negations by 75%, status guard negations by 75%, and decrease incoming stamina damage by 65% for 6 frames (30 fps); spamming block will reduce deflect frames to 3, 2, then 0.\nIf an attack is blocked within those 6 frames: guard counters will recieve a buff that has multiple tiers. Subsequent deflects while the buff is still active will increase the current tier and some attacks being deflected can gain multiple tiers at a time.\n- Tier 1: increases damage by 1.2x (1.15x in PvP), stamina damage by 1.2x, and poise damage by 1.15x for 5 seconds\n- Tier 2: increases damage by 1.4x (1.28x in PvP), stamina damage by 1.4x, and poise damage by 1.23x for 5 seconds\n- Tier 3: increases damage by 1.6x (1.36x in PvP), stamina damage by 1.6x, and poise damage by 1.31x for 5 seconds\n- Tier 4: increases damage by 1.8x (1.45x in PvP), stamina damage by 1.8x, and poise damage by 1.39x for 5 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12200,7 +12200,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Magic-Shrouding Cracked Tear": {
-        "Ported Effects": "Increases magic damage by 1.2x (1.125x in PvP) for 180 seconds",
+        "Import Effects": "Increases magic damage by 1.2x (1.125x in PvP) for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12230,7 +12230,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Flame-Shrouding Cracked Tear": {
-        "Ported Effects": "Increases fire damage by 1.2x (1.125x in PvP) for 180 seconds",
+        "Import Effects": "Increases fire damage by 1.2x (1.125x in PvP) for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12260,7 +12260,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Lightning-Shrouding Cracked Tear": {
-        "Ported Effects": "Increases lightning damage by 1.2x (1.125x in PvP) for 180 seconds",
+        "Import Effects": "Increases lightning damage by 1.2x (1.125x in PvP) for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12290,7 +12290,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Holy-Shrouding Cracked Tear": {
-        "Ported Effects": "Increases holy damage by 1.2x (1.125x in PvP) for 180 seconds",
+        "Import Effects": "Increases holy damage by 1.2x (1.125x in PvP) for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12320,7 +12320,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Stonebarb Cracked Tear": {
-        "Ported Effects": "Increases poise and stamina damage by 1.3x for 30 seconds",
+        "Import Effects": "Increases poise and stamina damage by 1.3x for 30 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12350,7 +12350,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Spiked Cracked Tear": {
-        "Ported Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with charged R2s for 180 seconds",
+        "Import Effects": "Increases damage by 1.15x (holy bugged in PvP: 1x) with charged R2s for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12380,7 +12380,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Thorny Cracked Tear": {
-        "Ported Effects": "Increases damage by 1.09x /1.13x /1.2x /1.2x with continuous attacks  for 180 seconds",
+        "Import Effects": "Increases damage by 1.09x /1.13x /1.2x /1.2x with continuous attacks  for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12410,7 +12410,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson-Sapping Cracked Tear": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.008⌋ HP every hit for 45 seconds",
+        "Import Effects": "Restores ⌊MaxHP * 0.008⌋ HP every hit for 45 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12440,7 +12440,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean-Sapping Cracked Tear": {
-        "Ported Effects": "Restores 5 FP every hit for 45 seconds",
+        "Import Effects": "Restores 5 FP every hit for 45 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12470,7 +12470,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Bloodsucking Cracked Tear": {
-        "Ported Effects": "Increases damage by 1.2x (1.125x in PvP) for 180 seconds, but drains ⌊MaxHP * 0.002⌋ + 20 HP/s for the duration",
+        "Import Effects": "Increases damage by 1.2x (1.125x in PvP) for 180 seconds, but drains ⌊MaxHP * 0.002⌋ + 20 HP/s for the duration",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12500,7 +12500,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Twiggy Cracked Tear": {
-        "Ported Effects": "Prevents rune loss on death for 180 seconds",
+        "Import Effects": "Prevents rune loss on death for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12530,7 +12530,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Winged Crystal Tear": {
-        "Ported Effects": "Increases equip Load by 4.5x for 180 seconds",
+        "Import Effects": "Increases equip Load by 4.5x for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12560,7 +12560,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Windy Crystal Tear": {
-        "Ported Effects": "Adds 3 iframes (30 fps) to roll, but decreases damage negations by -15% for 180",
+        "Import Effects": "Adds 3 iframes (30 fps) to roll, but decreases damage negations by -15% for 180 (iframe bonus does not stack with Crucible Feather Talisman)",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12590,7 +12590,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Glovewort Crystal Tear": {
-        "Ported Effects": "Increases damage by 1.075x for 180 seconds after spirit ash death; tear lasts 180 seconds",
+        "Import Effects": "Increases spirit ash damage by 1.075x for 180 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12620,7 +12620,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimson Bubbletear": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.3⌋ HP when less than 20% MaxHP for 180 seconds; the effect is removed when triggered",
+        "Import Effects": "Restores ⌊MaxHP * 0.3⌋ HP when less than 20% MaxHP for 180 seconds; the effect is removed when triggered",
         "conditionHp": -1,
         "conditionHpRate": 20,
         "addLifeForceStatus": 0,
@@ -12650,7 +12650,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Crimsonwhorl Bubbletear": {
-        "Ported Effects": "Restores ⌊MaxHP * 0.05⌋ HP when hit for 15 seconds",
+        "Import Effects": "Restores ⌊MaxHP * 0.05⌋ HP when hit for 15 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12680,7 +12680,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Opaline Bubbletear": {
-        "Ported Effects": "Increases damage negations by 90% for 180 seconds; the effect is removed when hit",
+        "Import Effects": "Increases damage negations by 90% for 180 seconds; the effect is removed when hit",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12710,7 +12710,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Cerulean Hidden Tear": {
-        "Ported Effects": "Disables FP consumption for 10 seconds",
+        "Import Effects": "Disables FP consumption for 10 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12740,7 +12740,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Viridian Hidden Tear": {
-        "Ported Effects": "Disables stamina consumption for 15 seconds",
+        "Import Effects": "Disables stamina consumption for 15 seconds",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12770,7 +12770,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Purifying Crystal Tear": {
-        "Ported Effects": "Prevents blood loss during Mohg, Lord of Blood's phase 2 transition",
+        "Import Effects": "Prevents blood loss during Mohg, Lord of Blood's phase 2 transition",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12800,7 +12800,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ruptured Crystal Tear 1": {
-        "Ported Effects": "Explode after 2.7 seconds; 800 holy attack power, 135 stamina damage, 10 poise damage, and 300 self-damage",
+        "Import Effects": "Explode after 2.7 seconds; 800 holy attack power, 135 stamina damage, 10 poise damage, and 300 self-damage",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12830,7 +12830,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Ruptured Crystal Tear 2": {
-        "Ported Effects": "Explode after 2.9 seconds; 800 holy attack power, 135 stamina damage, 10 poise damage, and 300 self-damage",
+        "Import Effects": "Explode after 2.9 seconds; 800 holy attack power, 135 stamina damage, 10 poise damage, and 300 self-damage",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12860,7 +12860,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Oil-Soaked Tear": {
-        "Ported Effects": "Enemies within 1m have oil applied to them that decreases fire damage negation by -20%",
+        "Import Effects": "User and enemies within 1m have oil applied to them that decreases fire damage negation by -20%",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12890,7 +12890,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Rain": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,
@@ -12920,7 +12920,7 @@ export const EffectData: EffectDataType = {
         "itemDropRate": 0
     },
     "Wet": {
-        "Ported Effects": "",
+        "Import Effects": "",
         "conditionHp": -1,
         "conditionHpRate": -1,
         "addLifeForceStatus": 0,

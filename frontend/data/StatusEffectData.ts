@@ -13485,7 +13485,7 @@ export const StatusEffectData: StatusEffectDataType = {
     "21491010": {
         "poizonAttackPower": 0,
         "diseaseAttackPower": 0,
-        "bloodAttackPower": 72,
+        "bloodAttackPower": 17,
         "freezeAttackPower": 0,
         "sleepAttackPower": 0,
         "madnessAttackPower": 0,
@@ -13495,7 +13495,16 @@ export const StatusEffectData: StatusEffectDataType = {
         "poizonAttackPower": 0,
         "diseaseAttackPower": 0,
         "bloodAttackPower": 0,
-        "freezeAttackPower": 15,
+        "freezeAttackPower": 19,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
+    "21500001": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 0,
+        "bloodAttackPower": 0,
+        "freezeAttackPower": 23,
         "sleepAttackPower": 0,
         "madnessAttackPower": 0,
         "curseAttackPower": 0
@@ -13504,7 +13513,7 @@ export const StatusEffectData: StatusEffectDataType = {
         "poizonAttackPower": 0,
         "diseaseAttackPower": 0,
         "bloodAttackPower": 0,
-        "freezeAttackPower": 100,
+        "freezeAttackPower": 170,
         "sleepAttackPower": 0,
         "madnessAttackPower": 0,
         "curseAttackPower": 0
@@ -13545,6 +13554,42 @@ export const StatusEffectData: StatusEffectDataType = {
         "madnessAttackPower": 0,
         "curseAttackPower": 0
     },
+    "21630001": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 0,
+        "bloodAttackPower": 3,
+        "freezeAttackPower": 0,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
+    "21630003": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 0,
+        "bloodAttackPower": 3,
+        "freezeAttackPower": 0,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
+    "21630011": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 0,
+        "bloodAttackPower": 3,
+        "freezeAttackPower": 0,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
+    "21630013": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 0,
+        "bloodAttackPower": 3,
+        "freezeAttackPower": 0,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
     "21702000": {
         "poizonAttackPower": 0,
         "diseaseAttackPower": 0,
@@ -13556,7 +13601,16 @@ export const StatusEffectData: StatusEffectDataType = {
     },
     "21720000": {
         "poizonAttackPower": 0,
-        "diseaseAttackPower": 65,
+        "diseaseAttackPower": 80,
+        "bloodAttackPower": 0,
+        "freezeAttackPower": 0,
+        "sleepAttackPower": 0,
+        "madnessAttackPower": 0,
+        "curseAttackPower": 0
+    },
+    "21720001": {
+        "poizonAttackPower": 0,
+        "diseaseAttackPower": 20,
         "bloodAttackPower": 0,
         "freezeAttackPower": 0,
         "sleepAttackPower": 0,
@@ -13578,7 +13632,7 @@ export const StatusEffectData: StatusEffectDataType = {
         "bloodAttackPower": 0,
         "freezeAttackPower": 0,
         "sleepAttackPower": 0,
-        "madnessAttackPower": 7,
+        "madnessAttackPower": 6,
         "curseAttackPower": 0
     },
     "21730002": {

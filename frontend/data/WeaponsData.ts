@@ -1,7 +1,7 @@
 /* 
 data source:
 1. ER - Build Planner spreadsheet
-2. table: WeaponsData
+2. table: WeaponData
 3. only copy columns a - m
 4. get csv of table
 5. swap WeaponClass and Weapon column so Weapon is first
@@ -5408,6 +5408,50 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
+    "Hefty Fire Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 930000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Furnace Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 968000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Oil Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Oil Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
     "Magic Pot": {
         "Weapon Class": "Consumable",
         "ID": 866000,
@@ -5430,6 +5474,17 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
+    "Hefty Magic Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 966000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 500370,
+        "Default Ash of War": ""
+    },
     "Lightning Pot": {
         "Weapon Class": "Consumable",
         "ID": 832000,
@@ -5438,7 +5493,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": "",
+        "specialStatusSpEffectId": 3120,
         "Default Ash of War": ""
     },
     "Ancient Dragonbolt Pot": {
@@ -5449,7 +5504,40 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": "",
+        "specialStatusSpEffectId": 500670,
+        "Default Ash of War": ""
+    },
+    "Hefty Lightning Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 932000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 3126,
+        "Default Ash of War": ""
+    },
+    "Red Lightning Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 970000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 500360,
+        "Default Ash of War": ""
+    },
+    "Hefty Red Lightning Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 969000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 500640,
         "Default Ash of War": ""
     },
     "Holy Water Pot": {
@@ -5482,7 +5570,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500370,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Poison Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 937000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Fetid Pot": {
@@ -5493,7 +5592,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 3120,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Fetid Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 933000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Rot Pot": {
@@ -5504,7 +5614,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500670,
+        "specialStatusSpEffectId": 500440,
+        "Default Ash of War": ""
+    },
+    "Hefty Rot Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 500430,
         "Default Ash of War": ""
     },
     "Swarm Pot": {
@@ -5515,7 +5636,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 3126,
+        "specialStatusSpEffectId": 500470,
+        "Default Ash of War": ""
+    },
+    "Hefty Fly Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 934000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Freezing Pot": {
@@ -5526,7 +5658,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500360,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Freezing Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 503580,
         "Default Ash of War": ""
     },
     "Sleep Pot": {
@@ -5537,12 +5680,67 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500640,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Eternal Sleep Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 864000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 501720,
+        "Default Ash of War": ""
+    },
+    "Frenzied Flame Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 971000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Frenzied Flame Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 962000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Rock Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 931000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 3115,
         "Default Ash of War": ""
     },
     "Volcano Pot": {
         "Weapon Class": "Consumable",
         "ID": 860000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Hefty Volcano Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 960000,
         "isInfuse": false,
         "isReinforce": false,
         "isUnique": false,
@@ -5559,12 +5757,78 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
+        "specialStatusSpEffectId": 501840,
+        "Default Ash of War": ""
+    },
+    "Hefty Rancor Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 965000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": 501841,
+        "Default Ash of War": ""
+    },
+    "Cursed-Blood Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Alluring Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Beastlure Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Albinauric Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Roped Fire Pot": {
         "Weapon Class": "Consumable",
         "ID": 840000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Roped Oil Pot": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
         "isInfuse": false,
         "isReinforce": false,
         "isUnique": false,
@@ -5614,7 +5878,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500440,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Roped Fetid Pot": {
@@ -5625,7 +5889,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500430,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Roped Fly Pot": {
@@ -5636,7 +5900,18 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 500470,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Roped Frenzied Flame Pot": {
+        "Weapon Class": "Consumable",
+        "ID": 976000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Roped Volcano Pot": {
@@ -5661,6 +5936,17 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
+    "Uplifting Aromatic": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
     "Poison Spraymist": {
         "Weapon Class": "Consumable",
         "ID": 358000,
@@ -5669,7 +5955,40 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 503580,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Acid Spraymist": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Bloodboil Aromatic": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Ironjar Aromatic": {
+        "Weapon Class": "Consumable",
+        "ID": NaN,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Bone Dart": {
@@ -5691,7 +6010,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 501720,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Crystal Dart": {
@@ -5724,12 +6043,23 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 3115,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Fan Daggers": {
         "Weapon Class": "Consumable",
         "ID": 175000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Dragon Communion Harpoon": {
+        "Weapon Class": "Consumable",
+        "ID": 471000,
         "isInfuse": false,
         "isReinforce": false,
         "isUnique": false,
@@ -5749,6 +6079,17 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
+    "Roundrock": {
+        "Weapon Class": "Consumable",
+        "ID": 472000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
     "Poisoned Stone": {
         "Weapon Class": "Consumable",
         "ID": 184000,
@@ -5757,7 +6098,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 501840,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Poisoned Stone Clump": {
@@ -5768,7 +6109,7 @@ export const WeaponsData: WeaponsDataType = {
         "isUnique": false,
         "bothHandsAtkBonus": false,
         "throwable": true,
-        "specialStatusSpEffectId": 501841,
+        "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
     "Explosive Stone": {
@@ -5826,6 +6167,17 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
+    "Glinting Nail": {
+        "Weapon Class": "Consumable",
+        "ID": 620000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
     "Gravity Stone Fan": {
         "Weapon Class": "Consumable",
         "ID": 306000,
@@ -5840,6 +6192,72 @@ export const WeaponsData: WeaponsDataType = {
     "Gravity Stone Chunk": {
         "Weapon Class": "Consumable",
         "ID": 307000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Fire Spritestone": {
+        "Weapon Class": "Consumable",
+        "ID": 619000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Spritestone": {
+        "Weapon Class": "Consumable",
+        "ID": 600000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Fire Coil": {
+        "Weapon Class": "Consumable",
+        "ID": 618000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Surging Frenzied Flame": {
+        "Weapon Class": "Consumable",
+        "ID": 616000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Innard Meat": {
+        "Weapon Class": "Consumable",
+        "ID": 470000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Call of Tibia": {
+        "Weapon Class": "Reusable",
+        "ID": 615000,
         "isInfuse": false,
         "isReinforce": false,
         "isUnique": false,
@@ -5870,7 +6288,18 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
-    "Omen Bairn1": {
+    "Miranda's Prayer": {
+        "Weapon Class": "Reusable",
+        "ID": 302000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Omen Bairn 1": {
         "Weapon Class": "Reusable",
         "ID": 301000,
         "isInfuse": false,
@@ -5881,7 +6310,7 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
-    "Omen Bairn2": {
+    "Omen Bairn 2": {
         "Weapon Class": "Reusable",
         "ID": 301000,
         "isInfuse": false,
@@ -5892,7 +6321,7 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
-    "Regal Omen Bairn1": {
+    "Regal Omen Bairn 1": {
         "Weapon Class": "Reusable",
         "ID": 301100,
         "isInfuse": false,
@@ -5903,9 +6332,42 @@ export const WeaponsData: WeaponsDataType = {
         "specialStatusSpEffectId": "",
         "Default Ash of War": ""
     },
-    "Regal Omen Bairn2": {
+    "Regal Omen Bairn 2": {
         "Weapon Class": "Reusable",
         "ID": 301100,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Horned Bairn": {
+        "Weapon Class": "Reusable",
+        "ID": 613000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Perfumed Oil of Ranah": {
+        "Weapon Class": "Reusable",
+        "ID": 614000,
+        "isInfuse": false,
+        "isReinforce": false,
+        "isUnique": false,
+        "bothHandsAtkBonus": false,
+        "throwable": true,
+        "specialStatusSpEffectId": "",
+        "Default Ash of War": ""
+    },
+    "Lamenter's Mask - Attack": {
+        "Weapon Class": "Reusable",
+        "ID": 502000,
         "isInfuse": false,
         "isReinforce": false,
         "isUnique": false,
