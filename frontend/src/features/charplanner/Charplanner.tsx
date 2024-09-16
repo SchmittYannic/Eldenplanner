@@ -115,7 +115,7 @@ const Charplanner = (): ReactElement => {
                 <div className="divider-2" />
                 <div className="divider-1" />
                 <p>
-                    Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.13.1.</span>
+                    Currently supports Elden Ring version <span style={{ fontWeight: "500", color: "white" }}>1.14.1.</span>
                 </p>
                 {buildId && (
                     <>
