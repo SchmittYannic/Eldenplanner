@@ -1,12 +1,7 @@
-import { AffinityData } from "../../data/AffinityData";
-import { ArmorHeadData, ArmorChestData, ArmorHandsData, ArmorLegsData } from "../../data/ArmorData";
-import { CalcCorrectGraphEz } from "../../data/CalcCorrectGraphEz";
-import { EffectData, ItemEffectDataType } from "../../data/EffectData";
-import { EquipParamProtector, EquipParamType } from "../../data/EquipParamProtector";
-import { EquipParamWeapon } from "../../data/EquipParamWeapon";
-import { TalismansData } from "../../data/TalismanData";
-import { WeaponsData } from "../../data/WeaponsData";
-import { ArmamentStateType, ArmorStateType, StatsStateType, TalismanStateType } from "../features/charplanner/charplannerSlice";
+import { AffinityData, ArmorHeadData, ArmorChestData, ArmorHandsData, ArmorLegsData, TalismansData } from "./constants";
+import { EffectDataType, EquipParamProtectorDataType, ItemEffectDataType } from "src/types";
+import { ArmamentStateType, ArmorStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
+import { RootState, store } from "src/app/store";
 
 /*function rounds a number to a decimal place*/
 function roundNumber(num: number | string, decimals = 0): number {
@@ -22,6 +17,7 @@ function roundDownNumber(num: number, decimals = 0): number {
 }
 
 function calcCondition(
+    EffectData: EffectDataType,
     slot: string, // EffectData_Active Column C
     isIgnore: boolean, // EffectData_Active Column D
     fallback: number, // EffectData_Active Zeile 1
@@ -39,12 +35,25 @@ function calcSlotModifier(
     lowHp: boolean,
     fullHp: boolean,
 ): number {
+
+    const state: RootState = store.getState();
+    const isFinalError = state.charplannerData.isFinalError;
+    const isDataReady = state.charplannerData.isDataReady;
+
+    if (!isDataReady && isFinalError) {
+        return fallback;
+    } else if (!isDataReady && !isFinalError) {
+        return fallback;
+    }
+
+    const EffectData = state.charplannerData.EffectData;
+
     const isIgnore = ignoreList.includes(slot); // EffectData_Active Column D
     if (isIgnore) return fallback
 
     const conditionFallback = -1;
-    const conditionHp = calcCondition(slot, isIgnore, conditionFallback, "conditionHp");
-    const conditionHpRate = calcCondition(slot, isIgnore, conditionFallback, "conditionHpRate");
+    const conditionHp = calcCondition(EffectData, slot, isIgnore, conditionFallback, "conditionHp");
+    const conditionHpRate = calcCondition(EffectData, slot, isIgnore, conditionFallback, "conditionHpRate");
 
     if (conditionHp === -1 && conditionHpRate === -1) {
         return EffectData[slot] ? Number(EffectData[slot]?.[paramName]) ?? fallback : fallback;
@@ -117,12 +126,12 @@ function calcModifier(
 }
 
 function calcAbsBase(
-    headParam: EquipParamType | undefined,
-    chestParam: EquipParamType | undefined,
-    handsParam: EquipParamType | undefined,
-    legsParam: EquipParamType | undefined,
+    headParam: EquipParamProtectorDataType | undefined,
+    chestParam: EquipParamProtectorDataType | undefined,
+    handsParam: EquipParamProtectorDataType | undefined,
+    legsParam: EquipParamProtectorDataType | undefined,
     fallback: 1 | 0,
-    paramName: keyof EquipParamType,
+    paramName: keyof EquipParamProtectorDataType,
 ) {
     if (fallback === 0) {
         return (headParam ? Number(headParam[paramName]) : fallback)
@@ -147,6 +156,21 @@ function calcStatus(
     armor: ArmorStateType,
     armament: ArmamentStateType,
 ) {
+    const state: RootState = store.getState();
+    const isFinalError = state.charplannerData.isFinalError;
+    const isDataReady = state.charplannerData.isDataReady;
+
+    if (!isDataReady && isFinalError) {
+        return ["!ERROR", ""];
+    } else if (!isDataReady && !isFinalError) {
+        return ["", ""];
+    }
+
+    const CalcCorrectGraphEz = state.charplannerData.CalcCorrectGraphEz;
+    const EquipParamProtector = state.charplannerData.EquipParamProtector;
+    const EquipParamWeapon = state.charplannerData.EquipParamWeapon;
+    const WeaponsData = state.charplannerData.WeaponsData;
+
     /* these are currently constants but can be later controlled by the user input */
     const tear1 = "";
     const tear2 = "";
