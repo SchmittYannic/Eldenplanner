@@ -17,7 +17,7 @@ import {
 import useTotalstats from "src/hooks/useTotalstats";
 import { capitalizeFirstLetter } from "src/utils/functions";
 import { MdExpandMore, MdExpandLess } from "src/components/icons";
-import StartingClassData from "src/../data/StartingClassData";
+import { StartingClassData } from "src/utils/constants";
 
 type PropsType = {
     keyName: string
