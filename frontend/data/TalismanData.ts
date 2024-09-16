@@ -41,10 +41,6 @@ type TalismansDataType = {
 }
 
 export const TalismansData: TalismansDataType = {
-    "": {
-        "weight": 0.8,
-        "accessoryGroup": 6100
-    },
     "Crimson Amber Medallion": {
         "weight": 0.3,
         "accessoryGroup": 1000
