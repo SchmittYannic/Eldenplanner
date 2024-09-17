@@ -1,17 +1,3 @@
-export function registerServiceWorker() {
-    if (import.meta.env.MODE === "production" && "serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
-                .then((registration) => {
-                    console.log("Service Worker registered with scope:", registration.scope);
-                })
-                .catch((error) => {
-                    console.error("Service Worker registration failed:", error);
-                });
-        });
-    }
-}
-
 const currentVersion = String(import.meta.env.VITE_CHARPLANNER_DATA_VERSION);
 const CACHE_NAME = `charplanner-data-cache-${currentVersion}`;
 

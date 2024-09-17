@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import { store } from "./app/store.ts";
-import { registerServiceWorker } from "./service-worker.js";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import App from "./App.tsx";
 import "./index.scss";
@@ -22,5 +21,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </Provider>
     </React.StrictMode>,
 );
+
+function registerServiceWorker() {
+    if (import.meta.env.MODE === "production" && "serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
+                .then((registration) => {
+                    console.log("Service Worker registered with scope:", registration.scope);
+                })
+                .catch((error) => {
+                    console.error("Service Worker registration failed:", error);
+                });
+        });
+    }
+}
 
 registerServiceWorker();
