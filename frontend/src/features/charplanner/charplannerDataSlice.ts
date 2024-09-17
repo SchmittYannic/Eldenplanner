@@ -13,6 +13,7 @@ import {
     WeaponsDataType,
 } from "src/types";
 import { RootState } from "src/app/store";
+import { isEmptyObject } from "src/utils/functions";
 
 type CharplannerDataStateType = {
     isFinalError: boolean,
@@ -77,14 +78,34 @@ export const charplannerDataSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        const checkDataReady = (state: CharplannerDataStateType) => {
+            const allDataLoaded = Object.values(state.dataLoading).every(loading => !loading);
+            const allDataNotEmpty = [
+                state.AttackElementCorrectParam,
+                state.CalcCorrectGraphEz,
+                state.CompatibleAowData,
+                state.ConsumableData,
+                state.EffectData,
+                state.EquipParamProtector,
+                state.EquipParamWeapon,
+                state.ReinforceParamWeapon,
+                state.StatusEffectData,
+                state.WeaponsData
+            ].every(entry => !isEmptyObject(entry));
+
+            if (allDataLoaded) {
+                state.isDataReady = allDataNotEmpty;
+                state.isFinalError = !allDataNotEmpty;
+            }
+        };
+
         builder
             .addMatcher(
                 charplannerStaticDataSlice.endpoints.getAttackElementCorrectParam.matchFulfilled,
                 (state, action) => {
                     state.AttackElementCorrectParam = action.payload;
                     state.dataLoading.AttackElementCorrectParam = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === "object" && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -92,8 +113,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.CalcCorrectGraphEz = action.payload;
                     state.dataLoading.CalcCorrectGraphEz = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -101,8 +121,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.CompatibleAowData = action.payload;
                     state.dataLoading.CompatibleAowData = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -110,8 +129,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.ConsumableData = action.payload;
                     state.dataLoading.ConsumableData = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -119,8 +137,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.EffectData = action.payload;
                     state.dataLoading.EffectData = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -128,8 +145,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.EquipParamProtector = action.payload;
                     state.dataLoading.EquipParamProtector = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -137,8 +153,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.EquipParamWeapon = action.payload;
                     state.dataLoading.EquipParamWeapon = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -146,8 +161,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.ReinforceParamWeapon = action.payload;
                     state.dataLoading.ReinforceParamWeapon = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -155,8 +169,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.StatusEffectData = action.payload;
                     state.dataLoading.StatusEffectData = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
             .addMatcher(
@@ -164,8 +177,7 @@ export const charplannerDataSlice = createSlice({
                 (state, action) => {
                     state.WeaponsData = action.payload;
                     state.dataLoading.WeaponsData = false;
-                    state.isDataReady = Object.values(state.dataLoading).every(loading => !loading) &&
-                        !Object.values(state).some(value => typeof value === 'object' && Object.keys(value).length === 0);
+                    checkDataReady(state);
                 }
             )
     }
