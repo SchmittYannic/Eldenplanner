@@ -31,7 +31,7 @@ import {
 import BuildsTable from "./BuildsTable";
 import { BuildType } from "src/types";
 
-const BuildsNew = () => {
+const Builds = () => {
 
     const dispatch = useDispatch();
 
@@ -173,4 +173,4 @@ const BuildsNew = () => {
     )
 }
 
-export default BuildsNew
+export default Builds
