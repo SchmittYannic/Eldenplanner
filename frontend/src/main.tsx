@@ -26,11 +26,11 @@ function registerServiceWorker() {
     if (import.meta.env.MODE === "production" && "serviceWorker" in navigator) {
         window.addEventListener("load", () => {
             navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
-                .then((registration) => {
-                    console.log("Service Worker registered with scope:", registration.scope);
+                .then((_registration) => {
+                    //console.log("Service Worker registered with scope:", registration.scope);
                 })
-                .catch((error) => {
-                    console.error("Service Worker registration failed:", error);
+                .catch((_error) => {
+                    //console.error("Service Worker registration failed:", error);
                 });
         });
     }
