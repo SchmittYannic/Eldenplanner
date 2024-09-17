@@ -200,6 +200,10 @@ const findObjectById = <T extends { id: string }>(array: T[], id: string): T | u
     return array.find(item => item.id === id);
 };
 
+const isEmptyObject = (value: any): boolean => {
+    return value && typeof value === "object" && Object.keys(value).length === 0;
+};
+
 export {
     calcRuneLevel,
     calcNextLevelRunes,
@@ -212,4 +216,5 @@ export {
     isValidCache,
     mergeSortedArrays,
     findObjectById,
+    isEmptyObject,
 }
