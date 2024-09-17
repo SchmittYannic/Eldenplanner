@@ -1,27 +1,9 @@
-//import { Workbox } from "workbox-window";
-
-// export function registerServiceWorker() {
-//     if ("serviceWorker" in navigator) {
-//         const wb = new Workbox("/sw.js");
-
-//         wb.addEventListener("installed", (event) => {
-//             if (event.isUpdate) {
-//                 console.log("A new service worker is available. Please refresh.");
-//             }
-//         });
-
-//         wb.register().catch((error) => {
-//             console.error("Service Worker registration failed:", error);
-//         });
-//     }
-// }
-
 declare let self: ServiceWorkerGlobalScope;
 
 export function registerServiceWorker() {
     if (import.meta.env.MODE === "production" && "serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-            navigator.serviceWorker.register("/ServiceWorker.js")
+            navigator.serviceWorker.register("/ServiceWorker.ts")
                 .then((registration) => {
                     console.log("Service Worker registered with scope:", registration.scope);
                 })
@@ -30,26 +12,6 @@ export function registerServiceWorker() {
                 });
         });
     }
-    // if ("serviceWorker" in navigator) {
-    //     // Ensure this runs on localhost or a secure HTTPS environment
-    //     if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
-    //         const wb = new Workbox('/sw.js');
-
-    //         wb.addEventListener('installed', (event) => {
-    //             if (event.isUpdate) {
-    //                 console.log('A new service worker is available. Please refresh.');
-    //             }
-    //         });
-
-    //         wb.register().catch((error) => {
-    //             console.error('Service Worker registration failed:', error);
-    //         });
-    //     } else {
-    //         console.error('Service workers are only supported on localhost or HTTPS.');
-    //     }
-    // } else {
-    //     console.error('Service workers are not supported in this browser.');
-    // }
 }
 
 const currentVersion = String(import.meta.env.VITE_CHARPLANNER_DATA_VERSION);
@@ -72,10 +34,16 @@ const JSON_FILES_TO_CACHE = [
 // Install event - Caching the JSON files
 self.addEventListener("install", (event: ExtendableEvent) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(JSON_FILES_TO_CACHE);
-        })
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log("Service Worker: Caching files");
+                return cache.addAll(JSON_FILES_TO_CACHE);
+            })
+            .catch((error) => {
+                console.error("Service Worker: Failed to cache during install", error);
+            })
     );
+    self.skipWaiting(); // Force activation of new service worker
 });
 
 // Activate event - Clear old caches if the cache name has changed
