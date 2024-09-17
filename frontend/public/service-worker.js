@@ -1,4 +1,4 @@
-const currentVersion = String(import.meta.env.VITE_CHARPLANNER_DATA_VERSION);
+const currentVersion = "v1.19.0";
 const CACHE_NAME = `charplanner-data-cache-${currentVersion}`;
 
 // List of JSON files to cache
