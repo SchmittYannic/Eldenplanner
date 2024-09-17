@@ -180,6 +180,24 @@ export const charplannerDataSlice = createSlice({
                     checkDataReady(state);
                 }
             )
+            .addMatcher(
+                (action) =>
+                    charplannerStaticDataSlice.endpoints.getAttackElementCorrectParam.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getCalcCorrectGraphEz.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getCompatibleAowData.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getConsumableData.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getEffectData.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getEquipParamProtector.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getEquipParamWeapon.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getReinforceParamWeapon.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getStatusEffectData.matchRejected(action) ||
+                    charplannerStaticDataSlice.endpoints.getWeaponsData.matchRejected(action),
+                (state, _action) => {
+                    state.isFinalError = true;
+                    state.isDataReady = false;
+                    console.error("Failed to load charplanner data. Try refreshing the page. If error persists contact support.");
+                }
+            );
     }
 });
 
