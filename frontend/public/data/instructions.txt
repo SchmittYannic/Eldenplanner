@@ -1,0 +1,324 @@
+Instructions on how to get newest version of data:
+
+Get the ER - Build Planner spreadsheets here:
+https://docs.google.com/spreadsheets/d/19Op36P7gdVMkPzFQX6OsjZcfyUjdGOj7Cjk9qFAVj-U/copy
+
+Other tools:
+csv2json-converter - https://csvjson.com/csv2json
+jsonformatter - https://jsoneditoronline.org/
+
+
+
+AttackElementCorrectParam:
+1. Open sheet: "AttackElementCorrectParam" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+
+    let keysToKeep = ["isStrengthCorrect_byPhysics", "isDexterityCorrect_byPhysics", "isMagicCorrect_byPhysics", "isFaithCorrect_byPhysics", "isLuckCorrect_byPhysics", "isStrengthCorrect_byMagic", "isDexterityCorrect_byMagic", "isMagicCorrect_byMagic", "isFaithCorrect_byMagic", "isLuckCorrect_byMagic", "isStrengthCorrect_byFire", "isDexterityCorrect_byFire", "isMagicCorrect_byFire", "isFaithCorrect_byFire", "isLuckCorrect_byFire", "isStrengthCorrect_byThunder", "isDexterityCorrect_byThunder", "isMagicCorrect_byThunder", "isFaithCorrect_byThunder", "isLuckCorrect_byThunder", "isStrengthCorrect_byDark", "isDexterityCorrect_byDark", "isMagicCorrect_byDark", "isFaithCorrect_byDark", "isLuckCorrect_byDark"];  // Add any other keys you want to keep
+
+    let reducedObj = {};
+
+    Object.keys(data).forEach(key => {
+        reducedObj [key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                reducedObj [key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    const transformedData = {};
+
+    for (const key in reducedObj ) {
+        if (data.hasOwnProperty(key)) {
+            const obj = reducedObj [key];
+            const newObj = {};
+
+            for (const prop in obj) {
+                if (obj.hasOwnProperty(prop) && prop !== 'Name') {
+                    const value = obj[prop];
+                    if (value === 'FALSE') {
+                        newObj[prop] = false;
+                    } else if (value === 'TRUE') {
+                        newObj[prop] = true;
+                    } else {
+                        newObj[prop] = value;
+                    }
+                }
+            }
+
+            transformedData[key] = newObj;
+        }
+    }
+
+    return transformedData
+}
+5. Download transformed json and name it "AttackElementCorrectParam-<version>.json"
+
+
+
+CalcCorrectGraphEz:
+1. Open sheet: "CalcCorrectGraphEz" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Download json and name it "CalcCorrectGraphEz-<version>.json"
+(No transformation because all data is needed)
+
+
+
+CompatibleAowDataType:
+There is no source for CompatibleAowData.
+It was compiled by myself.
+Since compatibility of weapons dont change just rename the old file to reflect the newest version.
+
+
+
+ConsumableData:
+1. Open sheet: "ConsumableData" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Download json and name it "ConsumableData-<version>.json"
+(No transformation because all data is needed)
+
+
+
+EffectData:
+1. Open sheet: "EffectData" and !IMPORTANT: copy only the contents into a new table
+(so no #REF! Errors are taken over)
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+    let keysToKeep = ["Import Effects", "conditionHp", "conditionHpRate", "addLifeForceStatus", "addWillpowerStatus", "addEndureStatus", "addStrengthStatus", "addDexterityStatus", "addMagicStatus", "addFaithStatus", "addLuckStatus", "maxHpRate", "maxMpRate", "maxStaminaRate", "equipWeightChangeRate", "neutralDamageCutRate", "blowDamageCutRate", "slashDamageCutRate", "thrustDamageCutRate", "magicDamageCutRate", "fireDamageCutRate", "thunderDamageCutRate", "darkDamageCutRate", "changePoisonResistPoint", "changeBloodResistPoint", "changeSleepResistPoint", "changeCurseResistPoint", "itemDropRate"];  // Add any other keys you want to keep
+
+
+    let newObj = {};
+
+    Object.keys(data).forEach(key => {
+        newObj[key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                newObj[key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    return newObj
+}
+5. Download transformed json and name it "EffectData-<version>.json"
+
+
+
+EquipParamProtector:
+1. Open sheet: "EquipParamProtector" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+    let keysToKeep = ["resistSleep", "toughnessCorrectRate", "weight", "resistPoison", "resistBlood", "resistCurse", "neutralDamageCutRate", "slashDamageCutRate", "blowDamageCutRate", "thrustDamageCutRate", "magicDamageCutRate", "fireDamageCutRate", "thunderDamageCutRate", "darkDamageCutRate"];  // Add any other keys you want to keep
+
+    let newObj = {};
+
+    Object.keys(data).forEach(key => {
+        newObj[key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                newObj[key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    return newObj
+}
+5. Download transformed json and name it "EquipParamProtector-<version>.json"
+
+
+
+EquipParamWeapon:
+1. Open sheet: "EquipParamWeapon" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+
+    let keysToKeep = ["weight", "correctStrength", "correctAgility", "correctMagic", "correctFaith", "spEffectBehaviorId0", "spEffectBehaviorId1", "correctType_Physics", "properStrength", "properAgility", "properMagic", "properFaith", "enableMagic", "enableMiracle", "correctType_Magic", "correctType_Fire", "correctType_Thunder", "correctType_Dark", "correctType_Poison", "correctType_Blood", "properLuck", "attackElementCorrectId", "correctType_Sleep", "correctType_Madness", "attackBasePhysics", "attackBaseMagic", "attackBaseFire", "attackBaseThunder", "reinforceTypeId", "attackBaseDark", "correctLuck"];  // Add any other keys you want to keep
+
+    let reducedObj = {};
+
+    Object.keys(data).forEach(key => {
+        reducedObj [key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                reducedObj [key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    const transformedData = {};
+
+    for (const key in reducedObj ) {
+        if (data.hasOwnProperty(key)) {
+            const obj = reducedObj [key];
+            const newObj = {};
+
+            for (const prop in obj) {
+                if (obj.hasOwnProperty(prop) && prop !== 'Name') {
+                    const value = obj[prop];
+                    if (value === 'FALSE') {
+                        newObj[prop] = false;
+                    } else if (value === 'TRUE') {
+                        newObj[prop] = true;
+                    } else {
+                        newObj[prop] = value;
+                    }
+                }
+            }
+
+            transformedData[key] = newObj;
+        }
+    }
+
+    return transformedData
+}
+5. Download transformed json and name it "EquipParamWeapon-<version>.json"
+
+
+
+ReinforceParamWeapon:
+1. Open sheet: "ReinforceParamWeapon" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+    let keysToKeep = ["physicsAtkRate", "magicAtkRate", "fireAtkRate", "thunderAtkRate", "correctStrengthRate", "correctAgilityRate", "correctMagicRate", "correctFaithRate", "spEffectId1", "spEffectId2", "darkAtkRate", "correctLuckRate"];  // Add any other keys you want to keep
+
+    let newObj = {};
+
+    Object.keys(data).forEach(key => {
+        newObj[key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                newObj[key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    return newObj
+}
+5. Download transformed json and name it "ReinforceParamWeapon-<version>.json"
+
+
+
+StatusEffectData:
+1. Open sheet: "StatusEffectData" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+    let keysToKeep = ["poizonAttackPower", "diseaseAttackPower", "bloodAttackPower", "freezeAttackPower", "sleepAttackPower", "madnessAttackPower", "curseAttackPower"];  // Add any other keys you want to keep
+
+    let newObj = {};
+
+    Object.keys(data).forEach(key => {
+        newObj[key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(data[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                newObj[key][innerKey] = data[key][innerKey];
+            }
+        });
+    });
+
+    return newObj
+}
+5. Download transformed json and name it "StatusEffectData-<version>.json"
+
+
+
+WeaponsData:
+1. Open sheet: "WeaponsData" and copy it into new table
+2. Download it as csv
+3. Convert csv to json:
+using https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Hash
+4. Format json and remove unneeded data
+with https://jsoneditoronline.org/ use the following function to transform the data:
+function query(data) {
+    function convertStringsToBooleans(data) {
+
+        if (typeof data !== 'object' || data === null) {
+            return data;
+        }
+
+
+        if (Array.isArray(data)) {
+            return data.map(item => convertStringsToBooleans(item));
+        }
+
+
+        const newObj = {};
+
+
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const value = data[key];
+
+                // Recursively convert nested objects/arrays
+                newObj[key] = convertStringsToBooleans(value);
+
+                // Convert "TRUE" to true and "FALSE" to false
+                if (newObj[key] === 'TRUE') {
+                    newObj[key] = true;
+                } else if (newObj[key] === 'FALSE') {
+                    newObj[key] = false;
+                }
+            }
+        }
+
+        return newObj;
+    }
+    const convertedObj = convertStringsToBooleans(data);
+
+    let keysToKeep = ["Weapon Class", "ID", "isInfuse", "isReinforce", "isUnique", "bothHandsAtkBonus", "specialStatusSpEffectId", "throwable"];  // Add any other keys you want to keep
+
+    let newObj = {};
+
+    Object.keys(convertedObj).forEach(key => {
+        newObj[key] = {};  // Initialize an empty object for each key in the main object
+        Object.keys(convertedObj[key]).forEach(innerKey => {
+            if (keysToKeep.includes(innerKey)) {
+                newObj[key][innerKey] = convertedObj[key][innerKey];
+            }
+        });
+    });
+
+    return newObj
+}
+5. Download transformed json and name it "WeaponsData-<version>.json"
+6. Integrate the data of DefaultAowData.json into the newly created WeaponsData json.
+You could turn both jsons into JS objects using browser console and use:
+for (let key in targetObject) {
+    if (targetObject.hasOwnProperty(key)) {
+        if (dataObject.hasOwnProperty(key)) {
+            targetObject[key]["Default Ash of War"] = dataObject[key]["Default Ash of War"];
+        } else {
+            targetObject[key]["Default Ash of War"] = "";
+        }
+    }
+}
+to merge them.
+The targetObject is the one created in 5 and the dataObject is the one containing the data from the DefaultAowData file.

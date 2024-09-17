@@ -31,6 +31,7 @@ export const AffinityOptions = Object.keys(AffinityData);
 /* 
 data source:
 1. ER - Build Planner spreadsheet
+https://docs.google.com/spreadsheets/d/19Op36P7gdVMkPzFQX6OsjZcfyUjdGOj7Cjk9qFAVj-U/copy
 2. table: ArmorData
 3. get csv of table
 4. use https://csvjson.com/csv2json options: Parse numbers, Parse JSON, output: Array
