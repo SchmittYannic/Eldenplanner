@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
 import { useLazyGetBuildByIdQuery } from "./charplannerApiSlice";
+import { selectIsDataReady, selectIsFinalError } from "./charplannerDataSlice";
 import { loadBuild, resetCharplanner, selectBuildId, selectGetBuildByIdCachedData } from "src/features/charplanner/charplannerSlice";
 import useWindowSize from "src/hooks/useWindowSize";
 import useIsInView from "src/hooks/useIsInView";
@@ -23,6 +24,9 @@ const Charplanner = (): ReactElement => {
     const param = useParams();
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 900;
+
+    const isDataReady = useSelector(selectIsDataReady);
+    const isFinalError = useSelector(selectIsFinalError);
 
     const [fetchBuildById, {
         data: loadedBuild,
@@ -92,7 +96,7 @@ const Charplanner = (): ReactElement => {
         navigate("/charplanner");
     }, [isError]);
 
-    if (isLoading) {
+    if (isLoading || (!isDataReady && !isFinalError)) {
         return (
             <main>
                 <ClipLoader
@@ -100,6 +104,17 @@ const Charplanner = (): ReactElement => {
                     loading={isLoading}
                     size={30}
                 />
+            </main>
+        )
+    }
+
+    if (isFinalError) {
+        return (
+            <main>
+                <div className="sm-alert errmsg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Error fetching data for calculations</span>
+                </div>
             </main>
         )
     }

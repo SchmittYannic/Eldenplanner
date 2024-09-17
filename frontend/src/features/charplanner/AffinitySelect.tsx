@@ -6,9 +6,9 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
-import { WeaponsData } from "../../../data/WeaponsData";
-import { AffinityOptions } from "../../../data/AffinityData"
-import { CustomSelect } from "../../components/ui";
+import { AffinityOptions } from "src/utils/constants";
+import { CustomSelect } from "src/components/ui";
+import { selectWeaponsData } from "./charplannerDataSlice";
 
 type PropsType = {
     id: string
@@ -20,6 +20,8 @@ const AffinitySelect = ({ id }: PropsType): ReactElement => {
 
     const idWeapon = id + "Weapon";
     const idAffinity = id + "Affinity";
+
+    const WeaponsData = useSelector(selectWeaponsData);
 
     const weapon = useSelector(armamentSelectorMap[(idWeapon) as keyof ArmamentSelectorMapType]);
     const affinity = useSelector(armamentSelectorMap[(idAffinity) as keyof ArmamentSelectorMapType]);

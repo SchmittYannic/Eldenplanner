@@ -7,7 +7,7 @@ import {
     selectTalisman,
     TalismanStateType
 } from "./charplannerSlice";
-import { TalismansOptions, TalismansData } from "src/../data/TalismanData";
+import { TalismansOptions, TalismansData } from "src/utils/constants";
 import {
     CustomSelect,
     Dialog,

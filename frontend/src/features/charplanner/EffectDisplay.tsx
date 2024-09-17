@@ -1,11 +1,12 @@
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { selectArmor, selectGreatrune, selectGreatruneactive, selectTalisman } from "./charplannerSlice";
-import { EffectData } from "../../../data/EffectData";
-import { CollapsibleList } from "../../components/ui";
+import { CollapsibleList } from "src/components/ui";
+import { selectEffectData } from "./charplannerDataSlice";
 
 const EffectDisplay = (): ReactElement => {
 
+    const EffectData = useSelector(selectEffectData);
     const greatrune = useSelector(selectGreatrune);
     const greatruneactive = useSelector(selectGreatruneactive);
     const { talisman1, talisman2, talisman3, talisman4 } = useSelector(selectTalisman);

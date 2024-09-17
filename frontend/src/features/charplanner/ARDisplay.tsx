@@ -7,16 +7,18 @@ import {
     StatsStateType
 } from "./charplannerSlice";
 import useTotalstats from "../../hooks/useTotalstats";
-import { WeaponsData } from "../../../data/WeaponsData";
-import { EquipParamWeapon } from "../../../data/EquipParamWeapon";
-import { AffinityData } from "../../../data/AffinityData";
-import { calcWeaponAttackRating } from "../../utils/ARCalculation";
+import { AffinityData } from "src/utils/constants";
+import { calcWeaponAttackRating } from "src/utils/ARCalculation";
+import { selectEquipParamWeapon, selectWeaponsData } from "./charplannerDataSlice";
 
 type PropsType = {
     id: string
 }
 
 const ARDisplay = ({ id }: PropsType): ReactElement => {
+
+    const WeaponsData = useSelector(selectWeaponsData);
+    const EquipParamWeapon = useSelector(selectEquipParamWeapon);
 
     const [reqIsHovered, setReqIsHovered] = useState(false);
     const [arIsHovered, setArIsHovered] = useState(false);

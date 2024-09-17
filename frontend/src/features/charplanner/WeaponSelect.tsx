@@ -6,8 +6,8 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType,
 } from "./charplannerSlice";
-import { WeaponsOptions } from "../../../data/WeaponsData";
-import { CustomSelect } from "../../components/ui";
+import { WeaponsOptions } from "src/utils/constants";
+import { CustomSelect } from "src/components/ui";
 
 type PropsType = {
     id: string,

@@ -6,8 +6,8 @@ import {
     ArmamentSelectorMapType,
     ArmamentReduceractionsMapType
 } from "./charplannerSlice";
-import { WeaponsData } from "../../../data/WeaponsData";
-import { CustomSelect } from "../../components/ui";
+import { CustomSelect } from "src/components/ui";
+import { selectWeaponsData } from "./charplannerDataSlice";
 
 type PropsType = {
     id: string
@@ -16,6 +16,8 @@ type PropsType = {
 const UpgradeSelect = ({ id }: PropsType): ReactElement => {
 
     const dispatch = useDispatch();
+
+    const WeaponsData = useSelector(selectWeaponsData);
 
     const idWeapon = id + "Weapon";
     const idUpgrade = id + "Upgrade";

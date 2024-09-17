@@ -5,7 +5,7 @@ import {
     calcNextLevelRunes,
     calcTotalRunesSpend,
     addThousandsSeperator
-} from "../../utils/functions";
+} from "src/utils/functions";
 import {
     selectStartingclass,
     selectVigor,
@@ -17,7 +17,7 @@ import {
     selectFaith,
     selectArcane
 } from "./charplannerSlice";
-import StartingClassData from "../../../data/StartingClassData";
+import { StartingClassData } from "src/utils/constants";
 
 type PropsType = {
     children: ReactElement[]
@@ -63,7 +63,7 @@ const RuneDisplayWrapper = ({ children }: PropsType): ReactElement => {
                 <span>Level</span>
                 <span>{runeLevel}</span>
             </div>
-            { ...children}
+            {...children}
             <div className="RuneCost">
                 <div>
                     <span>Total Runes</span>
