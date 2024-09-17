@@ -26,7 +26,17 @@ export const store = configureStore({
         getDefaultMiddleware()
             .concat(apiSlice.middleware)
             .concat(staticDataSlice.middleware),
-    devTools: process.env.NODE_ENV === "development" ? true : false,
+    devTools: process.env.NODE_ENV === "development" ? {
+        // DevTools options to improve performance
+        stateSanitizer: state => ({
+            ...state,
+            charplannerData: "long-blob",
+            staticData: "long-blob",
+        }),
+        actionsDenylist: ["charplannerData/*", "staticData/*"],
+        trace: true,        // Enable tracing for better debugging
+        traceLimit: 25,     // Limit the trace stack to avoid performance overhead
+    } : false,
 });
 
 setupListeners(store.dispatch);
