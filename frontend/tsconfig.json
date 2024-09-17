@@ -23,7 +23,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "node"
+      "node",
+      "@types/serviceworker"
     ],
     /* Linting */
     "strict": true,
