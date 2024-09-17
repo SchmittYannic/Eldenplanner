@@ -23,7 +23,7 @@ const Charplanner = (): ReactElement => {
     const navigate = useNavigate();
     const param = useParams();
     const windowSize = useWindowSize();
-    const isMobile = windowSize.width && windowSize.width < 900;
+    const isMobile = windowSize.width && windowSize.width < 980;
 
     const isDataReady = useSelector(selectIsDataReady);
     const isFinalError = useSelector(selectIsFinalError);
