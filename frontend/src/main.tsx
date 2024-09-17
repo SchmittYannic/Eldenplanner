@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import { store } from "./app/store.ts";
+import { registerServiceWorker } from "./ServiceWorker.ts";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import App from "./App.tsx";
 import "./index.scss";
@@ -21,3 +22,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </Provider>
     </React.StrictMode>,
 );
+
+registerServiceWorker();
