@@ -1,4 +1,4 @@
-const currentVersion = "v1.19.0";
+const currentVersion = "v1-19-0";
 const CACHE_NAME = `charplanner-data-cache-${currentVersion}`;
 
 // List of JSON files to cache
