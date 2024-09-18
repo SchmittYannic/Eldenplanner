@@ -9,7 +9,7 @@ import { useLoginMutation } from "src/features/auth/authApiSlice";
 import { setCredentials } from "src/features/auth/authSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isFieldName } from "src/utils/typeguards";
 
 type LoginUserType = {
@@ -75,8 +75,7 @@ const Login = (): ReactElement => {
                         srcSet={
                             `${loginimg420w} 420w,
                             ${loginimg980w} 980w,
-                            ${loginimg1680w} 1680w,
-                            ${loginimg} 2400w,`
+                            ${loginimg1680w} 1680w`
                         }
                         sizes="50vw"
                     />

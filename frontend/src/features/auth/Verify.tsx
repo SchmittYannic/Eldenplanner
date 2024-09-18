@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useWindowSize from "src/hooks/useWindowSize";
 import { useSendVerificationEmailMutation } from "src/features/auth/authApiSlice";
 import { AsyncButton, Input } from "src/components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { verifyschema } from "src/validation/userschema";
 
@@ -70,8 +70,7 @@ const Verify = () => {
                         srcSet={
                             `${loginimg420w} 420w,
                             ${loginimg980w} 980w,
-                            ${loginimg1680w} 1680w,
-                            ${loginimg} 2400w,`
+                            ${loginimg1680w} 1680w`
                         }
                         sizes="50vw"
                     />

@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import useWindowSize from "src/hooks/useWindowSize";
 import { useSendResetRequestMutation } from "src/features/auth/authApiSlice";
 import { AsyncButton, Input } from "src/components/ui";
-import { loginimg, loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
+import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type ResetType = {
@@ -75,8 +75,7 @@ const Reset = (): ReactElement => {
                         srcSet={
                             `${loginimg420w} 420w,
                             ${loginimg980w} 980w,
-                            ${loginimg1680w} 1680w,
-                            ${loginimg} 2400w,`
+                            ${loginimg1680w} 1680w`
                         }
                         sizes="50vw"
                     />
