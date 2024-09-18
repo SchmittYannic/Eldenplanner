@@ -1,4 +1,4 @@
-import { useState, useEffect, KeyboardEvent, ReactElement } from "react";
+import { useState, useEffect, KeyboardEvent, ReactElement, useRef, ChangeEvent } from "react";
 
 type PropsType = {
     value: string | number
@@ -13,6 +13,7 @@ const DebouncedInput = ({
     ...props
 }: PropsType & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">): ReactElement => {
     const [value, setValue] = useState(initialValue);
+    const isUserInputRef = useRef(false);
 
     const onInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
         const { key } = e;
@@ -21,25 +22,33 @@ const DebouncedInput = ({
             e.preventDefault();
         }
     };
-  
+
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        isUserInputRef.current = true;
+        setValue(e.target.value)
+    };
+
     useEffect(() => {
+        isUserInputRef.current = false;
         setValue(initialValue);
     }, [initialValue]);
-  
+
     useEffect(() => {
+        if (!isUserInputRef.current) return;
+
         const timeout = setTimeout(() => {
             onChange(value);
         }, debounce);
-    
+
         return () => clearTimeout(timeout)
     }, [value]);
-  
+
     return (
         <input
             {...props}
             value={value}
-            onChange={e => setValue(e.target.value)}
-            onKeyDown={props.type === "number" ? onInputKeydown : () => {}}
+            onChange={onInputChange}
+            onKeyDown={props.type === "number" ? onInputKeydown : undefined}
             inputMode={props.type === "number" ? "numeric" : "text"}
         />
     )
