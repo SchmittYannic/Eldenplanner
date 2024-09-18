@@ -9,7 +9,6 @@ import { useLoginMutation } from "src/features/auth/authApiSlice";
 import { setCredentials } from "src/features/auth/authSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
-import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isFieldName } from "src/utils/typeguards";
 
 type LoginUserType = {
@@ -67,18 +66,7 @@ const Login = (): ReactElement => {
     return (
         <main id="loginpage" className="splitpage1">
             {!isMobile && (
-                <div className="splitpage1__img-wrapper">
-                    <img
-                        className="splitpage1__img"
-                        src={loginimg420w}
-                        alt="elden ring wallpaper"
-                        srcSet={
-                            `${loginimg420w} 420w,
-                            ${loginimg980w} 980w,
-                            ${loginimg1680w} 1680w`
-                        }
-                        sizes="50vw"
-                    />
+                <div className="splitpage1__img-wrapper loginimg">
                 </div>
             )}
             <div className="splitpage1__rightside">

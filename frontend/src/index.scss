@@ -880,12 +880,8 @@ td {
 
 .splitpage1__img-wrapper {
     height: 100%;
-
-    img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+    background-size: cover;
+    background-position: 50%;
 }
 
 
@@ -1026,10 +1022,6 @@ td {
 /* MEDIA QUERIES */
 
 @media only screen and (max-width: 849px) {
-
-    // #root {
-    //     display: block;
-    // }
     .primary-nav .nav-link {
         margin-left: 0;
         padding: 18px 15px;
@@ -1144,5 +1136,33 @@ td {
                 border-bottom-right-radius: calc(v.$border-radius - 2px);
             }
         }
+    }
+
+    .signupimg {
+        background-image: url("/signupimg420w.jpg");
+    }
+
+    .loginimg {
+        background-image: url("/loginimg420w.jpg");
+    }
+}
+
+@media only screen and (min-width: 980px) {
+    .signupimg {
+        background-image: url("/signupimg980w.jpg");
+    }
+
+    .loginimg {
+        background-image: url("/loginimg980w.jpg");
+    }
+}
+
+@media only screen and (min-width: 1680px) {
+    .signupimg {
+        background-image: url("/signupimg1680w.jpg");
+    }
+
+    .loginimg {
+        background-image: url("/loginimg1680w.jpg");
     }
 }

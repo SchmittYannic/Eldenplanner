@@ -9,7 +9,6 @@ import { setCredentials } from "src/features/auth/authSlice";
 import { useAddNewUserMutation } from "src/features/users/usersApiSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import { AsyncButton, Input, InputPassword } from "src/components/ui";
-import { signupimg1680w, signupimg420w, signupimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { signupschema } from "src/validation/userschema";
 
@@ -72,18 +71,7 @@ const Signup = (): ReactElement => {
     return (
         <main id="signuppage" className="splitpage1">
             {!isMobile && (
-                <div className="splitpage1__img-wrapper">
-                    <img
-                        className="splitpage1__img"
-                        src={signupimg420w}
-                        alt="elden ring wallpaper"
-                        srcSet={
-                            `${signupimg420w} 420w,
-                            ${signupimg980w} 980w,
-                            ${signupimg1680w} 1680w`
-                        }
-                        sizes="50vw"
-                    />
+                <div className="splitpage1__img-wrapper signupimg">
                 </div>
             )}
             <div className="splitpage1__rightside">

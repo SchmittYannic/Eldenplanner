@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useWindowSize from "src/hooks/useWindowSize";
 import { useResetMutation } from "src/features/auth/authApiSlice";
 import { AsyncButton, InputPassword, ClipLoader } from "src/components/ui";
-import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { resetpasswordschema } from "src/validation/userschema";
 
@@ -96,18 +95,7 @@ const ResetPassword = (): ReactElement => {
             {isToken &&
                 <main id="resetpasswordpage" className="splitpage1">
                     {!isMobile && (
-                        <div className="splitpage1__img-wrapper">
-                            <img
-                                className="splitpage1__img"
-                                src={loginimg420w}
-                                alt="elden ring wallpaper"
-                                srcSet={
-                                    `${loginimg420w} 420w,
-                                    ${loginimg980w} 980w,
-                                    ${loginimg1680w} 1680w`
-                                }
-                                sizes="50vw"
-                            />
+                        <div className="splitpage1__img-wrapper loginimg">
                         </div>
                     )}
                     <div className="splitpage1__rightside">

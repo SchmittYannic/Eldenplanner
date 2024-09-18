@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import useWindowSize from "src/hooks/useWindowSize";
 import { useSendResetRequestMutation } from "src/features/auth/authApiSlice";
 import { AsyncButton, Input } from "src/components/ui";
-import { loginimg1680w, loginimg420w, loginimg980w } from "src/assets";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 
 type ResetType = {
@@ -67,18 +66,7 @@ const Reset = (): ReactElement => {
     return (
         <main id="resetpage" className="splitpage1">
             {!isMobile && (
-                <div className="splitpage1__img-wrapper">
-                    <img
-                        className="splitpage1__img"
-                        src={loginimg420w}
-                        alt="elden ring wallpaper"
-                        srcSet={
-                            `${loginimg420w} 420w,
-                            ${loginimg980w} 980w,
-                            ${loginimg1680w} 1680w`
-                        }
-                        sizes="50vw"
-                    />
+                <div className="splitpage1__img-wrapper loginimg">
                 </div>
             )}
             <div className="splitpage1__rightside">
