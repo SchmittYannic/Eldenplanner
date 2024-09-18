@@ -11,6 +11,7 @@ import RequireAuth from "src/features/auth/RequireAuth";
 import { ROLES } from "src/config/roles";
 import PersistLogin from "src/features/auth/PersistLogin";
 import { ClipLoader } from "src/components/ui";
+import ErrorBoundary from "src/components/ErrorBoundary";
 
 const Fallback = () => {
     return (
@@ -27,9 +28,11 @@ const Fallback = () => {
 const withSuspense = <P extends object>(
     Component: ComponentType<P>
 ): React.FC<P> => (props) => (
-    <Suspense fallback={<Fallback />}>
-        <Component {...props} />
-    </Suspense>
+    <ErrorBoundary>
+        <Suspense fallback={<Fallback />}>
+            <Component {...props} />
+        </Suspense>
+    </ErrorBoundary>
 );
 
 const Frontpage = withSuspense(lazy(() => import("src/components/Frontpage" /* webpackChunkName: "Frontpage" */)));
