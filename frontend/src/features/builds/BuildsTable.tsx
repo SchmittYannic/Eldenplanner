@@ -1,7 +1,8 @@
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
 
 import useWindowSize from "src/hooks/useWindowSize";
-import FilterTable from "src/components/FilterTable";
+import TableNumberFilter from "src/components/TableNumberFilter";
+import TableTextFilter from "src/components/TableTextFilter";
 import { DebouncedInput } from "src/components/ui";
 import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "src/components/icons";
 import { BuildType } from "src/types";
@@ -66,13 +67,21 @@ const BuildsTable = ({
                     {
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if (header.column.getCanFilter()) {
-                                return (
-                                    <FilterTable
-                                        key={`filter` + header.column.id}
-                                        column={header.column}
-                                        table={table}
-                                    />
-                                )
+                                if (["level", "stars"].includes(header.column.id)) {
+                                    return (
+                                        <TableNumberFilter
+                                            key={`filter` + header.column.id}
+                                            column={header.column}
+                                        />
+                                    )
+                                } else {
+                                    return (
+                                        <TableTextFilter
+                                            key={`filter` + header.column.id}
+                                            column={header.column}
+                                        />
+                                    )
+                                }
                             }
                         }))
                     }

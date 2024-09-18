@@ -15,8 +15,8 @@ import {
 } from "@tanstack/react-table";
 
 import FuzzyFilter from "src/utils/FuzzyFilter";
-import FilterTable from "src/components/FilterTable";
 import useWindowSize from "src/hooks/useWindowSize";
+import TableTextFilter from "src/components/TableTextFilter";
 import { capitalizeFirstLetter } from "src/utils/functions";
 import sortCaseInsensitive from "src/utils/sortCaseInsensitive";
 import { DebouncedInput } from "src/components/ui";
@@ -188,7 +188,10 @@ const UsersList = ({
                         table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                             if (header.column.getCanFilter()) {
                                 return (
-                                    <FilterTable key={`filter` + header.column.id} column={header.column} table={table} />
+                                    <TableTextFilter
+                                        key={`filter` + header.column.id}
+                                        column={header.column}
+                                    />
                                 )
                             }
                         }))
