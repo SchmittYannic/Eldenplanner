@@ -85,7 +85,11 @@ const Builds = () => {
                 cell: info => {
                     const buildId = info.row.original.id;
                     return (
-                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
+                        <Link
+                            className="link"
+                            to={`/charplanner/${buildId}`}
+                            title="open build in charplanner"
+                        >
                             {info.getValue()}
                         </Link>
                     )
@@ -105,7 +109,11 @@ const Builds = () => {
                         )
                     } else {
                         return (
-                            <Link to={`/user/${authorId}`} title="open profile of build author">
+                            <Link
+                                className="link"
+                                to={`/user/${authorId}`}
+                                title="open profile of build author"
+                            >
                                 {info.getValue()}
                             </Link>
                         )

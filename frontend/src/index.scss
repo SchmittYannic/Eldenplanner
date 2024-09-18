@@ -330,17 +330,18 @@ a {
     color: hsl(v.$accent-foreground);
     text-decoration: none;
 
+    &::after {
+        content: " ->";
+        font-weight: 700;
+    }
+
     &:hover {
+        color: inherit;
         text-decoration: underline;
     }
 
     &:visited {
         color: hsl(v.$muted-foreground);
-    }
-
-    &::after {
-        content: " ->";
-        font-weight: 700;
     }
 }
 
@@ -585,24 +586,6 @@ td {
     font-size: 1rem;
     width: 100%;
     display: grid;
-}
-
-.table__cell a {
-    color: hsl(v.$accent-foreground);
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &:visited {
-        color: hsl(v.$muted-foreground);
-    }
-
-    &::after {
-        content: " ->";
-        font-weight: 700;
-    }
 }
 
 .table--filter-wrapper {

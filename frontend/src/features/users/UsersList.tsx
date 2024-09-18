@@ -59,7 +59,11 @@ const UsersList = ({
                 cell: info => {
                     const userId = info.row.original.id;
                     return (
-                        <Link to={`/user/${userId}`} title="open profile of build author">
+                        <Link
+                            className="link"
+                            to={`/user/${userId}`}
+                            title="open profile of build author"
+                        >
                             {info.getValue()}
                         </Link>
                     )

@@ -39,7 +39,11 @@ const UserBuilds = ({
                 cell: info => {
                     const buildId = info.row.original.id;
                     return (
-                        <Link to={`/charplanner/${buildId}`} title="open build in charplanner">
+                        <Link
+                            className="link"
+                            to={`/charplanner/${buildId}`}
+                            title="open build in charplanner"
+                        >
                             {info.getValue()}
                         </Link>
                     )
