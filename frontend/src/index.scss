@@ -574,6 +574,11 @@ th {
     color: hsl(v.$muted-foreground);
     cursor: pointer;
     user-select: none;
+
+    &:hover {
+        color: hsl(v.$accent-foreground);
+        background-color: hsl(v.$accent);
+    }
 }
 
 td {
@@ -618,9 +623,8 @@ td {
         line-height: inherit;
         padding: 1rem;
         display: grid;
-        cursor: pointer;
         font-weight: 500;
-        color: hsl(240, 5%, 64.9%);
+        color: hsl(v.$muted-foreground);
         cursor: pointer;
     }
 }
