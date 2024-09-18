@@ -1,27 +1,49 @@
-import { ReactElement, useEffect } from "react";
+import { ComponentType, ReactElement, useEffect, Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { loadPolygonMaskPlugin } from "@tsparticles/plugin-polygon-mask";
 
-import useWindowSize from "./hooks/useWindowSize";
-import Layout from "./components/Layout";
-import Frontpage from "./components/Frontpage";
-import Login from "./features/auth/Login";
-import Signup from "./features/auth/Signup";
-import Charplanner from "./features/charplanner/Charplanner";
-import Users from "./features/users/Users";
-import Builds from "./features/builds/Builds";
-import UserPage from "./features/users/UserPage";
-import Prefetch from "./features/auth/Prefetch";
-import RequireAuth from "./features/auth/RequireAuth";
-import { ROLES } from "./config/roles";
-import PersistLogin from "./features/auth/PersistLogin";
-import VerifyEmail from "./features/auth/VerifyEmail";
-import Verify from "./features/auth/Verify";
-import Reset from "./features/auth/Reset";
-import ResetPassword from "./features/auth/ResetPassword";
-import Impressum from "./components/Impressum";
+import useWindowSize from "src/hooks/useWindowSize";
+import Layout from "src/components/Layout";
+import Prefetch from "src/features/auth/Prefetch";
+import RequireAuth from "src/features/auth/RequireAuth";
+import { ROLES } from "src/config/roles";
+import PersistLogin from "src/features/auth/PersistLogin";
+import { ClipLoader } from "src/components/ui";
+
+const Fallback = () => {
+    return (
+        <main>
+            <ClipLoader
+                color={"rgb(231, 214, 182)"}
+                loading={true}
+                size={30}
+            />
+        </main>
+    )
+}
+
+const withSuspense = <P extends object>(
+    Component: ComponentType<P>
+): React.FC<P> => (props) => (
+    <Suspense fallback={<Fallback />}>
+        <Component {...props} />
+    </Suspense>
+);
+
+const Frontpage = withSuspense(lazy(() => import("src/components/Frontpage" /* webpackChunkName: "Frontpage" */)));
+const Login = withSuspense(lazy(() => import("src/features/auth/Login" /* webpackChunkName: "Login" */)));
+const Signup = withSuspense(lazy(() => import("src/features/auth/Signup" /* webpackChunkName: "Signup" */)));
+const VerifyEmail = withSuspense(lazy(() => import("src/features/auth/VerifyEmail" /* webpackChunkName: "VerifyEmail" */)));
+const Verify = withSuspense(lazy(() => import("src/features/auth/Verify" /* webpackChunkName: "Verify" */)));
+const Reset = withSuspense(lazy(() => import("src/features/auth/Reset" /* webpackChunkName: "Reset" */)));
+const ResetPassword = withSuspense(lazy(() => import("src/features/auth/ResetPassword" /* webpackChunkName: "ResetPassword" */)));
+const Users = withSuspense(lazy(() => import("src/features/users/Users" /* webpackChunkName: "Users" */)));
+const UserPage = withSuspense(lazy(() => import("src/features/users/UserPage" /* webpackChunkName: "UserPage" */)));
+const Builds = withSuspense(lazy(() => import("src/features/builds/Builds" /* webpackChunkName: "Builds" */)));
+const Charplanner = withSuspense(lazy(() => import("src/features/charplanner/Charplanner" /* webpackChunkName: "Charplanner" */)));
+const Impressum = withSuspense(lazy(() => import("src/components/Impressum" /* webpackChunkName: "Impressum" */)));
 
 const App = (): ReactElement => {
 
