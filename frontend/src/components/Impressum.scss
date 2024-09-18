@@ -9,7 +9,6 @@
 
     h1 {
         font-size: 3rem;
-        color: v.$gold;
     }
 
     .impressum-content {
@@ -19,16 +18,6 @@
             font-size: 1.125rem;
             line-height: 2rem;
             font-weight: 400;
-        }
-
-        a {
-            color: hsla(v.$elden-ring-color);
-            text-decoration: none;
-
-            &:hover {
-                color: v.$gold;
-                text-decoration: underline;
-            }
         }
     }
 }

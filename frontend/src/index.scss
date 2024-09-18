@@ -115,6 +115,22 @@ textarea {
     color: hsl(v.$accent-foreground);
 }
 
+a {
+    color: rgb(v.$orange);
+    text-decoration: none;
+
+    &:visited {
+        color: hsla(v.$elden-ring-color);
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: rgb(v.$orange);
+        filter: brightness(125%);
+        text-decoration: underline;
+    }
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -725,10 +741,10 @@ td {
     padding-bottom: .5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: rgb(234 178 84);
+    color: rgb(v.$orange);
     background-color: hsl(v.$background);
     opacity: .9;
-    border: 1px solid rgb(234 178 84);
+    border: 1px solid rgb(v.$orange);
     border-radius: calc(v.$border-radius - 2px);
     display: inline-flex;
     justify-content: center;
@@ -740,9 +756,14 @@ td {
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .35s;
 
+    &:visited {
+        color: rgb(v.$orange);
+    }
+
     &:not(:disabled):hover {
         filter: brightness(125%);
         opacity: 1;
+        text-decoration: none;
     }
 
     &:not(:disabled)::before {

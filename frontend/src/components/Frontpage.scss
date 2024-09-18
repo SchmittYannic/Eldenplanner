@@ -77,18 +77,6 @@
             font-size: 1.125rem;
             line-height: 2rem;
             font-weight: 400;
-
-            >a {
-                color: v.$gold;
-
-                &:visited {
-                    color: v.$gold;
-                }
-
-                &:hover {
-                    color: hsla(v.$elden-ring-color)
-                }
-            }
         }
     }
 }

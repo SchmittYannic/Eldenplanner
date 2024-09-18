@@ -148,8 +148,8 @@
                 background-color: hsl(v.$foreground);
             }
 
-            &:focus {
-                border-color: orange;
+            &:focus-visible {
+                border-color: v.$gold;
             }
         }
 
