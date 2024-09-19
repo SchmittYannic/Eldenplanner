@@ -307,6 +307,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     dispatch(decrementTotalComments({ parentId }))
                 }
             },
+            invalidatesTags: (_result, _error, { authorId }) => [
+                { type: "User", id: authorId },
+            ],
         }),
         updateComment: builder.mutation<CommentType, UpdateCommentMutationParamsType>({
             query: ({ commentId, content }) => ({
