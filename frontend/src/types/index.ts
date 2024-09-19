@@ -78,6 +78,7 @@ export type UserType = {
 export type GetBuildsOfUserResponseType = {
     builds: BuildType[],
     totalBuilds: number,
+    totalStars: number,
 }
 
 

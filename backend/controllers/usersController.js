@@ -427,14 +427,27 @@ const getAllBuildsOfUser = async (req, res) => {
 
         const builds = await Build.find({ user: id }).lean().exec();
 
-        const transformedBuilds = builds.map(build => ({
-            ...build,
-            id: build._id.toString(),
-            authorId: user._id.toString(),
-            author: user.username,
-        }));
+        const { transformedBuilds, totalStars } = builds.reduce(
+            (acc, build) => {
+                // Transform the build and accumulate total stars
+                acc.transformedBuilds.push({
+                    ...build,
+                    id: build._id.toString(),
+                    authorId: user._id.toString(),
+                    author: user.username,
+                });
+                acc.totalStars += build.stars;
 
-        res.status(200).json({ builds: transformedBuilds, totalBuilds: builds.length });
+                return acc;
+            },
+            { transformedBuilds: [], totalStars: 0 }
+        );
+
+        res.status(200).json({
+            builds: transformedBuilds,
+            totalBuilds: builds.length,
+            totalStars,
+        });
     } catch (err) {
         return res.status(500).json({ message: "Error retrieving builds of user" })
     }
