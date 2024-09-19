@@ -801,9 +801,14 @@ td {
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15;
 
+    &:visited {
+        color: hsl(v.$muted-foreground);
+    }
+
     &:not(:disabled):hover {
         color: hsl(v.$accent-foreground);
         background-color: hsl(v.$accent);
+        text-decoration: none;
     }
 
     &:not(:disabled):active {
