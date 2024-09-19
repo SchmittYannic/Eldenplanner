@@ -346,7 +346,7 @@ const deleteComment = async (req, res) => {
         await User.findByIdAndUpdate(
             foundComment.authorId,
             { $inc: { totalComments: -1 } },
-            { session: clientSession } // Ensure this is part of the transaction
+            { session: clientSession, runValidators: true }
         );
         await clientSession.commitTransaction();
         clientSession.endSession();
