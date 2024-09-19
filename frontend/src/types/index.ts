@@ -72,6 +72,7 @@ export type UserType = {
     id: string
     username: string
     createdAt: string
+    avatarUrl: string
 };
 
 export type GetBuildsOfUserResponseType = {
