@@ -191,6 +191,7 @@ const Comment = memo(({
                 refId: `action-${comment.id}`,
                 props: {
                     commentId: comment.id,
+                    authorId: comment.authorId,
                     targetId,
                     targetType,
                     parentId,
@@ -211,6 +212,7 @@ const Comment = memo(({
                 refId: `action-${comment.id}`,
                 props: {
                     commentId: comment.id,
+                    authorId: comment.authorId,
                     targetId,
                     targetType,
                     parentId,

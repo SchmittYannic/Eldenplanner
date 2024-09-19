@@ -160,6 +160,7 @@ export type UpdateCommentMutationParamsType = {
 
 export type DeleteCommentMutationParamsType = {
     commentId: string,
+    authorId: string,
 } & GetCommentsQueryParamsType
 
 
@@ -180,6 +181,7 @@ export type PositionType = {
 
 export type CommentOptionlistPropsType = {
     commentId: string,
+    authorId: string,
     targetType: TargetTypeType,
     targetId: string,
     parentId: string,
@@ -191,6 +193,7 @@ export type CommentOptionlistPropsType = {
 
 export type CommentDeletePropsType = {
     commentId: string,
+    authorId: string,
     targetType: TargetTypeType,
     targetId: string,
     parentId: string,

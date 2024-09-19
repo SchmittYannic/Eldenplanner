@@ -67,6 +67,7 @@ const CommentOptionlist = () => {
                                 dispatch(addCommentDelete({
                                     props: {
                                         commentId: props.commentId,
+                                        authorId: props.authorId,
                                         targetType: props.targetType,
                                         targetId: props.targetId,
                                         parentId: props.parentId,

@@ -14,7 +14,7 @@ const CommentDelete = () => {
 
     const { props } = useSelector(selectPopup);
     if (!isCommentDeletePropsType(props)) return
-    const { commentId, targetId, targetType, parentId } = props;
+    const { commentId, authorId, targetId, targetType, parentId } = props;
     const sort = useSelector(selectSort);
     const limit = useSelector(selectLimit);
     const lastFetchedTimestamp = useSelector(selectLastFetchedTimestamp);
@@ -30,6 +30,7 @@ const CommentDelete = () => {
         try {
             await deleteComment({
                 commentId,
+                authorId,
                 targetType,
                 targetId,
                 parentId,
