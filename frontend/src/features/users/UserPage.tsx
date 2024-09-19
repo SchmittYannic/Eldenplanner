@@ -6,10 +6,12 @@ import { RootState } from "src/app/store";
 import { selectGetUserByIdCachedData, useLazyGetUserByIdQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import useIsInView from "src/hooks/useIsInView";
+import useWindowSize from "src/hooks/useWindowSize";
 import UserBuilds from "./UserBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader } from "src/components/ui";
 import { UserType } from "src/types";
+import "src/features/users/UserPage.scss";
 
 const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
 
@@ -19,6 +21,8 @@ const UserPage = (): ReactElement => {
     const param = useParams();
     const profileUserId = param?.userId;
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
+    const windowSize = useWindowSize();
+    const isMobile = windowSize.width && windowSize.width < 850;
 
     const [fetchUserById, {
         data,
@@ -90,18 +94,109 @@ const UserPage = (): ReactElement => {
 
     if (user) {
         return (
-            <main className="main--userpage">
-                <section className="section--userpage infobuildswrapper">
-                    <div className="userpage__userinfo">
-                        <h2>Builds of {user.username}</h2>
-                        <div className="divider-2" />
-                        <p>Joined {month} {year}</p>
-                        <div className="divider-2" />
-                        <div className="flex">
+            <main className="main-userpage">
+                <section className="section-userpage infosection">
+                    {isMobile && (
+                        <>
+                            <h1>Profile of {user.username}</h1>
+                            <div className="divider-2" />
+                            <p>Joined {month} {year}</p>
+                            <div className="divider-4" />
+                        </>
+                    )}
+                    <div className="leftside">
+                        <img
+                            src={user.avatarUrl}
+                            alt=""
+                            width={290}
+                            height={290}
+                        />
+                    </div>
+                    <div className="rightside">
+                        {!isMobile && (
+                            <>
+                                <h1>Profile of {user.username}</h1>
+                                <div className="divider-2" />
+                                <p>Joined {month} {year}</p>
+                                <div className="divider-4" />
+                            </>
+                        )}
+                        {isMobile && (
+                            <div className="actionsection">
+                                {isOwnProfile && (
+                                    <Link
+                                        to={`/user/${user.id}/edit`}
+                                        className="button full"
+                                        title="edit account"
+                                    >
+                                        Edit Account
+                                    </Link>
+                                )}
+                                {isOwnProfile && (isAdmin || isDemoadmin) && (
+                                    <>
+                                        <div className="divider-4" />
+                                        <Link
+                                            to={"/users"}
+                                            className="action-btn full"
+                                            title="go to Admin Panel"
+                                        >
+                                            Admin Panel
+                                        </Link>
+                                    </>
+                                )}
+
+                                {param?.edit === "edit" && isOwnProfile && <EditUser />}
+
+                                <div className="divider-4" />
+                            </div>
+                        )}
+                        <div className="metric-cards">
+                            <div className="metric-cards-wrapper">
+                                <div
+                                    className="metric-card"
+                                >
+                                    <div>Builds created</div>
+                                    <div className="divider-2" />
+                                    <div>6</div>
+                                </div>
+                                <div
+                                    className="metric-card"
+                                >
+                                    <div>Stars given</div>
+                                    <div className="divider-2" />
+                                    <div>6</div>
+                                </div>
+                            </div>
+                            <div className="metric-cards-wrapper">
+                                <div
+                                    className="metric-card"
+                                >
+                                    <div>Stars received</div>
+                                    <div className="divider-2" />
+                                    <div>6</div>
+                                </div>
+                                <div
+                                    className="metric-card"
+                                >
+                                    <div>Comments</div>
+                                    <div className="divider-2" />
+                                    <div>6000000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div className="divider-4" />
+
+                {!isMobile && (
+                    <>
+                        <section className="section-userpage actionsection">
+
                             {isOwnProfile && (
                                 <Link
                                     to={`/user/${user.id}/edit`}
-                                    className="button"
+                                    className="button full"
                                     title="edit account"
                                 >
                                     Edit Account
@@ -109,27 +204,35 @@ const UserPage = (): ReactElement => {
                             )}
                             {isOwnProfile && (isAdmin || isDemoadmin) && (
                                 <>
-                                    <div className="v-divider-4" />
+                                    <div className="divider-4" />
                                     <Link
                                         to={"/users"}
-                                        className="action-btn"
+                                        className="action-btn full"
                                         title="go to Admin Panel"
                                     >
                                         Admin Panel
                                     </Link>
                                 </>
                             )}
-                        </div>
-                    </div>
 
-                    {param?.edit === "edit" && isOwnProfile && <EditUser />}
 
+                            {param?.edit === "edit" && isOwnProfile && <EditUser />}
+                        </section>
+
+                        <div className="divider-4" />
+                    </>
+                )}
+
+                <section className="section-userpage tablesection">
+                    <h2>Created Builds</h2>
                     <div className="divider-4" />
-
+                    <div className="divider-2" />
                     <div className="userpage__userbuilds">
                         <UserBuilds author={user} />
                     </div>
                 </section>
+
+                <div className="divider-4" />
 
                 <section
                     ref={CommentSectionRef}

@@ -1,0 +1,79 @@
+@use "src/Variables" as v;
+
+.main-userpage {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .infosection {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .leftside {
+        align-self: center;
+
+        img {
+            display: block;
+            border-radius: 50%;
+        }
+    }
+
+    .rightside {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .metric-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+        gap: 1rem;
+    }
+
+    .metric-cards-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+        gap: 1rem;
+    }
+
+    .metric-card {
+        min-width: 164px;
+        padding: 1rem 0;
+        border: 1px solid hsl(v.$border-color);
+        border-radius: v.$border-radius;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: hsl(v.$muted-foreground);
+    }
+
+    .actionsection {
+        width: 290px;
+        align-self: center;
+    }
+
+    .tablesection {
+        margin-top: 24px;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 850px) {
+    .main-userpage {
+        .infosection {
+            flex-direction: row;
+            gap: 2rem;
+        }
+
+        .leftside {
+            align-self: unset;
+        }
+
+        .actionsection {
+            align-self: flex-start;
+        }
+    }
+}
