@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
-import { selectGetUserByIdCachedData, useLazyGetUserByIdQuery } from "./usersApiSlice";
+import { selectGetUserByIdCachedData, useGetBuildsOfUserQuery, useLazyGetUserByIdQuery } from "./usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import useIsInView from "src/hooks/useIsInView";
 import useWindowSize from "src/hooks/useWindowSize";
@@ -25,7 +25,7 @@ const UserPage = (): ReactElement => {
     const isMobile = windowSize.width && windowSize.width < 850;
 
     const [fetchUserById, {
-        data,
+        data: userData,
         isSuccess,
         isLoading,
         isError,
@@ -70,8 +70,8 @@ const UserPage = (): ReactElement => {
     // if fetch is successful setIsOwnProfile
     useEffect(() => {
         if (!isSuccess) return
-        if (!data) return
-        setUser(data);
+        if (!userData) return
+        setUser(userData);
     }, [isSuccess]);
 
     // if fetch fails direct user to frontpage
@@ -150,40 +150,8 @@ const UserPage = (): ReactElement => {
                                 <div className="divider-4" />
                             </div>
                         )}
-                        <div className="metric-cards">
-                            <div className="metric-cards-wrapper">
-                                <div
-                                    className="metric-card"
-                                >
-                                    <div>Builds created</div>
-                                    <div className="divider-2" />
-                                    <div>6</div>
-                                </div>
-                                <div
-                                    className="metric-card"
-                                >
-                                    <div>Stars given</div>
-                                    <div className="divider-2" />
-                                    <div>6</div>
-                                </div>
-                            </div>
-                            <div className="metric-cards-wrapper">
-                                <div
-                                    className="metric-card"
-                                >
-                                    <div>Stars received</div>
-                                    <div className="divider-2" />
-                                    <div>6</div>
-                                </div>
-                                <div
-                                    className="metric-card"
-                                >
-                                    <div>Comments</div>
-                                    <div className="divider-2" />
-                                    <div>6000000</div>
-                                </div>
-                            </div>
-                        </div>
+
+                        <MetricCards user={user} />
                     </div>
                 </section>
 
@@ -265,6 +233,56 @@ const UserPage = (): ReactElement => {
     return (
         <main className="main--userpage">
         </main>
+    )
+}
+
+type MetricCardsPropsType = {
+    user: UserType
+}
+
+const MetricCards = ({ user }: MetricCardsPropsType) => {
+
+    const {
+        data: userBuildsData,
+    } = useGetBuildsOfUserQuery({
+        id: user.id
+    });
+
+    return (
+        <div className="metric-cards">
+            <div className="metric-cards-wrapper">
+                <div
+                    className="metric-card"
+                >
+                    <div>Builds created</div>
+                    <div className="divider-2" />
+                    <div>{userBuildsData ? userBuildsData.totalBuilds : 0}</div>
+                </div>
+                <div
+                    className="metric-card"
+                >
+                    <div>Stars given</div>
+                    <div className="divider-2" />
+                    <div>0</div>
+                </div>
+            </div>
+            <div className="metric-cards-wrapper">
+                <div
+                    className="metric-card"
+                >
+                    <div>Stars received</div>
+                    <div className="divider-2" />
+                    <div>{userBuildsData ? userBuildsData.totalStars : 0}</div>
+                </div>
+                <div
+                    className="metric-card"
+                >
+                    <div>Comments</div>
+                    <div className="divider-2" />
+                    <div>0</div>
+                </div>
+            </div>
+        </div>
     )
 }
 
