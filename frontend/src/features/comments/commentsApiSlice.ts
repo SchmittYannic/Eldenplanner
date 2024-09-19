@@ -563,6 +563,9 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     }
                 }
             },
+            invalidatesTags: (_result, _error, { authorId }) => [
+                { type: "User", id: authorId },
+            ],
         }),
         addLikeDislike: builder.mutation<void, AddLikeDislikeMutationParamsType>({
             query: ({ commentId, type }) => ({
