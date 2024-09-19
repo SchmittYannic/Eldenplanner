@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
         },
         avatarUrl: {
             type: String,
-            default: [avatarUrlLookup["a"]],
+            default: avatarUrlLookup["a"],
         },
         roles: {
             type: [String],
@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema(
         totalComments: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "totalComments cannot be negative"
+            }
         }
     },
     {
