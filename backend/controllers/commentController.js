@@ -200,6 +200,10 @@ const createComment = async (req, res) => {
             { clientSession }
         );
 
+        // increment totalComments of author by 1;
+        author.totalComments = (author.totalComments || 0) + 1;
+        await author.save({ session: clientSession });
+
         // add id and author details
         const transformedComment = {
             ...newComment[0].toObject(),
@@ -338,6 +342,12 @@ const deleteComment = async (req, res) => {
         await CommentLike.deleteMany({ commentId: id }).session(clientSession);;
         //delete comment itself
         await Comment.deleteOne({ _id: foundComment._id }).session(clientSession);
+        // decrement totalComments of the comment author by 1;
+        await User.findByIdAndUpdate(
+            foundComment.authorId,
+            { $inc: { totalComments: -1 } },
+            { session: clientSession } // Ensure this is part of the transaction
+        );
         await clientSession.commitTransaction();
         clientSession.endSession();
         res.status(200).json({ message: "Comment deleted successfully" });
