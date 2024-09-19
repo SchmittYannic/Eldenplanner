@@ -301,10 +301,12 @@
             border-style: solid;
             margin-left: 8px;
             outline: none;
+            border-radius: v.$border-radius;
 
             &:focus {
                 border-style: solid;
                 border-color: hsl(v.$muted-foreground);
+                border-radius: v.$border-radius;
             }
 
             &:not(:placeholder-shown)+p {
@@ -328,6 +330,7 @@
         right: 0;
         top: 40px;
         overflow-y: auto;
+        border-radius: v.$border-radius;
     }
 
     .filter-substring {
