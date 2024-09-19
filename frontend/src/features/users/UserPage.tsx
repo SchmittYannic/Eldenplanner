@@ -279,7 +279,7 @@ const MetricCards = ({ user }: MetricCardsPropsType) => {
                 >
                     <div>Comments</div>
                     <div className="divider-2" />
-                    <div>0</div>
+                    <div>{user.totalComments}</div>
                 </div>
             </div>
         </div>
