@@ -113,9 +113,12 @@ const getBuilds = async (req, res) => {
 // @route GET /builds/:id
 // @access Public
 const getBuildById = async (req, res) => {
+    // since its public access the userId can be undefined
+    const { userId } = req;
     const {
         id
     } = req.params;
+
     try {
         if (!id) {
             return res.status(400).json({ message: "Missing id parameter" });
@@ -136,11 +139,22 @@ const getBuildById = async (req, res) => {
             return res.status(400).json({ message: "Build not found" });
         }
 
+        let hasGivenStar = false;
+
+        // If userId exists, check if the user has starred the build
+        if (userId) {
+            const foundStar = await Star.findOne({ buildId: id, userId }).lean().exec();
+            if (foundStar) {
+                hasGivenStar = true;
+            }
+        }
+
         const transformedBuild = {
             ...build,
             id: build._id.toString(),
             authorId: build.user._id.toString(),
             author: build.user.username,
+            hasGivenStar,
         };
 
         res.status(200).json(transformedBuild);
