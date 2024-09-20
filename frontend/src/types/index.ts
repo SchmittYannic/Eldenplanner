@@ -86,8 +86,8 @@ export type GetBuildsOfUserResponseType = {
 
 /* commentsApiSlice related types */
 
-const NumericOperationOption = ["increment", "decrement"];
-export type NumericOperationType = typeof NumericOperationOption[number];
+const NumericOperationOptions = ["increment", "decrement"] as const;
+export type NumericOperationType = typeof NumericOperationOptions[number];
 
 export const TargetTypeOptions = ["Build", "User"] as const
 export type TargetTypeType = typeof TargetTypeOptions[number];
