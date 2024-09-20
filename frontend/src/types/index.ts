@@ -74,6 +74,7 @@ export type UserType = {
     createdAt: string
     avatarUrl: string
     totalComments: number
+    totalStarsGiven: number
 };
 
 export type GetBuildsOfUserResponseType = {

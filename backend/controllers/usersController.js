@@ -25,7 +25,7 @@ const getUserById = async (req, res) => {
 
         await mongooseidschema.required().validateAsync(id);
 
-        const user = await User.findById(id).select("username createdAt avatarUrl totalComments").lean().exec();
+        const user = await User.findById(id).select("username createdAt avatarUrl totalComments totalStarsGiven").lean().exec();
 
         if (!user) {
             return res.status(400).json({ message: "No user found" });
