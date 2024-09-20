@@ -368,6 +368,15 @@ a {
     min-width: v.$min-page-width;
 }
 
+.icon-container {
+    display: inline-block;
+    vertical-align: middle;
+
+    svg {
+        display: block;
+    }
+}
+
 /* || NAVBAR - GENERAL */
 
 .primary-nav {
