@@ -40,7 +40,17 @@ const userSchema = new mongoose.Schema(
                 },
                 message: "totalComments cannot be negative"
             }
-        }
+        },
+        totalStarsGiven: {
+            type: Number,
+            default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "totalStarsGiven cannot be negative"
+            }
+        },
     },
     {
         timestamps: true,
