@@ -10,6 +10,7 @@ import {
 } from "../controllers/buildsController.js";
 import checkBuildData from "../middleware/checkBuildData.js";
 import verifyJWT from "../middleware/verifyJWT.js";
+import extractJWTInfo from "../middleware/extractJWTInfo.js";
 const router = express.Router();
 
 router.route("/")
@@ -19,7 +20,7 @@ router.route("/")
     .delete(verifyJWT, deleteBuild);
 
 router.route("/:id")
-    .get(getBuildById)
+    .get(extractJWTInfo, getBuildById)
 
 router.route("/:id/star")
     .post(verifyJWT, addStar)
