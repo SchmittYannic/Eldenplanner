@@ -263,7 +263,7 @@ const MetricCards = ({ user }: MetricCardsPropsType) => {
                 >
                     <div>Stars given</div>
                     <div className="divider-2" />
-                    <div>0</div>
+                    <div>{user.totalStarsGiven}</div>
                 </div>
             </div>
             <div className="metric-cards-wrapper">
