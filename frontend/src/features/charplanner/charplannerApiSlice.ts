@@ -67,7 +67,25 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                     return []
                 }
             }
-        })
+        }),
+        addStar: builder.mutation({
+            query: ({ buildId }) => ({
+                url: `/builds/${buildId}/star`,
+                method: "POST",
+                validateStatus: (response, result) => {
+                    return response.status === 201 && !result.isError
+                },
+            })
+        }),
+        deleteStar: builder.mutation({
+            query: ({ buildId }) => ({
+                url: `/builds/${buildId}/star`,
+                method: "DELETE",
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+        }),
     })
 });
 
@@ -76,4 +94,6 @@ export const {
     useAddNewBuildMutation,
     useUpdateBuildMutation,
     useDeleteBuildMutation,
+    useAddStarMutation,
+    useDeleteStarMutation,
 } = charplannerApiSlice;
