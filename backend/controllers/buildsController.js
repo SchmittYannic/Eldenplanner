@@ -3,6 +3,7 @@ import Build from "../models/Build.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import CommentLike from "../models/CommentLike.js";
+import Star from "../models/Star.js";
 import { mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 
@@ -369,10 +370,140 @@ const deleteBuild = async (req, res) => {
     }
 };
 
+// @desc adds star to build with id
+// @route POST /builds/:id/star
+// @access Private
+const addStar = async (req, res) => {
+    const { userId } = req;
+    const {
+        id,
+    } = req.params;
+
+    const clientSession = await mongoose.startSession();
+
+    try {
+        clientSession.startTransaction();
+
+        // check if build exists
+        const foundBuild = await Build.findById(id).session(clientSession);
+        if (!foundBuild) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "Build not found" });
+        }
+
+        // check if authenticated user exists
+        const foundUser = await User.findById(userId).session(clientSession);
+        if (!foundUser) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // check if a star already exists
+        const foundStar = await Star.findOne({ buildId: id, userId }).session(clientSession);
+        if (foundStar) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "Build already got a star from user" });
+        }
+
+        // create star in database
+        await Star.create(
+            [{
+                buildId: id,
+                userId,
+            }],
+            { clientSession }
+        );
+
+        // increment stars of build
+        foundBuild.stars += 1;
+
+        // increment totalStarsGiven of user
+        foundUser.totalStarsGiven += 1;
+
+        // save the updated documents
+        await foundBuild.save({ clientSession });
+        await foundUser.save({ clientSession });
+        await clientSession.commitTransaction();
+        res.status(201).json({ message: `Star added` });
+    } catch (err) {
+        await clientSession.abortTransaction();
+        res.status(500).json({ message: "Error adding star" });
+    } finally {
+        clientSession.endSession();
+    }
+}
+
+// @desc delete star to build with id
+// @route DELETE /builds/:id/star
+// @access Private
+const deleteStar = async (req, res) => {
+    const { userId } = req;
+    const {
+        id,
+    } = req.params;
+
+    const clientSession = await mongoose.startSession();
+
+    try {
+        clientSession.startTransaction();
+
+        // check if build exists
+        const foundBuild = await Build.findById(id).session(clientSession);
+        if (!foundBuild) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "Build not found" });
+        }
+
+        // check if authenticated user exists
+        const foundUser = await User.findById(userId).session(clientSession);
+        if (!foundUser) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // check if star exists
+        const foundStar = await Star.findOne({ buildId: id, userId }).session(clientSession);
+        if (!foundStar) {
+            await clientSession.abortTransaction();
+            return res.status(400).json({ message: "Build has no star from user" });
+        }
+
+        const deletedStar = await Star.deleteOne({ _id: foundStar._id }).session(clientSession);
+        // check if star got deleted
+        if (!deletedStar) {
+            await clientSession.abortTransaction();
+            return res.status(404).json({ message: "Star not deleted because it was not found in database" });
+        }
+
+        // only decrement stars by 1 if stars is bigger than 0
+        if (foundBuild.stars > 0) {
+            foundBuild.stars -= 1;
+        }
+
+        // only decrement totalStarsGiven by 1 if totalStarsGiven is bigger than 0
+        if (foundUser.totalStarsGiven > 0) {
+            foundUser.totalStarsGiven -= 1;
+        }
+
+        // save the updated documents
+        await foundBuild.save({ clientSession })
+        await foundUser.save({ clientSession })
+        await clientSession.commitTransaction();
+        res.status(200).json({ message: "Star removed" });
+    } catch (err) {
+        await clientSession.abortTransaction();
+        res.status(500).json({ message: "Error removing star" });
+    } finally {
+        clientSession.endSession();
+    }
+}
+
 export {
     getBuilds,
     getBuildById,
     createNewBuild,
     updateBuild,
-    deleteBuild
+    deleteBuild,
+    addStar,
+    deleteStar,
 }
