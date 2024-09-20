@@ -55,6 +55,7 @@ export type CharplannerStateType = {
     title: null | string,
     authorId: null | string,
     stars: null | number,
+    hasGivenStar: boolean,
     general: GeneralStateType,
     stats: StatsStateType,
     armament: ArmamentStateType,
@@ -67,6 +68,7 @@ const initialState: CharplannerStateType = {
     title: null,
     authorId: null,
     stars: null,
+    hasGivenStar: false,
     general: {
         charactername: "Tarnished",
         startingclass: "Hero",
@@ -145,6 +147,7 @@ export const charplannerSlice = createSlice({
             state.title = initialState.title;
             state.authorId = initialState.authorId;
             state.stars = initialState.stars;
+            state.hasGivenStar = initialState.hasGivenStar;
             state.general = initialState.general;
             state.stats = initialState.stats;
             state.armament = initialState.armament;
@@ -157,6 +160,7 @@ export const charplannerSlice = createSlice({
                 title,
                 authorId,
                 stars,
+                hasGivenStar,
                 general,
                 stats,
                 armament,
@@ -167,6 +171,7 @@ export const charplannerSlice = createSlice({
             state.title = title;
             state.authorId = authorId;
             state.stars = stars;
+            state.hasGivenStar = hasGivenStar;
             state.general = general;
             state.stats = stats;
             state.armament = armament;
@@ -343,6 +348,7 @@ export const selectBuildId = (state: RootState): string | null => state.charplan
 export const selectTitle = (state: RootState): string | null => state.charplanner.title;
 export const selectAuthorId = (state: RootState): string | null => state.charplanner.authorId;
 export const selectStars = (state: RootState): number | null => state.charplanner.stars;
+export const selectHasGivenStar = (state: RootState): boolean => state.charplanner.hasGivenStar;
 
 export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
 export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
@@ -576,7 +582,7 @@ export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
 
 export const selectGetBuildByIdCachedData = (state: RootState, buildId: string) => {
     const cacheKey = `getBuildById("${buildId}")`;
-    return state.api.queries[cacheKey]?.data as BuildType ?? null;
+    return state.api.queries[cacheKey]?.data as BuildType & { hasGivenStar: boolean } ?? null;
 };
 
 export default charplannerSlice.reducer;
