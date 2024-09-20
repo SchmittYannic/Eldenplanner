@@ -63,6 +63,7 @@ const Charplanner = (): ReactElement => {
                 buildId: cachedData.id,
                 title: cachedData.title,
                 authorId: cachedData.authorId,
+                stars: cachedData.stars,
                 general: cachedData.general,
                 stats: cachedData.stats,
                 armament: cachedData.armament,
@@ -74,7 +75,7 @@ const Charplanner = (): ReactElement => {
         }
     }, [cachedData]);
 
-    // if fetch is successful load Build into state and check if user is the author
+    // if fetch is successful load Build into state
     useEffect(() => {
         if (!isSuccess) return
         if (!loadedBuild) return
@@ -82,6 +83,7 @@ const Charplanner = (): ReactElement => {
             buildId: loadedBuild.id,
             title: loadedBuild.title,
             authorId: loadedBuild.authorId,
+            stars: loadedBuild.stars,
             general: loadedBuild.general,
             stats: loadedBuild.stats,
             armament: loadedBuild.armament,
@@ -137,8 +139,12 @@ const Charplanner = (): ReactElement => {
                 {buildId && (
                     <>
                         <div className="divider-4" />
+                        <p>
+                            Loaded Build: <span style={{ color: "white", fontWeight: "500" }}>{loadedBuild?.title || cachedData?.title}</span> by <Link className="link" to={`/user/${loadedBuild?.authorId || cachedData?.authorId}`}>{loadedBuild?.author || cachedData?.author}</Link>
+                        </p>
+                        <div className="divider-4" />
                         <p style={{ color: "white" }}>
-                            Loaded Build: <i>{loadedBuild?.title || cachedData?.title}</i> by <Link className="link" to={`/user/${loadedBuild?.authorId || cachedData?.authorId}`}>{loadedBuild?.author || cachedData?.author}</Link>
+                            Found this build helpful? Give it a star below to bookmark it and show your appreciation.
                         </p>
                     </>
                 )}

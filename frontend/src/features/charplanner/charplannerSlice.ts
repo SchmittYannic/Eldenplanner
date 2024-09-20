@@ -54,6 +54,7 @@ export type CharplannerStateType = {
     buildId: null | string,
     title: null | string,
     authorId: null | string,
+    stars: null | number,
     general: GeneralStateType,
     stats: StatsStateType,
     armament: ArmamentStateType,
@@ -65,6 +66,7 @@ const initialState: CharplannerStateType = {
     buildId: null,
     title: null,
     authorId: null,
+    stars: null,
     general: {
         charactername: "Tarnished",
         startingclass: "Hero",
@@ -142,6 +144,7 @@ export const charplannerSlice = createSlice({
             state.buildId = initialState.buildId;
             state.title = initialState.title;
             state.authorId = initialState.authorId;
+            state.stars = initialState.stars;
             state.general = initialState.general;
             state.stats = initialState.stats;
             state.armament = initialState.armament;
@@ -153,6 +156,7 @@ export const charplannerSlice = createSlice({
                 buildId,
                 title,
                 authorId,
+                stars,
                 general,
                 stats,
                 armament,
@@ -162,6 +166,7 @@ export const charplannerSlice = createSlice({
             state.buildId = buildId;
             state.title = title;
             state.authorId = authorId;
+            state.stars = stars;
             state.general = general;
             state.stats = stats;
             state.armament = armament;
@@ -337,6 +342,7 @@ export const selectCharplannerData = (state: RootState): CharplannerStateType =>
 export const selectBuildId = (state: RootState): string | null => state.charplanner.buildId;
 export const selectTitle = (state: RootState): string | null => state.charplanner.title;
 export const selectAuthorId = (state: RootState): string | null => state.charplanner.authorId;
+export const selectStars = (state: RootState): number | null => state.charplanner.stars;
 
 export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
 export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
