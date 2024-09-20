@@ -4,7 +4,7 @@ import { BuildType } from "src/types";
 
 export const charplannerApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getBuildById: builder.query<BuildType, string>({
+        getBuildById: builder.query<BuildType & { hasGivenStar: boolean }, string>({
             query: (id) => ({
                 url: `/builds/${id}`,
                 validateStatus: (response, result) => {
