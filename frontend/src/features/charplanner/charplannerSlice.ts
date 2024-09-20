@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-import { BuildType } from "src/types";
+import { BuildType, NumericOperationType } from "src/types";
 
 export type GeneralStateType = {
     charactername: string,
@@ -177,6 +177,18 @@ export const charplannerSlice = createSlice({
             state.armament = armament;
             state.talisman = talisman;
             state.armor = armor;
+        },
+        updateStars: (state, { payload }: PayloadAction<NumericOperationType>) => {
+            if (state.stars === null) return
+            if (payload === "increment") {
+                state.stars += 1;
+            } else {
+                if (state.stars <= 0) return
+                state.stars -= 1;
+            }
+        },
+        changeHasGivenStar: (state, { payload }: PayloadAction<boolean>) => {
+            state.hasGivenStar = payload;
         },
 
         /* general */
@@ -473,6 +485,8 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
 export const {
     resetCharplanner,
     loadBuild,
+    updateStars,
+    changeHasGivenStar,
     changeCharactername,
     changeStartingclass,
     changeGreatrune,
