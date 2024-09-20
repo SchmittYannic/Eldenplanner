@@ -339,11 +339,11 @@ const deleteBuild = async (req, res) => {
             // Find all likes/dislikes associated with these comments and replies and delete them
             await CommentLike.deleteMany({ commentId: { $in: commentsAndRepliesIds } }).session(clientSession);
 
-            // Prepare bulk update operations for users totalComment field
+            // Prepare bulk update operations for users totalComments field
             const bulkUpdateOps = Object.entries(commentsByAuthor).map(([authorId, commentCount]) => ({
                 updateOne: {
                     filter: { _id: authorId },
-                    update: { $inc: { totalComment: -commentCount } }
+                    update: { $inc: { totalComments: -commentCount } }
                 }
             }));
 

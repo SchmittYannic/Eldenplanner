@@ -365,11 +365,11 @@ const deleteUser = async (req, res) => {
             await Build.deleteMany({ user: userId }).session(clientSession);
         }
 
-        // Update totalComment for each author who wrote comments on the user profile or user builds
+        // Update totalComments for each author who wrote comments on the user profile or user builds
         const bulkUpdateOps = Object.entries(commentsByAuthor).map(([authorId, decrementCount]) => ({
             updateOne: {
                 filter: { _id: authorId },
-                update: { $inc: { totalComment: -decrementCount } }
+                update: { $inc: { totalComments: -decrementCount } }
             }
         }));
 
