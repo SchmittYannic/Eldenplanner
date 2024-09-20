@@ -19,6 +19,8 @@ export { default as MdLogout } from "./MdLogout";
 export { default as MdMenu } from "./MdMenu";
 export { default as MdMessage } from "./MdMessage";
 export { default as MdOutlineModeEdit } from "./MdOutlineModeEdit";
+export { default as MdOutlineStar } from "./MdOutlineStar";
+export { default as MdOutlineStarBorder } from "./MdOutlineStarBorder";
 export { default as MdOutlineSubdirectoryArrowRight } from "./MdOutlineSubdirectoryArrowRight";
 export { default as MdSave } from "./MdSave";
 export { default as MdSwapVert } from "./MdSwapVert";
