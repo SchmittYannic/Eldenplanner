@@ -140,13 +140,13 @@ const createComment = async (req, res) => {
     const { authorId, content, targetId, targetType, parentId } = req.body;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         //check if authenticated user is author
         if (userId !== authorId) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
@@ -154,7 +154,6 @@ const createComment = async (req, res) => {
         const author = await User.findById(authorId).session(clientSession);
         if (!author) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "User not found" });
         }
 
@@ -168,7 +167,6 @@ const createComment = async (req, res) => {
 
         if (!target) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Target not found" });
         }
 
@@ -177,7 +175,6 @@ const createComment = async (req, res) => {
             const parentComment = await Comment.findById(parentId).session(clientSession);
             if (!parentComment) {
                 await clientSession.abortTransaction();
-                clientSession.endSession();
                 return res.status(400).json({ message: "Parent comment not found" });
             }
 
@@ -214,12 +211,12 @@ const createComment = async (req, res) => {
 
         // end transaction
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(201).json(transformedComment);
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         res.status(500).json({ message: "Error creating new comment" });
+    } finally {
+        clientSession.endSession();
     }
 };
 
@@ -232,22 +229,21 @@ const updateComment = async (req, res) => {
     const { content } = req.body;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         const foundComment = await Comment.findById(id).session(clientSession);
 
         //check if comment exists
         if (!foundComment) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author
         if (!foundComment.authorId.equals(userId)) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(403).json({ message: "Id of authenticated user doesnt match id of comment author" })
         }
 
@@ -255,7 +251,6 @@ const updateComment = async (req, res) => {
         const author = await User.findById(userId).session(clientSession);
         if (!author) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "User not found" });
         }
 
@@ -271,12 +266,12 @@ const updateComment = async (req, res) => {
         };
 
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(200).json(transformedComment);
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         res.status(500).json({ message: "Error updating comment" });
+    } finally {
+        clientSession.endSession();
     }
 };
 
@@ -292,9 +287,10 @@ const deleteComment = async (req, res) => {
     } = req.query;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         if (!id) {
             return res.status(400).json({ message: "Comment id required" });
         }
@@ -304,14 +300,12 @@ const deleteComment = async (req, res) => {
         //check if comment exists
         if (!foundComment) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author or if it is his user profile
         if (!foundComment.authorId.equals(userId) && !(targetType === "User" && targetId === userId)) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(403).json({ message: "Not authorized: only author or owner of page can delete a comment" })
         }
 
@@ -349,12 +343,12 @@ const deleteComment = async (req, res) => {
             { session: clientSession, runValidators: true }
         );
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(200).json({ message: "Comment deleted successfully" });
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         res.status(500).json({ message: "Error deleting comment" });
+    } finally {
+        clientSession.endSession();
     }
 };
 
@@ -371,22 +365,21 @@ const addLike = async (req, res) => {
     } = req.query;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         const foundComment = await Comment.findById(id).session(clientSession);
 
         //check if comment exists
         if (!foundComment) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
         //check if authenticated user is author
         if (foundComment.authorId.equals(userId)) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(403).json({ message: "User cannot like their own comments" })
         }
 
@@ -397,14 +390,12 @@ const addLike = async (req, res) => {
         //check if comment is already liked if type is like
         if (type === "like" && foundLike) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment is already liked" });
         }
 
         //check if comment is already disliked if type is dislike
         if (type === "dislike" && foundDislike) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment is already disliked" });
         }
 
@@ -444,12 +435,12 @@ const addLike = async (req, res) => {
         //save the updated document
         await foundComment.save({ clientSession });
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(201).json({ message: `${type} added` });
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         res.status(500).json({ message: `Error adding ${type}` });
+    } finally {
+        clientSession.endSession();
     }
 };
 
@@ -466,15 +457,15 @@ const deleteLike = async (req, res) => {
     } = req.query;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         const foundComment = await Comment.findById(id).session(clientSession);
 
         //check if comment exists
         if (!foundComment) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Comment not found" });
         }
 
@@ -482,7 +473,6 @@ const deleteLike = async (req, res) => {
         //check if comment is like/dislike was found
         if (!foundLikeOrDislike) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: `${type} not found` });
         }
 
@@ -490,7 +480,6 @@ const deleteLike = async (req, res) => {
         //check if like/dislike got deleted
         if (!deletedLikeOrDislike) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(404).json({ message: "Like not deleted because it was not found" });
         }
 
@@ -505,12 +494,12 @@ const deleteLike = async (req, res) => {
 
         await foundComment.save({ clientSession })
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(200).json({ message: "Like removed" });
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         res.status(500).json({ message: "Error removing like" });
+    } finally {
+        clientSession.endSession();
     }
 };
 

@@ -261,9 +261,10 @@ const deleteUser = async (req, res) => {
     } = req.body;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         if (!password) {
             return res.status(400).json({ message: "No password field in request body", context: { label: "password" } });
         }
@@ -272,7 +273,6 @@ const deleteUser = async (req, res) => {
         const user = await User.findById(userId).session(clientSession).exec();
         if (!user) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "User not found" });
         }
 
@@ -280,7 +280,6 @@ const deleteUser = async (req, res) => {
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
         }
 
@@ -405,12 +404,12 @@ const deleteUser = async (req, res) => {
         await user.deleteOne().session(clientSession);
 
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(200).json({ message: `User ${deleteUsername} deleted` });
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         return res.status(400).json({ message: "Error deleting User" })
+    } finally {
+        clientSession.endSession();
     }
 };
 

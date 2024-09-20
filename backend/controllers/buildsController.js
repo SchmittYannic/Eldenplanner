@@ -286,9 +286,10 @@ const deleteBuild = async (req, res) => {
     const { buildId } = req.body;
 
     const clientSession = await mongoose.startSession();
-    clientSession.startTransaction();
 
     try {
+        clientSession.startTransaction();
+
         /* Confirm data */
         if (!buildId) {
             return res.status(400).json({ message: "Build ID Required" });
@@ -299,7 +300,6 @@ const deleteBuild = async (req, res) => {
 
         if (!build) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(400).json({ message: "Build not found" });
         }
 
@@ -308,7 +308,6 @@ const deleteBuild = async (req, res) => {
 
         if (!isBuildAuthor) {
             await clientSession.abortTransaction();
-            clientSession.endSession();
             return res.status(401).json({ message: "Unauthorized to delete build" });
         }
 
@@ -361,12 +360,12 @@ const deleteBuild = async (req, res) => {
         await build.deleteOne().session(clientSession);
 
         await clientSession.commitTransaction();
-        clientSession.endSession();
         res.status(200).json({ message: `Build ${deleteBuildTitle} deleted` });
     } catch (err) {
         await clientSession.abortTransaction();
-        clientSession.endSession();
         return res.status(500).json({ message: "Error deleting Build" });
+    } finally {
+        clientSession.endSession();
     }
 };
 
