@@ -17,7 +17,7 @@ const initialState: BuildsStateType = {
     pageSize: 10,
     pageIndex: 0,
     sorting: [
-        { id: "stars", desc: false }
+        { id: "stars", desc: true }
     ],
     columnFilter: [],
 };
