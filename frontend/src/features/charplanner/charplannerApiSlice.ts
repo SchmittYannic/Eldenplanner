@@ -1,7 +1,7 @@
 import { MaybeDrafted, Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
 import { apiSlice } from "src/app/api/apiSlice";
 import { changeHasGivenStar, updateStars } from "./charplannerSlice";
-import { BuildType } from "src/types";
+import { AddStarMutationParamsType, BuildType, DeleteStarMutationParamsType } from "src/types";
 
 
 export const charplannerApiSlice = apiSlice.injectEndpoints({
@@ -70,7 +70,7 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
-        addStar: builder.mutation({
+        addStar: builder.mutation<void, AddStarMutationParamsType>({
             query: ({ buildId }) => ({
                 url: `/builds/${buildId}/star`,
                 method: "POST",
@@ -104,8 +104,11 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                     dispatch(changeHasGivenStar(false));
                 }
             },
+            invalidatesTags: (_result, _error, { userId }) => [
+                { type: "User", id: userId },
+            ],
         }),
-        deleteStar: builder.mutation({
+        deleteStar: builder.mutation<void, DeleteStarMutationParamsType>({
             query: ({ buildId }) => ({
                 url: `/builds/${buildId}/star`,
                 method: "DELETE",
@@ -142,6 +145,9 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                     dispatch(changeHasGivenStar(true));
                 }
             },
+            invalidatesTags: (_result, _error, { userId }) => [
+                { type: "User", id: userId },
+            ],
         }),
     })
 });
