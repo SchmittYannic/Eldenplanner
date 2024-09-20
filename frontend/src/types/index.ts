@@ -165,6 +165,18 @@ export type DeleteCommentMutationParamsType = {
 } & GetCommentsQueryParamsType
 
 
+/* charplannerApiSlice related types */
+export type AddStarMutationParamsType = {
+    buildId: string,
+    userId: string,
+}
+
+export type DeleteStarMutationParamsType = {
+    buildId: string,
+    userId: string,
+}
+
+
 /* Popup slice related types */
 
 export const iconMapKeys = ["edit", "delete"] as const;
