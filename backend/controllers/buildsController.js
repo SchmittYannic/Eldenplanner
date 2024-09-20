@@ -320,9 +320,37 @@ const deleteBuild = async (req, res) => {
         /* if build has comments */
         if (commentsAndReplies.length !== 0) {
             // Get all ids of the comments and replies
-            const commentsAndRepliesIds = commentsAndReplies.map(comment => comment._id);
+            // Get amount of comments written by individual users
+            const {
+                commentsAndRepliesIds,
+                commentsByAuthor,
+            } = commentsAndReplies.reduce((acc, comment) => {
+                // Collect comment/reply IDs
+                acc.commentsAndRepliesIds.push(comment._id);
+
+                // Group comments by author and count
+                if (acc.commentsByAuthor[comment.authorId]) {
+                    acc.commentsByAuthor[comment.authorId]++;
+                } else {
+                    acc.commentsByAuthor[comment.authorId] = 1;
+                }
+
+                return acc;
+            }, { commentsAndRepliesIds: [], commentsByAuthor: {} });
             // Find all likes/dislikes associated with these comments and replies and delete them
             await CommentLike.deleteMany({ commentId: { $in: commentsAndRepliesIds } }).session(clientSession);
+
+            // Prepare bulk update operations for users totalComment field
+            const bulkUpdateOps = Object.entries(commentsByAuthor).map(([authorId, commentCount]) => ({
+                updateOne: {
+                    filter: { _id: authorId },
+                    update: { $inc: { totalComment: -commentCount } }
+                }
+            }));
+
+            // Execute bulk update
+            await User.bulkWrite(bulkUpdateOps, { session: clientSession });
+
             // Delete all comments and replies to build
             await Comment.deleteMany({ targetType: "Build", targetId: buildId }).session(clientSession);
         }
@@ -336,7 +364,7 @@ const deleteBuild = async (req, res) => {
         clientSession.endSession();
         res.status(200).json({ message: `Build ${deleteBuildTitle} deleted` });
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         return res.status(500).json({ message: "Error deleting Build" });
     }
