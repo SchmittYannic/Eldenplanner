@@ -217,7 +217,7 @@ const createComment = async (req, res) => {
         clientSession.endSession();
         res.status(201).json(transformedComment);
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         res.status(500).json({ message: "Error creating new comment" });
     }
@@ -274,7 +274,7 @@ const updateComment = async (req, res) => {
         clientSession.endSession();
         res.status(200).json(transformedComment);
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         res.status(500).json({ message: "Error updating comment" });
     }
@@ -352,7 +352,7 @@ const deleteComment = async (req, res) => {
         clientSession.endSession();
         res.status(200).json({ message: "Comment deleted successfully" });
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         res.status(500).json({ message: "Error deleting comment" });
     }
@@ -447,7 +447,7 @@ const addLike = async (req, res) => {
         clientSession.endSession();
         res.status(201).json({ message: `${type} added` });
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         res.status(500).json({ message: `Error adding ${type}` });
     }
@@ -508,7 +508,7 @@ const deleteLike = async (req, res) => {
         clientSession.endSession();
         res.status(200).json({ message: "Like removed" });
     } catch (err) {
-        await clientSession.commitTransaction();
+        await clientSession.abortTransaction();
         clientSession.endSession();
         res.status(500).json({ message: "Error removing like" });
     }
