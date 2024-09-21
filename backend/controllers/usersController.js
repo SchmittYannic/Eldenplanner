@@ -427,6 +427,25 @@ const deleteUser = async (req, res) => {
         // Delete all likes/dislikes placed by the user
         await CommentLike.deleteMany({ userId: userId }).session(clientSession);
 
+        // Handle all stars given by user
+        // get all stars given by user
+        const userStars = await Star.find({ userId }).session(clientSession).lean().exec();
+        if (userStars.length !== 0) {
+            // Prepare bulk update operations to decrement the stars count for each build
+            const bulkUpdateOps = userStars.map((star) => ({
+                updateOne: {
+                    filter: { _id: star.buildId },
+                    update: { $inc: { stars: -1 } }
+                }
+            }));
+
+            // Execute bulk update on the builds
+            await Build.bulkWrite(bulkUpdateOps, { session: clientSession });
+
+            // Delete all the stars given by user
+            await Star.deleteMany({ userId }).session(clientSession);
+        }
+
         const deleteUsername = user.username;
 
         // Delete the user
