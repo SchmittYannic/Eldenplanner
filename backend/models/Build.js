@@ -227,4 +227,6 @@ const buildSchema = new mongoose.Schema(
     }
 );
 
+buildSchema.index({ userId: 1 });
+
 export default mongoose.model("Build", buildSchema);

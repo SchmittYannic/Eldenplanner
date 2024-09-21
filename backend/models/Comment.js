@@ -42,4 +42,9 @@ const commentSchema = new mongoose.Schema(
     }
 );
 
+commentSchema.index({ targetId: 1, targetType: 1 });
+commentSchema.index({ parentId: 1 });
+commentSchema.index({ authorId: 1 });
+commentSchema.index({ createdAt: 1 });
+
 export default mongoose.model("Comment", commentSchema);

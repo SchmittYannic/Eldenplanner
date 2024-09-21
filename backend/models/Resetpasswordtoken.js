@@ -22,4 +22,6 @@ const resetPasswordTokenSchema = new mongoose.Schema(
     }
 );
 
+resetPasswordTokenSchema.index({ tokenIssuedAt: 1 });
+
 export default mongoose.model("Resetpasswordtokens", resetPasswordTokenSchema);

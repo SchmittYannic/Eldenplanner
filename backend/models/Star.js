@@ -15,8 +15,11 @@ const starSchema = new mongoose.Schema(
     },
     {
         timestamps: true,
-        unique: true,
     }
 );
+
+starSchema.index({ buildId: 1 });
+starSchema.index({ userId: 1 });
+starSchema.index({ buildId: 1, userId: 1 }, { unique: true });
 
 export default mongoose.model("Star", starSchema);
