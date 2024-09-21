@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import Build from "../models/Build.js";
 import Comment from "../models/Comment.js";
 import CommentLike from "../models/CommentLike.js";
+import Star from "../models/Star.js";
 import { signupschema, passwordschema, usernameschema, emailschema, mongooseidschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 import emailVerificationSender from "../middleware/emailVerificationSender.js";
@@ -359,6 +360,34 @@ const deleteUser = async (req, res) => {
                 await CommentLike.deleteMany({ commentId: { $in: commentsToUserBuildsIds } }).session(clientSession);
                 // Delete all the comments made on those builds page
                 await Comment.deleteMany({ targetType: "Build", targetId: { $in: userBuildsIds } }).session(clientSession);
+            }
+
+            // Get all stars to those builds
+            const starsToUserBuilds = await Star.find({ buildId: { $in: userBuildsIds } }).session(clientSession).lean().exec();
+            if (starsToUserBuilds.length !== 0) {
+                // Count the total number of stars each user has given
+                const userStarCounts = starsToUserBuilds.reduce((acc, star) => {
+                    if (acc[star.userId]) {
+                        acc[star.userId] += 1; // Increment star count for this user
+                    } else {
+                        acc[star.userId] = 1; // Initialize with 1 for this user
+                    }
+                    return acc;
+                }, {});
+
+                // Prepare bulk update operations to decrement users totalStarsGiven field
+                const bulkUpdateOps = Object.entries(userStarCounts).map(([userId, starCount]) => ({
+                    updateOne: {
+                        filter: { _id: userId },
+                        update: { $inc: { totalStarsGiven: -starCount } } // Decrement by total star count for each user
+                    }
+                }));
+
+                // Execute bulk update
+                await User.bulkWrite(bulkUpdateOps, { session: clientSession });
+
+                // Delete stars
+                await Star.deleteMany({ buildId: { $in: userBuildsIds } }).session(clientSession);
             }
 
             // Delete all the user's builds
