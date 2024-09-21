@@ -329,7 +329,9 @@ const deleteBuild = async (req, res) => {
         /* get all comments and replies of build */
         const commentsAndReplies = await Comment
             .find({ targetType: "Build", targetId: buildId })
-            .session(clientSession);
+            .session(clientSession)
+            .lean()
+            .exec();
 
         /* if build has comments */
         if (commentsAndReplies.length !== 0) {
@@ -367,6 +369,29 @@ const deleteBuild = async (req, res) => {
 
             // Delete all comments and replies to build
             await Comment.deleteMany({ targetType: "Build", targetId: buildId }).session(clientSession);
+        }
+
+        /* get all stars given to build */
+        const stars = await Star
+            .find({ buildId })
+            .session(clientSession)
+            .lean()
+            .exec();
+
+        if (stars.length !== 0) {
+            // Prepare bulk update operations to decrement users totalStarsGiven field
+            const bulkUpdateOps = stars.map((star) => ({
+                updateOne: {
+                    filter: { _id: star.userId },
+                    update: { $inc: { totalStarsGiven: -1 } }
+                }
+            }));
+
+            // Execute bulk update
+            await User.bulkWrite(bulkUpdateOps, { session: clientSession });
+
+            // Delete stars
+            await Star.deleteMany({ buildId }).session(clientSession);
         }
 
         const deleteBuildTitle = build.title;
