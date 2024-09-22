@@ -37,6 +37,9 @@ const Table = <T,>({
         ...tableOptions,
     });
 
+    const totalEntries = totalCount ? totalCount : table.getPrePaginationRowModel().rows.length;
+    const skeletonRowCount = table.getState().pagination.pageSize < totalEntries ? table.getState().pagination.pageSize : totalEntries !== 0 ? totalEntries : 10;
+
     return (
         <>
             {table.getAllColumns().some((column) => column.getCanFilter()) &&
@@ -184,7 +187,7 @@ const Table = <T,>({
                 <tbody>
                     {(isLoading || isError || (!data || data?.length === 0)) ?
                         <>
-                            {!isMobile && Array(table.getState().pagination.pageSize).fill(null).map((_el, idx) => (
+                            {!isMobile && Array(skeletonRowCount).fill(null).map((_el, idx) => (
                                 <tr
                                     key={idx}
                                     className="table__row build"
@@ -362,7 +365,7 @@ const Table = <T,>({
                             </option>
                         ))}
                     </select>
-                    <div>{totalCount ? totalCount : table.getPrePaginationRowModel().rows.length} Entries Total</div>
+                    <div>{totalEntries} Entries Total</div>
                 </div>
             </>
 
