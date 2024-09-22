@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Column } from "@tanstack/react-table";
 import { DebouncedInput } from "./ui";
 
 type TableNumberFilterPropsType = {
     column: Column<any, unknown>,
+    initialMinState: string | null,
+    initialMaxState: string | null,
 }
 
-const TableNumberFilter = ({ column }: TableNumberFilterPropsType) => {
+const TableNumberFilter = ({
+    column,
+    initialMinState,
+    initialMaxState,
+}: TableNumberFilterPropsType) => {
 
-    const columnFilterValue = column.getFilterValue();
-    const initialMinState = Array.isArray(columnFilterValue) ? columnFilterValue[0] : "";
-    const initialMaxState = Array.isArray(columnFilterValue) ? columnFilterValue[1] : "";
-    const [minValue, setMinValue] = useState(String(initialMinState));
-    const [maxValue, setMaxValue] = useState(String(initialMaxState));
+    const [minValue, setMinValue] = useState(initialMinState === null || initialMinState === "0" ? "" : initialMinState);
+    const [maxValue, setMaxValue] = useState(initialMaxState === null ? "" : initialMaxState);
 
     const handleMinValueChange = (value: string | number) => {
         const newMinValue = value === "" ? "0" : value;
@@ -29,6 +32,14 @@ const TableNumberFilter = ({ column }: TableNumberFilterPropsType) => {
         column.setFilterValue([newMinValue, newMaxValue]);
         setMaxValue(String(value));
     };
+
+    useEffect(() => {
+        setMinValue(initialMinState === null || initialMinState === "0" ? "" : initialMinState);
+    }, [initialMinState]);
+
+    useEffect(() => {
+        setMaxValue(initialMaxState === null ? "" : initialMaxState);
+    }, [initialMaxState]);
 
     return (
         <div className="table--filter--slot">
