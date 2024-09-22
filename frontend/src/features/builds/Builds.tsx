@@ -1,183 +1,95 @@
-import { useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    ColumnDef,
-    ColumnFiltersState,
-    functionalUpdate,
-    OnChangeFn,
-    PaginationState,
-    SortingState,
-} from "@tanstack/react-table";
-
-import { useGetBuildsQuery } from "./buildsApiSlice";
-import {
-    resetBuildsSliceState,
-    selectBuildsAuthorFilter,
-    selectBuildsColumnFilter,
-    selectBuildsField,
-    selectBuildsLevelFilter,
-    selectBuildsLimit,
-    selectBuildsOrder,
-    selectBuildsPagination,
-    selectBuildsSkip,
-    selectBuildsSorting,
-    selectBuildsStarsFilter,
-    selectBuildsTitleFilter,
-    setBuildsColumnFilter,
-    setBuildsPagination,
-    setBuildsSorting,
-} from "./buildsSlice";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { setBuildsColumnFilter, setBuildsPagination, setBuildsSorting } from "./buildsSlice";
+import { isBuildColumnType, isOrderType } from "src/utils/typeguards";
+import { useEffect } from "react";
+import { ColumnFiltersState } from "@tanstack/react-table";
 import BuildsTable from "./BuildsTable";
-import { BuildType } from "src/types";
 
 const Builds = () => {
+    const [searchParams] = useSearchParams();
+    // Extracting query parameters from the URL with default value if missing
+    const limitSearchParam = searchParams.get("limit");
+    const limitParam = limitSearchParam !== null && !Number.isNaN(Number(limitSearchParam)) && Number(limitSearchParam) >= 0
+        ? Number(limitSearchParam)
+        : 10;
+
+    const skipSearchParam = searchParams.get("skip");
+    const skipParam = skipSearchParam !== null && !Number.isNaN(Number(skipSearchParam)) && Number(skipSearchParam) >= 0
+        ? Number(skipSearchParam)
+        : 0;
+
+    const fieldSearchParam = searchParams.get("field");
+    const fieldParam = isBuildColumnType(fieldSearchParam) ? fieldSearchParam : "stars";
+
+    const orderSearchParam = searchParams.get("order");
+    const orderParam = isOrderType(orderSearchParam) ? orderSearchParam === "asc" ? false : true : true;
+
+    const titleParam = searchParams.get("title");
+    const authorParam = searchParams.get("author");
+
+    const minLevelSearchParam = searchParams.get("minLevel");
+    const minLevelParam = minLevelSearchParam !== null && !Number.isNaN(Number(minLevelSearchParam)) && Number(minLevelSearchParam) >= 0
+        ? Number(minLevelSearchParam)
+        : 0;
+
+    const maxLevelSearchParam = searchParams.get("maxLevel");
+    const maxLevelParam = maxLevelSearchParam !== null && !Number.isNaN(Number(maxLevelSearchParam)) && Number(maxLevelSearchParam) >= 0
+        ? Number(maxLevelSearchParam)
+        : null;
+
+    const minStarsSearchParam = searchParams.get("minStars");
+    const minStarsParam = minStarsSearchParam !== null && !Number.isNaN(Number(minStarsSearchParam)) && Number(minStarsSearchParam) >= 0
+        ? Number(minStarsSearchParam)
+        : 0;
+
+    const maxStarsSearchParam = searchParams.get("maxStars");
+    const maxStarsParam = maxStarsSearchParam !== null && !Number.isNaN(Number(maxStarsSearchParam)) && Number(maxStarsSearchParam) >= 0
+        ? Number(maxStarsSearchParam)
+        : null;
+
+    const columnsFilter: ColumnFiltersState = [];
+
+    if (titleParam) {
+        columnsFilter.push({
+            id: "title",
+            value: titleParam
+        });
+    }
+
+    if (authorParam) {
+        columnsFilter.push({
+            id: "author",
+            value: authorParam
+        });
+    }
+
+    columnsFilter.push({
+        id: "level",
+        value: [
+            String(minLevelParam),
+            maxLevelParam === null ? null : String(maxLevelParam)
+        ]
+    });
+
+    columnsFilter.push({
+        id: "stars",
+        value: [
+            String(minStarsParam),
+            maxStarsParam === null ? null : String(maxStarsParam)
+        ]
+    });
 
     const dispatch = useDispatch();
 
-    const limit = useSelector(selectBuildsLimit);
-    const skip = useSelector(selectBuildsSkip);
-    const pagination = useSelector(selectBuildsPagination);
-    const OnPaginationChange: OnChangeFn<PaginationState> = (updaterFunction) => {
-        const newValue = functionalUpdate(updaterFunction, pagination);
-        dispatch(setBuildsPagination(newValue));
-    };
-    const sorting = useSelector(selectBuildsSorting);
-    const onSortingChange: OnChangeFn<SortingState> = (updaterFunction) => {
-        const newValue = functionalUpdate(updaterFunction, sorting);
-        dispatch(setBuildsSorting(newValue));
-    }
-    const order = useSelector(selectBuildsOrder);
-    const field = useSelector(selectBuildsField);
-    const columnFilter = useSelector(selectBuildsColumnFilter);
-    const onColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (updaterFunction) => {
-        const newValue = functionalUpdate(updaterFunction, columnFilter);
-        dispatch(setBuildsColumnFilter(newValue));
-    };
-
-    const title = useSelector(selectBuildsTitleFilter);
-    const author = useSelector(selectBuildsAuthorFilter);
-    const { minLevel, maxLevel } = useSelector(selectBuildsLevelFilter);
-    const { minStars, maxStars } = useSelector(selectBuildsStarsFilter);
-
-    const {
-        data,
-        isFetching,
-        isError,
-    } = useGetBuildsQuery({
-        limit,
-        skip,
-        field,
-        order,
-        title,
-        author,
-        minLevel,
-        maxLevel,
-        minStars,
-        maxStars,
-    });
-
-    const columns = useMemo<ColumnDef<BuildType, any>[]>(
-        () => [
-            {
-                accessorFn: row => row.title,
-                id: "title",
-                cell: info => {
-                    const buildId = info.row.original.id;
-                    return (
-                        <Link
-                            className="link"
-                            to={`/charplanner/${buildId}`}
-                            title="open build in charplanner"
-                        >
-                            {info.getValue()}
-                        </Link>
-                    )
-                },
-                header: () => <span>Title</span>,
-            },
-            {
-                accessorFn: row => row.author,
-                id: "author",
-                cell: info => {
-                    const authorId = info.row.original.authorId;
-                    if (info.getValue() === null) {
-                        return (
-                            <>
-                                Account deleted
-                            </>
-                        )
-                    } else {
-                        return (
-                            <Link
-                                className="link"
-                                to={`/user/${authorId}`}
-                                title="open profile of build author"
-                            >
-                                {info.getValue()}
-                            </Link>
-                        )
-                    }
-                },
-                header: () => <span>Author</span>,
-            },
-            {
-                accessorFn: row => row.level,
-                id: "level",
-                cell: info => info.getValue(),
-                header: () => <span>Level</span>,
-            },
-            {
-                accessorFn: row => row.stars,
-                id: "stars",
-                cell: info => info.getValue(),
-                header: () => <span>Stars</span>,
-            },
-            {
-                accessorFn: row => row.createdAt,
-                id: "createdAt",
-                cell: info => {
-                    const createdDate = new Date(info.getValue());
-                    return createdDate.toLocaleDateString()
-                },
-                header: () => <span>Created</span>,
-                enableColumnFilter: false,
-            },
-            {
-                accessorFn: row => row.updatedAt,
-                id: "updatedAt",
-                cell: info => {
-                    const createdDate = new Date(info.row.original.createdAt);
-                    const modifiedDate = new Date(info.getValue());
-                    const isDateEqual = createdDate.valueOf() === modifiedDate.valueOf();
-                    return !isDateEqual ? modifiedDate.toLocaleDateString() : ""
-                },
-                header: () => <span>Modified</span>,
-                enableColumnFilter: false,
-            },
-        ], []
-    );
-
     useEffect(() => {
-        return () => {
-            dispatch(resetBuildsSliceState());
-        }
+        dispatch(setBuildsPagination({ pageSize: limitParam, pageIndex: skipParam > 0 ? skipParam / limitParam : 0 }));
+        dispatch(setBuildsSorting([{ id: fieldParam, desc: orderParam }]));
+        dispatch(setBuildsColumnFilter(columnsFilter));
     }, []);
 
     return (
-        <BuildsTable
-            cols={columns}
-            data={data?.builds}
-            loading={isFetching}
-            error={isError}
-            onPaginationChange={OnPaginationChange}
-            onSortingChange={onSortingChange}
-            onColumnFiltersChange={onColumnFiltersChange}
-            totalCount={data ? data.totalBuilds : 0}
-            pageCount={data ? Math.ceil(data.totalBuilds / limit) : 0}
-            pagination={pagination}
-            sorting={sorting}
-        />
+        <BuildsTable />
     )
 }
 
