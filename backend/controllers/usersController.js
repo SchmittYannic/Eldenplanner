@@ -462,7 +462,7 @@ const deleteUser = async (req, res) => {
 };
 
 // @desc Get all builds of user by id
-// @route GET /users/:id
+// @route GET /users/:id/builds
 // @access Public
 const getAllBuildsOfUser = async (req, res) => {
     const {
@@ -509,10 +509,80 @@ const getAllBuildsOfUser = async (req, res) => {
     }
 }
 
+// @desc Get all builds starred by user with id
+// @route GET /users/:id/stars
+// @access Public
+const getAllStarredBuildsOfUser = async (req, res) => {
+    const {
+        id
+    } = req.params;
+
+    try {
+        if (!id) {
+            return res.status(400).json({ message: "Missing id parameter" });
+        }
+
+        await mongooseidschema.required().validateAsync(id);
+
+        const user = await User.findById(id).lean().exec();
+
+        if (!user) {
+            return res.status(400).json({ message: "No user found" });
+        }
+
+        const userStarsBuildIds = await Star.distinct("buildId", { userId: id }).exec();
+
+        // Execute the query
+        const starredBuilds = await Build.aggregate([
+            // Match builds by their _id using the userStarsBuildIds array
+            {
+                $match: { _id: { $in: userStarsBuildIds } }
+            },
+            // Perform the lookup to fetch the user details
+            {
+                $lookup: {
+                    from: "users", // Name of the user collection
+                    localField: "user", // Field in Build collection
+                    foreignField: "_id", // Field in User collection
+                    as: "userDetails"
+                }
+            },
+            { $unwind: "$userDetails" }, // Unwind the userDetails array to have a single document for sorting
+            // Project the necessary fields
+            {
+                $project: {
+                    _id: 1,
+                    id: "$_id",
+                    title: 1,
+                    general: 1,
+                    stats: 1,
+                    armament: 1,
+                    talisman: 1,
+                    armor: 1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    level: 1,
+                    stars: 1,
+                    "authorId": "$userDetails._id",
+                    "author": "$userDetails.username",
+                }
+            },
+        ]);
+
+        res.status(200).json({
+            builds: starredBuilds,
+            totalBuilds: starredBuilds.length,
+        });
+    } catch (err) {
+        return res.status(500).json({ message: "Error retrieving starred builds of user" })
+    }
+}
+
 export {
     getUserById,
     createNewUser,
     updateUser,
     deleteUser,
     getAllBuildsOfUser,
+    getAllStarredBuildsOfUser,
 };
