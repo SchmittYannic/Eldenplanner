@@ -13,6 +13,8 @@ import {
     OrderOptions,
     ViewBuildSettingType,
     ViewBuildSettingOptions,
+    SortCommentsType,
+    sortOptions,
 } from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
@@ -117,6 +119,10 @@ const isOrderType = (value: any): value is OrderType => {
     return OrderOptions.includes(value);
 }
 
+const isSortCommentsType = (value: any): value is SortCommentsType => {
+    return sortOptions.includes(value);
+}
+
 const isViewBuildSettingType = (value: any): value is ViewBuildSettingType => {
     return ViewBuildSettingOptions.includes(value);
 }
@@ -130,5 +136,6 @@ export {
     isFilterColumnValueArray,
     isBuildColumnType,
     isOrderType,
+    isSortCommentsType,
     isViewBuildSettingType,
 }
