@@ -1,9 +1,11 @@
 import { ColumnDef, flexRender, TableOptions, useReactTable } from "@tanstack/react-table"
+
 import TableNumberFilter from "./TableNumberFilter"
 import TableTextFilter from "./TableTextFilter"
 import { MdArrowDownward, MdArrowUpward, MdSwapVert } from "./icons"
 import { DebouncedInput } from "./ui"
 import { capitalizeFirstLetter } from "src/utils/functions"
+import { isFilterColumnValueArray } from "src/utils/typeguards"
 
 
 type TablePropsType<T> = Omit<TableOptions<T>, "data" | "columns"> & {
@@ -44,17 +46,29 @@ const Table = <T,>({
                             table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
                                 if (header.column.getCanFilter()) {
                                     if (numberColumns.includes(header.column.id)) {
+
+                                        const columnFilterValue = header.column.getFilterValue();
+                                        const initialMinState = isFilterColumnValueArray(columnFilterValue) ? columnFilterValue[0] : "";
+                                        const initialMaxState = isFilterColumnValueArray(columnFilterValue) ? columnFilterValue[1] : "";
+
                                         return (
                                             <TableNumberFilter
                                                 key={`filter` + header.column.id}
                                                 column={header.column}
+                                                initialMinState={initialMinState}
+                                                initialMaxState={initialMaxState}
                                             />
                                         )
                                     } else {
+
+                                        const columnFilterValue = header.column.getFilterValue();
+                                        const initialInputValue = typeof columnFilterValue === "string" ? columnFilterValue : "";
+
                                         return (
                                             <TableTextFilter
                                                 key={`filter` + header.column.id}
                                                 column={header.column}
+                                                initialInputValue={initialInputValue}
                                             />
                                         )
                                     }
