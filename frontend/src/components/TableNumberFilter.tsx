@@ -15,7 +15,7 @@ const TableNumberFilter = ({ column }: TableNumberFilterPropsType) => {
     const [maxValue, setMaxValue] = useState(String(initialMaxState));
 
     const handleMinValueChange = (value: string | number) => {
-        const newMinValue = value === "" ? 0 : value;
+        const newMinValue = value === "" ? "0" : value;
         const newMaxValue = maxValue === "" ? null : maxValue;
 
         column.setFilterValue([newMinValue, newMaxValue]);
@@ -23,7 +23,7 @@ const TableNumberFilter = ({ column }: TableNumberFilterPropsType) => {
     };
 
     const handleMaxValueChange = (value: string | number) => {
-        const newMinValue = minValue === "" ? 0 : minValue;
+        const newMinValue = minValue === "" ? "0" : minValue;
         const newMaxValue = value === "" ? null : value;
 
         column.setFilterValue([newMinValue, newMaxValue]);
