@@ -11,6 +11,8 @@ import {
     BuildColumns,
     OrderType,
     OrderOptions,
+    ViewBuildSettingType,
+    ViewBuildSettingOptions,
 } from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
@@ -115,6 +117,10 @@ const isOrderType = (value: any): value is OrderType => {
     return OrderOptions.includes(value);
 }
 
+const isViewBuildSettingType = (value: any): value is ViewBuildSettingType => {
+    return ViewBuildSettingOptions.includes(value);
+}
+
 export {
     isFieldName,
     isCustomFormError,
@@ -124,4 +130,5 @@ export {
     isFilterColumnValueArray,
     isBuildColumnType,
     isOrderType,
+    isViewBuildSettingType,
 }
