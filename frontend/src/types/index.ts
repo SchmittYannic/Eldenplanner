@@ -74,6 +74,7 @@ export type UserType = {
     createdAt: string
     avatarUrl: string
     totalComments: number
+    totalStarsGiven: number
 };
 
 export type GetBuildsOfUserResponseType = {
@@ -85,8 +86,8 @@ export type GetBuildsOfUserResponseType = {
 
 /* commentsApiSlice related types */
 
-const NumericOperationOption = ["increment", "decrement"];
-export type NumericOperationType = typeof NumericOperationOption[number];
+const NumericOperationOptions = ["increment", "decrement"] as const;
+export type NumericOperationType = typeof NumericOperationOptions[number];
 
 export const TargetTypeOptions = ["Build", "User"] as const
 export type TargetTypeType = typeof TargetTypeOptions[number];
@@ -162,6 +163,18 @@ export type DeleteCommentMutationParamsType = {
     commentId: string,
     authorId: string,
 } & GetCommentsQueryParamsType
+
+
+/* charplannerApiSlice related types */
+export type AddStarMutationParamsType = {
+    buildId: string,
+    userId: string,
+}
+
+export type DeleteStarMutationParamsType = {
+    buildId: string,
+    userId: string,
+}
 
 
 /* Popup slice related types */

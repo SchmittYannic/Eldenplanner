@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "src/app/store";
-import { BuildType } from "src/types";
+import { BuildType, NumericOperationType } from "src/types";
 
 export type GeneralStateType = {
     charactername: string,
@@ -54,6 +54,8 @@ export type CharplannerStateType = {
     buildId: null | string,
     title: null | string,
     authorId: null | string,
+    stars: null | number,
+    hasGivenStar: boolean,
     general: GeneralStateType,
     stats: StatsStateType,
     armament: ArmamentStateType,
@@ -65,6 +67,8 @@ const initialState: CharplannerStateType = {
     buildId: null,
     title: null,
     authorId: null,
+    stars: null,
+    hasGivenStar: false,
     general: {
         charactername: "Tarnished",
         startingclass: "Hero",
@@ -142,6 +146,8 @@ export const charplannerSlice = createSlice({
             state.buildId = initialState.buildId;
             state.title = initialState.title;
             state.authorId = initialState.authorId;
+            state.stars = initialState.stars;
+            state.hasGivenStar = initialState.hasGivenStar;
             state.general = initialState.general;
             state.stats = initialState.stats;
             state.armament = initialState.armament;
@@ -153,6 +159,8 @@ export const charplannerSlice = createSlice({
                 buildId,
                 title,
                 authorId,
+                stars,
+                hasGivenStar,
                 general,
                 stats,
                 armament,
@@ -162,11 +170,25 @@ export const charplannerSlice = createSlice({
             state.buildId = buildId;
             state.title = title;
             state.authorId = authorId;
+            state.stars = stars;
+            state.hasGivenStar = hasGivenStar;
             state.general = general;
             state.stats = stats;
             state.armament = armament;
             state.talisman = talisman;
             state.armor = armor;
+        },
+        updateStars: (state, { payload }: PayloadAction<NumericOperationType>) => {
+            if (state.stars === null) return
+            if (payload === "increment") {
+                state.stars += 1;
+            } else {
+                if (state.stars <= 0) return
+                state.stars -= 1;
+            }
+        },
+        changeHasGivenStar: (state, { payload }: PayloadAction<boolean>) => {
+            state.hasGivenStar = payload;
         },
 
         /* general */
@@ -337,6 +359,8 @@ export const selectCharplannerData = (state: RootState): CharplannerStateType =>
 export const selectBuildId = (state: RootState): string | null => state.charplanner.buildId;
 export const selectTitle = (state: RootState): string | null => state.charplanner.title;
 export const selectAuthorId = (state: RootState): string | null => state.charplanner.authorId;
+export const selectStars = (state: RootState): number | null => state.charplanner.stars;
+export const selectHasGivenStar = (state: RootState): boolean => state.charplanner.hasGivenStar;
 
 export const selectCharactername = (state: RootState): string => state.charplanner.general.charactername;
 export const selectStartingclass = (state: RootState): string => state.charplanner.general.startingclass;
@@ -461,6 +485,8 @@ export const armamentSelectorMap: ArmamentSelectorMapType = {
 export const {
     resetCharplanner,
     loadBuild,
+    updateStars,
+    changeHasGivenStar,
     changeCharactername,
     changeStartingclass,
     changeGreatrune,
@@ -570,7 +596,7 @@ export const talismanReduceractionsMap: TalismanReduceractionsMapType = {
 
 export const selectGetBuildByIdCachedData = (state: RootState, buildId: string) => {
     const cacheKey = `getBuildById("${buildId}")`;
-    return state.api.queries[cacheKey]?.data as BuildType ?? null;
+    return state.api.queries[cacheKey]?.data as BuildType & { hasGivenStar: boolean } ?? null;
 };
 
 export default charplannerSlice.reducer;

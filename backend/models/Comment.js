@@ -27,19 +27,42 @@ const commentSchema = new mongoose.Schema(
         totalReplies: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "totalReplies cannot be negative"
+            }
         },
         likes: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "likes cannot be negative"
+            }
         },
         dislikes: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "dislikes cannot be negative"
+            }
         },
     },
     {
         timestamps: true
     }
 );
+
+commentSchema.index({ targetId: 1, targetType: 1 });
+commentSchema.index({ parentId: 1 });
+commentSchema.index({ authorId: 1 });
+commentSchema.index({ createdAt: 1 });
 
 export default mongoose.model("Comment", commentSchema);

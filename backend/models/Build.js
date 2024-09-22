@@ -18,6 +18,12 @@ const buildSchema = new mongoose.Schema(
         stars: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "stars cannot be negative"
+            }
         },
         general: {
             charactername: {
@@ -226,5 +232,7 @@ const buildSchema = new mongoose.Schema(
         timestamps: true
     }
 );
+
+buildSchema.index({ userId: 1 });
 
 export default mongoose.model("Build", buildSchema);
