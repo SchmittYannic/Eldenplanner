@@ -86,6 +86,11 @@ export type GetBuildsOfUserResponseType = {
     totalStars: number,
 }
 
+export type GetAllStarredBuildsOfUserResponseType = {
+    builds: BuildType[],
+    totalBuilds: number,
+}
+
 
 /* commentsApiSlice related types */
 
@@ -178,6 +183,12 @@ export type DeleteStarMutationParamsType = {
     buildId: string,
     userId: string,
 }
+
+
+/* UserPage related types */
+
+export const ViewBuildSettingOptions = ["Created", "Starred"] as const;
+export type ViewBuildSettingType = typeof ViewBuildSettingOptions[number];
 
 
 /* Popup slice related types */
