@@ -1,5 +1,5 @@
 import { ReactElement, Suspense, lazy, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
@@ -11,6 +11,7 @@ import UserBuilds from "./UserBuilds";
 import UserStarredBuilds from "./UserStarredBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader, CustomSelect } from "src/components/ui";
+import { isViewBuildSettingType } from "src/utils/typeguards";
 import { UserType, ViewBuildSettingOptions, ViewBuildSettingType } from "src/types";
 import "src/features/users/UserPage.scss";
 
@@ -21,6 +22,10 @@ const UserPage = (): ReactElement => {
     const navigate = useNavigate();
     const param = useParams();
     const profileUserId = param?.userId;
+    const [searchParams] = useSearchParams();
+    const ViewBuildSettingSearchParam = searchParams.get("ViewBuildSetting");
+    const initViewBuildSetting = isViewBuildSettingType(ViewBuildSettingSearchParam) ? ViewBuildSettingSearchParam : "Created";
+
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
@@ -40,7 +45,7 @@ const UserPage = (): ReactElement => {
     });
 
     const [user, setUser] = useState<UserType>();
-    const [viewBuildSetting, setViewBuildSetting] = useState<ViewBuildSettingType>("Created");
+    const [viewBuildSetting, setViewBuildSetting] = useState<ViewBuildSettingType>(initViewBuildSetting);
 
     const isOwnProfile = user?.id === authUserId;
 
@@ -81,6 +86,16 @@ const UserPage = (): ReactElement => {
         if (!isError) return
         navigate("/");
     }, [isError]);
+
+    useEffect(() => {
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        newSearchParams.set("ViewBuildSetting", viewBuildSetting);
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+    }, [viewBuildSetting]);
 
     if (isLoading) {
         return (
