@@ -278,57 +278,6 @@
     }
 }
 
-.selectsorttype {
-    padding: 0;
-    width: fit-content;
-
-    label {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-
-        input {
-            width: 100px;
-            border-style: solid;
-            margin-left: 8px;
-            outline: none;
-            border-radius: v.$border-radius;
-
-            &:focus {
-                border-style: solid;
-                border-color: hsl(v.$muted-foreground);
-                border-radius: v.$border-radius;
-            }
-
-            &:not(:placeholder-shown)+p {
-                top: 0;
-                font-size: v.$font-size-normal;
-                color: hsl(v.$accent-foreground);
-            }
-        }
-
-        p {
-            position: inherit;
-        }
-    }
-
-    .ddBtn-container {
-        top: .5rem;
-    }
-
-    .optionslist {
-        left: calc(100% - 100px);
-        right: 0;
-        top: 40px;
-        overflow-y: auto;
-        border-radius: v.$border-radius;
-    }
-
-    .filter-substring {
-        background-color: transparent;
-    }
-}
-
 @media only screen and (max-width: 480px) {
     .CommentSection .comment-section-title {
         flex-direction: column;
