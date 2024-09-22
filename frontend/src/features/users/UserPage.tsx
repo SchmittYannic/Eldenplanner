@@ -8,9 +8,10 @@ import useAuth from "src/hooks/useAuth";
 import useIsInView from "src/hooks/useIsInView";
 import useWindowSize from "src/hooks/useWindowSize";
 import UserBuilds from "./UserBuilds";
+import UserStarredBuilds from "./UserStarredBuilds";
 import EditUser from "./EditUser";
-import { ClipLoader } from "src/components/ui";
-import { UserType } from "src/types";
+import { ClipLoader, CustomSelect } from "src/components/ui";
+import { UserType, ViewBuildSettingOptions, ViewBuildSettingType } from "src/types";
 import "src/features/users/UserPage.scss";
 
 const CommentSection = lazy(() => import("src/features/comments/CommentSection" /* webpackChunkName: "CommentSection" */));
@@ -39,6 +40,7 @@ const UserPage = (): ReactElement => {
     });
 
     const [user, setUser] = useState<UserType>();
+    const [viewBuildSetting, setViewBuildSetting] = useState<ViewBuildSettingType>("Created");
 
     const isOwnProfile = user?.id === authUserId;
 
@@ -192,11 +194,21 @@ const UserPage = (): ReactElement => {
                 )}
 
                 <section className="section-userpage tablesection">
-                    <h2>Created Builds</h2>
-                    <div className="divider-4" />
-                    <div className="divider-2" />
+                    <div className="section-title">
+                        <h2>Builds Overview</h2>
+                        <CustomSelect
+                            id="selectTableContent"
+                            className="customselect style2"
+                            label="View Builds:"
+                            value={viewBuildSetting}
+                            setValue={setViewBuildSetting}
+                            options={[...ViewBuildSettingOptions]}
+                            optionScrollInView={false}
+                        />
+                    </div>
                     <div className="userpage__userbuilds">
-                        <UserBuilds author={user} />
+                        {viewBuildSetting === "Created" && <UserBuilds author={user} />}
+                        {viewBuildSetting === "Starred" && <UserStarredBuilds user={user} />}
                     </div>
                 </section>
 
