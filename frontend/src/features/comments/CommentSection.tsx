@@ -194,7 +194,7 @@ const CommentSection = ({
                     <h2>{totalComments} Comments</h2>
                     <CustomSelect
                         id="sortComments"
-                        className="customselect selectsorttype"
+                        className="customselect style2"
                         label="Sort by:"
                         value={sort}
                         setValue={onSortChanged}
