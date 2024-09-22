@@ -15,7 +15,7 @@ import { useGetBuildsQuery } from "./buildsApiSlice";
 import {
     resetBuildsSliceState,
     selectBuildsAuthorFilter,
-    selectBuildsColumnFilter,
+    selectBuildsColumnFilters,
     selectBuildsField,
     selectBuildsLevelFilter,
     selectBuildsLimit,
@@ -25,7 +25,7 @@ import {
     selectBuildsSorting,
     selectBuildsStarsFilter,
     selectBuildsTitleFilter,
-    setBuildsColumnFilter,
+    setBuildsColumnFilters,
     setBuildsPagination,
     setBuildsSorting,
 } from "./buildsSlice";
@@ -56,10 +56,10 @@ const BuildsTable = () => {
     }
     const order = useSelector(selectBuildsOrder);
     const field = useSelector(selectBuildsField);
-    const columnFilter = useSelector(selectBuildsColumnFilter);
+    const columnFilters = useSelector(selectBuildsColumnFilters);
     const onColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (updaterFunction) => {
-        const newValue = functionalUpdate(updaterFunction, columnFilter);
-        dispatch(setBuildsColumnFilter(newValue));
+        const newValue = functionalUpdate(updaterFunction, columnFilters);
+        dispatch(setBuildsColumnFilters(newValue));
     };
 
     const title = useSelector(selectBuildsTitleFilter);
@@ -180,19 +180,27 @@ const BuildsTable = () => {
         newSearchParams.set("skip", String(skip));
         newSearchParams.set("field", field);
         newSearchParams.set("order", order);
-        if (title) {
-            newSearchParams.set("title", title);
-        }
-        if (author) {
-            newSearchParams.set("author", author);
-        }
         newSearchParams.set("minLevel", minLevel);
         if (maxLevel) {
             newSearchParams.set("maxLevel", maxLevel);
+        } else {
+            newSearchParams.delete("maxLevel");
         }
         newSearchParams.set("minStars", minStars);
         if (maxStars) {
             newSearchParams.set("maxStars", maxStars);
+        } else {
+            newSearchParams.delete("maxStars");
+        }
+        if (title) {
+            newSearchParams.set("title", title);
+        } else {
+            newSearchParams.delete("title");
+        }
+        if (author) {
+            newSearchParams.set("author", author);
+        } else {
+            newSearchParams.delete("author");
         }
 
         navigate(`?${newSearchParams.toString()}`, { replace: true });
@@ -225,7 +233,7 @@ const BuildsTable = () => {
                 onPaginationChange={onPaginationChange}
                 onSortingChange={onSortingChange}
                 onColumnFiltersChange={onColumnFiltersChange}
-                state={{ pagination, sorting }}
+                state={{ pagination, sorting, columnFilters }}
                 totalCount={data ? data.totalBuilds : 0}
                 pageCount={data ? Math.ceil(data.totalBuilds / limit) : 0}
                 isLoading={isFetching}
