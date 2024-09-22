@@ -1,6 +1,6 @@
 import { apiSlice } from "src/app/api/apiSlice"
 import { RootState } from "src/app/store";
-import { apiSliceTagType, GetBuildsOfUserResponseType, UserType } from "src/types";
+import { apiSliceTagType, GetAllStarredBuildsOfUserResponseType, GetBuildsOfUserResponseType, UserType } from "src/types";
 
 
 export const usersApiSlice = apiSlice.injectEndpoints({
@@ -87,6 +87,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     ]
                     : [{ type: "Build", id: "LIST" }],
         }),
+        getAllStarredBuildsOfUser: builder.query<GetAllStarredBuildsOfUserResponseType, { id: string }>({
+            query: ({ id }) => ({
+                url: `/users/${id}/stars`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                        ...result.builds.map(({ id }): { type: apiSliceTagType, id: string } => ({ type: "Build", id })),
+                        { type: "Build", id: "LIST" },
+                    ]
+                    : [{ type: "Build", id: "LIST" }],
+        }),
     }),
 })
 
@@ -96,6 +111,7 @@ export const {
     useUpdateUserMutation,
     useDeleteUserMutation,
     useGetBuildsOfUserQuery,
+    useGetAllStarredBuildsOfUserQuery,
 } = usersApiSlice;
 
 export const selectGetUserByIdCachedData = (state: RootState, userId: string) => {
