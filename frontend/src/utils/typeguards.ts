@@ -7,6 +7,10 @@ import {
     TargetTypeType,
     TargetTypeOptions,
     CommentDeletePropsType,
+    BuildColumnType,
+    BuildColumns,
+    OrderType,
+    OrderOptions,
 } from "src/types";
 
 function isFieldName<T extends object>(key: number | string | symbol, formData: T): key is keyof T {
@@ -103,6 +107,14 @@ const isFilterColumnValueArray = (value: unknown): value is [string | null, stri
     );
 }
 
+const isBuildColumnType = (value: any): value is BuildColumnType => {
+    return BuildColumns.includes(value);
+}
+
+const isOrderType = (value: any): value is OrderType => {
+    return OrderOptions.includes(value);
+}
+
 export {
     isFieldName,
     isCustomFormError,
@@ -110,4 +122,6 @@ export {
     isCommentOptionlistPropsType,
     isCommentDeletePropsType,
     isFilterColumnValueArray,
+    isBuildColumnType,
+    isOrderType,
 }
