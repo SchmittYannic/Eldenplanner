@@ -58,6 +58,15 @@
     .tablesection {
         margin-top: 24px;
         width: 100%;
+
+        .section-title {
+            display: flex;
+            margin-bottom: 24px;
+
+            h2 {
+                margin-right: 32px;
+            }
+        }
     }
 }
 
@@ -74,6 +83,17 @@
 
         .actionsection {
             align-self: flex-start;
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .main-userpage .tablesection .section-title {
+        flex-direction: column;
+
+        h2 {
+            margin-right: 0;
+            margin-bottom: 16px;
         }
     }
 }
