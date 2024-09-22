@@ -4,6 +4,8 @@ import { CommentType, GetCommentsResponseType, NumericOperationType, SortComment
 import { commentsApiSlice } from "./commentsApiSlice";
 import { mergeSortedArrays } from "src/utils/functions";
 
+const initLimit = Number(import.meta.env.VITE_COMMENT_SECTION_FETCH_LIMIT);
+
 interface CommentsStateType<CommentId extends string> {
     totalComments: number;
     commentIds: CommentId[];
@@ -29,7 +31,7 @@ export const initialState: CommentsStateType<string> = {
     hasMore: true,
     lastFetchedTimestamp: "",
     sort: "new",
-    limit: 2,
+    limit: !Number.isNaN(initLimit) ? initLimit : 15,
     isEditMode: null,
     isReplyMode: null,
 };
