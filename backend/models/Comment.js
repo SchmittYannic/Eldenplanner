@@ -27,14 +27,32 @@ const commentSchema = new mongoose.Schema(
         totalReplies: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "totalReplies cannot be negative"
+            }
         },
         likes: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "likes cannot be negative"
+            }
         },
         dislikes: {
             type: Number,
             default: 0,
+            validate: {
+                validator: function (value) {
+                    return value >= 0;
+                },
+                message: "dislikes cannot be negative"
+            }
         },
     },
     {
