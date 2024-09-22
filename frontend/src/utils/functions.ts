@@ -152,6 +152,7 @@ const mergeSortedArrays = <CommentId extends string>(
     isAscending: boolean = true,
 ): CommentId[] => {
     let mergedIds: CommentId[] = [];
+    let addedIds = new Set<CommentId>(); // Set to track unique IDs
     let i = 0; // Pointer for cacheIds
     let j = 0; // Pointer for fetchedIds
 
@@ -163,19 +164,31 @@ const mergeSortedArrays = <CommentId extends string>(
         if (isAscending) {
             // Ascending: Oldest to Newest
             if (existingDate <= fetchedDate) {
-                mergedIds.push(cacheIds[i]);
+                if (!addedIds.has(cacheIds[i])) {
+                    mergedIds.push(cacheIds[i]);
+                    addedIds.add(cacheIds[i]);
+                }
                 i++;
             } else {
-                mergedIds.push(fetchedIds[j]);
+                if (!addedIds.has(fetchedIds[j])) {
+                    mergedIds.push(fetchedIds[j]);
+                    addedIds.add(fetchedIds[j]);
+                }
                 j++;
             }
         } else {
             // Descending: Newest to Oldest
             if (existingDate >= fetchedDate) {
-                mergedIds.push(cacheIds[i]);
+                if (!addedIds.has(cacheIds[i])) {
+                    mergedIds.push(cacheIds[i]);
+                    addedIds.add(cacheIds[i]);
+                }
                 i++;
             } else {
-                mergedIds.push(fetchedIds[j]);
+                if (!addedIds.has(fetchedIds[j])) {
+                    mergedIds.push(fetchedIds[j]);
+                    addedIds.add(fetchedIds[j]);
+                }
                 j++;
             }
         }
@@ -183,13 +196,19 @@ const mergeSortedArrays = <CommentId extends string>(
 
     // Append any remaining items from cacheIds
     while (i < cacheIds.length) {
-        mergedIds.push(cacheIds[i]);
+        if (!addedIds.has(cacheIds[i])) {
+            mergedIds.push(cacheIds[i]);
+            addedIds.add(cacheIds[i]);
+        }
         i++;
     }
 
     // Append any remaining items from fetchedIds
     while (j < fetchedIds.length) {
-        mergedIds.push(fetchedIds[j]);
+        if (!addedIds.has(fetchedIds[j])) {
+            mergedIds.push(fetchedIds[j]);
+            addedIds.add(fetchedIds[j]);
+        }
         j++;
     }
 
