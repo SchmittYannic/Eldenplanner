@@ -1,60 +1,221 @@
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, OnChangeFn, PaginationState, SortingState, useReactTable } from "@tanstack/react-table";
+import { useEffect, useMemo } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    functionalUpdate,
+    getCoreRowModel,
+    OnChangeFn,
+    PaginationState,
+    SortingState,
+} from "@tanstack/react-table";
 
+import { useGetBuildsQuery } from "./buildsApiSlice";
+import {
+    resetBuildsSliceState,
+    selectBuildsAuthorFilter,
+    selectBuildsColumnFilters,
+    selectBuildsField,
+    selectBuildsLevelFilter,
+    selectBuildsLimit,
+    selectBuildsOrder,
+    selectBuildsPagination,
+    selectBuildsSkip,
+    selectBuildsSorting,
+    selectBuildsStarsFilter,
+    selectBuildsTitleFilter,
+    setBuildsColumnFilters,
+    setBuildsPagination,
+    setBuildsSorting,
+} from "./buildsSlice";
 import useWindowSize from "src/hooks/useWindowSize";
-import TableNumberFilter from "src/components/TableNumberFilter";
-import TableTextFilter from "src/components/TableTextFilter";
-import { DebouncedInput } from "src/components/ui";
-import { MdSwapVert, MdArrowDownward, MdArrowUpward } from "src/components/icons";
+import Table from "src/components/Table";
 import { BuildType } from "src/types";
-import { capitalizeFirstLetter } from "src/utils/functions";
 
-type BuildsTablePropsType = {
-    cols: ColumnDef<BuildType>[],
-    data?: BuildType[],
-    loading: boolean,
-    error: boolean,
-    onPaginationChange: OnChangeFn<PaginationState>,
-    onSortingChange: OnChangeFn<SortingState>,
-    onColumnFiltersChange: OnChangeFn<ColumnFiltersState>
-    totalCount: number,
-    pageCount: number,
-    pagination: {
-        pageSize: number,
-        pageIndex: number,
-    },
-    sorting: SortingState,
-}
 
-const BuildsTable = ({
-    cols,
-    data,
-    loading,
-    error,
-    onPaginationChange,
-    onSortingChange,
-    onColumnFiltersChange,
-    totalCount,
-    pageCount,
-    pagination,
-    sorting,
-}: BuildsTablePropsType) => {
+const BuildsTable = () => {
 
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const windowSize = useWindowSize();
     const isMobile = windowSize.width && windowSize.width < 850;
 
-    const table = useReactTable({
-        data: data ? data : [],
-        columns: cols,
-        getCoreRowModel: getCoreRowModel(),
-        manualPagination: true,
-        manualSorting: true,
-        manualFiltering: true,
-        onPaginationChange,
-        onSortingChange,
-        onColumnFiltersChange,
-        state: { pagination, sorting },
-        pageCount,
+    const limit = useSelector(selectBuildsLimit);
+    const skip = useSelector(selectBuildsSkip);
+    const pagination = useSelector(selectBuildsPagination);
+    const onPaginationChange: OnChangeFn<PaginationState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, pagination);
+        dispatch(setBuildsPagination(newValue));
+    };
+    const sorting = useSelector(selectBuildsSorting);
+    const onSortingChange: OnChangeFn<SortingState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, sorting);
+        dispatch(setBuildsSorting(newValue));
+    }
+    const order = useSelector(selectBuildsOrder);
+    const field = useSelector(selectBuildsField);
+    const columnFilters = useSelector(selectBuildsColumnFilters);
+    const onColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (updaterFunction) => {
+        const newValue = functionalUpdate(updaterFunction, columnFilters);
+        dispatch(setBuildsColumnFilters(newValue));
+    };
+
+    const title = useSelector(selectBuildsTitleFilter);
+    const author = useSelector(selectBuildsAuthorFilter);
+    const { minLevel, maxLevel } = useSelector(selectBuildsLevelFilter);
+    const { minStars, maxStars } = useSelector(selectBuildsStarsFilter);
+
+    const {
+        data,
+        isFetching,
+        isError,
+    } = useGetBuildsQuery({
+        limit,
+        skip,
+        field,
+        order,
+        title,
+        author,
+        minLevel,
+        maxLevel,
+        minStars,
+        maxStars,
     });
+
+    const columns = useMemo<ColumnDef<BuildType, any>[]>(
+        () => [
+            {
+                accessorFn: row => row.title,
+                id: "title",
+                cell: info => {
+                    const buildId = info.row.original.id;
+                    return (
+                        <Link
+                            className="link"
+                            to={`/charplanner/${buildId}`}
+                            title="open build in charplanner"
+                        >
+                            {info.getValue()}
+                        </Link>
+                    )
+                },
+                header: () => <span>Title</span>,
+            },
+            {
+                accessorFn: row => row.author,
+                id: "author",
+                cell: info => {
+                    const authorId = info.row.original.authorId;
+                    if (info.getValue() === null) {
+                        return (
+                            <>
+                                Account deleted
+                            </>
+                        )
+                    } else {
+                        return (
+                            <Link
+                                className="link"
+                                to={`/user/${authorId}`}
+                                title="open profile of build author"
+                            >
+                                {info.getValue()}
+                            </Link>
+                        )
+                    }
+                },
+                header: () => <span>Author</span>,
+            },
+            {
+                accessorFn: row => row.level,
+                id: "level",
+                cell: info => info.getValue(),
+                header: () => <span>Level</span>,
+            },
+            {
+                accessorFn: row => row.stars,
+                id: "stars",
+                cell: info => info.getValue(),
+                header: () => <span>Stars</span>,
+            },
+            {
+                accessorFn: row => row.createdAt,
+                id: "createdAt",
+                cell: info => {
+                    const createdDate = new Date(info.getValue());
+                    return createdDate.toLocaleDateString()
+                },
+                header: () => <span>Created</span>,
+                enableColumnFilter: false,
+            },
+            {
+                accessorFn: row => row.updatedAt,
+                id: "updatedAt",
+                cell: info => {
+                    const createdDate = new Date(info.row.original.createdAt);
+                    const modifiedDate = new Date(info.getValue());
+                    const isDateEqual = createdDate.valueOf() === modifiedDate.valueOf();
+                    return !isDateEqual ? modifiedDate.toLocaleDateString() : ""
+                },
+                header: () => <span>Modified</span>,
+                enableColumnFilter: false,
+            },
+        ], []
+    );
+
+    useEffect(() => {
+        return () => {
+            dispatch(resetBuildsSliceState());
+        }
+    }, []);
+
+    useEffect(() => {
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        newSearchParams.set("limit", String(limit));
+        newSearchParams.set("skip", String(skip));
+        newSearchParams.set("field", field);
+        newSearchParams.set("order", order);
+        newSearchParams.set("minLevel", minLevel);
+        if (maxLevel) {
+            newSearchParams.set("maxLevel", maxLevel);
+        } else {
+            newSearchParams.delete("maxLevel");
+        }
+        newSearchParams.set("minStars", minStars);
+        if (maxStars) {
+            newSearchParams.set("maxStars", maxStars);
+        } else {
+            newSearchParams.delete("maxStars");
+        }
+        if (title) {
+            newSearchParams.set("title", title);
+        } else {
+            newSearchParams.delete("title");
+        }
+        if (author) {
+            newSearchParams.set("author", author);
+        } else {
+            newSearchParams.delete("author");
+        }
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+    }, [
+        limit,
+        skip,
+        field,
+        order,
+        title,
+        author,
+        minLevel,
+        maxLevel,
+        minStars,
+        maxStars,
+    ])
 
     return (
         <main>
@@ -62,320 +223,25 @@ const BuildsTable = ({
 
             <div className="divider-2" />
 
-            <div className="table--filter-wrapper">
-                <div className="table--filter">
-                    {
-                        table.getHeaderGroups().map(headerGroup => headerGroup.headers.map(header => {
-                            if (header.column.getCanFilter()) {
-                                if (["level", "stars"].includes(header.column.id)) {
-                                    return (
-                                        <TableNumberFilter
-                                            key={`filter` + header.column.id}
-                                            column={header.column}
-                                        />
-                                    )
-                                } else {
-                                    return (
-                                        <TableTextFilter
-                                            key={`filter` + header.column.id}
-                                            column={header.column}
-                                        />
-                                    )
-                                }
-                            }
-                        }))
-                    }
-                </div>
-                <div className="divider-2" />
-            </div>
-
-            {isMobile &&
-                <>
-                    <div className="divider-4" />
-
-                    <h3>Sort By Column</h3>
-
-                    <div className="divider-2" />
-
-                    <div className="table--sort-wrapper">
-                        {table.getHeaderGroups().map(headerGroup => (
-                            headerGroup.headers.map(header => {
-                                if (header.column.getCanSort()) {
-                                    const isSorted = header.column.getIsSorted();
-                                    return (
-                                        <div
-                                            {...{
-                                                key: header.id,
-                                                className: "table__sort",
-                                                onClick: header.column.getToggleSortingHandler(),
-                                                title: `sort by ${header.id} column`,
-                                            }}
-                                        >
-                                            <div className="flex">
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {!isSorted && (
-                                                    <span className="swap-vert">
-                                                        <MdSwapVert />
-                                                    </span>
-                                                )}
-                                                {isSorted === "desc" && (
-                                                    <span className="arrow-downward">
-                                                        <MdArrowDownward />
-                                                    </span>
-                                                )}
-                                                {isSorted === "asc" && (
-                                                    <span className="arrow-upward">
-                                                        <MdArrowUpward />
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            })
-                        ))}
-                    </div>
-
-                    <div className="divider-4" />
-                    <div className="divider-4" />
-                </>
-            }
-
-            <table className="table table--builds">
-                {!isMobile &&
-                    <thead className="table__thead">
-                        {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id} className="table__row">
-                                {headerGroup.headers.map(header => {
-                                    const isSorted = header.column.getIsSorted();
-                                    return (
-                                        <th
-                                            {...{
-                                                className: "table__th table__sort",
-                                                key: header.id,
-                                                colSpan: header.colSpan,
-                                                scope: "col",
-                                                onClick: loading ? () => { } : header.column.getToggleSortingHandler(),
-                                                title: `sort by ${header.id} column`,
-                                            }}
-                                        >
-                                            <div className="flex">
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {!isSorted && (
-                                                    <span className="swap-vert">
-                                                        <MdSwapVert />
-                                                    </span>
-                                                )}
-                                                {isSorted === "desc" && (
-                                                    <span className="arrow-downward">
-                                                        <MdArrowDownward />
-                                                    </span>
-                                                )}
-                                                {isSorted === "asc" && (
-                                                    <span className="arrow-upward">
-                                                        <MdArrowUpward />
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </th>
-                                    )
-                                })}
-                            </tr>
-                        ))}
-                    </thead>
-                }
-                <tbody>
-                    {(loading || error || (!data || data?.length === 0)) ?
-                        <>
-                            {!isMobile && Array(table.getState().pagination.pageSize).fill(null).map((_el, idx) => (
-                                <tr
-                                    key={idx}
-                                    className="table__row build"
-                                >
-                                    {cols.map((_el, idx) => (
-                                        <td
-                                            key={idx}
-                                            className={`table__cell`}
-                                        >
-                                            <p className={`paragraph-skeleton${loading ? " animated" : ""}`}>
-                                            </p>
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                            {!isMobile && !loading &&
-                                <tr className="table__errmsg">
-                                    {error ?
-                                        <td className="sm-alert errmsg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                            <span>Error fetching builds</span>
-                                        </td>
-                                        :
-                                        <td className="sm-alert bg-color">
-                                            <span>No Builds found</span>
-                                        </td>
-                                    }
-                                </tr>
-                            }
-                            {isMobile &&
-                                <tr className="table--placeholder">
-                                    {loading ?
-                                        <td
-                                            className="cliploader"
-                                            style={{
-                                                width: "50px",
-                                                height: "50px",
-                                            }}
-                                            aria-label="Loading Spinner"
-                                            data-testid="loader"
-                                        >
-                                            <div
-                                                className="cliploader-section"
-                                                style={{
-                                                    borderTopColor: "rgb(231, 214, 182)",
-                                                    borderLeftColor: "rgb(231, 214, 182)",
-                                                    borderBottomColor: "rgb(231, 214, 182)",
-                                                    animationDuration: "1.5s",
-                                                }}
-                                            />
-                                        </td>
-                                        :
-                                        error ?
-                                            <td className="sm-alert errmsg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                <span>Error fetching builds</span>
-                                            </td>
-                                            :
-                                            <td className="sm-alert bg-color">
-                                                <span>No Builds found</span>
-                                            </td>
-                                    }
-                                </tr>
-                            }
-                        </>
-                        :
-                        <>
-                            {table.getRowModel().rows.map(row => {
-                                return (
-                                    <tr key={row.id} className="table__row build">
-                                        {row.getVisibleCells().map(cell => {
-                                            if (isMobile) {
-                                                const header = capitalizeFirstLetter(cell.column.id);
-
-                                                return (
-                                                    <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                        <div className="table__cell__head">
-                                                            {header}:
-                                                        </div>
-                                                        <div className="table__cell__body">
-                                                            {flexRender(
-                                                                cell.column.columnDef.cell,
-                                                                cell.getContext()
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                )
-                                            } else {
-                                                return (
-                                                    <td key={cell.id} className={`table__cell ${cell.column.id}`}>
-                                                        {flexRender(
-                                                            cell.column.columnDef.cell,
-                                                            cell.getContext()
-                                                        )}
-                                                    </td>
-                                                )
-                                            }
-                                        })}
-                                    </tr>
-                                )
-                            })}
-                        </>
-                    }
-                </tbody>
-            </table>
-
-            <div className="divider-2" />
-
-            <div className="table--pagination">
-                <span className="table--pagination button-wrapper">
-                    <button
-                        className="button"
-                        onClick={() => table.setPageIndex(0)}
-                        disabled={!table.getCanPreviousPage()}
-                        title="first page"
-                    >
-                        {"<<"}
-                    </button>
-                    <button
-                        className="button"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                        title="previous page"
-                    >
-                        {"Previous"}
-                    </button>
-                    <button
-                        className="button"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                        title="next page"
-                    >
-                        {"Next"}
-                    </button>
-                    <button
-                        className="button"
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}
-                        title="last page"
-                    >
-                        {">>"}
-                    </button>
-                </span>
-                <span>
-                    <div>Page</div>
-                    <strong>
-                        {table.getState().pagination.pageIndex + 1} of{" "}
-                        {table.getPageCount()}
-                    </strong>
-                </span>
-                <span>
-                    | Go to page:
-                    <DebouncedInput
-                        className="input__number"
-                        type="number"
-                        value={table.getState().pagination.pageIndex + 1}
-                        onChange={value => {
-                            const page = value ? Number(value) - 1 : 0
-                            table.setPageIndex(page)
-                        }}
-                        title="go to page"
-                    />
-                </span>
-                <select
-                    value={table.getState().pagination.pageSize}
-                    onChange={e => {
-                        table.setPageSize(Number(e.target.value))
-                    }}
-                    title="max number of entries per page"
-                >
-                    {[5, 10, 15, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-                <div>{totalCount} Builds Total</div>
-            </div>
-
-            {/* keep for debug purposes */}
-            {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
-            <div className="divider-4" />
+            <Table
+                data={data?.builds}
+                columns={columns}
+                getCoreRowModel={getCoreRowModel()}
+                manualPagination={true}
+                manualSorting={true}
+                manualFiltering={true}
+                onPaginationChange={onPaginationChange}
+                onSortingChange={onSortingChange}
+                onColumnFiltersChange={onColumnFiltersChange}
+                state={{ pagination, sorting, columnFilters }}
+                totalCount={data ? data.totalBuilds : 0}
+                pageCount={data ? Math.ceil(data.totalBuilds / limit) : 0}
+                isLoading={isFetching}
+                isError={isError}
+                isMobile={isMobile}
+                numberColumns={["level", "stars"]}
+                className={"table--builds"}
+            />
         </main>
     )
 }

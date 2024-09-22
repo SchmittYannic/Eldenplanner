@@ -26,6 +26,9 @@ export type apiSliceTagType = typeof apiSliceTagOptions[number];
 
 /* buildsApiSlice related types */
 
+export const BuildColumns = ["title", "author", "level", "stars", "createdAt", "updatedAt"] as const;
+export type BuildColumnType = typeof BuildColumns[number];
+
 export const OrderOptions = ["asc", "desc"] as const;
 export type OrderType = typeof OrderOptions[number];
 

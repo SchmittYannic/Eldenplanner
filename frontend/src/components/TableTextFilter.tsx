@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Column } from "@tanstack/react-table";
 import { DebouncedInput } from "./ui";
 
 type TableTextFilterPropsType = {
     column: Column<any, unknown>,
+    initialInputValue: string,
 }
 
-const TableTextFilter = ({ column }: TableTextFilterPropsType) => {
+const TableTextFilter = ({
+    column,
+    initialInputValue,
+}: TableTextFilterPropsType) => {
 
-    const columnFilterValue = column.getFilterValue();
-    const initialState = typeof columnFilterValue === "string" ? columnFilterValue : "";
-    const [inputValue, setInputValue] = useState(initialState);
+    const [inputValue, setInputValue] = useState(initialInputValue);
+
+    useEffect(() => {
+        setInputValue(initialInputValue);
+    }, [initialInputValue]);
 
     return (
         <div className="table--filter--slot">

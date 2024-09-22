@@ -10,7 +10,7 @@ interface BuildsStateType {
     pageSize: number,
     pageIndex: number,
     sorting: SortingState,
-    columnFilter: ColumnFiltersState,
+    columnFilters: ColumnFiltersState,
 }
 
 const initialState: BuildsStateType = {
@@ -19,7 +19,7 @@ const initialState: BuildsStateType = {
     sorting: [
         { id: "stars", desc: true }
     ],
-    columnFilter: [],
+    columnFilters: [],
 };
 
 export const buildsSlice = createSlice({
@@ -30,7 +30,7 @@ export const buildsSlice = createSlice({
             state.pageSize = initialState.pageSize;
             state.pageIndex = initialState.pageIndex;
             state.sorting = initialState.sorting;
-            state.columnFilter = initialState.columnFilter;
+            state.columnFilters = initialState.columnFilters;
         },
         setBuildsPagination: (state, { payload }: PayloadAction<PaginationState>) => {
             const { pageSize, pageIndex } = payload;
@@ -40,8 +40,8 @@ export const buildsSlice = createSlice({
         setBuildsSorting: (state, { payload }: PayloadAction<SortingState>) => {
             state.sorting = payload;
         },
-        setBuildsColumnFilter: (state, { payload }: PayloadAction<ColumnFiltersState>) => {
-            state.columnFilter = payload;
+        setBuildsColumnFilters: (state, { payload }: PayloadAction<ColumnFiltersState>) => {
+            state.columnFilters = payload;
         },
     },
 });
@@ -50,7 +50,7 @@ export const {
     resetBuildsSliceState,
     setBuildsPagination,
     setBuildsSorting,
-    setBuildsColumnFilter,
+    setBuildsColumnFilters,
 } = buildsSlice.actions;
 
 export const selectBuildsPagination = createSelector(
@@ -64,7 +64,7 @@ export const selectBuildsPagination = createSelector(
 export const selectBuildsLimit = (state: RootState) => state.builds.pageSize;
 export const selectBuildsSkip = (state: RootState) => state.builds.pageSize * state.builds.pageIndex;
 export const selectBuildsSorting = (state: RootState) => state.builds.sorting;
-export const selectBuildsColumnFilter = (state: RootState) => state.builds.columnFilter;
+export const selectBuildsColumnFilters = (state: RootState) => state.builds.columnFilters;
 
 export const selectBuildsOrder = (state: RootState) => {
     const order: OrderType = !state.builds.sorting.length ? "asc" : state.builds.sorting[0].desc ? "desc" : "asc";
@@ -76,19 +76,19 @@ export const selectBuildsField = (state: RootState) => {
 };
 
 export const selectBuildsTitleFilter = (state: RootState) => {
-    const titleFilter = findObjectById(state.builds.columnFilter, "title");
+    const titleFilter = findObjectById(state.builds.columnFilters, "title");
     const title = titleFilter && typeof titleFilter.value === "string" ? titleFilter.value : undefined;
     return title
 }
 
 export const selectBuildsAuthorFilter = (state: RootState) => {
-    const authorFilter = findObjectById(state.builds.columnFilter, "author");
+    const authorFilter = findObjectById(state.builds.columnFilters, "author");
     const author = authorFilter && typeof authorFilter.value === "string" ? authorFilter.value : undefined;
     return author
 }
 
 export const selectBuildsLevelFilter = createSelector(
-    [selectBuildsColumnFilter],
+    [selectBuildsColumnFilters],
     (columnFilter) => {
         const levelFilter = findObjectById(columnFilter, "level");
         const level = levelFilter && isFilterColumnValueArray(levelFilter.value) ? levelFilter.value : undefined;
@@ -100,7 +100,7 @@ export const selectBuildsLevelFilter = createSelector(
 );
 
 export const selectBuildsStarsFilter = createSelector(
-    [selectBuildsColumnFilter],
+    [selectBuildsColumnFilters],
     (columnFilter) => {
         const starsFilter = findObjectById(columnFilter, "stars");
         const stars = starsFilter && isFilterColumnValueArray(starsFilter.value) ? starsFilter.value : undefined;
