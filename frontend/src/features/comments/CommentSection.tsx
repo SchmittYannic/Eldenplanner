@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
@@ -22,8 +23,9 @@ import { addToast } from "src/features/toasts/toastSlice";
 import CommentBox from "./CommentBox";
 import Comment from "src/features/comments/Comment";
 import { CustomSelect, ClipLoader } from "src/components/ui";
-import { SortCommentsType, sortOptions, TargetTypeType } from "src/types";
 import { isValidCache } from "src/utils/functions";
+import { isSortCommentsType } from "src/utils/typeguards";
+import { SortCommentsType, sortOptions, TargetTypeType } from "src/types";
 import "src/features/comments/CommentSection.scss";
 
 type CommentSectionPropsType = {
@@ -35,6 +37,11 @@ const CommentSection = ({
     targetId,
     targetType,
 }: CommentSectionPropsType) => {
+
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const ViewBuildSettingSearchParam = searchParams.get("sortComments");
+    const initSort = isSortCommentsType(ViewBuildSettingSearchParam) ? ViewBuildSettingSearchParam : "new";
 
     // select cachedData providing targetId and targetType for key of cache
     const cachedData = useSelector((state: RootState) => selectCachedCommentsData(state, targetId, targetType));
@@ -114,6 +121,10 @@ const CommentSection = ({
     };
 
     useEffect(() => {
+        dispatch(changeSort(initSort));
+    }, []);
+
+    useEffect(() => {
         // reset state in commentSlice
         dispatch(resetCommentsSliceState());
         fetchInitialComments();
@@ -122,6 +133,14 @@ const CommentSection = ({
     // if sort changes
     useEffect(() => {
         fetchInitialComments();
+
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        newSearchParams.set("sortComments", sort);
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
     }, [sort]);
 
     useEffect(() => {
