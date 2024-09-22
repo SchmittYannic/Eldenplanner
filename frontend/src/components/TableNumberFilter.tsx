@@ -15,13 +15,19 @@ const TableNumberFilter = ({ column }: TableNumberFilterPropsType) => {
     const [maxValue, setMaxValue] = useState(String(initialMaxState));
 
     const handleMinValueChange = (value: string | number) => {
-        column.setFilterValue([value, maxValue]);
-        setMinValue(String(value))
+        const newMinValue = value === "" ? 0 : value;
+        const newMaxValue = maxValue === "" ? null : maxValue;
+
+        column.setFilterValue([newMinValue, newMaxValue]);
+        setMinValue(String(value));
     };
 
     const handleMaxValueChange = (value: string | number) => {
-        column.setFilterValue([minValue, value]);
-        setMaxValue(String(value))
+        const newMinValue = minValue === "" ? 0 : minValue;
+        const newMaxValue = value === "" ? null : value;
+
+        column.setFilterValue([newMinValue, newMaxValue]);
+        setMaxValue(String(value));
     };
 
     return (
