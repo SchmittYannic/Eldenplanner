@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import { setBuildsColumnFilter, setBuildsPagination, setBuildsSorting } from "./buildsSlice";
-import { isBuildColumnType, isOrderType } from "src/utils/typeguards";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ColumnFiltersState } from "@tanstack/react-table";
+
+import { setBuildsColumnFilters, setBuildsPagination, setBuildsSorting } from "./buildsSlice";
 import BuildsTable from "./BuildsTable";
+import { isBuildColumnType, isOrderType } from "src/utils/typeguards";
 
 const Builds = () => {
     const [searchParams] = useSearchParams();
@@ -85,7 +86,7 @@ const Builds = () => {
     useEffect(() => {
         dispatch(setBuildsPagination({ pageSize: limitParam, pageIndex: skipParam > 0 ? skipParam / limitParam : 0 }));
         dispatch(setBuildsSorting([{ id: fieldParam, desc: orderParam }]));
-        dispatch(setBuildsColumnFilter(columnsFilter));
+        dispatch(setBuildsColumnFilters(columnsFilter));
     }, []);
 
     return (
