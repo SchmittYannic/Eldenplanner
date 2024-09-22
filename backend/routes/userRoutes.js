@@ -5,6 +5,7 @@ import {
     deleteUser,
     getUserById,
     getAllBuildsOfUser,
+    getAllStarredBuildsOfUser,
 } from "../controllers/usersController.js";
 import {
     getAllUsersAsAdmin,
@@ -30,5 +31,8 @@ router.route("/:id")
 
 router.route("/:id/builds")
     .get(getAllBuildsOfUser)
+
+router.route("/:id/stars")
+    .get(getAllStarredBuildsOfUser)
 
 export default router;
