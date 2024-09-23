@@ -6,6 +6,7 @@ import { MdArrowDownward, MdArrowUpward, MdSwapVert } from "./icons"
 import { DebouncedInput } from "./ui"
 import { capitalizeFirstLetter } from "src/utils/functions"
 import { isFilterColumnValueArray } from "src/utils/typeguards"
+import "./Table.scss"
 
 
 type TablePropsType<T> = Omit<TableOptions<T>, "data" | "columns"> & {

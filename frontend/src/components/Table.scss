@@ -1,0 +1,329 @@
+@use "src/Variables" as v;
+
+thead,
+tbody,
+tr {
+    display: contents;
+}
+
+td,
+th {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    border-top: 1px solid hsl(v.$border-color);
+    padding: 1rem;
+    display: grid;
+}
+
+th {
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    color: hsl(v.$muted-foreground);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        color: hsl(v.$accent-foreground);
+        background-color: hsl(v.$accent);
+    }
+}
+
+td {
+    word-wrap: break-word;
+    word-break: break-all;
+    color: hsl(v.$accent-foreground);
+}
+
+.table {
+    font-size: 1rem;
+    width: 100%;
+    display: grid;
+    position: relative;
+}
+
+.table--filter-wrapper {
+    width: 100%;
+
+    .table--filter {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 2fr 2fr 2fr;
+        justify-items: center;
+        gap: 1.5rem;
+
+        .table--filter--slot {
+            width: 100%;
+        }
+    }
+}
+
+.table--sort-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    border-radius: calc(v.$border-radius - 2px);
+    border: 1px solid hsl(v.$border-color);
+
+    .table__sort {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        padding: 1rem;
+        display: grid;
+        font-weight: 500;
+        color: hsl(v.$muted-foreground);
+        cursor: pointer;
+    }
+}
+
+.arrow-upward,
+.arrow-downward,
+.swap-vert {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.arrow-upward,
+.arrow-downward {
+    color: v.$gold;
+}
+
+.table--filter-text {
+    padding: v.$input-padding;
+    border-width: 1px;
+    border-radius: calc(v.$border-radius - 2px);
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+    &::-webkit-calendar-picker-indicator {
+        display: none !important;
+    }
+}
+
+.table--filter-number-wrapper {
+    width: 100%;
+    display: inline-flex;
+    gap: .5rem;
+}
+
+.table--filter-number {
+    padding: v.$input-padding;
+    border-width: 1px;
+    border-radius: calc(v.$border-radius - 2px);
+    width: 50%;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.table--pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    input {
+        border-width: 1px;
+        border-radius: calc(v.$border-radius - 2px);
+        padding: 0.25rem;
+        width: 4rem;
+    }
+}
+
+.table--placeholder {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / 7;
+    padding: 2rem 0;
+    border: 1px solid hsl(v.$border-color);
+    border-bottom-left-radius: calc(v.$border-radius - 2px);
+    border-bottom-right-radius: calc(v.$border-radius - 2px);
+
+    tr,
+    td {
+        border: none !important;
+    }
+}
+
+.table__errmsg {
+    position: absolute;
+    top: calc((1rem * 2) + 20px); //padding and svg height in th
+    right: 0;
+    left: 0;
+    bottom: 0;
+    backdrop-filter: brightness(70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* UserPage */
+.table--userbuilds {
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+}
+
+/* builds */
+.table--builds {
+    grid-template-columns: 3fr 2fr 1fr 1fr 1fr 1fr;
+}
+
+/* users */
+.table--users {
+    grid-template-columns: 2fr 2fr 1fr 1fr 1fr 3fr 3fr 1fr 1fr;
+
+    td {
+        padding: .7rem;
+    }
+}
+
+.table__cell {
+
+    &.title,
+    &.author,
+    &.username,
+    &.email,
+    &.roles {
+        place-content: center start;
+    }
+
+    &.level,
+    &.stars,
+    &.created,
+    &.modified,
+    &.active,
+    &.validated,
+    &.edit,
+    &.delete {
+        place-content: center;
+    }
+
+    &.edit svg,
+    &.delete svg {
+        width: 14px;
+    }
+}
+
+@media only screen and (max-width: 849px) {
+    tbody tr {
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+        border-radius: calc(v.$border-radius - 2px);
+        border: 1px solid hsl(v.$border-color);
+        margin-bottom: .5rem;
+    }
+
+    td {
+        border: none;
+    }
+
+    .table--builds,
+    .table--users,
+    .table--userbuilds {
+        display: block;
+    }
+
+    .table__cell {
+        display: block;
+
+        &.edit .table__cell__body,
+        &.delete .table__cell__body {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .table__cell__head {
+        color: hsl(v.$muted-foreground);
+    }
+
+    .table__cell__body {
+        overflow-wrap: break-word;
+    }
+
+    .table--filter-wrapper {
+        .table--filter {
+            grid-template-columns: 1fr;
+
+            >div {
+                width: 100%;
+            }
+        }
+    }
+
+    .table--pagination {
+        flex-direction: column;
+
+        .button-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+
+    .table--placeholder {
+        border: none
+    }
+}
+
+@media only screen and (min-width: 850px) {
+    tr {
+
+        td:first-of-type,
+        th:first-of-type {
+            border-left: 1px solid hsl(v.$border-color);
+        }
+
+        td:last-of-type,
+        th:last-of-type {
+            border-right: 1px solid hsl(v.$border-color);
+        }
+
+        &:first-of-type {
+            th:last-of-type {
+                border-top-right-radius: calc(v.$border-radius - 2px);
+            }
+
+            th:first-of-type {
+                border-top-left-radius: calc(v.$border-radius - 2px);
+            }
+        }
+
+        &:last-of-type {
+            td {
+                border-bottom: 1px solid hsl(v.$border-color);
+            }
+
+            td:first-of-type {
+                border-bottom-left-radius: calc(v.$border-radius - 2px);
+            }
+
+            td:last-of-type {
+                border-bottom-right-radius: calc(v.$border-radius - 2px);
+            }
+        }
+    }
+}
