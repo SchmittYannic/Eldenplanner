@@ -9,7 +9,6 @@ interface ParticleProps {
     speedY: number;
 }
 
-// Define Particle class
 class Particle implements ParticleProps {
     constructor(
         public x: number,
@@ -21,7 +20,6 @@ class Particle implements ParticleProps {
     ) { }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        if (!ctx) return
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ctx.fillStyle = this.color;
@@ -29,88 +27,23 @@ class Particle implements ParticleProps {
         ctx.closePath();
     }
 
-    update(ctx: CanvasRenderingContext2D, paths: (Path | Crescent)[]): void {
-        // this.x += this.speedX;
-        // this.y += this.speedY;
-
-        // // Keep particle inside the path
-        // path.keepInside(this);
-        // this.draw(ctx);
+    update(ctx: CanvasRenderingContext2D, paths: Path2D[]): void {
         this.x += this.speedX;
         this.y += this.speedY;
 
         // Check if inside any of the paths
         for (const path of paths) {
-            if (path instanceof Path) {
-                path.keepInside(this);
-            } else if (path instanceof Crescent) {
-                if (!path.contains(this)) {
-                    // Optionally adjust the particle if it goes out of the crescent
-                    const angle = Math.atan2(this.y - path.centerY, this.x - path.centerX);
-                    this.x = path.centerX + path.outerRadius * Math.cos(angle);
-                    this.y = path.centerY + path.outerRadius * Math.sin(angle);
-                    this.speedX *= -0.5; // Optional: reverse speed when bouncing
-                    this.speedY *= -0.5; // Optional: reverse speed when bouncing
-                }
+            if (!ctx.isPointInPath(path, this.x, this.y)) {
+                // Move the particle back into the shape
+                const angle = Math.atan2(this.y - 250, this.x - 250); // Center coordinates for circle
+                this.x = 250 + 100 * Math.cos(angle); // Adjust as per your circle's radius
+                this.y = 250 + 100 * Math.sin(angle);
+                this.speedX *= -0.5; // Optional: reverse speed when bouncing
+                this.speedY *= -0.5; // Optional: reverse speed when bouncing
             }
         }
 
         this.draw(ctx);
-    }
-}
-
-class Path {
-    constructor(public centerX: number, public centerY: number, public radius: number) { }
-
-    contains(particle: Particle): boolean {
-        const distance = Math.sqrt(
-            (particle.x - this.centerX) ** 2 + (particle.y - this.centerY) ** 2
-        );
-        return distance <= this.radius - particle.radius;
-    }
-
-    keepInside(particle: Particle): void {
-        const distance = Math.sqrt(
-            (particle.x - this.centerX) ** 2 + (particle.y - this.centerY) ** 2
-        );
-
-        if (distance > this.radius - particle.radius) {
-            // Normalize the direction vector and move the particle inside the circle
-            const angle = Math.atan2(particle.y - this.centerY, particle.x - this.centerX);
-            particle.x = this.centerX + (this.radius - particle.radius) * Math.cos(angle);
-            particle.y = this.centerY + (this.radius - particle.radius) * Math.sin(angle);
-            particle.speedX *= -0.5; // Optional: reverse speed a bit when bouncing
-            particle.speedY *= -0.5; // Optional: reverse speed a bit when bouncing
-        }
-    }
-}
-
-class Crescent {
-    constructor(public centerX: number, public centerY: number, public outerRadius: number, public innerRadius: number) { }
-
-    contains(particle: Particle): boolean {
-        const distanceToCenter = Math.sqrt(
-            (particle.x - this.centerX) ** 2 + (particle.y - this.centerY) ** 2
-        );
-        return distanceToCenter <= this.outerRadius && distanceToCenter >= this.innerRadius;
-    }
-
-    draw(ctx: CanvasRenderingContext2D): void {
-        ctx.beginPath();
-
-        // Draw the outer circle
-        ctx.arc(this.centerX, this.centerY, this.outerRadius, Math.PI, 0);
-
-        // Draw the inner circle to cut out the crescent shape
-        ctx.arc(this.centerX, this.centerY, this.innerRadius, 0, Math.PI, true);
-
-        ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'; // Crescent color
-        ctx.fill();
-        ctx.closePath();
-
-        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'; // Crescent outline color
-        ctx.lineWidth = 2; // Outline thickness
-        ctx.stroke();
     }
 }
 
@@ -130,8 +63,67 @@ const HeroCanvas = () => {
         canvas.height = 500;
 
         const particles: Particle[] = [];
-        const path = new Path(canvas.width / 2, canvas.height / 2, 150); // Circle in the middle
-        const crescent = new Crescent(canvas.width / 2, canvas.height / 2 - 150, 100, 70); // Crescent shape above the circle
+
+        function scalePath(pathString: string, scaleFactor: number, xOffset: number, yOffset: number) {
+            const scaledPath = [];
+
+            // Regular expression to match SVG path commands and coordinates
+            const pathRegex = /([MmZzLlHhVvCcSsQqTtAa])|([-+]?\d*\.?\d+|\d+\.?\d*)/g;
+
+            // Split the path string into parts (commands and numbers)
+            const parts = pathString.match(pathRegex);
+            if (parts === null) return ""
+
+            let currentCommand = '';
+
+            for (const part of parts) {
+                if (isNaN(part as any)) {
+                    // If the part is a command (M, L, C, etc.), update the current command
+                    currentCommand = part;
+                    scaledPath.push(currentCommand);
+                } else {
+                    // If the part is a number, scale it and apply offsets
+                    const originalValue = parseFloat(part);
+                    const scaledValue = originalValue * scaleFactor;
+
+                    // Add offsets
+                    const finalValue = scaledValue + (currentCommand === 'H' || currentCommand === 'h' ? xOffset : 0) + (currentCommand === 'V' || currentCommand === 'v' ? yOffset : 0);
+                    scaledPath.push(finalValue);
+                }
+            }
+
+            return scaledPath.join(' ');
+        }
+
+        // Create shapes using Path2D
+        const circlePath = new Path2D();
+        circlePath.arc(250, 270, 150, 0, Math.PI * 2);
+
+        const originalPath = "M42,2c-6.694,8.824-26.135,8.845-32.899,0.086C17.287,8.198,33.858,8.215,42,2L42,2z";
+        const scaleFactor = 10;
+        const xOffset = 10;
+        const yOffset = 5;
+
+        const crescentPath = new Path2D(scalePath(originalPath, scaleFactor, xOffset, yOffset));
+
+        const originalPath2 = "M46.468,36.588c-5.973,11.378-22.079,14.219-32.991,8.592c-3.713-1.877-6.983-4.786-8.844-8.433c2.561,3.173,5.887,5.493,9.503,7.018C24.98,48.259,38.906,46.042,46.468,36.588L46.468,36.588z"
+        const crescentPath2 = new Path2D(scalePath(originalPath2, scaleFactor, xOffset, yOffset));
+        //const crescentPath = new Path2D();
+        // Create the crescent moon shape using Path2D
+        // Create another path (moved by yOffset)
+        //const crescentPath = new Path2D("M126,6c-20.082,26.472-78.405,26.535-98.697,0.258C51.861,24.594,101.574,24.645,126,6L126,6z")
+        //const crescentPath = new Path2D("M42,2c-6.694,8.824-26.135,8.845-32.899,0.086C17.287,8.198,33.858,8.215,42,2L42,2z");
+        //const crescentPath = new Path2D("M 246.42 149.838 C 239.726 158.662 220.285 158.683 213.521 149.924 C 221.707 156.036 238.278 156.053 246.42 149.838 Z");
+        // crescentPath.moveTo(246.42, 149.838);
+        // crescentPath.bezierCurveTo(239.726, 158.662, 220.285, 158.683, 213.521, 149.924);
+        // crescentPath.bezierCurveTo(221.707, 156.036, 238.278, 156.053, 246.42, 149.838);
+        // crescentPath.closePath();
+
+        //const crescentPath = new Path2D(`M 419.13 ${12.514 + yOffsetCrescentPath} C 353.323 ${83.526 + yOffsetCrescentPath} 162.203 ${83.695 + yOffsetCrescentPath} 95.707 ${13.207 + yOffsetCrescentPath} C 176.182 ${62.392 + yOffsetCrescentPath} 339.088 ${62.529 + yOffsetCrescentPath} 419.13 ${12.514 + yOffsetCrescentPath} Z`);
+        //const crescentPath2 = new Path2D("M 463.054 285.86 C 404.335 377.425 246 400.288 138.727 355.004 C 102.225 339.898 70.078 316.49 51.783 287.14 C 76.96 312.675 109.657 331.345 145.205 343.617 C 251.81 379.783 388.714 361.941 463.054 285.86 Z");
+        //crescentPath.arc(250, -70, 170, 2.2 * Math.PI, 0.8 * Math.PI); // Outer arc
+        //crescentPath.arc(250, -70, 160, 0.7 * Math.PI, 2.3 * Math.PI, true); // Inner arc
+
 
         // Utility function to get random number in a range
         function random(min: number, max: number): number {
@@ -155,23 +147,18 @@ const HeroCanvas = () => {
         // Animation loop
         function animate(): void {
             if (!ctx) return
-            // ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // particles.forEach(particle => particle.update(ctx, path));
-            // requestAnimationFrame(animate);
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw the circular path for debugging
-            ctx.beginPath();
-            ctx.arc(path.centerX, path.centerY, path.radius, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Outline color
-            ctx.lineWidth = 2; // Outline thickness
-            ctx.stroke();
-            ctx.closePath();
+            // Draw paths for debugging
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Circle color
+            ctx.fill(circlePath);
 
-            crescent.draw(ctx); // Draw the crescent path for debugging
+            // Apply transformations for the crescent moon
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'; // Crescent color
+            ctx.fill(crescentPath); // Draw the crescent
+            ctx.fill(crescentPath2);
 
-            particles.forEach(particle => particle.update(ctx, [path, crescent]));
+            particles.forEach(particle => particle.update(ctx, [circlePath, crescentPath, crescentPath2]));
             requestAnimationFrame(animate);
         }
 
