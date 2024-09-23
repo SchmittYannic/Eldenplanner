@@ -27,15 +27,17 @@ const HeroCanvas = () => {
 
         const particles: Particle[] = [];
 
+        const particleSpeed = 0.05;
+
         // Create shapes using Path2D
-        const circlePath = new Path2D();
-        circlePath.arc(258, 270, 150, 0, Math.PI * 2);
+        const topPath = new Path2D();
+        topPath.rect(58, 10, 400, 100);
 
-        const rectPath = new Path2D();
-        rectPath.rect(58, 10, 400, 100)
+        const centerPath = new Path2D();
+        centerPath.rect(108, 150, 300, 260);
 
-        const rectPath2 = new Path2D();
-        rectPath2.rect(33, 350, 450, 150)
+        const bottomPath = new Path2D();
+        bottomPath.rect(33, 350, 450, 150);
 
         // old arc paths
         // const originalPath = "M42,2c-6.694,8.824-26.135,8.845-32.899,0.086C17.287,8.198,33.858,8.215,42,2L42,2z";
@@ -93,12 +95,11 @@ const HeroCanvas = () => {
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
                 if (!ctx.isPointInPath(this.path, this.x, this.y)) {
                     // Reverse direction if outside the path
-                    this.speedX = -this.speedX;
-                    this.speedY = -this.speedY;
+                    this.handleCollision();
                 }
 
                 // Update opacity
-                this.opacity += 0.005 * this.opacityAnimationDirection; // Adjust speed as needed
+                this.opacity += 0.001 * this.opacityAnimationDirection; // Adjust animation speed as needed
                 if (this.opacity >= 0.3 || this.opacity <= 0.025) {
                     this.opacityAnimationDirection *= -1; // Reverse direction when limits are reached
                 }
@@ -107,6 +108,51 @@ const HeroCanvas = () => {
                 this.color = `rgba(237, 208, 106, ${this.opacity})`;
 
                 this.draw();
+            }
+
+            // Handle collision with the boundary of the path
+            handleCollision(): void {
+                const { normalX, normalY } = this.getNormalAtCollisionPoint();
+
+                // Reflect the speed vector off the normal
+                const dotProduct = this.speedX * normalX + this.speedY * normalY;
+
+                this.speedX -= 2 * dotProduct * normalX;
+                this.speedY -= 2 * dotProduct * normalY;
+
+                // Move the particle slightly out of the collision
+                this.x += normalX * this.radius;
+                this.y += normalY * this.radius;
+            }
+
+            // Function to calculate the normal vector at the collision point
+            getNormalAtCollisionPoint(): { normalX: number; normalY: number } {
+                let normalX = 0;
+                let normalY = 0;
+
+                // Check the path type using the particle's stored path and calculate the normal based on it
+                if (this.path === centerPath) {
+                    // Circle path normal calculation
+                    normalX = this.x < 108 || this.x > 408 ? (this.x < 108 ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < 150 || this.y > 410 ? (this.y < 150 ? 1 : -1) : 0; // Top/Bottom edge
+                } else if (this.path === topPath) {
+                    // Rectangle path normal calculation (topPath)
+                    normalX = this.x < 58 || this.x > 458 ? (this.x < 58 ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < 10 || this.y > 110 ? (this.y < 10 ? 1 : -1) : 0; // Top/Bottom edge
+                } else if (this.path === bottomPath) {
+                    // Rectangle path normal calculation (bottomPath)
+                    normalX = this.x < 33 || this.x > 483 ? (this.x < 33 ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < 350 || this.y > 500 ? (this.y < 350 ? 1 : -1) : 0; // Top/Bottom edge
+                }
+
+                // Normalize the normal vector
+                const length = Math.sqrt(normalX * normalX + normalY * normalY);
+                if (length > 0) {
+                    normalX /= length;
+                    normalY /= length;
+                }
+
+                return { normalX, normalY };
             }
         }
 
@@ -134,40 +180,40 @@ const HeroCanvas = () => {
             // Initialize particles for circlePath
             for (let i = 0; i < particlesPerPath; i++) {
                 const radius = 3;
-                const speedX = random(-0.5, 0.5);
-                const speedY = random(-0.5, 0.5);
+                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;;
+                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;;
                 const opacity = random(0.025, 0.3);
                 const color = `rgba(237, 208, 106, ${opacity})`;
 
                 // Get a random starting point within the circlePath
-                const { x, y } = getRandomPointInPath(circlePath);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, circlePath));
+                const { x, y } = getRandomPointInPath(centerPath);
+                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, centerPath));
             }
 
             // Initialize particles for crescentPath
             for (let i = 0; i < particlesPerPath; i++) {
                 const radius = 3;
-                const speedX = random(-0.5, 0.5);
-                const speedY = random(-0.5, 0.5);
+                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
+                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
                 const opacity = random(0.025, 0.3);
                 const color = `rgba(237, 208, 106, ${opacity})`;
 
                 // Get a random starting point within the crescentPath
-                const { x, y } = getRandomPointInPath(rectPath);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, rectPath));
+                const { x, y } = getRandomPointInPath(topPath);
+                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, topPath));
             }
 
             // Initialize particles for crescentPath2
             for (let i = 0; i < particlesPerPath; i++) {
                 const radius = 3;
-                const speedX = random(-0.5, 0.5);
-                const speedY = random(-0.5, 0.5);
+                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
+                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
                 const opacity = random(0.025, 0.3);
                 const color = `rgba(237, 208, 106, ${opacity})`;
 
                 // Get a random starting point within the crescentPath2
-                const { x, y } = getRandomPointInPath(rectPath2);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, rectPath2));
+                const { x, y } = getRandomPointInPath(bottomPath);
+                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, bottomPath));
             }
         }
 
@@ -177,11 +223,11 @@ const HeroCanvas = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw paths for debugging
-            // ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-            // ctx.fill(circlePath);
+            //ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+            //ctx.fill(centerPath);
             // ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
-            // ctx.fill(rectPath)
-            // ctx.fill(rectPath2);
+            //ctx.fill(topPath)
+            // ctx.fill(bottomPath);
 
             particles.forEach(particle => particle.update());
             requestAnimationFrame(animate);
