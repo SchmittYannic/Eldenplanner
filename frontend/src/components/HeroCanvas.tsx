@@ -21,13 +21,12 @@ const HeroCanvas = () => {
 
         if (!ctx) return;
 
-        // Resize canvas
+        // settings
         canvas.width = 500;
         canvas.height = 500;
-
         const particles: Particle[] = [];
-
         const particleSpeed = 0.05;
+        const linkDistance = 50;
 
         // Create shapes using Path2D
         const topPath = new Path2D();
@@ -217,6 +216,30 @@ const HeroCanvas = () => {
             }
         }
 
+        function drawLinks(): void {
+            particles.forEach((particle, index) => {
+                if (!ctx) return
+                for (let i = index + 1; i < particles.length; i++) {
+                    const otherParticle = particles[i];
+                    const distance = Math.sqrt(
+                        (particle.x - otherParticle.x) ** 2 +
+                        (particle.y - otherParticle.y) ** 2
+                    );
+
+                    if (distance < linkDistance) {
+                        const opacity = 1 - distance / linkDistance; // Closer particles get stronger opacity
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(otherParticle.x, otherParticle.y);
+                        ctx.strokeStyle = `rgba(237, 208, 106, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+            });
+        }
+
         // Animation loop
         function animate(): void {
             if (!ctx) return
@@ -230,6 +253,7 @@ const HeroCanvas = () => {
             // ctx.fill(bottomPath);
 
             particles.forEach(particle => particle.update());
+            drawLinks();
             requestAnimationFrame(animate);
         }
 
