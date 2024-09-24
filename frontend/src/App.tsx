@@ -1,10 +1,6 @@
-import { ComponentType, ReactElement, useEffect, Suspense, lazy } from "react";
+import { ComponentType, ReactElement, Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import { loadPolygonMaskPlugin } from "@tsparticles/plugin-polygon-mask";
 
-import useWindowSize from "src/hooks/useWindowSize";
 import Layout from "src/components/Layout";
 import Prefetch from "src/features/auth/Prefetch";
 import RequireAuth from "src/features/auth/RequireAuth";
@@ -49,21 +45,6 @@ const Charplanner = withSuspense(lazy(() => import("src/features/charplanner/Cha
 const Impressum = withSuspense(lazy(() => import("src/components/Impressum" /* webpackChunkName: "Impressum" */)));
 
 const App = (): ReactElement => {
-
-    const windowSize = useWindowSize();
-    const isMobile = windowSize.width && windowSize.width < 850;
-
-    useEffect(() => {
-        if (isMobile) return
-        initParticlesEngine(async (engine) => {
-            // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-            // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-            // starting from v2 you can add only the features you need reducing the bundle size
-            await loadSlim(engine);
-            await loadPolygonMaskPlugin(engine);
-        });
-    }, []);
-
     return (
         <Routes>
             <Route path="/" element={<Layout />} >

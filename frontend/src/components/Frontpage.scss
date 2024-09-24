@@ -36,7 +36,7 @@
     width: 100%;
     height: calc(v.$hero-img-height + 1rem);
 
-    #tsparticles,
+    #particleCanvas,
     .hero-img {
         position: absolute;
         left: 50%;
@@ -370,7 +370,7 @@
     .hero {
         height: calc(v.$mobile-hero-img-height + 1rem);
 
-        #tsparticles,
+        #particleCanvas,
         .hero-img {
             width: v.$mobile-hero-img-width;
             height: v.$mobile-hero-img-height;
