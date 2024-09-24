@@ -30,6 +30,7 @@ const HeroCanvas = () => {
         const minCircleOpacity = 0.05;
         const maxCircleOpacity = 0.4;
         const maxLinkOpacity = 0.7;
+        const linkLineWidth = 1;
 
         // particles are part of one of 3 boxes and can only move within them
         // amount of particles per path
@@ -145,8 +146,8 @@ const HeroCanvas = () => {
                 this.speedY -= 2 * dotProduct * normalY;
 
                 // Move the particle slightly out of the collision
-                this.x += normalX * this.radius;
-                this.y += normalY * this.radius;
+                this.x += normalX * this.radius / 3;
+                this.y += normalY * this.radius / 3;
             }
 
             // Function to calculate the normal vector at the collision point
@@ -245,7 +246,7 @@ const HeroCanvas = () => {
                         ctx.moveTo(particle.x, particle.y);
                         ctx.lineTo(otherParticle.x, otherParticle.y);
                         ctx.strokeStyle = `rgba(237, 208, 106, ${opacity})`;
-                        ctx.lineWidth = 1;
+                        ctx.lineWidth = linkLineWidth;
                         ctx.stroke();
                         ctx.closePath();
                     }
