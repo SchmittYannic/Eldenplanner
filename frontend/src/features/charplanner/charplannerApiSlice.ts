@@ -14,6 +14,15 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             keepUnusedDataFor: 300,
+            providesTags: (arg) => {
+                if (arg) {
+                    return [
+                        { type: "Build", id: arg.id }
+                    ]
+                } else {
+                    return []
+                }
+            },
         }),
         addNewBuild: builder.mutation({
             query: initialBuildData => ({

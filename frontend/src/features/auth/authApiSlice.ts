@@ -1,5 +1,6 @@
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "src/app/api/apiSlice";
 import { logOut, setCredentials } from "./authSlice";
+import { apiSliceTagOptions } from "src/types";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -11,7 +12,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
-            })
+            }),
+            invalidatesTags: apiSliceTagOptions,
         }),
         sendLogout: builder.mutation({
             query: () => ({
@@ -34,6 +36,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
                         */
                         dispatch(apiSlice.util.invalidateTags(["User"]));
                         dispatch(apiSlice.util.invalidateTags(["Build"]));
+                        dispatch(apiSlice.util.invalidateTags(["Comments"]));
+                        dispatch(apiSlice.util.invalidateTags(["Likes"]));
                     }, 1000);
                 } catch (err) {
                     console.log(err);
