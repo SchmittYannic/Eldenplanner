@@ -17,26 +17,51 @@ const HeroCanvas = () => {
         if (!canvasRef.current) return;
 
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
 
         if (!ctx) return;
 
         // settings
-        canvas.width = 500;
-        canvas.height = 500;
+        canvas.width = 516;
+        canvas.height = 516;
         const particles: Particle[] = [];
         const particleSpeed = 0.05;
-        const linkDistance = 50;
+        const linkDistance = 40;
+        const minCircleOpacity = 0.05;
+        const maxCircleOpacity = 0.4;
+        const maxLinkOpacity = 0.7;
+
+        // particles are part of one of 3 boxes and can only move within them
+        // amount of particles per path
+        const topPathParticleCount = 40;
+        const centerPathParticleCount = 60;
+        const bottomPathParticleCount = 50;
+
+        // set border boundaries for particles
+        const topPathXOffset = 85;
+        const topPathYOffset = 10;
+        const topPathWidth = 356;
+        const topPathHeight = 100;
+
+        const centerPathXOffset = 108;
+        const centerPathYOffset = 150;
+        const centerPathWidth = 300;
+        const centerPathHeight = 260;
+
+        const bottomPathXOffset = 45;
+        const bottomPathYOffset = 370;
+        const bottomPathWidth = 440;
+        const bottomPathHeight = 140;
 
         // Create shapes using Path2D
         const topPath = new Path2D();
-        topPath.rect(58, 10, 400, 100);
+        topPath.rect(topPathXOffset, topPathYOffset, topPathWidth, topPathHeight);
 
         const centerPath = new Path2D();
-        centerPath.rect(108, 150, 300, 260);
+        centerPath.rect(centerPathXOffset, centerPathYOffset, centerPathWidth, centerPathHeight);
 
         const bottomPath = new Path2D();
-        bottomPath.rect(33, 350, 450, 150);
+        bottomPath.rect(bottomPathXOffset, bottomPathYOffset, bottomPathWidth, bottomPathHeight);
 
         // old arc paths
         // const originalPath = "M42,2c-6.694,8.824-26.135,8.845-32.899,0.086C17.287,8.198,33.858,8.215,42,2L42,2z";
@@ -99,7 +124,7 @@ const HeroCanvas = () => {
 
                 // Update opacity
                 this.opacity += 0.001 * this.opacityAnimationDirection; // Adjust animation speed as needed
-                if (this.opacity >= 0.3 || this.opacity <= 0.025) {
+                if (this.opacity >= maxCircleOpacity || this.opacity <= minCircleOpacity) {
                     this.opacityAnimationDirection *= -1; // Reverse direction when limits are reached
                 }
 
@@ -132,16 +157,16 @@ const HeroCanvas = () => {
                 // Check the path type using the particle's stored path and calculate the normal based on it
                 if (this.path === centerPath) {
                     // Circle path normal calculation
-                    normalX = this.x < 108 || this.x > 408 ? (this.x < 108 ? 1 : -1) : 0; // Left/Right edge
-                    normalY = this.y < 150 || this.y > 410 ? (this.y < 150 ? 1 : -1) : 0; // Top/Bottom edge
+                    normalX = this.x < centerPathXOffset || this.x > centerPathXOffset + centerPathWidth ? (this.x < centerPathXOffset ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < centerPathYOffset || this.y > centerPathYOffset + centerPathHeight ? (this.y < centerPathYOffset ? 1 : -1) : 0; // Top/Bottom edge
                 } else if (this.path === topPath) {
                     // Rectangle path normal calculation (topPath)
-                    normalX = this.x < 58 || this.x > 458 ? (this.x < 58 ? 1 : -1) : 0; // Left/Right edge
-                    normalY = this.y < 10 || this.y > 110 ? (this.y < 10 ? 1 : -1) : 0; // Top/Bottom edge
+                    normalX = this.x < topPathXOffset || this.x > topPathXOffset + topPathWidth ? (this.x < topPathXOffset ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < topPathYOffset || this.y > topPathYOffset + topPathHeight ? (this.y < topPathYOffset ? 1 : -1) : 0; // Top/Bottom edge
                 } else if (this.path === bottomPath) {
                     // Rectangle path normal calculation (bottomPath)
-                    normalX = this.x < 33 || this.x > 483 ? (this.x < 33 ? 1 : -1) : 0; // Left/Right edge
-                    normalY = this.y < 350 || this.y > 500 ? (this.y < 350 ? 1 : -1) : 0; // Top/Bottom edge
+                    normalX = this.x < bottomPathXOffset || this.x > bottomPathXOffset + bottomPathWidth ? (this.x < bottomPathXOffset ? 1 : -1) : 0; // Left/Right edge
+                    normalY = this.y < bottomPathYOffset || this.y > bottomPathYOffset + bottomPathHeight ? (this.y < bottomPathYOffset ? 1 : -1) : 0; // Top/Bottom edge
                 }
 
                 // Normalize the normal vector
@@ -162,58 +187,46 @@ const HeroCanvas = () => {
 
         // Function to generate a random point within a given path
         function getRandomPointInPath(path: Path2D): { x: number, y: number } {
-            let x, y;
-            if (!ctx) return { x: 0, y: 0 }
-            do {
-                // Generate random coordinates
-                x = random(0, canvas.width);
-                y = random(0, canvas.height);
-            } while (!ctx.isPointInPath(path, x, y)); // Check if the point is inside the path
+            let x = 0, y = 0;
+
+            if (path === topPath) {
+                // Generate random coordinates within topPath
+                x = random(topPathXOffset, topPathXOffset + topPathWidth);
+                y = random(topPathYOffset, topPathYOffset + topPathHeight);
+            } else if (path === centerPath) {
+                // Generate random coordinates within centerPath
+                x = random(centerPathXOffset, centerPathXOffset + centerPathWidth);
+                y = random(centerPathYOffset, centerPathYOffset + centerPathHeight);
+            } else if (path === bottomPath) {
+                // Generate random coordinates within bottomPath
+                x = random(bottomPathXOffset, bottomPathXOffset + bottomPathWidth);
+                y = random(bottomPathYOffset, bottomPathYOffset + bottomPathHeight);
+            }
+
             return { x, y };
+        }
+
+        // Utility function to initialize particles for a specific path
+        function initializeParticlesForPath(path: Path2D, particleCount: number): void {
+            for (let i = 0; i < particleCount; i++) {
+                const radius = 3;
+                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
+                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
+                const opacity = random(minCircleOpacity, maxCircleOpacity);
+                const color = `rgba(237, 208, 106, ${opacity})`;
+
+                // Get a random starting point within the specified path
+                const { x, y } = getRandomPointInPath(path);
+                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, path));
+            }
         }
 
         // Initialize particles
         function initParticles(): void {
-            const particlesPerPath = 10; // Fixed number of particles per path
-
-            // Initialize particles for circlePath
-            for (let i = 0; i < particlesPerPath; i++) {
-                const radius = 3;
-                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;;
-                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;;
-                const opacity = random(0.025, 0.3);
-                const color = `rgba(237, 208, 106, ${opacity})`;
-
-                // Get a random starting point within the circlePath
-                const { x, y } = getRandomPointInPath(centerPath);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, centerPath));
-            }
-
-            // Initialize particles for crescentPath
-            for (let i = 0; i < particlesPerPath; i++) {
-                const radius = 3;
-                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
-                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
-                const opacity = random(0.025, 0.3);
-                const color = `rgba(237, 208, 106, ${opacity})`;
-
-                // Get a random starting point within the crescentPath
-                const { x, y } = getRandomPointInPath(topPath);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, topPath));
-            }
-
-            // Initialize particles for crescentPath2
-            for (let i = 0; i < particlesPerPath; i++) {
-                const radius = 3;
-                const speedX = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
-                const speedY = random(0, 1) < 0.5 ? -particleSpeed : particleSpeed;
-                const opacity = random(0.025, 0.3);
-                const color = `rgba(237, 208, 106, ${opacity})`;
-
-                // Get a random starting point within the crescentPath2
-                const { x, y } = getRandomPointInPath(bottomPath);
-                particles.push(new Particle(x, y, radius, color, speedX, speedY, opacity, bottomPath));
-            }
+            // Initialize particles for each path
+            initializeParticlesForPath(topPath, topPathParticleCount);
+            initializeParticlesForPath(centerPath, centerPathParticleCount);
+            initializeParticlesForPath(bottomPath, bottomPathParticleCount);
         }
 
         function drawLinks(): void {
@@ -227,7 +240,7 @@ const HeroCanvas = () => {
                     );
 
                     if (distance < linkDistance) {
-                        const opacity = 1 - distance / linkDistance; // Closer particles get stronger opacity
+                        const opacity = (1 - distance / linkDistance) * maxLinkOpacity; // Closer particles get stronger opacity
                         ctx.beginPath();
                         ctx.moveTo(particle.x, particle.y);
                         ctx.lineTo(otherParticle.x, otherParticle.y);
@@ -248,9 +261,9 @@ const HeroCanvas = () => {
             // Draw paths for debugging
             //ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
             //ctx.fill(centerPath);
-            // ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+            //ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
             //ctx.fill(topPath)
-            // ctx.fill(bottomPath);
+            //ctx.fill(bottomPath);
 
             particles.forEach(particle => particle.update());
             drawLinks();
