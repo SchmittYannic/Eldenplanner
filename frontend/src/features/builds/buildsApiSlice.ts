@@ -39,8 +39,8 @@ export const buildsApiSlice = apiSlice.injectEndpoints({
                     },
                 }
             },
-            providesTags: (_result, _error, { limit, skip, field, order, title, minStars, maxStars }) => [
-                { type: 'Build', id: `list-${limit}-${skip}-${field}-${order}-${title}-${minStars}-${maxStars}` },
+            providesTags: (_result, _error, { limit, skip, field, order, title, author, minLevel, maxLevel, minStars, maxStars }) => [
+                { type: 'Build', id: `list-${limit}-${skip}-${field}-${order}-${title}-${author}-${minLevel}-${maxLevel}-${minStars}-${maxStars}` },
             ],
         }),
     })
