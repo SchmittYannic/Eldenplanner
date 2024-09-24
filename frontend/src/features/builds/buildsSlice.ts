@@ -94,7 +94,7 @@ export const selectBuildsLevelFilter = createSelector(
         const level = levelFilter && isFilterColumnValueArray(levelFilter.value) ? levelFilter.value : undefined;
         return {
             minLevel: level === undefined ? "0" : level[0] === null ? "0" : level[0],
-            maxLevel: level === undefined ? undefined : level[1],
+            maxLevel: level === undefined ? null : level[1],
         };
     }
 );
@@ -106,7 +106,7 @@ export const selectBuildsStarsFilter = createSelector(
         const stars = starsFilter && isFilterColumnValueArray(starsFilter.value) ? starsFilter.value : undefined;
         return {
             minStars: stars === undefined ? "0" : stars[0] === null ? "0" : stars[0],
-            maxStars: stars === undefined ? undefined : stars[1],
+            maxStars: stars === undefined ? null : stars[1],
         };
     }
 );
