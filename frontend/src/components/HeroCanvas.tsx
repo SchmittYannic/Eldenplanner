@@ -25,7 +25,7 @@ const HeroCanvas = () => {
         canvas.width = 516;
         canvas.height = 516;
         const particles: Particle[] = [];
-        const particleSpeed = 0.2;
+        const particleSpeed = 0.1;
         const linkDistance = 40;
         const minCircleOpacity = 0.05;
         const maxCircleOpacity = 0.4;
@@ -44,9 +44,9 @@ const HeroCanvas = () => {
         const topPathWidth = 356;
         const topPathHeight = 100;
 
-        const centerPathXOffset = 108;
+        const centerPathXOffset = 125;
         const centerPathYOffset = 150;
-        const centerPathWidth = 300;
+        const centerPathWidth = 270;
         const centerPathHeight = 260;
 
         const bottomPathXOffset = 45;
