@@ -82,6 +82,7 @@ const getBuilds = async (req, res) => {
                     armament: 1,
                     talisman: 1,
                     armor: 1,
+                    modifiedByUserAt: 1,
                     createdAt: 1,
                     updatedAt: 1,
                     level: 1,
@@ -284,6 +285,7 @@ const updateBuild = async (req, res) => {
         build.armament = armament;
         build.talisman = talisman;
         build.armor = armor;
+        build.modifiedByUserAt = new Date();
 
         const updatedBuild = await build.save();
 
