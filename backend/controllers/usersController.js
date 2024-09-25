@@ -559,6 +559,7 @@ const getAllStarredBuildsOfUser = async (req, res) => {
                     armament: 1,
                     talisman: 1,
                     armor: 1,
+                    modifiedByUserAt: 1,
                     createdAt: 1,
                     updatedAt: 1,
                     level: 1,
