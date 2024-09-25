@@ -51,10 +51,22 @@ const userSchema = new mongoose.Schema(
                 message: "totalStarsGiven cannot be negative"
             }
         },
+        modifiedUserInfoAt: {
+            type: Date,
+            default: null,
+        },
     },
     {
         timestamps: true,
     }
 );
+
+userSchema.pre("save", function (next) {
+    // If the document is new (i.e. being created), set modifiedUserInfoAt to createdAt
+    if (this.isNew) {
+        this.modifiedUserInfoAt = this.createdAt;
+    }
+    next();
+});
 
 export default mongoose.model("User", userSchema);
