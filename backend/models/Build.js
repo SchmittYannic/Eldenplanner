@@ -227,11 +227,23 @@ const buildSchema = new mongoose.Schema(
                 default: "",
             },
         },
+        modifiedByUserAt: {
+            type: Date,
+            default: null,
+        },
     },
     {
         timestamps: true
     }
 );
+
+buildSchema.pre("save", function (next) {
+    // If the document is new (i.e. being created), set modifiedByUserAt to createdAt
+    if (this.isNew) {
+        this.modifiedByUserAt = this.createdAt;
+    }
+    next();
+});
 
 buildSchema.index({ userId: 1 });
 
