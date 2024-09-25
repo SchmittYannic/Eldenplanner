@@ -102,8 +102,8 @@ const UsersList = ({
                 header: () => <span>Created</span>,
             },
             {
-                accessorFn: row => row.updatedAt,
-                id: "modified",
+                accessorFn: row => row.modifiedUserInfoAt,
+                id: "modifiedUserInfoAt",
                 cell: info => {
                     const createdDate = new Date(info.row.original.createdAt);
                     const modifiedDate = new Date(info.getValue());
