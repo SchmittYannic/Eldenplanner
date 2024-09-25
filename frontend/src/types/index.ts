@@ -45,6 +45,7 @@ export type BuildType<BuildId extends string = string> = {
     armament: ArmamentStateType
     talisman: TalismanStateType
     armor: ArmorStateType
+    modifiedByUserAt: string
     createdAt: string
     updatedAt: string
 }
