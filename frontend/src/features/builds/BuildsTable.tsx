@@ -151,8 +151,8 @@ const BuildsTable = () => {
                 enableColumnFilter: false,
             },
             {
-                accessorFn: row => row.updatedAt,
-                id: "updatedAt",
+                accessorFn: row => row.modifiedByUserAt,
+                id: "modifiedByUserAt",
                 cell: info => {
                     const createdDate = new Date(info.row.original.createdAt);
                     const modifiedDate = new Date(info.getValue());
