@@ -75,10 +75,10 @@ export type UserType = {
     _id: string
     id: string
     username: string
-    createdAt: string
     avatarUrl: string
     totalComments: number
     totalStarsGiven: number
+    createdAt: string
 };
 
 export type GetBuildsOfUserResponseType = {
@@ -258,6 +258,7 @@ export type UserAsAdminType = {
     validated: boolean
     active: boolean
     roles: string[]
+    modifiedUserInfoAt: string
     createdAt: string
     updatedAt: string
 };
