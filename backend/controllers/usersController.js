@@ -26,7 +26,7 @@ const getUserById = async (req, res) => {
 
         await mongooseidschema.required().validateAsync(id);
 
-        const user = await User.findById(id).select("username createdAt avatarUrl totalComments totalStarsGiven").lean().exec();
+        const user = await User.findById(id).select("username avatarUrl totalComments totalStarsGiven createdAt").lean().exec();
 
         if (!user) {
             return res.status(400).json({ message: "No user found" });
@@ -184,6 +184,7 @@ const updateUser = async (req, res) => {
 
             //set new avatarUrl
             user.avatarUrl = newAvatarUrl;
+            user.modifiedUserInfoAt = new Date();
         }
 
         //user wants to change email
@@ -198,6 +199,7 @@ const updateUser = async (req, res) => {
             }
             //set new email
             user.email = newEmail.toLowerCase();
+            user.modifiedUserInfoAt = new Date();
         }
 
         //user wants to change password
@@ -208,6 +210,7 @@ const updateUser = async (req, res) => {
             const newHashedPw = await bcrypt.hash(newPassword, parseInt(process.env.BCRYPT_SALT_ROUNDS));
             //set new password
             user.password = newHashedPw;
+            user.modifiedUserInfoAt = new Date();
         }
 
         const updateUser = await user.save();

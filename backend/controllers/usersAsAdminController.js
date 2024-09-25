@@ -81,6 +81,7 @@ const updateUserAsAdmin = async (req, res) => {
         user.roles = roles;
         user.active = active;
         user.validated = validated;
+        user.modifiedUserInfoAt = new Date();
 
         const updateUser = await user.save();
 
