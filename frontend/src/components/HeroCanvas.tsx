@@ -18,6 +18,7 @@ const HeroCanvas = () => {
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
+        let animationFrameId: number;
 
         if (!ctx) return;
 
@@ -268,12 +269,16 @@ const HeroCanvas = () => {
 
             particles.forEach(particle => particle.update());
             drawLinks();
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate);
         }
 
         // Initialize and start animation
         initParticles();
         animate();
+
+        return () => {
+            cancelAnimationFrame(animationFrameId);
+        };
     }, []);
 
     return <canvas ref={canvasRef} id="particleCanvas"></canvas>;
