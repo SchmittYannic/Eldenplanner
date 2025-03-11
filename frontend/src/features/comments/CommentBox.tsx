@@ -100,6 +100,11 @@ const CommentBox = ({
                     sort,
                     limit,
                 }).unwrap();
+
+                dispatch(addToast({
+                    type: "success",
+                    text: `Editing comment successful`,
+                }));
             } else {
                 await createComment({
                     authorId: userId,
@@ -113,6 +118,11 @@ const CommentBox = ({
                     sort,
                     limit,
                 }).unwrap();
+
+                dispatch(addToast({
+                    type: "success",
+                    text: `Posting comment successful`,
+                }));
             }
             handleCancelClicked();
         } catch (err) {
