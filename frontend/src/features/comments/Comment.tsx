@@ -109,7 +109,13 @@ const Comment = memo(({
         // if visitor -> do nothing
         if (!userId) return
         // if authenticated user is comment author -> do nothing
-        if (userId === comment.authorId) return
+        if (userId === comment.authorId) {
+            dispatch(addToast({
+                type: "error",
+                text: `Can not like own comment`,
+            }));
+            return
+        }
 
         try {
             if (comment.hasLiked) {
@@ -149,7 +155,13 @@ const Comment = memo(({
         // if visitor -> do nothing
         if (!userId) return
         // if authenticated user is comment author -> do nothing
-        if (userId === comment.authorId) return
+        if (userId === comment.authorId) {
+            dispatch(addToast({
+                type: "error",
+                text: `Can not dislike own comment`,
+            }));
+            return
+        }
 
         try {
             if (comment.hasDisliked) {
