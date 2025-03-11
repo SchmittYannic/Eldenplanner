@@ -96,6 +96,9 @@ const sinceDateInString = (eventTime: Date): string => {
     const nowUtc = new Date(now.toISOString());
     const eventTimeUtc = new Date(eventTime.toISOString());
 
+    console.log("nowUtc:", nowUtc);
+    console.log("eventTimeUtc:", eventTimeUtc);
+
     const diff = nowUtc.getTime() - eventTimeUtc.getTime();
 
     const seconds = Math.floor(diff / 1000);

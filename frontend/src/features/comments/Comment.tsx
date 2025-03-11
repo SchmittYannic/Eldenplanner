@@ -80,9 +80,14 @@ const Comment = memo(({
 
     const isOwnUserProfile = targetType === "User" && targetId === userId;
 
-    const commentCreatedAt = new Date(comment.createdAt);
+    const commentCreatedAt = new Date(Date.parse(comment.createdAt));
     const commentSince = sinceDateInString(commentCreatedAt);
-    const commentUpdatedAt = new Date(comment.updatedAt);
+    const commentUpdatedAt = new Date(Date.parse(comment.updatedAt));
+
+    console.log("Backend timestamp:", comment.createdAt);
+    console.log("Parsed timestamp:", new Date(comment.createdAt).toISOString());
+    console.log("Local timestamp:", new Date().toISOString());
+
     const gotCommentUpdated = commentCreatedAt.getTime() !== commentUpdatedAt.getTime();
 
     // when clicking the reply button below a comment make the commentbox appear and focus the textarea
