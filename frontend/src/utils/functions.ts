@@ -92,14 +92,7 @@ const calcStatChange = (
 
 const sinceDateInString = (eventTime: Date): string => {
     const now = new Date();
-
-    const nowUtc = new Date(now.toISOString());
-    const eventTimeUtc = new Date(eventTime.toISOString());
-
-    console.log("nowUtc:", nowUtc);
-    console.log("eventTimeUtc:", eventTimeUtc);
-
-    const diff = nowUtc.getTime() - eventTimeUtc.getTime();
+    const diff = now.getTime() - eventTime.getTime();
 
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
