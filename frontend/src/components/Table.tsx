@@ -39,7 +39,7 @@ const Table = <T,>({
     });
 
     const totalEntries = totalCount ? totalCount : table.getPrePaginationRowModel().rows.length;
-    const skeletonRowCount = table.getState().pagination.pageSize < totalEntries ? table.getState().pagination.pageSize : totalEntries !== 0 ? totalEntries : 10;
+    const skeletonRowCount = table.getState().pagination.pageSize < totalEntries || totalEntries === 0 ? table.getState().pagination.pageSize : totalEntries;
 
     return (
         <>
