@@ -85,6 +85,7 @@ const Comment = memo(({
     const commentUpdatedAt = new Date(Date.parse(comment.updatedAt));
 
     console.log("Backend timestamp:", comment.createdAt);
+    console.log("Testing:", commentCreatedAt)
     console.log("Parsed timestamp:", new Date(comment.createdAt).toISOString());
     console.log("Local timestamp:", new Date().toISOString());
 
