@@ -14,13 +14,11 @@ export const charplannerApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             keepUnusedDataFor: 300,
-            providesTags: (arg) => {
-                if (arg) {
-                    return [
-                        { type: "Build", id: arg.id }
-                    ]
+            providesTags: (result, _error, id) => {
+                if (result) {
+                    return [{ type: "Build", id: result.id }];
                 } else {
-                    return []
+                    return [{ type: "Build", id }];
                 }
             },
         }),
