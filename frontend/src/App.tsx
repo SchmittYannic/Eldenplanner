@@ -1,6 +1,9 @@
-import { ComponentType, ReactElement, Suspense, lazy } from "react";
+import { ComponentType, ReactElement, Suspense, lazy, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import { apiSlice } from "./app/api/apiSlice";
+import { logOut } from "./features/auth/authSlice";
 import Layout from "src/components/Layout";
 import Prefetch from "src/features/auth/Prefetch";
 import RequireAuth from "src/features/auth/RequireAuth";
@@ -45,6 +48,27 @@ const Charplanner = withSuspense(lazy(() => import("src/features/charplanner/Cha
 const Impressum = withSuspense(lazy(() => import("src/components/Impressum" /* webpackChunkName: "Impressum" */)));
 
 const App = (): ReactElement => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const bc = new BroadcastChannel("auth");
+
+        bc.onmessage = (event) => {
+            if (event.data.type === "LOGOUT") {
+                dispatch(logOut());
+                dispatch(apiSlice.util.invalidateTags(["User"]));
+                dispatch(apiSlice.util.invalidateTags(["Build"]));
+                dispatch(apiSlice.util.invalidateTags(["Comments"]));
+                dispatch(apiSlice.util.invalidateTags(["Likes"]));
+            }
+        };
+
+        return () => {
+            bc.close();
+        };
+    }, [dispatch]);
+
     return (
         <Routes>
             <Route path="/" element={<Layout />} >

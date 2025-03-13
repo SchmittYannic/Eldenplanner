@@ -24,6 +24,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 try {
                     await queryFulfilled;
                     dispatch(logOut());
+
+                    // Notify other tabs
+                    const bc = new BroadcastChannel("auth");
+                    bc.postMessage({ type: "LOGOUT" });
+
                     setTimeout(() => {
                         // clears out the cache and query subscriptions
                         // dispatch(apiSlice.util.resetApiState());
