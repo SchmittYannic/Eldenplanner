@@ -82,7 +82,7 @@ const Comment = memo(({
 
     const commentCreatedAt = new Date(comment.createdAt);
     const commentSince = sinceDateInString(commentCreatedAt);
-    const commentUpdatedAt = new Date(comment.updatedAt);
+    const commentUpdatedAt = new Date(comment.modifiedByUserAt);
     const gotCommentUpdated = commentCreatedAt.getTime() !== commentUpdatedAt.getTime();
 
     // when clicking the reply button below a comment make the commentbox appear and focus the textarea

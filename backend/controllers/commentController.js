@@ -255,6 +255,7 @@ const updateComment = async (req, res) => {
         }
 
         foundComment.content = content;
+        foundComment.modifiedByUserAt = new Date();
         const updatedComment = await foundComment.save({ clientSession });
 
         // add id and author details

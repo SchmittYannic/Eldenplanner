@@ -54,11 +54,23 @@ const commentSchema = new mongoose.Schema(
                 message: "dislikes cannot be negative"
             }
         },
+        modifiedByUserAt: {
+            type: Date,
+            default: null,
+        },
     },
     {
         timestamps: true
     }
 );
+
+commentSchema.pre("save", function (next) {
+    // If the document is new (i.e. being created), set modifiedByUserAt to createdAt
+    if (this.isNew) {
+        this.modifiedByUserAt = this.createdAt;
+    }
+    next();
+});
 
 commentSchema.index({ targetId: 1, targetType: 1 });
 commentSchema.index({ parentId: 1 });

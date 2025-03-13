@@ -119,6 +119,7 @@ export type CommentType<CommentId extends string = string, ReplyId extends strin
     totalReplies: number,
     likes: number,
     dislikes: number,
+    modifiedByUserAt: string,
     createdAt: string,
     updatedAt: string,
     repliesIds?: ReplyId[],
