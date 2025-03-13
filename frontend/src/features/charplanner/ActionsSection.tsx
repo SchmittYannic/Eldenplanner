@@ -78,7 +78,7 @@ const ActionsSection = (): ReactElement => {
                     disabled={isBuildAuthor || userId === ""}
                 >
                     <span className="icon-container">
-                        {hasGivenStar ?
+                        {hasGivenStar && userId ?
                             <MdOutlineStar
                                 height={20}
                                 color="hsl(46.6 39.13% 68.43% / 1)"
@@ -92,7 +92,7 @@ const ActionsSection = (): ReactElement => {
                         }
                     </span>
                     <span>
-                        {hasGivenStar ? "Starred" : "Star"}&nbsp;
+                        {hasGivenStar && userId ? "Starred" : "Star"}&nbsp;
                     </span>
                     <span>
                         {stars}
