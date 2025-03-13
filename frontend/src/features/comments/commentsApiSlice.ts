@@ -169,6 +169,7 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     totalReplies: 0,
                     likes: 0,
                     dislikes: 0,
+                    modifiedByUserAt: tempCreatedAt,
                     createdAt: tempCreatedAt,
                     updatedAt: tempCreatedAt,
                 };
@@ -352,8 +353,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         previousState = { ...draft.entities[commentId] };
                         // update content of comment
                         draft.entities[commentId].content = content;
-                        // update updatedAt of comment with temporary timestamp
-                        draft.entities[commentId].updatedAt = tempUpdatedAt;
+                        // update modifiedByUserAt of comment with temporary timestamp
+                        draft.entities[commentId].modifiedByUserAt = tempUpdatedAt;
                         // save new state of comment
                         newState = { ...draft.entities[commentId] };
                     } else {
@@ -370,8 +371,8 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                         // update content of comment
                         repliesEntities[commentId].content = content;
 
-                        // update updatedAt of comment with temporary timestamp
-                        repliesEntities[commentId].updatedAt = tempUpdatedAt;
+                        // update modifiedByUserAt of comment with temporary timestamp
+                        repliesEntities[commentId].modifiedByUserAt = tempUpdatedAt;
 
                         // save new state of comment
                         newState = { ...repliesEntities[commentId] };
