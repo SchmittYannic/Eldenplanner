@@ -58,6 +58,7 @@ const SaveBuild = ({
         handleSubmit,
         setError,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<SaveBuildFormType>({
         defaultValues: {
@@ -136,7 +137,10 @@ const SaveBuild = ({
                             type="text"
                             label="Build Title"
                             maxLength={50}
-                            register={register("buildtitle", { required: true })}
+                            register={register("buildtitle", {
+                                required: true,
+                                onBlur: (e) => setValue("buildtitle", e.target.value.trim(), { shouldValidate: true })
+                            })}
                             error={errors.buildtitle}
                         />
 

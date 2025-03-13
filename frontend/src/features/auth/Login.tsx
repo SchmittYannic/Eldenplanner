@@ -33,6 +33,7 @@ const Login = (): ReactElement => {
         handleSubmit,
         setError,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<LoginUserType>();
 
@@ -90,7 +91,10 @@ const Login = (): ReactElement => {
                                 autoComplete="off"
                                 placeholder="name@example.com"
                                 maxLength={80}
-                                register={register("user", { required: true })}
+                                register={register("user", {
+                                    required: true,
+                                    onBlur: (e) => setValue("user", e.target.value.trim(), { shouldValidate: true })
+                                })}
                                 error={errors.user}
                             />
                             <div className="divider-4" />

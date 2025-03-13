@@ -36,6 +36,7 @@ const ContactDialog = () => {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<ContactFormType>();
 
@@ -106,7 +107,9 @@ const ContactDialog = () => {
                             autoComplete="off"
                             placeholder="Anonymous"
                             maxLength={80}
-                            register={register("email")}
+                            register={register("email", {
+                                onBlur: (e) => setValue("email", e.target.value.trim(), { shouldValidate: true })
+                            })}
                             error={errors.email}
                         />
 
@@ -118,7 +121,10 @@ const ContactDialog = () => {
                             label="Subject"
                             autoComplete="off"
                             maxLength={80}
-                            register={register("subject", { required: true })}
+                            register={register("subject", {
+                                required: true,
+                                onBlur: (e) => setValue("subject", e.target.value.trim(), { shouldValidate: true })
+                            })}
                             error={errors.subject}
                         />
 

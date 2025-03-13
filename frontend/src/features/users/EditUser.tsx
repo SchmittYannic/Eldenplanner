@@ -45,6 +45,7 @@ const EditUser = (): ReactElement => {
         handleSubmit,
         setError,
         watch,
+        setValue,
         formState: { errors },
     } = useForm<EditUserFormType>({
         defaultValues: {
@@ -124,7 +125,9 @@ const EditUser = (): ReactElement => {
                             label="Username"
                             autoComplete="off"
                             maxLength={20}
-                            register={register("newUsername")}
+                            register={register("newUsername", {
+                                onBlur: (e) => setValue("newUsername", e.target.value.trim(), { shouldValidate: true })
+                            })}
                             error={errors.newUsername}
                         />
 
@@ -136,7 +139,9 @@ const EditUser = (): ReactElement => {
                             label="Email"
                             autoComplete="off"
                             maxLength={80}
-                            register={register("newEmail")}
+                            register={register("newEmail", {
+                                onBlur: (e) => setValue("newEmail", e.target.value.trim(), { shouldValidate: true })
+                            })}
                             error={errors.newEmail}
                         />
 

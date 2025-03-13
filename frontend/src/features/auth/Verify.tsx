@@ -29,6 +29,7 @@ const Verify = () => {
         handleSubmit,
         setError,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<VerifyType>({
         resolver: yupResolver(verifyschema),
@@ -84,7 +85,9 @@ const Verify = () => {
                                         autoComplete="off"
                                         placeholder="name@example.com"
                                         maxLength={80}
-                                        register={register("email")}
+                                        register={register("email", {
+                                            onBlur: (e) => setValue("email", e.target.value.trim(), { shouldValidate: true })
+                                        })}
                                         error={errors.email}
                                     />
                                     <div className="divider-4" />

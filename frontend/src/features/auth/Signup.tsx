@@ -37,6 +37,7 @@ const Signup = (): ReactElement => {
         handleSubmit,
         setError,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<SignupUserType>({
         resolver: yupResolver(signupschema),
@@ -92,7 +93,9 @@ const Signup = (): ReactElement => {
                                 autoComplete="off"
                                 placeholder="JohnDoe"
                                 maxLength={20}
-                                register={register("username")}
+                                register={register("username", {
+                                    onBlur: (e) => setValue("username", e.target.value.trim(), { shouldValidate: true })
+                                })}
                                 error={errors.username}
                             />
                             <div className="divider-4" />
@@ -103,7 +106,9 @@ const Signup = (): ReactElement => {
                                 autoComplete="off"
                                 placeholder="name@example.com"
                                 maxLength={80}
-                                register={register("email")}
+                                register={register("email", {
+                                    onBlur: (e) => setValue("email", e.target.value.trim(), { shouldValidate: true })
+                                })}
                                 error={errors.email}
                             />
                             <div className="divider-4" />
