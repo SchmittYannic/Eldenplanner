@@ -307,7 +307,7 @@ const Comment = memo(({
                                         <div
                                             className="icon-container"
                                         >
-                                            {comment?.hasLiked ?
+                                            {comment?.hasLiked && userId ?
                                                 <BsHandThumbsUpFill aria-hidden />
                                                 :
                                                 <BsHandThumbsUp aria-hidden />
@@ -325,7 +325,7 @@ const Comment = memo(({
                                         <div
                                             className="icon-container"
                                         >
-                                            {comment?.hasDisliked ?
+                                            {comment?.hasDisliked && userId ?
                                                 <BsHandThumbsDownFill aria-hidden />
                                                 :
                                                 <BsHandThumbsDown aria-hidden />
