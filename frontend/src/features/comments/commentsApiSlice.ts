@@ -109,6 +109,10 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
                     currentCache.entities[parentId].totalReplies = responseData.totalComments;
                 }
             },
+            providesTags: (result, _error, arg) =>
+                result
+                    ? [{ type: "Comments", id: `getComments("${arg.targetId}-${arg.targetType}-${arg.sort}")` }]
+                    : [{ type: "Comments" }],
         }),
         createComment: builder.mutation<CommentType, CreateCommentMutationParamsType>({
             query: ({
