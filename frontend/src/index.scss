@@ -429,6 +429,10 @@ a {
             list-style-type: none;
             display: flex;
             align-items: center;
+
+            li:last-of-type .nav-link {
+                padding-right: 0;
+            }
         }
     }
 
