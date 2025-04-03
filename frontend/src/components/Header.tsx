@@ -1,9 +1,10 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 import { useSendLogoutMutation } from "src/features/auth/authApiSlice";
 import useAuth from "src/hooks/useAuth";
 import useWindowSize from "src/hooks/useWindowSize";
+import useScrollTracker from "src/hooks/useScrollTracker";
 import { navbarlogo } from "src/assets";
 import { MdLogout, MdMenu } from "src/components/icons";
 
@@ -11,8 +12,10 @@ const Header = (): ReactElement => {
 
     const { userId, status, isUser, isDemoadmin, isAdmin } = useAuth();
     const windowSize = useWindowSize();
+    const userScrollAction = useScrollTracker();
     const [sendLogout, { }] = useSendLogoutMutation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isNavbarHidden, setIsNavbarHidden] = useState(false);
 
     const isSmallDesktop = windowSize.width && windowSize.width < 920;
     const isMobile = windowSize.width && windowSize.width < 850;
@@ -24,10 +27,24 @@ const Header = (): ReactElement => {
         sendLogout("");
     };
 
+    useEffect(() => {
+        if (userScrollAction === "down" && isMobile && !isMenuOpen) {
+            setIsNavbarHidden(true);
+        } else {
+            setIsNavbarHidden(false);
+        }
+    }, [userScrollAction]);
+
+    useEffect(() => {
+        if (isMobile) return
+        if (!isNavbarHidden) return
+        setIsNavbarHidden(false);
+    }, [windowSize]);
+
     return (
         <header>
             <nav
-                className="primary-nav"
+                className={`primary-nav ${isNavbarHidden ? "outofview" : ""}`}
                 role="navigation"
                 aria-label="Main menu"
             >
@@ -49,7 +66,10 @@ const Header = (): ReactElement => {
                                 <button
                                     className="mobile-menu-button"
                                     type="button"
-                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                    onClick={() => {
+                                        setIsMenuOpen(!isMenuOpen);
+                                        setIsNavbarHidden(false);
+                                    }}
                                     aria-expanded={isMenuOpen}
                                     aria-controls="main-menu"
                                 >
