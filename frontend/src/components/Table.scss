@@ -234,7 +234,7 @@ td {
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: start;
-        column-gap: .2rem;
+        column-gap: .75rem;
         row-gap: 1rem;
         border-radius: calc(v.$border-radius - 2px);
         border: 1px solid hsl(v.$border-color);
