@@ -15,7 +15,7 @@ const useScrollTracker = () => {
         let newAction: UserScrollingActionType = "idle";
 
         if (prevScrollY !== undefined && prevScrollX !== undefined) {
-            if (scrollY > prevScrollY) newAction = "down";
+            if (scrollY > prevScrollY && prevScrollY >= 0) newAction = "down";
             else if (scrollY < prevScrollY) newAction = "up";
             else if (scrollX > prevScrollX) newAction = "right";
             else if (scrollX < prevScrollX) newAction = "left";
