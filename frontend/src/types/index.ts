@@ -1,5 +1,10 @@
 import { ArmamentStateType, ArmorStateType, GeneralStateType, StatsStateType, TalismanStateType } from "src/features/charplanner/charplannerSlice";
 
+export type ScrollPositionType = {
+    scrollY: number,
+    scrollX: number,
+}
+
 /* apiSlice related types */
 
 export type CustomFormError = {
