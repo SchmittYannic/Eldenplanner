@@ -114,11 +114,11 @@ export function calcWeaponAttackRating(
     const correctFaiRate = reinforcedWeaponParameter["correctFaithRate"];
     const correctArcRate = reinforcedWeaponParameter["correctLuckRate"];
 
-    const correctStr = Math.round(correctBaseStr * correctStrRate * 1000) / 1000 ?? 0; // AN2
-    const correctDex = Math.round(correctBaseDex * correctDexRate * 1000) / 1000 ?? 0; // AO2
-    const correctInt = Math.round(correctBaseInt * correctIntRate * 1000) / 1000 ?? 0; // AP2
-    const correctFai = Math.round(correctBaseFai * correctFaiRate * 1000) / 1000 ?? 0; // AQ2
-    const correctArc = Math.round(correctBaseArc * correctArcRate * 1000) / 1000 ?? 0; // AR2
+    const correctStr = Math.round(correctBaseStr * correctStrRate * 1000) / 1000; // AN2
+    const correctDex = Math.round(correctBaseDex * correctDexRate * 1000) / 1000; // AO2
+    const correctInt = Math.round(correctBaseInt * correctIntRate * 1000) / 1000; // AP2
+    const correctFai = Math.round(correctBaseFai * correctFaiRate * 1000) / 1000; // AQ2
+    const correctArc = Math.round(correctBaseArc * correctArcRate * 1000) / 1000; // AR2
 
     const correctType_Physics = weaponParameter["correctType_Physics"]; // AY2
     const correctType_Magic = weaponParameter["correctType_Magic"]; // AZ2
@@ -274,7 +274,7 @@ export function calcWeaponAttackRating(
     const isPenalty = physAtkPenalty || magAtkPenalty || fireAtkPenalty || thunAtkPenalty || darkAtkPenalty;
 
     // possible to calc intspellbuff and faithspellbuff seperately
-    const spellbuff = canWeaponCast ? 100 + 100 * (isPenalty ? -lowStatus_AtkPowDown : scaleMag) : 0 ?? 0;
+    const spellbuff = canWeaponCast ? 100 + 100 * (isPenalty ? -lowStatus_AtkPowDown : scaleMag) : 0;
 
     // status calculations
     // CV2 - CZ2
