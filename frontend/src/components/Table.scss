@@ -228,9 +228,14 @@ td {
 
 @media only screen and (max-width: 849px) {
     tbody tr {
-        max-width: 300px;
+        min-width: 300px;
         margin: 0 auto;
-        display: block;
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        column-gap: .2rem;
+        row-gap: 1rem;
         border-radius: calc(v.$border-radius - 2px);
         border: 1px solid hsl(v.$border-color);
         margin-bottom: .5rem;
@@ -238,6 +243,7 @@ td {
 
     td {
         border: none;
+        padding: 0;
     }
 
     .table--builds,
