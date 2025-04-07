@@ -287,8 +287,8 @@ const deleteUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
         }
 
-        // Track users who commented on userpage or buildspages for updating totalComment
-        const commentsByAuthor = {};
+        // Track users who commented on userpage, buildspages or replied to deleted users comments for updating totalComment
+        const commentDeletionCountByUserId = {};
 
         // Get all comments of user
         const commentsOfUser = await Comment.find({ authorId: userId }).session(clientSession).lean().exec();
@@ -316,10 +316,10 @@ const deleteUser = async (req, res) => {
                             replyIds.push(reply._id);
 
                             const authorId = reply.authorId;
-                            if (authorId in commentsByAuthor) {
-                                commentsByAuthor[authorId]++;
+                            if (authorId in commentDeletionCountByUserId) {
+                                commentDeletionCountByUserId[authorId]++;
                             } else {
-                                commentsByAuthor[authorId] = 1;
+                                commentDeletionCountByUserId[authorId] = 1;
                             }
                         }
 
@@ -347,10 +347,10 @@ const deleteUser = async (req, res) => {
                 commentsOnProfileIds.push(comment._id);
 
                 const authorId = comment.authorId;
-                if (authorId in commentsByAuthor) {
-                    commentsByAuthor[authorId]++;
+                if (authorId in commentDeletionCountByUserId) {
+                    commentDeletionCountByUserId[authorId]++;
                 } else {
-                    commentsByAuthor[authorId] = 1;
+                    commentDeletionCountByUserId[authorId] = 1;
                 }
             }
 
@@ -376,10 +376,10 @@ const deleteUser = async (req, res) => {
                     commentsToUserBuildsIds.push(comment._id);
 
                     const authorId = comment.authorId;
-                    if (authorId in commentsByAuthor) {
-                        commentsByAuthor[authorId]++;
+                    if (authorId in commentDeletionCountByUserId) {
+                        commentDeletionCountByUserId[authorId]++;
                     } else {
-                        commentsByAuthor[authorId] = 1;
+                        commentDeletionCountByUserId[authorId] = 1;
                     }
                 }
 
@@ -422,7 +422,7 @@ const deleteUser = async (req, res) => {
         }
 
         // Update totalComments for each author who wrote comments on the user profile or user builds
-        const bulkUpdateOps = Object.entries(commentsByAuthor).map(([authorId, decrementCount]) => ({
+        const bulkUpdateOps = Object.entries(commentDeletionCountByUserId).map(([authorId, decrementCount]) => ({
             updateOne: {
                 filter: { _id: authorId },
                 update: { $inc: { totalComments: -decrementCount } }

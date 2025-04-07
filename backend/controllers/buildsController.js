@@ -341,25 +341,25 @@ const deleteBuild = async (req, res) => {
             // Get amount of comments written by individual users
             const {
                 commentsAndRepliesIds,
-                commentsByAuthor,
+                commentDeletionCountByUserId,
             } = commentsAndReplies.reduce((acc, comment) => {
                 // Collect comment/reply IDs
                 acc.commentsAndRepliesIds.push(comment._id);
 
                 // Group comments by author and count
-                if (acc.commentsByAuthor[comment.authorId]) {
-                    acc.commentsByAuthor[comment.authorId]++;
+                if (acc.commentDeletionCountByUserId[comment.authorId]) {
+                    acc.commentDeletionCountByUserId[comment.authorId]++;
                 } else {
-                    acc.commentsByAuthor[comment.authorId] = 1;
+                    acc.commentDeletionCountByUserId[comment.authorId] = 1;
                 }
 
                 return acc;
-            }, { commentsAndRepliesIds: [], commentsByAuthor: {} });
+            }, { commentsAndRepliesIds: [], commentDeletionCountByUserId: {} });
             // Find all likes/dislikes associated with these comments and replies and delete them
             await CommentLike.deleteMany({ commentId: { $in: commentsAndRepliesIds } }).session(clientSession);
 
             // Prepare bulk update operations for users totalComments field
-            const bulkUpdateOps = Object.entries(commentsByAuthor).map(([authorId, commentCount]) => ({
+            const bulkUpdateOps = Object.entries(commentDeletionCountByUserId).map(([authorId, commentCount]) => ({
                 updateOne: {
                     filter: { _id: authorId },
                     update: { $inc: { totalComments: -commentCount } }
