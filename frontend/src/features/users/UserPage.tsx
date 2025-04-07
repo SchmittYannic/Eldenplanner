@@ -11,6 +11,7 @@ import UserBuilds from "./UserBuilds";
 import UserStarredBuilds from "./UserStarredBuilds";
 import EditUser from "./EditUser";
 import { ClipLoader, CustomSelect } from "src/components/ui";
+import { userProfileImageHeight, userProfileImageWidth } from "src/utils/constants";
 import { isViewBuildSettingType } from "src/utils/typeguards";
 import { UserType, ViewBuildSettingOptions, ViewBuildSettingType } from "src/types";
 import "src/features/users/UserPage.scss";
@@ -24,6 +25,7 @@ const UserPage = (): ReactElement => {
     const profileUserId = param?.userId;
     const [searchParams] = useSearchParams();
     const ViewBuildSettingSearchParam = searchParams.get("ViewBuildSetting");
+    const isEditMode = searchParams.get("edit") === "true";
     const initViewBuildSetting = isViewBuildSettingType(ViewBuildSettingSearchParam) ? ViewBuildSettingSearchParam : "Created";
 
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
@@ -59,6 +61,20 @@ const UserPage = (): ReactElement => {
     const userSince = user && new Date(user.createdAt);
     const month = userSince && userSince.toLocaleString("default", { month: "long" });
     const year = userSince && userSince.toLocaleString("default", { year: "numeric" });
+
+    const handleEditAccountClicked = () => {
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        if (isEditMode) {
+            newSearchParams.delete("edit");
+        } else {
+            newSearchParams.set("edit", "true");
+        }
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+    };
 
     // if there is no profileUserId from param direct app user back to frontpage
     // if cachedData exists use it instead of sending fetch request
@@ -125,8 +141,8 @@ const UserPage = (): ReactElement => {
                         <img
                             src={user.avatarUrl}
                             alt=""
-                            width={290}
-                            height={290}
+                            width={userProfileImageWidth}
+                            height={userProfileImageHeight}
                         />
                     </div>
                     <div className="rightside">
@@ -176,16 +192,20 @@ const UserPage = (): ReactElement => {
 
                 {!isMobile && (
                     <>
-                        <section className="section-userpage actionsection">
+                        <section className="section-userpage actionsection full">
 
                             {isOwnProfile && (
-                                <Link
-                                    to={`/user/${user.id}/edit`}
-                                    className="button full"
+                                <button
+                                    className="button"
+                                    type="button"
                                     title="edit account"
+                                    onClick={handleEditAccountClicked}
+                                    style={{
+                                        width: `${userProfileImageWidth}px`,
+                                    }}
                                 >
                                     Edit Account
-                                </Link>
+                                </button>
                             )}
                             {isOwnProfile && (isAdmin || isDemoadmin) && (
                                 <>
@@ -200,8 +220,7 @@ const UserPage = (): ReactElement => {
                                 </>
                             )}
 
-
-                            {param?.edit === "edit" && isOwnProfile && <EditUser />}
+                            {isEditMode && isOwnProfile && <EditUser />}
                         </section>
 
                         <div className="divider-4" />
