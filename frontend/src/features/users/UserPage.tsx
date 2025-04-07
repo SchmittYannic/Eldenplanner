@@ -157,13 +157,18 @@ const UserPage = (): ReactElement => {
                         {isMobile && (
                             <div className="actionsection">
                                 {isOwnProfile && (
-                                    <Link
-                                        to={`/user/${user.id}/edit`}
-                                        className="button full"
+                                    <button
+                                        className="button"
+                                        type="button"
                                         title="edit account"
+                                        onClick={handleEditAccountClicked}
+                                        style={{
+                                            alignSelf: "center",
+                                            width: `${userProfileImageWidth}px`,
+                                        }}
                                     >
                                         Edit Account
-                                    </Link>
+                                    </button>
                                 )}
                                 {isOwnProfile && (isAdmin || isDemoadmin) && (
                                     <>
@@ -178,7 +183,7 @@ const UserPage = (): ReactElement => {
                                     </>
                                 )}
 
-                                {param?.edit === "edit" && isOwnProfile && <EditUser />}
+                                {isEditMode && isOwnProfile && <EditUser />}
 
                                 <div className="divider-4" />
                             </div>
