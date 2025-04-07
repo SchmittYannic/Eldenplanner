@@ -3,13 +3,14 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { useSelector } from "react-redux";
 
 import { RootState } from "src/app/store";
-import { selectGetUserByIdCachedData, useGetBuildsOfUserQuery, useLazyGetUserByIdQuery } from "./usersApiSlice";
+import { selectGetUserByIdCachedData, useGetBuildsOfUserQuery, useLazyGetUserByIdQuery } from "src/features/users/usersApiSlice";
 import useAuth from "src/hooks/useAuth";
 import useIsInView from "src/hooks/useIsInView";
 import useWindowSize from "src/hooks/useWindowSize";
-import UserBuilds from "./UserBuilds";
-import UserStarredBuilds from "./UserStarredBuilds";
-import EditUser from "./EditUser";
+import UserBuilds from "src/features/users/UserBuilds";
+import UserStarredBuilds from "src/features/users/UserStarredBuilds";
+import EditUser from "src/features/users/EditUser";
+import DeleteAccountDialog from "src/features/users/DeleteAccountDialog";
 import { ClipLoader, CustomSelect } from "src/components/ui";
 import { userProfileImageHeight, userProfileImageWidth } from "src/utils/constants";
 import { isViewBuildSettingType } from "src/utils/typeguards";
@@ -26,6 +27,7 @@ const UserPage = (): ReactElement => {
     const [searchParams] = useSearchParams();
     const ViewBuildSettingSearchParam = searchParams.get("ViewBuildSetting");
     const isEditMode = searchParams.get("edit") === "true";
+    const isAccountDeleteMode = searchParams.get("accountdelete") === "true";
     const initViewBuildSetting = isViewBuildSettingType(ViewBuildSettingSearchParam) ? ViewBuildSettingSearchParam : "Created";
 
     const { userId: authUserId, isAdmin, isDemoadmin } = useAuth();
@@ -226,6 +228,7 @@ const UserPage = (): ReactElement => {
                             )}
 
                             {isEditMode && isOwnProfile && <EditUser />}
+                            {isAccountDeleteMode && <DeleteAccountDialog />}
                         </section>
 
                         <div className="divider-4" />
