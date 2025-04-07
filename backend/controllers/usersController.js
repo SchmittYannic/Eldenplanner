@@ -304,6 +304,30 @@ const deleteUser = async (req, res) => {
                         parentComment.totalReplies -= 1;
                         await parentComment.save({ clientSession });
                     }
+                } else {
+                    //if root comment
+                    //get all replies and likes to replies and delete them
+                    const replies = await Comment.find({ parentId: _id }).session(clientSession);
+                    if (replies.length !== 0) {
+                        const replyIds = [];
+                        // Get all reply ids
+                        // Track users who replied to comment for updating their totalComments
+                        for (const reply of replies) {
+                            replyIds.push(reply._id);
+
+                            const authorId = reply.authorId;
+                            if (authorId in commentsByAuthor) {
+                                commentsByAuthor[authorId]++;
+                            } else {
+                                commentsByAuthor[authorId] = 1;
+                            }
+                        }
+
+                        // Find all likes associated with these replies
+                        await CommentLike.deleteMany({ commentId: { $in: replyIds } }).session(clientSession);
+                        // Delete all replies to the comment
+                        await Comment.deleteMany({ parentId: _id }).session(clientSession);
+                    }
                 }
                 // delete all likes associated with the comment
                 await CommentLike.deleteMany({ commentId: _id }).session(clientSession);
