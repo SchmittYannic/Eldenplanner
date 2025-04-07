@@ -46,11 +46,6 @@
         color: hsl(v.$muted-foreground);
     }
 
-    .actionsection {
-        width: 290px;
-        align-self: center;
-    }
-
     .tablesection {
         margin-top: 24px;
         width: 100%;
@@ -63,6 +58,24 @@
                 margin-right: 32px;
             }
         }
+    }
+}
+
+.form__edituser {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid hsl(v.$border-color);
+    border-radius: v.$border-radius;
+
+    .form__edituser--buttons {
+        padding-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .button-wrapper {
+        display: flex;
+        gap: .5rem;
     }
 }
 
