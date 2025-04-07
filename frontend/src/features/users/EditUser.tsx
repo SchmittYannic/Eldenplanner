@@ -23,6 +23,7 @@ const EditUser = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const isAccountDeleteMode = searchParams.get("accountdelete") === "true";
     const { username, email } = useAuth();
 
     const [updateUser, {
@@ -76,6 +77,20 @@ const EditUser = () => {
         }
     };
 
+    const handleDeleteAccountClicked = async () => {
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        if (isAccountDeleteMode) {
+            newSearchParams.delete("accountdelete");
+        } else {
+            newSearchParams.set("accountdelete", "true");
+        }
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+    };
+
     const handleCancelClicked = () => {
         // Create a copy of the current search params
         const newSearchParams = new URLSearchParams(searchParams);
@@ -97,7 +112,6 @@ const EditUser = () => {
 
     return (
         <form className="form__edituser" onSubmit={handleSubmit(onSubmit)}>
-
             <Input
                 name="newUsername"
                 type="text"
@@ -162,6 +176,8 @@ const EditUser = () => {
                     <button
                         className="action-btn action-btn--danger"
                         type="button"
+                        onClick={handleDeleteAccountClicked}
+                        title="Delete Account"
                     >
                         Delete Account
                     </button>
