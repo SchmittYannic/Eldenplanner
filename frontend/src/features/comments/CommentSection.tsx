@@ -122,6 +122,10 @@ const CommentSection = ({
 
     useEffect(() => {
         dispatch(changeSort(initSort));
+
+        return () => {
+            dispatch(resetCommentsSliceState());
+        }
     }, []);
 
     useEffect(() => {
