@@ -2,13 +2,13 @@ import "./ClipLoader.scss"
 
 type ClipLoaderPropsType = {
     loading: boolean,
-    color: string,
+    color?: string,
     size: number,
 }
 
 const ClipLoader = ({
     loading,
-    color = "black",
+    color = "currentColor",
     size = 20,
 }: ClipLoaderPropsType) => {
     return (
@@ -29,7 +29,6 @@ const ClipLoader = ({
                             borderTopColor: color,
                             borderLeftColor: color,
                             borderBottomColor: color,
-                            animationDuration: "1.5s",
                         }}
                     />
                 </div>

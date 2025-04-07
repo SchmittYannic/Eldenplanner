@@ -12,7 +12,7 @@ const AsyncButton = ({
     isLoading,
     children,
     size = 20,
-    color = "rgb(231, 214, 182)",
+    color,
     ...props
 }: AsyncButtonPropsType & React.ButtonHTMLAttributes<HTMLButtonElement>): ReactElement => {
     return (
