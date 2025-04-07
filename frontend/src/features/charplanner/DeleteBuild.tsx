@@ -130,7 +130,7 @@ const DeleteBuild = ({
 
                     <AsyncButton
                         isLoading={isLoading}
-                        className="action-btn"
+                        className="action-btn action-btn--danger"
                         type="submit"
                         disabled={!isDELETE || isLoading}
                         title={!isDELETE ? "type DELETE into the field above" : "Confirm Deletion"}

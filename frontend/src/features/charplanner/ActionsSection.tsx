@@ -102,7 +102,7 @@ const ActionsSection = (): ReactElement => {
 
             {isBuildAuthor && (
                 <button
-                    className="charplanner__delete button"
+                    className="charplanner__delete action-btn action-btn--danger"
                     type="button"
                     onClick={onDeleteClick}
                     title="Delete Build"
