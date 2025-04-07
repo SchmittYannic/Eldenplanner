@@ -74,7 +74,7 @@ const Charplanner = (): ReactElement => {
         } else {
             fetchBuildById(param.buildId);
         }
-    }, [cachedData]);
+    }, [cachedData, param.buildId]);
 
     // if fetch is successful load Build into state
     useEffect(() => {
