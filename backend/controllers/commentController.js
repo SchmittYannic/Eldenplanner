@@ -324,8 +324,36 @@ const deleteComment = async (req, res) => {
             //get all replies and likes to replies and delete them
             const replies = await Comment.find({ parentId: id }).session(clientSession);
             if (replies.length !== 0) {
-                // Get all reply ids
-                const replyIds = replies.map(reply => reply._id);
+                // Get all ids of the replies
+                // Get amount of replies written by individual users
+                const {
+                    replyIds,
+                    commentDeletionCountByUserId,
+                } = replies.reduce((acc, comment) => {
+                    // Collect comment/reply IDs
+                    acc.replyIds.push(comment._id);
+
+                    // Group comments by author and count
+                    if (acc.commentDeletionCountByUserId[comment.authorId]) {
+                        acc.commentDeletionCountByUserId[comment.authorId]++;
+                    } else {
+                        acc.commentDeletionCountByUserId[comment.authorId] = 1;
+                    }
+
+                    return acc;
+                }, { replyIds: [], commentDeletionCountByUserId: {} });
+
+                // Prepare bulk update operations for users totalComments field
+                const bulkUpdateOps = Object.entries(commentDeletionCountByUserId).map(([authorId, commentCount]) => ({
+                    updateOne: {
+                        filter: { _id: authorId },
+                        update: { $inc: { totalComments: -commentCount } }
+                    }
+                }));
+
+                // Execute bulk update
+                await User.bulkWrite(bulkUpdateOps, { session: clientSession });
+
                 // Find all likes associated with these replies
                 await CommentLike.deleteMany({ commentId: { $in: replyIds } }).session(clientSession);
                 // Delete all replies to the comment
