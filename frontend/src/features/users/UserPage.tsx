@@ -177,8 +177,12 @@ const UserPage = (): ReactElement => {
                                         <div className="divider-4" />
                                         <Link
                                             to={"/users"}
-                                            className="action-btn full"
+                                            className="action-btn"
                                             title="go to Admin Panel"
+                                            style={{
+                                                alignSelf: "center",
+                                                width: `${userProfileImageWidth}px`,
+                                            }}
                                         >
                                             Admin Panel
                                         </Link>
@@ -219,8 +223,11 @@ const UserPage = (): ReactElement => {
                                     <div className="divider-4" />
                                     <Link
                                         to={"/users"}
-                                        className="action-btn full"
+                                        className="action-btn"
                                         title="go to Admin Panel"
+                                        style={{
+                                            width: `${userProfileImageWidth}px`,
+                                        }}
                                     >
                                         Admin Panel
                                     </Link>
