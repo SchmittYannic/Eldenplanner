@@ -45,7 +45,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                         dispatch(apiSlice.util.invalidateTags(["Likes"]));
                     }, 1000);
                 } catch (err) {
-                    console.log(err);
+                    console.error("Logout failed");
                 }
             }
         }),
@@ -60,7 +60,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     const { accessToken } = data;
                     dispatch(setCredentials({ accessToken }));
                 } catch (err) {
-                    //console.log(err);
+                    console.error("Refresh token failed");
                 }
             }
         }),
