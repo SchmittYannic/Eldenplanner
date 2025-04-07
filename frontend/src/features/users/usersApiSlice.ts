@@ -54,10 +54,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             }
         }),
         deleteUser: builder.mutation({
-            query: ({ id }) => ({
+            query: ({ password }) => ({
                 url: `/users`,
                 method: "DELETE",
-                body: { id },
+                body: { password },
                 validateStatus: (response, result) => {
                     return response.status === 200 && !result.isError
                 },
