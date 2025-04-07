@@ -1,6 +1,6 @@
-import { ReactElement, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -8,17 +8,7 @@ import { useUpdateUserMutation } from "src/features/users/usersApiSlice";
 import { setCredentials } from "src/features/auth/authSlice";
 import { addToast } from "src/features/toasts/toastSlice";
 import useAuth from "src/hooks/useAuth";
-import {
-    AsyncButton,
-    Dialog,
-    DialogMain,
-    DialogIcon,
-    DialogContent,
-    DialogButtons,
-    Input,
-    InputPassword,
-} from "src/components/ui";
-import { MdEdit } from "src/components/icons";
+import { AsyncButton, Input, InputPassword } from "src/components/ui";
 import { isCustomError, isCustomFormError, isFieldName } from "src/utils/typeguards";
 import { edituserschema } from "src/validation/userschema";
 
@@ -28,11 +18,11 @@ type EditUserFormType = {
     newPassword?: string | undefined,
 }
 
-const EditUser = (): ReactElement => {
+const EditUser = () => {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const params = useParams();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { username, email } = useAuth();
 
     const [updateUser, {
@@ -63,19 +53,13 @@ const EditUser = (): ReactElement => {
     const watchedEmail = watch("newEmail", "");
     const watchedPassword = watch("newPassword", "");
 
-    const closeDialog = () => {
-        if (params.userId) {
-            navigate(`/user/${params.userId}`);
-        }
-    };
-
     const onSubmit: SubmitHandler<EditUserFormType> = async (data) => {
         const { newUsername, newEmail, newPassword } = data;
         setResponseMsg("");
 
         try {
             const { message, accessToken } = await updateUser({ newUsername, newEmail, newPassword }).unwrap();
-            closeDialog();
+            handleCancelClicked();
             dispatch(setCredentials({ accessToken }));
             dispatch(addToast({ type: "success", text: message }));
         } catch (err) {
@@ -92,6 +76,16 @@ const EditUser = (): ReactElement => {
         }
     };
 
+    const handleCancelClicked = () => {
+        // Create a copy of the current search params
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        // Update the search params
+        newSearchParams.delete("edit");
+
+        navigate(`?${newSearchParams.toString()}`, { replace: true });
+    };
+
     useEffect(() => {
         const hasChanged =
             watchedUsername !== username ||
@@ -102,82 +96,74 @@ const EditUser = (): ReactElement => {
     }, [watchedUsername, watchedEmail, watchedPassword, username, email]);
 
     return (
-        <Dialog className="dialog__edituser" callback={closeDialog}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <DialogMain>
-                    <DialogIcon>
-                        <MdEdit />
-                    </DialogIcon>
-                    <DialogContent>
-                        <h3>Edit Account</h3>
+        <form className="form__edituser" onSubmit={handleSubmit(onSubmit)}>
 
-                        <div className="divider-4" />
+            <Input
+                name="newUsername"
+                type="text"
+                label="Username"
+                autoComplete="off"
+                maxLength={20}
+                register={register("newUsername", {
+                    onBlur: (e) => setValue("newUsername", e.target.value.trim(), { shouldValidate: true })
+                })}
+                error={errors.newUsername}
+            />
 
-                        <p>
-                            Change your account details below and click save to confirm.
-                        </p>
+            <div className="divider-4" />
 
-                        <div className="divider-4" />
+            <Input
+                name="newEmail"
+                type="email"
+                label="Email"
+                autoComplete="off"
+                maxLength={80}
+                register={register("newEmail", {
+                    onBlur: (e) => setValue("newEmail", e.target.value.trim(), { shouldValidate: true })
+                })}
+                error={errors.newEmail}
+            />
 
-                        <Input
-                            name="newUsername"
-                            type="text"
-                            label="Username"
-                            autoComplete="off"
-                            maxLength={20}
-                            register={register("newUsername", {
-                                onBlur: (e) => setValue("newUsername", e.target.value.trim(), { shouldValidate: true })
-                            })}
-                            error={errors.newUsername}
-                        />
+            <div className="divider-4" />
 
-                        <div className="divider-4" />
+            <InputPassword
+                name="newPassword"
+                className="input-password"
+                label="New Password"
+                autoComplete="off"
+                maxLength={80}
+                register={register("newPassword")}
+                error={errors.newPassword}
+            />
 
-                        <Input
-                            name="newEmail"
-                            type="email"
-                            label="Email"
-                            autoComplete="off"
-                            maxLength={80}
-                            register={register("newEmail", {
-                                onBlur: (e) => setValue("newEmail", e.target.value.trim(), { shouldValidate: true })
-                            })}
-                            error={errors.newEmail}
-                        />
+            {(isError && responseMsg) ? (
+                <>
+                    <div className="divider-4" />
+                    <div className="sm-alert errmsg full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>{responseMsg}</span>
+                    </div>
+                </>
+            ) : (<></>)}
 
-                        <div className="divider-4" />
+            <div className="divider-4" />
 
-                        <InputPassword
-                            name="newPassword"
-                            className="input-password"
-                            label="New Password"
-                            autoComplete="off"
-                            maxLength={80}
-                            register={register("newPassword")}
-                            error={errors.newPassword}
-                        />
+            <div className="form__edituser--buttons">
+                <button
+                    className="button"
+                    type="button"
+                    onClick={handleCancelClicked}
+                    title={"Cancel Edit"}
+                >
+                    Cancel
+                </button>
 
-                        {(isError && responseMsg) ? (
-                            <>
-                                <div className="divider-4" />
-                                <div className="sm-alert errmsg full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <span>{responseMsg}</span>
-                                </div>
-                            </>
-                        ) : (<></>)}
-
-                        <div className="divider-4" />
-                    </DialogContent>
-                </DialogMain>
-                <DialogButtons>
+                <div className="button-wrapper">
                     <button
-                        className="button"
+                        className="action-btn action-btn--danger"
                         type="button"
-                        onClick={closeDialog}
-                        title={"Cancel Edit"}
                     >
-                        Cancel
+                        Delete Account
                     </button>
 
                     <AsyncButton
@@ -187,11 +173,11 @@ const EditUser = (): ReactElement => {
                         disabled={!areDetailsChanged || isLoading}
                         title="Edit Account"
                     >
-                        Save
+                        Submit Changes
                     </AsyncButton>
-                </DialogButtons>
-            </form>
-        </Dialog>
+                </div>
+            </div>
+        </form>
     )
 }
 
