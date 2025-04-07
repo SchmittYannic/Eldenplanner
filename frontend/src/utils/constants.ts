@@ -1,3 +1,6 @@
+export const userProfileImageHeight = 290;
+export const userProfileImageWidth = 290;
+
 // AffinityData
 /*
 1. ER - Build Planner spreadsheet
