@@ -111,7 +111,10 @@ export const commentsApiSlice = apiSlice.injectEndpoints({
             },
             providesTags: (result, _error, arg) =>
                 result
-                    ? [{ type: "Comments", id: `getComments("${arg.targetId}-${arg.targetType}-${arg.sort}")` }]
+                    ? [
+                        { type: "Comments", id: `getComments("${arg.targetId}-${arg.targetType}-${arg.sort}")` },
+                        { type: "Comments" },
+                    ]
                     : [{ type: "Comments" }],
         }),
         createComment: builder.mutation<CommentType, CreateCommentMutationParamsType>({
