@@ -46,6 +46,11 @@
         color: hsl(v.$muted-foreground);
     }
 
+    .actionsection {
+        display: flex;
+        flex-direction: column;
+    }
+
     .tablesection {
         margin-top: 24px;
         width: 100%;
@@ -103,6 +108,17 @@
         h2 {
             margin-right: 0;
             margin-bottom: 16px;
+        }
+    }
+
+    .form__edituser {
+        .form__edituser--buttons {
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .button-wrapper {
+            flex-direction: column;
         }
     }
 }
