@@ -287,6 +287,14 @@ const deleteUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid password", context: { label: "password" } });
         }
 
+        //check if the user is protected from deletion
+        const nonDeletableIds = process.env.NON_DELETABLE_USER_IDS?.split(',') || [];
+
+        if (nonDeletableIds.includes(userId)) {
+            await clientSession.abortTransaction();
+            return res.status(403).json({ message: "Account protected from deletion" });
+        }
+
         // Track users who commented on userpage, buildspages or replied to deleted users comments for updating totalComment
         const commentDeletionCountByUserId = {};
 
