@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import Build from "../models/Build.js";
+import { deleteUserAndCleanup } from "../services/userService.js";
 import { updateuserasadminschema } from "../validation/userschema.js";
 import { parseError } from "../utils/helpers.js";
 
@@ -95,34 +95,21 @@ const updateUserAsAdmin = async (req, res) => {
 // @route DELETE /users/admin
 // @access Private
 const deleteUserAsAdmin = async (req, res) => {
-    try {
-        const reqroles = req.roles;
+    const { id } = req.body;
+    const { roles } = req;
 
-        // If Admin is not inside the roles Array then request is unauthorized
-        if (!reqroles.includes("Admin")) {
-            return res.status(401).json({ message: "Unauthorized: only admins, no demoadmins" });
-        }
-
-        const { id } = req.body;
-
-        if (!id) {
-            return res.status(400).json({ message: "User ID Required" });
-        }
-
-        const user = await User.findById(id).exec();
-
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
-        }
-
-        await Build.deleteMany({ user: id });
-
-        const result = await user.deleteOne();
-
-        res.status(200).json({ message: `Username ${result.username} with ID ${result._id} deleted` });
-    } catch (err) {
-        return res.status(400).json({ message: "Error deleting User as Admin" })
+    // If Admin is not inside the roles Array then request is unauthorized
+    if (!roles.includes("Admin")) {
+        return res.status(401).json({ message: "Unauthorized: only admins, no demoadmins" });
     }
+
+    const result = await deleteUserAndCleanup(id);
+
+    if (!result.success) {
+        return res.status(result.statusCode).json({ message: result.message, ...(result.context && { context: result.context }) });
+    }
+
+    return res.status(result.statusCode).json({ message: `Username ${result.deletedUsername} with ID ${id} deleted` });
 };
 
 export {
