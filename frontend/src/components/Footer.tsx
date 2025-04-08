@@ -10,6 +10,11 @@ const Footer = () => {
                     >
                         Impressum
                     </Link>
+                    <Link
+                        to={"/contact"}
+                    >
+                        Contact
+                    </Link>
                 </div>
             </div>
         </footer>
