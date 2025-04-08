@@ -46,6 +46,7 @@ const UserPage = withSuspense(lazy(() => import("src/features/users/UserPage" /*
 const Builds = withSuspense(lazy(() => import("src/features/builds/Builds" /* webpackChunkName: "Builds" */)));
 const Charplanner = withSuspense(lazy(() => import("src/features/charplanner/Charplanner" /* webpackChunkName: "Charplanner" */)));
 const Impressum = withSuspense(lazy(() => import("src/components/Impressum" /* webpackChunkName: "Impressum" */)));
+const ContactPage = withSuspense(lazy(() => import("src/components/ContactPage" /* webpackChunkName: "ContactPage" */)));
 
 const App = (): ReactElement => {
 
@@ -95,7 +96,7 @@ const App = (): ReactElement => {
                             <Route index element={<Builds />} />
                         </Route>
 
-                        <Route path="user/:userId/:edit?" element={<UserPage />} />
+                        <Route path="user/:userId" element={<UserPage />} />
 
                         <Route element={<RequireAuth allowedRoles={[ROLES.Demoadmin, ROLES.Admin]} />}>
                             <Route path="users">
@@ -106,6 +107,8 @@ const App = (): ReactElement => {
                     </Route>
 
                     <Route path="impressum" element={<Impressum />} />
+
+                    <Route path="contact" element={<ContactPage />} />
                 </Route>
 
                 {/* if route doesnt exist redirect back to frontpage */}

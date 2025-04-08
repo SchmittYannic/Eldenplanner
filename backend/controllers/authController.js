@@ -310,14 +310,14 @@ const sendresetemail = (req, res) => {
         ${url}/reset/${resetPasswordToken} 
 
         If you didnt request a reset feel free to contact our support here:
-        ${url}/contactform`,
+        ${url}/contact`,
         html: `<p>You have requested a password reset.
         Please follow the given link to reset your password.</p>
 
         <a href="${url}/reset/${resetPasswordToken} " target="_blank">Reset Password</a>
 
         <p>If you didnt request a reset feel free to contact our support here:</p>
-        <a href="${url}/contactform" target="_blank">Contact Support</a>`,
+        <a href="${url}/contact" target="_blank">Contact Support</a>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

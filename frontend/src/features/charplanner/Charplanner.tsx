@@ -131,7 +131,7 @@ const Charplanner = (): ReactElement => {
                 <h1>Eldenring Character Planner</h1>
                 <div className="divider-4" />
                 <p>
-                    Please be aware that Elden Ring calculations can be quite intricate, so some may be incomplete or inaccurate. If you come across any errors or missing information, feel free to reach out to us <Link to={"/contactform"}>here</Link>.
+                    Please be aware that Elden Ring calculations can be quite intricate, so some may be incomplete or inaccurate. If you come across any errors or missing information, feel free to reach out to us <Link to={"/contact"}>here</Link>.
                 </p>
                 <div className="divider-2" />
                 <div className="divider-1" />
