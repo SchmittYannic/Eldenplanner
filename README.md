@@ -27,6 +27,7 @@ The backend uses a `.env` file for configuration. Here are the required environm
 - `BUSINESS_EMAIL_ADDRESS`: The email address used to send automated emails from (f.e., for password resets). Using Gmail is recommended here.
 - `BUSINESS_EMAIL_PASSWORD`: The app password for the business email address, which enables the backend to send automated emails.
 - `BUILD_LIMIT_PER_ACCOUNT`: The maximum number of builds allowed per account.
+- `NON_DELETABLE_USER_IDS`: All user ids that are protected from deletion as a comma seperated string (e.g., `64d128cd0b6a591f726d5abd,67214b3d82762ad0941456c4`)
 
 ### Running the Backend
 
@@ -52,12 +53,12 @@ The frontend is built with React, TypeScript, and Vite.
 The frontend uses a `.env` file for configuration. Here are the required environment variables:
 
 - `NODE_ENV`: The environment in which the application is running (e.g., `development`, `production`).
-- `API_BASEURL`: the base URL of the backend api (e.g., `http://localhost:3500`).
-- `TOAST_AUTO_DELETE`: Whether to automatically delete toast notifications as boolean (e.g., `true`).
-- `TOAST_AUTO_DELETE_TIME`: The time in milliseconds before a toast notification is automatically deleted (e.g., `4000`).
-- `EMAILJS_SERVICE_ID`: The service ID for EmailJS.
-- `EMAILJS_TEMPLATE_ID`: The template ID for EmailJS.
-- `EMAILJS_PUBLIC_KEY`: The public key for EmailJS.
+- `VITE_API_BASEURL`: the base URL of the backend api (e.g., `http://localhost:3500`).
+- `VITE_TOAST_AUTO_DELETE`: Whether to automatically delete toast notifications as boolean (e.g., `true`).
+- `VITE_TOAST_AUTO_DELETE_TIME`: The time in milliseconds before a toast notification is automatically deleted (e.g., `4000`).
+- `VITE_EMAILJS_SERVICE_ID`: The service ID for EmailJS.
+- `VITE_EMAILJS_TEMPLATE_ID`: The template ID for EmailJS.
+- `VITE_EMAILJS_PUBLIC_KEY`: The public key for EmailJS.
 - `VITE_COMMENT_SECTION_FETCH_LIMIT`: The number of comments to fetch per request (e.g., `10`).
 - `VITE_SUPPORTED_GAME_VERSION`: The supported game version (e.g., `1.14.1`).
 - `VITE_CHARPLANNER_DATA_VERSION`: The version of the character planner data (e.g., `v1-19-0`).

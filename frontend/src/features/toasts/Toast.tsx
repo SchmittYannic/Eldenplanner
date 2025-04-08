@@ -33,12 +33,12 @@ const Toast = (): ReactElement => {
     }, [toastlist]);
 
     useEffect(() => {
-        if (process.env.TOAST_AUTO_DELETE === "true") {
+        if (import.meta.env.VITE_TOAST_AUTO_DELETE === "true") {
             const interval = setInterval(() => {
                 if (toastlist.length) {
                     dispatch(deleteToast({ id: toastlist[0].id }));
                 }
-            }, Number(process.env.TOAST_AUTO_DELETE_TIME) ?? 4000);
+            }, Number(import.meta.env.VITE_TOAST_AUTO_DELETE_TIME) ?? 4000);
 
             return () => {
                 clearInterval(interval);

@@ -4,7 +4,7 @@ import { RootState } from "src/app/store";
 import { apiSliceTagOptions, CustomError } from "src/types";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.API_BASEURL,
+    baseUrl: import.meta.env.VITE_API_BASEURL,
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
