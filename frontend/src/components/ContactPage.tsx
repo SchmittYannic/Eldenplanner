@@ -120,7 +120,10 @@ const ContactPage = () => {
                                 rows={8}
                                 autoComplete="off"
                                 placeholder="Please describe youre issue in detail"
-                                register={register("message", { required: true })}
+                                register={register("message", {
+                                    required: true,
+                                    onBlur: (e) => setValue("message", e.target.value.trim(), { shouldValidate: true })
+                                })}
                                 error={errors.message}
                             />
 
