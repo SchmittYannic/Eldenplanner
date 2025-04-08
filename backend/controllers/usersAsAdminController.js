@@ -77,7 +77,7 @@ const updateUserAsAdmin = async (req, res) => {
         }
 
         user.username = username;
-        user.email = email;
+        user.email = email.toLowerCase();
         user.roles = roles;
         user.active = active;
         user.validated = validated;
