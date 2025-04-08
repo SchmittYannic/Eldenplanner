@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@use "../../Variables" as v;
+@use "src/Variables" as v;
 
 .checkbox {
     .checkbox-label {
@@ -10,7 +10,7 @@
 
         .checkbox-wrapper {
             height: 100%;
-            width: calc(v.$InputPaddingLeft + v.$InputPaddingRight + 33px);//width: 33px;
+            width: calc(v.$InputPaddingLeft + v.$InputPaddingRight + 33px); //width: 33px;
             border-radius: 50%;
             border: none;
             overflow: hidden;
@@ -27,17 +27,17 @@
                 width: 20px; //1.6em;
                 height: 20px; //1.6em;
                 border-radius: 0.15rem;
-                
+
                 border: 0.15rem solid v.$default-font-color;
                 outline: none;
                 cursor: pointer;
 
-                &:checked {   
-                    border-color: v.$default-focus-label-font-color;       
+                &:checked {
+                    border-color: v.$default-focus-label-font-color;
                     background-color: v.$default-focus-label-font-color;
                     position: relative;
 
-                    &::before{
+                    &::before {
                         content: "\2713";
                         font-size: 1.25rem;
                         color: v.$default-background-color;
@@ -46,8 +46,9 @@
                         top: -6px;
                     }
                 }
-                
-                &:focus, &:hover {
+
+                &:focus,
+                &:hover {
                     &:checked {
                         box-shadow: 0 0 20px v.$default-focus-label-font-color;
                     }

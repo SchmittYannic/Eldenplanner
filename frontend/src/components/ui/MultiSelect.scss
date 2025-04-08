@@ -1,4 +1,4 @@
-@use "../../Variables" as v;
+@use "src/Variables" as v;
 
 .multiselect {
 
@@ -26,8 +26,8 @@
         height: 2.25rem;
         display: flex;
         align-items: center;
-        transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
-        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(.4, 0, .2, 1);
         transition-duration: .15s;
         cursor: pointer;
 

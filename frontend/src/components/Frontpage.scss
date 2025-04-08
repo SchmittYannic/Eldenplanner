@@ -1,4 +1,4 @@
-@use "../Variables" as v;
+@use "src/Variables" as v;
 
 .frontpage section:not(:first-of-type) {
     padding: 4rem 0;

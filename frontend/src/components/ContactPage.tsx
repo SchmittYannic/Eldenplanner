@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 
 import { addToast } from "src/features/toasts/toastSlice";
-import { AsyncButton, FormTextArea, Input } from "./ui";
+import { AsyncButton, FormTextArea, Input } from "src/components/ui";
 import "src/components/ContactPage.scss";
 
 type ContactPageFormType = {
