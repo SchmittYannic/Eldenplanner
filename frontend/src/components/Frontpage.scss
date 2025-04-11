@@ -203,17 +203,16 @@
 
     .header-gradient-bg {
         position: absolute;
+        bottom: -4rem; //padding
         top: 0;
         left: 50%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(0deg,
-                rgba(251, 131, 160, 0) 0%,
-                hsl(v.$elden-ring-color) 50%,
-                rgba(251, 131, 160, 0) 100%);
-        opacity: .3;
-        filter: blur(50px);
         transform: translate(-50%, 0);
+        background: radial-gradient(ellipse at bottom,
+                rgba(193, 163, 79, 0.15) 0%,
+                rgba(26, 22, 27, 0) 60%);
+        animation: firelight 2s ease infinite;
     }
 
     h2 {
@@ -413,5 +412,19 @@
     .frontpage .action-btn:not(#dialog .action-btn) {
         padding: 1.25rem 1.25rem;
         font-size: 1rem;
+    }
+}
+
+@keyframes firelight {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
