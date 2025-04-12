@@ -190,6 +190,7 @@ const UserPage = (): ReactElement => {
                                 )}
 
                                 {isEditMode && isOwnProfile && <EditUser />}
+                                {isAccountDeleteMode && <DeleteAccountDialog />}
 
                                 <div className="divider-4" />
                             </div>
