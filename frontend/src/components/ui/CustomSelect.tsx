@@ -152,6 +152,10 @@ const CustomSelect = ({
         if (key === "Enter") inputValue === "" ? handleClickExpandButton() : handleReset();
     };
 
+    const transparentCaretStyle = {
+        caretColor: "transparent",
+    };
+
     useEffect(() => {
         setFilteredOptions(options);
     }, [options]);
@@ -214,6 +218,7 @@ const CustomSelect = ({
                     onKeyDown={handleKeyDown}
                     onClick={() => setShowOptions(true)}
                     onBlur={handleBlur}
+                    style={searchable ? {} : transparentCaretStyle}
                     readOnly={!searchable}
                     disabled={disabled}
                 />
