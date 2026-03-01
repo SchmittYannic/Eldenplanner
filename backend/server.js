@@ -46,10 +46,10 @@ app.use("/comments", cors(corsOptions), commentRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes
-app.use((req, res) => {
+app.use(async (req, res) => {
     res.status(404);
     if (req.accepts("html")) {
-        res.sendFile(path.join(__dirname, "views", "404.html"));
+        await res.sendFile(path.join(__dirname, "views", "404.html"));
     } else if (req.accepts("json")) {
         res.json({ message: "404 Not Found" });
     } else {
@@ -60,9 +60,10 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // listening for the open event
-db.once("open", () => {
+db.once("open", async () => {
     console.log("Connected to MongoDB");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    await app.listen(PORT);
+    console.log(`Server running on port ${PORT}`);
 
 
     /* not needed anymore done in deleteUser function */
