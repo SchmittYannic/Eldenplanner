@@ -46,7 +46,7 @@ app.use("/comments", cors(corsOptions), commentRoutes);
 
 // handle every route that isnt found
 // has to come after all other routes
-app.all("*", (req, res) => {
+app.use((req, res) => {
     res.status(404);
     if (req.accepts("html")) {
         res.sendFile(path.join(__dirname, "views", "404.html"));
